@@ -13,19 +13,37 @@ import pytest
 from hindcast.ingest.ontology import OntologyIndex
 from hindcast.scope import ALL_SCOPE_GENES, resolve_informal
 
+#: The full release, present only after `scripts/fetch_hgnc.py` has run.
 HGNC = Path(__file__).resolve().parents[1] / "data" / "raw" / "hgnc" / "hgnc_complete_set.tsv"
-pytestmark = pytest.mark.skipif(not HGNC.exists(), reason="HGNC release not fetched")
+
+#: A committed cut of the release, so these tests run from a clean clone. It
+#: holds every scope gene plus the genes that make resolution hard: ACSBG1,
+#: whose alias hBG1 collides with the approved symbol HBG1; CREBRF, which shares
+#: the alias LRF with ZBTB7A; the three further genes that share the alias TR2
+#: with NR2C1; and three rows with no approval date, so the exclusion path has
+#: something to exclude.
+#:
+#: Without this the whole module skipped on a clean clone, which left gene
+#: resolution untested exactly where its worst bug lived.
+FIXTURE = Path(__file__).resolve().parent / "fixtures" / "hgnc_subset.tsv"
 
 
 @pytest.fixture(scope="module")
 def index() -> OntologyIndex:
+    return OntologyIndex(hgnc_path=FIXTURE)
+
+
+@pytest.fixture(scope="module")
+def full_index() -> OntologyIndex:
+    if not HGNC.exists():
+        pytest.skip("full HGNC release not fetched")
     return OntologyIndex(hgnc_path=HGNC)
 
 
-def test_every_scope_gene_resolves_to_exactly_one_gene(index: OntologyIndex):
+def test_every_scope_gene_resolves_to_exactly_one_gene(full_index: OntologyIndex):
     """Every name in the frozen scope list must reach one HGNC gene."""
     for symbol in ALL_SCOPE_GENES:
-        gene = index.resolve_gene(symbol)
+        gene = full_index.resolve_gene(symbol)
         assert gene is not None, f"{symbol} does not resolve"
         assert gene.symbol.upper() == symbol.upper(), (
             f"{symbol} resolves to {gene.symbol}, so the scope list holds a "
@@ -33,9 +51,9 @@ def test_every_scope_gene_resolves_to_exactly_one_gene(index: OntologyIndex):
         )
 
 
-def test_the_scope_list_has_no_duplicates_after_resolution(index: OntologyIndex):
+def test_the_scope_list_has_no_duplicates_after_resolution(full_index: OntologyIndex):
     """Two names for one gene would double-count it in every ranking."""
-    resolved = [index.resolve_gene(s) for s in ALL_SCOPE_GENES]
+    resolved = [full_index.resolve_gene(s) for s in ALL_SCOPE_GENES]
     ids = [g.hgnc_id for g in resolved if g]
     duplicates = {i for i in ids if ids.count(i) > 1}
     assert not duplicates, f"scope list resolves to duplicate genes: {duplicates}"
@@ -98,3 +116,27 @@ def test_primary_cells_are_classified_from_their_name(index: OntologyIndex):
 
 def test_an_unknown_cell_line_resolves_to_nothing(index: OntologyIndex):
     assert index.resolve_cell(None, "some line nobody registered") is None
+
+
+def test_an_approved_symbol_beats_another_genes_alias(index: OntologyIndex):
+    """HGNC lists hBG1 among the aliases of ACSBG1, an acyl-CoA synthetase.
+
+    The store-level resolver got this wrong and credited every gamma-globin
+    publication to ACSBG1, which then led the forecast with a confidence of
+    0.955. The ontology layer is asserted here for the same collision so the
+    two cannot disagree. tests/test_symbol_resolution.py covers the store.
+    """
+    assert index.resolve_gene("HBG1").symbol == "HBG1"
+    assert index.resolve_gene("hbg1").symbol == "HBG1"
+    assert index.resolve_gene("ACSBG1").symbol == "ACSBG1"
+
+
+def test_an_alias_shared_by_two_genes_resolves_to_nothing(index: OntologyIndex):
+    """LRF belongs to ZBTB7A and CREBRF, and to neither as an approved symbol.
+
+    The curated vocabulary does map LRF to ZBTB7A, because the informal-name
+    table is a stated decision made in an HbF context. Bare symbol resolution
+    has no such context and refuses.
+    """
+    assert index.resolve_gene("LRF") is None
+    assert "ambiguous" in index.resolution_failure("LRF")
