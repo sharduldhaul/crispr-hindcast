@@ -73,6 +73,31 @@ class Curator(Agent):
         )
 
     def run(self, store: Store) -> IngestionReport:
+        """Normalize and write to the store."""
+        result = self.normalize()
+        with self.tool("write_store") as call:
+            n = store.add_nodes(result.nodes)
+            e = store.add_edges(result.edges)
+            store.add_exclusions(result.exclusions)
+            call.records_out = n + e
+            call.result_summary = f"{n} nodes and {e} edges written"
+        report = _build_report(result)
+        self.finish(
+            report.model_dump(),
+            inputs={
+                "raw_dir": str(self.raw_dir),
+                "depmap_release": DEPMAP_RELEASE_DATE.isoformat(),
+                "opentargets_release": OPENTARGETS_RELEASE_DATE.isoformat(),
+            },
+        )
+        return report
+
+    def normalize(self) -> src.IngestResult:
+        """Normalize the raw payloads into typed nodes and edges, without writing.
+
+        Separate from `run` so the snapshot builder can serialize the result and
+        the offline build can load it back without the raw payloads present.
+        """
         result = src.IngestResult()
 
         with self.tool("load_vocabulary") as call:
@@ -189,23 +214,7 @@ class Curator(Agent):
                     )
                 )
 
-        with self.tool("write_store") as call:
-            n = store.add_nodes(result.nodes)
-            e = store.add_edges(result.edges)
-            store.add_exclusions(result.exclusions)
-            call.records_out = n + e
-            call.result_summary = f"{n} nodes and {e} edges written"
-
-        report = _build_report(result)
-        self.finish(
-            report.model_dump(),
-            inputs={
-                "raw_dir": str(self.raw_dir),
-                "depmap_release": DEPMAP_RELEASE_DATE.isoformat(),
-                "opentargets_release": OPENTARGETS_RELEASE_DATE.isoformat(),
-            },
-        )
-        return report
+        return result
 
 
 def _first_use_dates(nodes: list[Node]) -> dict[str, date]:

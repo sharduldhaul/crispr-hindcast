@@ -1,0 +1,3497 @@
+{
+ "ASH1L": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "ASH1L"
+  ],
+  "records_considered": 14,
+  "rejected_candidates": [
+   {
+    "date": "2022-03-07",
+    "pmid": "35330735",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic and Transcriptional Control of Erythropoiesis."
+   },
+   {
+    "date": "2025-04-11",
+    "pmid": "40214280",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone modifications in the regulation of erythropoiesis."
+   },
+   {
+    "date": "2025-10-06",
+    "pmid": "41051795",
+    "rejected_because": "title does not name the gene",
+    "title": "Chromatin Regulatory Targets for Anticancer Therapeutics."
+   }
+  ],
+  "symbol": "ASH1L"
+ },
+ "ATF2": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2013-11-06",
+   "doi": "10.1371/journal.pone.0078253",
+   "journal": null,
+   "pmid": "24223142",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Regulation of G\u03b3-globin gene by ATF2 and its associated proteins through the cAMP-response element."
+  },
+  "near_misses": [
+   {
+    "date": "2007-07-09",
+    "pmid": "17620452",
+    "rejected_because": "title does not name the gene",
+    "title": "Thalidomide induces gamma-globin gene expression through increased reactive oxygen species-mediated p38 MAPK signaling and histone H4 acetylation in adult erythropoiesis."
+   },
+   {
+    "date": "2009-07-13",
+    "pmid": "19597182",
+    "rejected_because": "title does not name the gene",
+    "title": "Cytokine-mediated increases in fetal hemoglobin are associated with globin gene histone modification and transcription factor reprogramming."
+   },
+   {
+    "date": "2009-10-27",
+    "pmid": "19861239",
+    "rejected_because": "title does not name the gene",
+    "title": "cJun modulates Ggamma-globin gene expression via an upstream cAMP response element."
+   },
+   {
+    "date": "2010-08-14",
+    "pmid": "20713129",
+    "rejected_because": "title does not name the gene",
+    "title": "Decitabine increases fetal hemoglobin in Papio anubis by increasing \u03b3-globin gene transcription."
+   },
+   {
+    "date": "2011-02-28",
+    "pmid": "22287860",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal hemoglobin reactivation and cell engineering in the treatment of sickle cell anemia."
+   },
+   {
+    "date": "2012-04-26",
+    "pmid": "22537182",
+    "rejected_because": "title does not name the gene",
+    "title": "Characterization of the transcriptome profiles related to globin gene switching during in vitro erythroid maturation."
+   }
+  ],
+  "query_terms": [
+   "ATF2"
+  ],
+  "records_considered": 31,
+  "rejected_candidates": [
+   {
+    "date": "1993-12-01",
+    "pmid": "8280048",
+    "rejected_because": "title does not name the gene",
+    "title": "Negative regulation of transcription in eukaryotes."
+   },
+   {
+    "date": "1996-10-01",
+    "pmid": "9147623",
+    "rejected_because": "title does not name the gene",
+    "title": "Differentiation and gene regulation."
+   },
+   {
+    "date": "2013-01-01",
+    "pmid": "24505534",
+    "rejected_because": "title does not name the gene",
+    "title": "Evaluation of Signaling Pathways Involved in \u03b3-Globin Gene Induction Using Fetal Hemoglobin Inducer Drugs."
+   }
+  ],
+  "symbol": "ATF2"
+ },
+ "ATF4": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2020-06-01",
+   "doi": "10.1182/blood.2020005301",
+   "journal": null,
+   "pmid": "32299090",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "The HRI-regulated transcription factor ATF4 activates BCL11A transcription to silence fetal hemoglobin expression."
+  },
+  "near_misses": [
+   {
+    "date": "2009-07-13",
+    "pmid": "19597182",
+    "rejected_because": "title does not name the gene",
+    "title": "Cytokine-mediated increases in fetal hemoglobin are associated with globin gene histone modification and transcription factor reprogramming."
+   },
+   {
+    "date": "2013-05-20",
+    "pmid": "23690448",
+    "rejected_because": "title does not name the gene",
+    "title": "Eukaryotic initiation factor 2\u03b1 phosphorylation mediates fetal hemoglobin induction through a post-transcriptional mechanism."
+   },
+   {
+    "date": "2014-08-28",
+    "pmid": "25170120",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of fetal hemoglobin through enhanced translation efficiency of \u03b3-globin mRNA."
+   }
+  ],
+  "query_terms": [
+   "ATF4"
+  ],
+  "records_considered": 121,
+  "rejected_candidates": [
+   {
+    "date": "2012-07-02",
+    "pmid": "22752410",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of the stress proteome as a mechanism for small molecule therapeutics."
+   },
+   {
+    "date": "2014-05-01",
+    "pmid": "24714526",
+    "rejected_because": "title does not name the gene",
+    "title": "Translational control by heme-regulated eIF2\u03b1 kinase during erythropoiesis."
+   },
+   {
+    "date": "2018-07-24",
+    "pmid": "30087616",
+    "rejected_because": "title does not name the gene",
+    "title": "RNA Binding Proteins and Regulation of mRNA Translation in Erythropoiesis."
+   }
+  ],
+  "symbol": "ATF4"
+ },
+ "BCL11A": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2008-12-04",
+   "doi": "10.1126/science.1165409",
+   "journal": null,
+   "pmid": "19056937",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Human fetal hemoglobin expression is regulated by the developmental stage-specific repressor BCL11A."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "BCL11A",
+   "ctip1"
+  ],
+  "records_considered": 2001,
+  "rejected_candidates": [
+   {
+    "date": "2008-12-01",
+    "pmid": "19095932",
+    "rejected_because": "title does not name the gene",
+    "title": "Developmental biology. From genetic association to genetic switch."
+   }
+  ],
+  "symbol": "BCL11A"
+ },
+ "CHD3": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2013-02-26",
+    "pmid": "23444401",
+    "rejected_because": "title does not name the gene",
+    "title": "Mi2\u03b2-mediated silencing of the fetal \u03b3-globin gene in adult erythroid cells."
+   },
+   {
+    "date": "2016-01-01",
+    "pmid": "26816381",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcription factors LRF and BCL11A independently repress expression of fetal hemoglobin."
+   },
+   {
+    "date": "2019-04-19",
+    "pmid": "31004025",
+    "rejected_because": "title does not name the gene",
+    "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+   },
+   {
+    "date": "2021-10-01",
+    "pmid": "34729375",
+    "rejected_because": "title does not name the gene",
+    "title": "CRISPR-Cas9 to induce fetal hemoglobin for the treatment of sickle cell disease."
+   },
+   {
+    "date": "2023-01-12",
+    "pmid": "36635268",
+    "rejected_because": "title does not name the gene",
+    "title": "A specific G9a inhibitor unveils BGLT3 lncRNA as a universal mediator of chemically induced fetal globin gene expression."
+   },
+   {
+    "date": "2024-07-31",
+    "pmid": "39083598",
+    "rejected_because": "title does not name the gene",
+    "title": "PGC-1\u03b1 agonism induces fetal hemoglobin and exerts antisickling effects in sickle cell disease."
+   }
+  ],
+  "query_terms": [
+   "CHD3"
+  ],
+  "records_considered": 40,
+  "rejected_candidates": [
+   {
+    "date": "2016-06-01",
+    "pmid": "27250345",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hematopoietic development by ZBTB transcription factors."
+   },
+   {
+    "date": "2020-11-11",
+    "pmid": "33187090",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulating the Regulators: The Role of Histone Deacetylase 1 (HDAC1) in Erythropoiesis."
+   },
+   {
+    "date": "2021-12-20",
+    "pmid": "34944103",
+    "rejected_because": "title does not name the gene",
+    "title": "p66\u03b1 Suppresses Breast Cancer Cell Growth and Migration by Acting as Co-Activator of p53."
+   }
+  ],
+  "symbol": "CHD3"
+ },
+ "CHD4": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2008-12-29",
+    "pmid": "19114560",
+    "rejected_because": "title does not name the gene",
+    "title": "Ikaros and GATA-1 combinatorial effect is required for silencing of human gamma-globin genes."
+   },
+   {
+    "date": "2009-07-02",
+    "pmid": "19576949",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional activation of the gamma-globin gene in baboons treated with decitabine and in cultured erythroid progenitor cells involves different mechanisms."
+   }
+  ],
+  "query_terms": [
+   "CHD4",
+   "Mi-2beta",
+   "Mi2beta",
+   "mi-2beta",
+   "mi2b",
+   "nurd"
+  ],
+  "records_considered": 291,
+  "rejected_candidates": [
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2007-10-15",
+    "pmid": "17938210",
+    "rejected_because": "title does not name the gene",
+    "title": "Sumoylation of EKLF promotes transcriptional repression and is involved in inhibition of megakaryopoiesis."
+   },
+   {
+    "date": "2008-04-28",
+    "pmid": "18443038",
+    "rejected_because": "title does not name the gene",
+    "title": "A T-to-G transversion at nucleotide -567 upstream of HBG2 in a GATA-1 binding motif is associated with elevated hemoglobin F."
+   }
+  ],
+  "symbol": "CHD4"
+ },
+ "CTCF": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2013-07-03",
+   "doi": "10.4161/epi.25472",
+   "journal": null,
+   "pmid": "23880533",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "CTCF demarcates chicken embryonic \u03b1-globin gene autonomous silencing and contributes to adult stage-specific gene expression."
+  },
+  "near_misses": [
+   {
+    "date": "2008-08-07",
+    "pmid": "18760288",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetics of beta-globin gene regulation."
+   },
+   {
+    "date": "2009-12-16",
+    "pmid": "20018918",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal hemoglobin in sickle cell anemia: genome-wide association studies suggest a regulatory region in the 5' olfactory receptor gene cluster."
+   }
+  ],
+  "query_terms": [
+   "CTCF"
+  ],
+  "records_considered": 217,
+  "rejected_candidates": [
+   {
+    "date": "2002-06-01",
+    "pmid": "12034837",
+    "rejected_because": "title does not name the gene",
+    "title": "Evidence that DNase I hypersensitive site 5 of the human beta-globin locus control region functions as a chromosomal insulator in transgenic mice."
+   },
+   {
+    "date": "2003-07-01",
+    "pmid": "12832463",
+    "rejected_because": "title does not name the gene",
+    "title": "Variegated expression from the murine band 3 (AE1) promoter in transgenic mice is associated with mRNA transcript initiation at upstream start sites and can be "
+   },
+   {
+    "date": "2005-10-01",
+    "pmid": "16199858",
+    "rejected_because": "title does not name the gene",
+    "title": "Genome architecture of the human beta-globin locus affects developmental regulation of gene expression."
+   }
+  ],
+  "symbol": "CTCF"
+ },
+ "DNMT1": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2021-03-01",
+   "doi": "10.1182/blood.2020006425",
+   "journal": null,
+   "pmid": "33227819",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "A natural DNMT1 mutation elevates the fetal hemoglobin level via epigenetic derepression of the \u03b3-globin gene in \u03b2-thalassemia."
+  },
+  "near_misses": [
+   {
+    "date": "2004-10-01",
+    "pmid": "15534851",
+    "rejected_because": "title does not name the gene",
+    "title": "The molecular mechanism of fetal hemoglobin reactivation."
+   },
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2007-10-04",
+    "pmid": "17916742",
+    "rejected_because": "title does not name the gene",
+    "title": "Neither DNA hypomethylation nor changes in the kinetics of erythroid differentiation explain 5-azacytidine's ability to induce human fetal hemoglobin."
+   },
+   {
+    "date": "2008-08-07",
+    "pmid": "18760288",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetics of beta-globin gene regulation."
+   },
+   {
+    "date": "2009-07-02",
+    "pmid": "19576949",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional activation of the gamma-globin gene in baboons treated with decitabine and in cultured erythroid progenitor cells involves different mechanisms."
+   },
+   {
+    "date": "2010-05-21",
+    "pmid": "20495075",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of a PRMT5-dependent repressor complex linked to silencing of human fetal globin gene expression."
+   }
+  ],
+  "query_terms": [
+   "DNMT1",
+   "dnmt"
+  ],
+  "records_considered": 359,
+  "rejected_candidates": [
+   {
+    "date": "2008-07-01",
+    "pmid": "18593891",
+    "rejected_because": "title does not name the gene",
+    "title": "Derepression in the desert: the third workshop on clinical translation of epigenetics in cancer therapeutics."
+   },
+   {
+    "date": "2010-05-25",
+    "pmid": "20501800",
+    "rejected_because": "title does not name the gene",
+    "title": "Decitabine maintains hematopoietic precursor self-renewal by preventing repression of stem cell genes by a differentiation-inducing stimulus."
+   },
+   {
+    "date": "2010-10-08",
+    "pmid": "20932295",
+    "rejected_because": "title does not name the gene",
+    "title": "S110, a novel decitabine dinucleotide, increases fetal hemoglobin levels in baboons (P. anubis)."
+   }
+  ],
+  "symbol": "DNMT1"
+ },
+ "DNMT3A": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2007-10-04",
+    "pmid": "17916742",
+    "rejected_because": "title does not name the gene",
+    "title": "Neither DNA hypomethylation nor changes in the kinetics of erythroid differentiation explain 5-azacytidine's ability to induce human fetal hemoglobin."
+   },
+   {
+    "date": "2010-05-21",
+    "pmid": "20495075",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of a PRMT5-dependent repressor complex linked to silencing of human fetal globin gene expression."
+   },
+   {
+    "date": "2010-10-23",
+    "pmid": "20974210",
+    "rejected_because": "title does not name the gene",
+    "title": "siDNMT1 increases \u03b3-globin expression in chemical inducer of dimerization (CID)-dependent mouse \u03b2YAC bone marrow cells and in baboon erythroid progenitor cell cultures."
+   },
+   {
+    "date": "2011-02-01",
+    "pmid": "21157349",
+    "rejected_because": "title does not name the gene",
+    "title": "Update on fetal hemoglobin gene regulation in hemoglobinopathies."
+   },
+   {
+    "date": "2012-06-11",
+    "pmid": "22689669",
+    "rejected_because": "title does not name the gene",
+    "title": "The role of WDR5 in silencing human fetal globin gene expression."
+   },
+   {
+    "date": "2013-01-14",
+    "pmid": "23316703",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human fetal hemoglobin expression by adenosine-2',3'-dialdehyde."
+   }
+  ],
+  "query_terms": [
+   "DNMT3A"
+  ],
+  "records_considered": 314,
+  "rejected_candidates": [
+   {
+    "date": "2005-04-05",
+    "pmid": "15811946",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of the control region for tissue-specific imprinting of the stimulatory G protein alpha-subunit."
+   },
+   {
+    "date": "2010-05-25",
+    "pmid": "20501800",
+    "rejected_because": "title does not name the gene",
+    "title": "Decitabine maintains hematopoietic precursor self-renewal by preventing repression of stem cell genes by a differentiation-inducing stimulus."
+   },
+   {
+    "date": "2013-10-25",
+    "pmid": "24163373",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone lysine-specific demethylase 1 (LSD1) protein is involved in Sal-like protein 4 (SALL4)-mediated transcriptional repression in hematopoietic stem cells."
+   }
+  ],
+  "symbol": "DNMT3A"
+ },
+ "DNMT3B": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2007-07-17",
+    "pmid": "17638855",
+    "rejected_because": "title does not name the gene",
+    "title": "Role of epigenetic modifications in normal globin gene regulation and butyrate-mediated induction of fetal hemoglobin."
+   },
+   {
+    "date": "2007-10-04",
+    "pmid": "17916742",
+    "rejected_because": "title does not name the gene",
+    "title": "Neither DNA hypomethylation nor changes in the kinetics of erythroid differentiation explain 5-azacytidine's ability to induce human fetal hemoglobin."
+   },
+   {
+    "date": "2010-05-21",
+    "pmid": "20495075",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of a PRMT5-dependent repressor complex linked to silencing of human fetal globin gene expression."
+   },
+   {
+    "date": "2010-10-23",
+    "pmid": "20974210",
+    "rejected_because": "title does not name the gene",
+    "title": "siDNMT1 increases \u03b3-globin expression in chemical inducer of dimerization (CID)-dependent mouse \u03b2YAC bone marrow cells and in baboon erythroid progenitor cell cultures."
+   },
+   {
+    "date": "2014-08-04",
+    "pmid": "25092918",
+    "rejected_because": "title does not name the gene",
+    "title": "Human fetal globin gene expression is regulated by LYAR."
+   },
+   {
+    "date": "2017-02-18",
+    "pmid": "28213976",
+    "rejected_because": "title does not name the gene",
+    "title": "Enhancement of \u03b2-Globin Gene Expression in Thalassemic IVS2-654 Induced Pluripotent Stem Cell-Derived Erythroid Cells by Modified U7 snRNA."
+   }
+  ],
+  "query_terms": [
+   "DNMT3B"
+  ],
+  "records_considered": 121,
+  "rejected_candidates": [
+   {
+    "date": "2008-07-01",
+    "pmid": "18593891",
+    "rejected_because": "title does not name the gene",
+    "title": "Derepression in the desert: the third workshop on clinical translation of epigenetics in cancer therapeutics."
+   },
+   {
+    "date": "2010-05-25",
+    "pmid": "20501800",
+    "rejected_because": "title does not name the gene",
+    "title": "Decitabine maintains hematopoietic precursor self-renewal by preventing repression of stem cell genes by a differentiation-inducing stimulus."
+   },
+   {
+    "date": "2013-10-25",
+    "pmid": "24163373",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone lysine-specific demethylase 1 (LSD1) protein is involved in Sal-like protein 4 (SALL4)-mediated transcriptional repression in hematopoietic stem cells."
+   }
+  ],
+  "symbol": "DNMT3B"
+ },
+ "EHMT1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2015-08-28",
+   "doi": "10.1182/blood-2015-06-649087",
+   "journal": null,
+   "pmid": "26320100",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "EHMT1 and EHMT2 inhibition induces fetal hemoglobin expression."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "EHMT1"
+  ],
+  "records_considered": 62,
+  "rejected_candidates": [],
+  "symbol": "EHMT1"
+ },
+ "EHMT2": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2015-08-28",
+   "doi": "10.1182/blood-2015-06-649087",
+   "journal": null,
+   "pmid": "26320100",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "EHMT1 and EHMT2 inhibition induces fetal hemoglobin expression."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "EHMT2"
+  ],
+  "records_considered": 46,
+  "rejected_candidates": [],
+  "symbol": "EHMT2"
+ },
+ "EIF2AK1": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2018-07-01",
+   "doi": "10.1126/science.aao0932",
+   "journal": null,
+   "pmid": "30026227",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Domain-focused CRISPR screen identifies HRI as a fetal hemoglobin regulator in human erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2013-05-20",
+    "pmid": "23690448",
+    "rejected_because": "title does not name the gene",
+    "title": "Eukaryotic initiation factor 2\u03b1 phosphorylation mediates fetal hemoglobin induction through a post-transcriptional mechanism."
+   },
+   {
+    "date": "2015-10-28",
+    "pmid": "26509275",
+    "rejected_because": "title does not name the gene",
+    "title": "A Novel High-Content Immunofluorescence Assay as a Tool to Identify at the Single Cell Level \u03b3-Globin Inducing Compounds."
+   },
+   {
+    "date": "2017-10-19",
+    "pmid": "29046485",
+    "rejected_because": "title does not name the gene",
+    "title": "Dimethyl fumarate increases fetal hemoglobin, provides heme detoxification, and corrects anemia in sickle cell disease."
+   }
+  ],
+  "query_terms": [
+   "EIF2AK1",
+   "HRI",
+   "heme-regulated eIF2alpha kinase",
+   "heme-regulated eif2alpha kinase",
+   "heme-regulated inhibitor"
+  ],
+  "records_considered": 111,
+  "rejected_candidates": [
+   {
+    "date": "1994-06-01",
+    "pmid": "7910943",
+    "rejected_because": "title does not name the gene",
+    "title": "Erythroid expression of the heme-regulated eIF-2 alpha kinase."
+   },
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2005-06-01",
+    "pmid": "15931390",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "Heme-regulated eIF2alpha kinase modifies the phenotypic severity of murine models of erythropoietic protoporphyria and beta-thalassemia."
+   }
+  ],
+  "symbol": "EIF2AK1"
+ },
+ "EIF2AK2": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "EIF2AK2"
+  ],
+  "records_considered": 16,
+  "rejected_candidates": [
+   {
+    "date": "2018-07-24",
+    "pmid": "30087616",
+    "rejected_because": "title does not name the gene",
+    "title": "RNA Binding Proteins and Regulation of mRNA Translation in Erythropoiesis."
+   },
+   {
+    "date": "2022-07-30",
+    "pmid": "35942209",
+    "rejected_because": "title does not name the gene",
+    "title": "Transmembrane Protein ANTXR1 Regulates &lt;i&gt;\u03b3&lt;/i&gt;-Globin Expression by Targeting the Wnt/&lt;i&gt;\u03b2&lt;/i&gt;-Catenin Signaling Pathway."
+   }
+  ],
+  "symbol": "EIF2AK2"
+ },
+ "EIF2AK3": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "EIF2AK3"
+  ],
+  "records_considered": 18,
+  "rejected_candidates": [
+   {
+    "date": "2018-07-24",
+    "pmid": "30087616",
+    "rejected_because": "title does not name the gene",
+    "title": "RNA Binding Proteins and Regulation of mRNA Translation in Erythropoiesis."
+   }
+  ],
+  "symbol": "EIF2AK3"
+ },
+ "EIF2AK4": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "EIF2AK4"
+  ],
+  "records_considered": 7,
+  "rejected_candidates": [
+   {
+    "date": "2018-07-24",
+    "pmid": "30087616",
+    "rejected_because": "title does not name the gene",
+    "title": "RNA Binding Proteins and Regulation of mRNA Translation in Erythropoiesis."
+   }
+  ],
+  "symbol": "EIF2AK4"
+ },
+ "EIF2S1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "EIF2S1"
+  ],
+  "records_considered": 6,
+  "rejected_candidates": [
+   {
+    "date": "2024-05-01",
+    "pmid": "38447046",
+    "rejected_because": "title does not name the gene",
+    "title": "Long noncoding RNA GATA2AS influences human erythropoiesis by transcription factor and chromatin landscape modulation."
+   }
+  ],
+  "symbol": "EIF2S1"
+ },
+ "EPAS1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2022-10-12",
+    "pmid": "36224385",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of \u03b3-globin expression by hypoxia-inducible factor 1\u03b1."
+   }
+  ],
+  "query_terms": [
+   "EPAS1"
+  ],
+  "records_considered": 60,
+  "rejected_candidates": [
+   {
+    "date": "2010-07-04",
+    "pmid": "20599462",
+    "rejected_because": "title does not name the gene",
+    "title": "Hypoxia-inducible factor (HIF) and HIF-stabilizing agents in neonatal care."
+   },
+   {
+    "date": "2016-11-07",
+    "pmid": "27821551",
+    "rejected_because": "title does not name the gene",
+    "title": "Senp1 drives hypoxia-induced polycythemia via GATA1 and Bcl-xL in subjects with Monge's disease."
+   },
+   {
+    "date": "2020-07-17",
+    "pmid": "32765515",
+    "rejected_because": "title does not name the gene",
+    "title": "Hydroxyurea Scavenges Free Radicals and Induces the Expression of Antioxidant Genes in Human Cell Cultures Treated With Hemin."
+   }
+  ],
+  "symbol": "EPAS1"
+ },
+ "FOXO3": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2018-06-08",
+   "doi": "10.1182/blood-2017-11-814335",
+   "journal": null,
+   "pmid": "29884740",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Metformin induces FOXO3-dependent fetal hemoglobin production in human primary erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2013-11-06",
+    "pmid": "24223142",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of G\u03b3-globin gene by ATF2 and its associated proteins through the cAMP-response element."
+   },
+   {
+    "date": "2016-01-17",
+    "pmid": "26862517",
+    "rejected_because": "title does not name the gene",
+    "title": "MicroRNA Expression in \u03b2-Thalassemia and Sickle Cell Disease: A Role in The Induction of Fetal Hemoglobin."
+   }
+  ],
+  "query_terms": [
+   "FOXO3"
+  ],
+  "records_considered": 129,
+  "rejected_candidates": [
+   {
+    "date": "2011-10-12",
+    "pmid": "21998215",
+    "rejected_because": "title does not name the gene",
+    "title": "From stem cell to red cell: regulation of erythropoiesis at multiple levels by multiple proteins, RNAs, and chromatin modifications."
+   },
+   {
+    "date": "2013-08-23",
+    "pmid": "23975182",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "Resveratrol accelerates erythroid maturation by activation of FoxO3 and ameliorates anemia in beta-thalassemic mice."
+   },
+   {
+    "date": "2014-05-01",
+    "pmid": "24714526",
+    "rejected_because": "title does not name the gene",
+    "title": "Translational control by heme-regulated eIF2\u03b1 kinase during erythropoiesis."
+   }
+  ],
+  "symbol": "FOXO3"
+ },
+ "GATA1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "1995-02-01",
+   "doi": "10.1002/j.1460-2075.1995.tb07058.x",
+   "journal": null,
+   "pmid": "7882983",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "GATA1 and YY1 are developmental repressors of the human epsilon-globin gene."
+  },
+  "near_misses": [
+   {
+    "date": "1988-08-01",
+    "pmid": "3413070",
+    "rejected_because": "title does not name the gene",
+    "title": "An erythrocyte-specific DNA-binding factor recognizes a regulatory sequence common to all chicken globin genes."
+   },
+   {
+    "date": "1989-03-01",
+    "pmid": "2467208",
+    "rejected_because": "title does not name the gene",
+    "title": "Increased gamma-globin expression in a nondeletion HPFH mediated by an erythroid-specific DNA-binding factor."
+   },
+   {
+    "date": "1989-07-01",
+    "pmid": "2474800",
+    "rejected_because": "title does not name the gene",
+    "title": "Increased erythroid-specific expression of a mutated HPFH gamma-globin promoter requires the erythroid factor NFE-1."
+   },
+   {
+    "date": "1991-09-01",
+    "pmid": "1875923",
+    "rejected_because": "title does not name the gene",
+    "title": "Derepression of mouse beta-major-globin gene transcription during erythroid differentiation."
+   },
+   {
+    "date": "1993-01-01",
+    "pmid": "8508028",
+    "rejected_because": "title does not name the gene",
+    "title": "Distinct negative regulation of the human embryonic globin genes zeta and epsilon."
+   },
+   {
+    "date": "1994-06-01",
+    "pmid": "7515719",
+    "rejected_because": "title does not name the gene",
+    "title": "Increased expression of the G gamma and A gamma globin genes associated with a mutation in the A gamma enhancer."
+   }
+  ],
+  "query_terms": [
+   "GATA1"
+  ],
+  "records_considered": 1206,
+  "rejected_candidates": [
+   {
+    "date": "1990-12-01",
+    "pmid": "1701019",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulated expression of globin chains and the erythroid transcription factor GATA-1 during erythropoiesis in the developing mouse."
+   },
+   {
+    "date": "1991-02-01",
+    "pmid": "1990287",
+    "rejected_because": "title does not name the gene",
+    "title": "trans-Activation of a globin promoter in nonerythroid cells."
+   },
+   {
+    "date": "1991-06-01",
+    "pmid": "1902783",
+    "rejected_because": "title does not name the gene",
+    "title": "The 5'HS2 of the globin locus control region enhances transcription through the interaction of a multimeric complex binding at two functionally distinct NF-E2 b"
+   }
+  ],
+  "symbol": "GATA1"
+ },
+ "GATAD2A": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2008-12-29",
+    "pmid": "19114560",
+    "rejected_because": "title does not name the gene",
+    "title": "Ikaros and GATA-1 combinatorial effect is required for silencing of human gamma-globin genes."
+   },
+   {
+    "date": "2009-07-02",
+    "pmid": "19576949",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional activation of the gamma-globin gene in baboons treated with decitabine and in cultured erythroid progenitor cells involves different mechanisms."
+   }
+  ],
+  "query_terms": [
+   "GATAD2A",
+   "nurd",
+   "p66alpha"
+  ],
+  "records_considered": 265,
+  "rejected_candidates": [
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2007-10-15",
+    "pmid": "17938210",
+    "rejected_because": "title does not name the gene",
+    "title": "Sumoylation of EKLF promotes transcriptional repression and is involved in inhibition of megakaryopoiesis."
+   },
+   {
+    "date": "2008-04-28",
+    "pmid": "18443038",
+    "rejected_because": "title does not name the gene",
+    "title": "A T-to-G transversion at nucleotide -567 upstream of HBG2 in a GATA-1 binding motif is associated with elevated hemoglobin F."
+   }
+  ],
+  "symbol": "GATAD2A"
+ },
+ "GATAD2B": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2016-01-01",
+    "pmid": "26816381",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcription factors LRF and BCL11A independently repress expression of fetal hemoglobin."
+   }
+  ],
+  "query_terms": [
+   "GATAD2B",
+   "p66beta"
+  ],
+  "records_considered": 19,
+  "rejected_candidates": [
+   {
+    "date": "2016-06-01",
+    "pmid": "27250345",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hematopoietic development by ZBTB transcription factors."
+   },
+   {
+    "date": "2021-12-20",
+    "pmid": "34944103",
+    "rejected_because": "title does not name the gene",
+    "title": "p66\u03b1 Suppresses Breast Cancer Cell Growth and Migration by Acting as Co-Activator of p53."
+   },
+   {
+    "date": "2023-06-29",
+    "pmid": "37385984",
+    "rejected_because": "title does not name the gene",
+    "title": "Dissecting the roles of MBD2 isoforms and domains in regulating NuRD complex function during cellular differentiation."
+   }
+  ],
+  "symbol": "GATAD2B"
+ },
+ "HBA1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "1988-11-01",
+   "doi": "10.1128/mcb.8.11.5047-5051.1988",
+   "journal": null,
+   "pmid": "2850473",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "A silencer element from the alpha-globin gene inhibits expression of beta-like genes."
+  },
+  "near_misses": [
+   {
+    "date": "1972-08-01",
+    "pmid": "4506088",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep and goats: change in functional globin messenger RNA in reticulocytes and bone marrow cells."
+   },
+   {
+    "date": "1978-12-01",
+    "pmid": "282609",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep: only the gamma gene is in the active conformation in fetal liver but all the beta and gamma genes are in the active conformation in bone marrow."
+   },
+   {
+    "date": "1980-06-01",
+    "pmid": "6932030",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of human beta-globin genes from nonerythroid cells by fusion with murine erythroleukemia cells."
+   },
+   {
+    "date": "1980-12-01",
+    "pmid": "6164057",
+    "rejected_because": "title does not name the gene",
+    "title": "Unusual sequence homology at the 5-ends of the developmentally regulated beta A-, beta C-, and gamma-globin genes of the goat."
+   },
+   {
+    "date": "1981-01-01",
+    "pmid": "6178203",
+    "rejected_because": "title does not name the gene",
+    "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
+   },
+   {
+    "date": "1981-02-01",
+    "pmid": "6161945",
+    "rejected_because": "title does not name the gene",
+    "title": "Control of the simian fetal hemoglobin switch at the progenitor cell level."
+   }
+  ],
+  "query_terms": [
+   "HBA1",
+   "alpha-globin"
+  ],
+  "records_considered": 1794,
+  "rejected_candidates": [
+   {
+    "date": "1973-12-01",
+    "pmid": "4519634",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hemoglobin beta-chain synthesis in bone marrow erythroid cells by alpha chains."
+   },
+   {
+    "date": "1976-05-01",
+    "pmid": "1269516",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin chain synthesis in two children with trisomy 13. Evidence for temporary imbalance during switch from gamma to beta chain synthesis."
+   },
+   {
+    "date": "1979-07-01",
+    "pmid": "36412",
+    "rejected_because": "title does not name the gene",
+    "title": "Synthesis of hemoglobin Aic and related minor hemoglobin by erythrocytes. In vitro study of regulation."
+   }
+  ],
+  "symbol": "HBA1"
+ },
+ "HBA2": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "1988-11-01",
+   "doi": "10.1128/mcb.8.11.5047-5051.1988",
+   "journal": null,
+   "pmid": "2850473",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "A silencer element from the alpha-globin gene inhibits expression of beta-like genes."
+  },
+  "near_misses": [
+   {
+    "date": "1961-06-01",
+    "pmid": "13728115",
+    "rejected_because": "title does not name the gene",
+    "title": "The frequency of elevations in the A and fetal hemoglobin fractions in the natives of Liberia and adjacent regions, with data on haptoglobin and transferrin types."
+   },
+   {
+    "date": "1972-08-01",
+    "pmid": "4506088",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep and goats: change in functional globin messenger RNA in reticulocytes and bone marrow cells."
+   },
+   {
+    "date": "1978-12-01",
+    "pmid": "282609",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep: only the gamma gene is in the active conformation in fetal liver but all the beta and gamma genes are in the active conformation in bone marrow."
+   },
+   {
+    "date": "1980-06-01",
+    "pmid": "6932030",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of human beta-globin genes from nonerythroid cells by fusion with murine erythroleukemia cells."
+   },
+   {
+    "date": "1980-12-01",
+    "pmid": "6164057",
+    "rejected_because": "title does not name the gene",
+    "title": "Unusual sequence homology at the 5-ends of the developmentally regulated beta A-, beta C-, and gamma-globin genes of the goat."
+   },
+   {
+    "date": "1981-01-01",
+    "pmid": "6178203",
+    "rejected_because": "title does not name the gene",
+    "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
+   }
+  ],
+  "query_terms": [
+   "HBA2",
+   "alpha-globin"
+  ],
+  "records_considered": 2988,
+  "rejected_candidates": [
+   {
+    "date": "1973-12-01",
+    "pmid": "4519634",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hemoglobin beta-chain synthesis in bone marrow erythroid cells by alpha chains."
+   },
+   {
+    "date": "1976-05-01",
+    "pmid": "1269516",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin chain synthesis in two children with trisomy 13. Evidence for temporary imbalance during switch from gamma to beta chain synthesis."
+   },
+   {
+    "date": "1977-03-01",
+    "pmid": "264791",
+    "rejected_because": "title does not name the gene",
+    "title": "Changing erythrocyte populations in juvenile chronic myelocytic leukemia: evidence for disordered regulation."
+   }
+  ],
+  "symbol": "HBA2"
+ },
+ "HBB": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "1980-06-01",
+   "doi": "10.1073/pnas.77.6.3435",
+   "journal": null,
+   "pmid": "6932030",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Activation of human beta-globin genes from nonerythroid cells by fusion with murine erythroleukemia cells."
+  },
+  "near_misses": [
+   {
+    "date": "1972-08-01",
+    "pmid": "4506088",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep and goats: change in functional globin messenger RNA in reticulocytes and bone marrow cells."
+   },
+   {
+    "date": "1978-12-01",
+    "pmid": "282609",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep: only the gamma gene is in the active conformation in fetal liver but all the beta and gamma genes are in the active conformation in bone marrow."
+   },
+   {
+    "date": "1979-02-01",
+    "pmid": "283312",
+    "rejected_because": "title does not name the gene",
+    "title": "Selective activation of human beta-but not gamma-globin gene in human fibroblast x mouse erythroleukaemia cell hybrids."
+   },
+   {
+    "date": "1979-08-01",
+    "pmid": "378994",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin switching in sheep. Synthesis, cloning, and characterization of DNA sequences coding for the beta B, beta C, and gamma-globin mRNAs."
+   }
+  ],
+  "query_terms": [
+   "HBB",
+   "beta globin",
+   "beta-globin"
+  ],
+  "records_considered": 4431,
+  "rejected_candidates": [
+   {
+    "date": "1973-12-01",
+    "pmid": "4519634",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hemoglobin beta-chain synthesis in bone marrow erythroid cells by alpha chains."
+   },
+   {
+    "date": "1976-05-01",
+    "pmid": "1269516",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin chain synthesis in two children with trisomy 13. Evidence for temporary imbalance during switch from gamma to beta chain synthesis."
+   },
+   {
+    "date": "1979-10-01",
+    "pmid": "291931",
+    "rejected_because": "title does not name the gene",
+    "title": "Synthesis and turnover of globin mRNA in murine erythroleukemia cells induced with hemin."
+   }
+  ],
+  "symbol": "HBB"
+ },
+ "HBD": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "1994-10-01",
+   "doi": "10.1006/bbrc.1994.2474",
+   "journal": null,
+   "pmid": "7524502",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Evidence for a globin promoter-specific silencer element located upstream of the human delta-globin gene."
+  },
+  "near_misses": [
+   {
+    "date": "1980-06-01",
+    "pmid": "6932030",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of human beta-globin genes from nonerythroid cells by fusion with murine erythroleukemia cells."
+   },
+   {
+    "date": "1982-04-01",
+    "pmid": "6179097",
+    "rejected_because": "title does not name the gene",
+    "title": "Molecular comparison of delta beta-thalassemia and hereditary persistence of fetal hemoglobin DNAs: evidence of a regulatory area?"
+   },
+   {
+    "date": "1983-04-01",
+    "pmid": "6572978",
+    "rejected_because": "title does not name the gene",
+    "title": "\"Silent\" nucleotide substitution in a beta+-thalassemia globin gene activates splice site in coding sequence RNA."
+   },
+   {
+    "date": "1983-09-01",
+    "pmid": "6310580",
+    "rejected_because": "title does not name the gene",
+    "title": "Inducible transcription of five globin genes in K562 human leukemia cells."
+   },
+   {
+    "date": "1983-11-01",
+    "pmid": "6196781",
+    "rejected_because": "title does not name the gene",
+    "title": "Different 3' end points of deletions causing delta beta-thalassemia and hereditary persistence of fetal hemoglobin: implications for the control of gamma-globin gene expression in man."
+   },
+   {
+    "date": "1983-11-01",
+    "pmid": "6316333",
+    "rejected_because": "title does not name the gene",
+    "title": "Molecular mechanisms of human hemoglobin switching: selective undermethylation and expression of globin genes in embryonic, fetal, and adult erythroblasts."
+   }
+  ],
+  "query_terms": [
+   "HBD",
+   "delta-globin"
+  ],
+  "records_considered": 996,
+  "rejected_candidates": [
+   {
+    "date": "1983-12-01",
+    "pmid": "6200877",
+    "rejected_because": "title does not name the gene",
+    "title": "Human fetal to adult hemoglobin switching: changes in chromatin structure of the beta-globin gene locus."
+   },
+   {
+    "date": "1984-03-01",
+    "pmid": "6201065",
+    "rejected_because": "title does not name the gene",
+    "title": "Secondary structure and intron-promoter homology in globin-switching."
+   },
+   {
+    "date": "1984-05-01",
+    "pmid": "6201748",
+    "rejected_because": "title does not name the gene",
+    "title": "A haemoglobin switching activity modulates hereditary persistence of fetal haemoglobin."
+   }
+  ],
+  "symbol": "HBD"
+ },
+ "HBE1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "1989-07-01",
+   "doi": "10.1073/pnas.86.14.5306",
+   "journal": null,
+   "pmid": "2748586",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Identification of a transcriptional silencer in the 5'-flanking region of the human epsilon-globin gene."
+  },
+  "near_misses": [
+   {
+    "date": "1982-12-01",
+    "pmid": "6183586",
+    "rejected_because": "title does not name the gene",
+    "title": "5-azacytidine selectively increases gamma-globin synthesis in a patient with beta+ thalassemia."
+   },
+   {
+    "date": "1983-09-01",
+    "pmid": "6310580",
+    "rejected_because": "title does not name the gene",
+    "title": "Inducible transcription of five globin genes in K562 human leukemia cells."
+   },
+   {
+    "date": "1983-11-01",
+    "pmid": "6316333",
+    "rejected_because": "title does not name the gene",
+    "title": "Molecular mechanisms of human hemoglobin switching: selective undermethylation and expression of globin genes in embryonic, fetal, and adult erythroblasts."
+   },
+   {
+    "date": "1985-01-01",
+    "pmid": "2578614",
+    "rejected_because": "title does not name the gene",
+    "title": "Haemoglobin switching in human embryos: asynchrony of zeta----alpha and epsilon----gamma-globin switches in primitive and definite erythropoietic lineage."
+   },
+   {
+    "date": "1985-07-01",
+    "pmid": "2991858",
+    "rejected_because": "title does not name the gene",
+    "title": "Trans acting regulation of beta globin gene expression in erythroleukemia (K562) cells."
+   },
+   {
+    "date": "1988-08-01",
+    "pmid": "3413070",
+    "rejected_because": "title does not name the gene",
+    "title": "An erythrocyte-specific DNA-binding factor recognizes a regulatory sequence common to all chicken globin genes."
+   }
+  ],
+  "query_terms": [
+   "HBE1",
+   "epsilon-globin"
+  ],
+  "records_considered": 443,
+  "rejected_candidates": [
+   {
+    "date": "1984-03-01",
+    "pmid": "6201065",
+    "rejected_because": "title does not name the gene",
+    "title": "Secondary structure and intron-promoter homology in globin-switching."
+   },
+   {
+    "date": "1984-11-01",
+    "pmid": "6208553",
+    "rejected_because": "title does not name the gene",
+    "title": "DNA methylation and regulation of the human beta-globin-like genes in mouse erythroleukemia cells containing human chromosome 11."
+   },
+   {
+    "date": "1987-01-01",
+    "pmid": "3540012",
+    "rejected_because": "title does not name the gene",
+    "title": "c-myc gene inactivation during induced maturation of HL-60 cells. Transcriptional repression and loss of a specific DNAse I hypersensitive site."
+   }
+  ],
+  "symbol": "HBE1"
+ },
+ "HBG1": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "1977-03-01",
+   "doi": "10.1016/s0021-9258(18)71844-9",
+   "journal": null,
+   "pmid": "845153",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Hemoglobin switching in sheep and goats. Preparation and characterization of complementary DNAs specific for the alpha-, beta-, and gamma-globin messenger RNAs of sheep."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "HBG1",
+   "a-gamma-globin",
+   "fetal globin",
+   "gamma globin",
+   "gamma-globin"
+  ],
+  "records_considered": 3992,
+  "rejected_candidates": [
+   {
+    "date": "1976-05-01",
+    "pmid": "1269516",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin chain synthesis in two children with trisomy 13. Evidence for temporary imbalance during switch from gamma to beta chain synthesis."
+   }
+  ],
+  "symbol": "HBG1"
+ },
+ "HBG2": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "1977-03-01",
+   "doi": "10.1016/s0021-9258(18)71844-9",
+   "journal": null,
+   "pmid": "845153",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Hemoglobin switching in sheep and goats. Preparation and characterization of complementary DNAs specific for the alpha-, beta-, and gamma-globin messenger RNAs of sheep."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "HBG2",
+   "fetal globin",
+   "g-gamma-globin",
+   "gamma globin",
+   "gamma-globin"
+  ],
+  "records_considered": 4117,
+  "rejected_candidates": [
+   {
+    "date": "1976-05-01",
+    "pmid": "1269516",
+    "rejected_because": "title does not name the gene",
+    "title": "Hemoglobin chain synthesis in two children with trisomy 13. Evidence for temporary imbalance during switch from gamma to beta chain synthesis."
+   }
+  ],
+  "symbol": "HBG2"
+ },
+ "HBS1L": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2009-06-15",
+   "doi": "10.1182/blood-2009-03-210146",
+   "journal": null,
+   "pmid": "19528534",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "The HBS1L-MYB intergenic interval associated with elevated HbF levels shows characteristics of a distal regulatory region in erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2006-08-01",
+    "pmid": "16861354",
+    "rejected_because": "title does not name the gene",
+    "title": "cMYB is involved in the regulation of fetal hemoglobin production in adults."
+   }
+  ],
+  "query_terms": [
+   "HBS1L",
+   "hbs1l-myb"
+  ],
+  "records_considered": 476,
+  "rejected_candidates": [
+   {
+    "date": "2008-08-12",
+    "pmid": "18697826",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "The HBS1L-MYB intergenic region on chromosome 6q23 is a quantitative trait locus controlling fetal haemoglobin level in carriers of beta-thalassaemia."
+   }
+  ],
+  "symbol": "HBS1L"
+ },
+ "HDAC1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2004-07-24",
+   "doi": "10.1074/jbc.m405129200",
+   "journal": null,
+   "pmid": "15273251",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Site-specific acetylation of the fetal globin activator NF-E4 prevents its ubiquitination and regulates its interaction with the histone deacetylase, HDAC1."
+  },
+  "near_misses": [
+   {
+    "date": "1999-02-01",
+    "pmid": "9927428",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of embryonic/fetal globin genes by nuclear hormone receptors: a novel perspective on hemoglobin switching."
+   },
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   }
+  ],
+  "query_terms": [
+   "HDAC1",
+   "nurd"
+  ],
+  "records_considered": 410,
+  "rejected_candidates": [
+   {
+    "date": "2001-05-01",
+    "pmid": "11287616",
+    "rejected_because": "title does not name the gene",
+    "title": "Unanticipated repression function linked to erythroid Kr\u00fcppel-like factor."
+   }
+  ],
+  "symbol": "HDAC1"
+ },
+ "HDAC2": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2006-07-18",
+    "pmid": "16849648",
+    "rejected_because": "title does not name the gene",
+    "title": "Short-chain fatty acids induce gamma-globin gene expression by displacement of a HDAC3-NCoR repressor complex."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   }
+  ],
+  "query_terms": [
+   "HDAC2",
+   "nurd"
+  ],
+  "records_considered": 340,
+  "rejected_candidates": [
+   {
+    "date": "2001-05-01",
+    "pmid": "11287616",
+    "rejected_because": "title does not name the gene",
+    "title": "Unanticipated repression function linked to erythroid Kr\u00fcppel-like factor."
+   },
+   {
+    "date": "2002-04-01",
+    "pmid": "11916500",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone acetylation may suppress human glioma cell proliferation when p21 WAF/Cip1 and gelsolin are induced."
+   },
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   }
+  ],
+  "symbol": "HDAC2"
+ },
+ "HIC2": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2022-08-08",
+   "doi": "10.1038/s41588-022-01152-6",
+   "journal": null,
+   "pmid": "35941187",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "HIC2 controls developmental hemoglobin switching by repressing BCL11A transcription."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "HIC2"
+  ],
+  "records_considered": 23,
+  "rejected_candidates": [],
+  "symbol": "HIC2"
+ },
+ "IGF2BP1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2020-05-01",
+    "pmid": "32268371",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding heterogeneity of fetal hemoglobin induction through comparative analysis of F and A erythroblasts."
+   },
+   {
+    "date": "2022-08-08",
+    "pmid": "35941187",
+    "rejected_because": "title does not name the gene",
+    "title": "HIC2 controls developmental hemoglobin switching by repressing BCL11A transcription."
+   },
+   {
+    "date": "2022-12-01",
+    "pmid": "35622975",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification and characterization of RBM12 as a novel regulator of\u00a0fetal hemoglobin expression."
+   },
+   {
+    "date": "2023-02-25",
+    "pmid": "36980849",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic Regulation of \u03b2-Globin Genes and the Potential to Treat Hemoglobinopathies through Epigenome Editing."
+   },
+   {
+    "date": "2023-06-01",
+    "pmid": "36893455",
+    "rejected_because": "title does not name the gene",
+    "title": "Molecular basis of polycomb group protein-mediated fetal hemoglobin repression."
+   },
+   {
+    "date": "2024-05-01",
+    "pmid": "38364109",
+    "rejected_because": "title does not name the gene",
+    "title": "let-7 miRNAs repress HIC2 to regulate BCL11A transcription and hemoglobin switching."
+   }
+  ],
+  "query_terms": [
+   "IGF2BP1"
+  ],
+  "records_considered": 46,
+  "rejected_candidates": [
+   {
+    "date": "2008-01-11",
+    "pmid": "18188647",
+    "rejected_because": "title does not name the gene",
+    "title": "The endothelial-specific regulatory mutation, Mvwf1, is a common mouse founder allele."
+   },
+   {
+    "date": "2018-04-01",
+    "pmid": "29432581",
+    "rejected_because": "title does not name the gene",
+    "title": "14q32 and let-7 microRNAs regulate transcriptional networks in fetal and adult human erythroblasts."
+   },
+   {
+    "date": "2019-06-20",
+    "pmid": "31221665",
+    "rejected_because": "title does not name the gene",
+    "title": "Enhancement of LIN28B-induced hematopoietic reprogramming by IGF2BP3."
+   }
+  ],
+  "symbol": "IGF2BP1"
+ },
+ "KDM1A": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2015-06-01",
+   "doi": "10.1182/blood-2015-02-626259",
+   "journal": null,
+   "pmid": "26031919",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "The LSD1 inhibitor RN-1 induces fetal hemoglobin synthesis and reduces disease pathology in sickle cell mice."
+  },
+  "near_misses": [
+   {
+    "date": "2012-06-11",
+    "pmid": "22689669",
+    "rejected_because": "title does not name the gene",
+    "title": "The role of WDR5 in silencing human fetal globin gene expression."
+   },
+   {
+    "date": "2013-02-17",
+    "pmid": "23416702",
+    "rejected_because": "title does not name the gene",
+    "title": "Lysine-specific demethylase 1 is a therapeutic target for fetal hemoglobin induction."
+   },
+   {
+    "date": "2013-04-01",
+    "pmid": "23576758",
+    "rejected_because": "title does not name the gene",
+    "title": "Corepressor-dependent silencing of fetal hemoglobin expression by BCL11A."
+   },
+   {
+    "date": "2014-04-02",
+    "pmid": "24704162",
+    "rejected_because": "title does not name the gene",
+    "title": "Extensively self-renewing erythroblasts derived from transgenic \u03b2-yac mice is a novel model system for studying globin switching and erythroid maturation."
+   },
+   {
+    "date": "2014-05-11",
+    "pmid": "24880147",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic regulation of fetal globin gene expression in adult erythroid cells."
+   },
+   {
+    "date": "2014-07-14",
+    "pmid": "25022757",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal globin gene repressors as drug targets for molecular therapies to treat the \u03b2-globinopathies."
+   }
+  ],
+  "query_terms": [
+   "KDM1A",
+   "LSD1",
+   "aof2",
+   "lsd1"
+  ],
+  "records_considered": 222,
+  "rejected_candidates": [
+   {
+    "date": "2013-02-25",
+    "pmid": "23438597",
+    "rejected_because": "title does not name the gene",
+    "title": "The BCL11A transcription factor directly activates RAG gene expression and V(D)J recombination."
+   },
+   {
+    "date": "2013-06-18",
+    "pmid": "23795291",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "Histone demethylase Lsd1 represses hematopoietic stem and progenitor cell signatures during blood cell maturation."
+   },
+   {
+    "date": "2013-09-25",
+    "pmid": "24068705",
+    "rejected_because": "title does not name the gene",
+    "title": "Large-scale hypomethylated blocks associated with Epstein-Barr virus-induced B-cell immortalization."
+   }
+  ],
+  "symbol": "KDM1A"
+ },
+ "KLF1": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "1996-10-01",
+   "doi": "10.1073/pnas.93.22.12267",
+   "journal": null,
+   "pmid": "8901569",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Silencing of human fetal globin expression is impaired in the absence of the adult beta-globin gene activator protein EKLF."
+  },
+  "near_misses": [
+   {
+    "date": "1995-01-01",
+    "pmid": "7829533",
+    "rejected_because": "title does not name the gene",
+    "title": "Role of erythroid Kruppel-like factor in human gamma- to beta-globin gene switching."
+   },
+   {
+    "date": "1996-01-01",
+    "pmid": "8524301",
+    "rejected_because": "title does not name the gene",
+    "title": "Intronic and flanking sequences are required to silence enhancement of an embryonic beta-type globin gene."
+   }
+  ],
+  "query_terms": [
+   "KLF1",
+   "eklf"
+  ],
+  "records_considered": 905,
+  "rejected_candidates": [
+   {
+    "date": "1994-05-01",
+    "pmid": "8164666",
+    "rejected_because": "title does not name the gene",
+    "title": "Positive regulators of the lineage-specific transcription factor GATA-1 in differentiating erythroid cells."
+   },
+   {
+    "date": "1995-02-01",
+    "pmid": "7823951",
+    "rejected_because": "title does not name the gene",
+    "title": "The erythroid Kr\u00fcppel-like factor transactivation domain is a critical component for cell-specific inducibility of a beta-globin promoter."
+   },
+   {
+    "date": "1995-04-01",
+    "pmid": "7724591",
+    "rejected_because": "title does not name the gene",
+    "title": "Isolation of a differentially regulated splicing isoform of human NF-E2."
+   }
+  ],
+  "symbol": "KLF1"
+ },
+ "KLF3": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2013-05-28",
+   "doi": "10.1128/mcb.00074-13",
+   "journal": null,
+   "pmid": "23716600",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Generation of mice deficient in both KLF3/BKLF and KLF8 reveals a genetic interaction and a role for these factors in embryonic globin gene silencing."
+  },
+  "near_misses": [
+   {
+    "date": "2004-05-17",
+    "pmid": "15148375",
+    "rejected_because": "title does not name the gene",
+    "title": "The minimal promoter plays a major role in silencing of the galago gamma-globin gene in adult erythropoiesis."
+   },
+   {
+    "date": "2005-09-01",
+    "pmid": "16023392",
+    "rejected_because": "title does not name the gene",
+    "title": "A functional screen for Kr\u00fcppel-like factors that regulate the human gamma-globin gene through the CACCC promoter element."
+   },
+   {
+    "date": "2011-05-24",
+    "pmid": "21610079",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcription factors KLF1 and KLF2 positively regulate embryonic and fetal beta-globin genes through direct promoter binding."
+   },
+   {
+    "date": "2012-04-26",
+    "pmid": "22537182",
+    "rejected_because": "title does not name the gene",
+    "title": "Characterization of the transcriptome profiles related to globin gene switching during in vitro erythroid maturation."
+   }
+  ],
+  "query_terms": [
+   "KLF3"
+  ],
+  "records_considered": 62,
+  "rejected_candidates": [
+   {
+    "date": "2007-08-30",
+    "pmid": "17762869",
+    "rejected_because": "title does not name the gene",
+    "title": "The Kruppel-like factor KLF4 is a critical regulator of monocyte differentiation."
+   },
+   {
+    "date": "2012-07-27",
+    "pmid": "22937212",
+    "rejected_because": "title does not name the gene",
+    "title": "Kr\u00fcppel-like factor 8 emerges as an important regulator of cancer."
+   },
+   {
+    "date": "2012-10-22",
+    "pmid": "23090966",
+    "rejected_because": "title does not name the gene",
+    "title": "EKLF/KLF1, a tissue-restricted integrator of transcriptional control, chromatin remodeling, and lineage determination."
+   }
+  ],
+  "symbol": "KLF3"
+ },
+ "KMT5A": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "KMT5A",
+   "pr-set7",
+   "setd8"
+  ],
+  "records_considered": 19,
+  "rejected_candidates": [
+   {
+    "date": "2020-03-16",
+    "pmid": "32178723",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "The histone methyltransferase Setd8 alters the chromatin landscape and regulates the expression of key transcription factors during erythroid differentiation."
+   },
+   {
+    "date": "2022-03-07",
+    "pmid": "35330735",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic and Transcriptional Control of Erythropoiesis."
+   },
+   {
+    "date": "2025-04-11",
+    "pmid": "40214280",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone modifications in the regulation of erythropoiesis."
+   }
+  ],
+  "symbol": "KMT5A"
+ },
+ "LIN28B": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2020-01-20",
+   "doi": "10.1038/s41588-019-0568-7",
+   "journal": null,
+   "pmid": "31959994",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Control of human hemoglobin switching by LIN28B-mediated regulation of BCL11A translation."
+  },
+  "near_misses": [
+   {
+    "date": "2014-05-11",
+    "pmid": "24880147",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic regulation of fetal globin gene expression in adult erythroid cells."
+   },
+   {
+    "date": "2016-01-17",
+    "pmid": "26862517",
+    "rejected_because": "title does not name the gene",
+    "title": "MicroRNA Expression in \u03b2-Thalassemia and Sickle Cell Disease: A Role in The Induction of Fetal Hemoglobin."
+   },
+   {
+    "date": "2016-03-02",
+    "pmid": "26940952",
+    "rejected_because": "title does not name the gene",
+    "title": "Original Research: Stable expression of miR-34a mediates fetal hemoglobin induction in K562 cells."
+   },
+   {
+    "date": "2016-11-18",
+    "pmid": "27861570",
+    "rejected_because": "title does not name the gene",
+    "title": "HMGA2 Moderately Increases Fetal Hemoglobin Expression in Human Adult Erythroblasts."
+   },
+   {
+    "date": "2017-08-01",
+    "pmid": "28916711",
+    "rejected_because": "title does not name the gene",
+    "title": "Comparative analysis of three-dimensional chromosomal architecture identifies a novel fetal hemoglobin regulatory element."
+   },
+   {
+    "date": "2018-04-05",
+    "pmid": "29622657",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal hemoglobin induction in sickle erythroid progenitors using a synthetic zinc finger DNA-binding domain."
+   }
+  ],
+  "query_terms": [
+   "LIN28B"
+  ],
+  "records_considered": 120,
+  "rejected_candidates": [
+   {
+    "date": "2012-10-04",
+    "pmid": "23041383",
+    "rejected_because": "title does not name the gene",
+    "title": "Combinatorial assembly of developmental stage-specific enhancers controls gene expression programs during human erythropoiesis."
+   },
+   {
+    "date": "2016-08-01",
+    "pmid": "27447965",
+    "rejected_because": "title does not name the gene",
+    "title": "MicroRNA fingerprints in juvenile myelomonocytic leukemia (JMML) identified miR-150-5p as a tumor suppressor and potential target for treatment."
+   },
+   {
+    "date": "2016-10-28",
+    "pmid": "27793996",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "Lin28b Regulates Fetal Regulatory T Cell Differentiation through Modulation of TGF-\u03b2 Signaling."
+   }
+  ],
+  "symbol": "LIN28B"
+ },
+ "MAP3K7": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "MAP3K7"
+  ],
+  "records_considered": 21,
+  "rejected_candidates": [
+   {
+    "date": "2023-04-26",
+    "pmid": "37546708",
+    "rejected_because": "title does not name the gene",
+    "title": "Post-transcriptional regulation of erythropoiesis."
+   }
+  ],
+  "symbol": "MAP3K7"
+ },
+ "MAPK1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2025-04-08",
+    "pmid": "40200166",
+    "rejected_because": "title does not name the gene",
+    "title": "The induction effect of hydroxyurea and metformin on fetal globin in the K562 cell line."
+   }
+  ],
+  "query_terms": [
+   "MAPK1"
+  ],
+  "records_considered": 33,
+  "rejected_candidates": [
+   {
+    "date": "2018-12-03",
+    "pmid": "30560088",
+    "rejected_because": "title does not name the gene",
+    "title": "Up-Regulation of hsa-miR-210 Promotes Venous Metastasis and Predicts Poor Prognosis in Hepatocellular Carcinoma."
+   },
+   {
+    "date": "2024-02-22",
+    "pmid": "38388899",
+    "rejected_because": "title does not name the gene",
+    "title": "Saracatinib prompts hemin-induced K562 erythroid differentiation but suppresses erythropoiesis of hematopoietic stem cells."
+   },
+   {
+    "date": "2026-08-01",
+    "pmid": "42263739",
+    "rejected_because": "title does not name the gene",
+    "title": "IMP1 is a novel posttranscriptional regulator of early erythroid development and embryonic globin output."
+   }
+  ],
+  "symbol": "MAPK1"
+ },
+ "MBD2": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2008-12-29",
+    "pmid": "19114560",
+    "rejected_because": "title does not name the gene",
+    "title": "Ikaros and GATA-1 combinatorial effect is required for silencing of human gamma-globin genes."
+   }
+  ],
+  "query_terms": [
+   "MBD2",
+   "nurd"
+  ],
+  "records_considered": 289,
+  "rejected_candidates": [
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2007-10-15",
+    "pmid": "17938210",
+    "rejected_because": "title does not name the gene",
+    "title": "Sumoylation of EKLF promotes transcriptional repression and is involved in inhibition of megakaryopoiesis."
+   },
+   {
+    "date": "2008-04-28",
+    "pmid": "18443038",
+    "rejected_because": "title does not name the gene",
+    "title": "A T-to-G transversion at nucleotide -567 upstream of HBG2 in a GATA-1 binding motif is associated with elevated hemoglobin F."
+   }
+  ],
+  "symbol": "MBD2"
+ },
+ "MBD3": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2010-03-01",
+    "pmid": "20201948",
+    "rejected_because": "title does not name the gene",
+    "title": "Advances in the understanding of haemoglobin switching."
+   },
+   {
+    "date": "2010-05-21",
+    "pmid": "20495075",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of a PRMT5-dependent repressor complex linked to silencing of human fetal globin gene expression."
+   },
+   {
+    "date": "2010-10-23",
+    "pmid": "20974210",
+    "rejected_because": "title does not name the gene",
+    "title": "siDNMT1 increases \u03b3-globin expression in chemical inducer of dimerization (CID)-dependent mouse \u03b2YAC bone marrow cells and in baboon erythroid progenitor cell cultures."
+   },
+   {
+    "date": "2012-12-20",
+    "pmid": "23284307",
+    "rejected_because": "title does not name the gene",
+    "title": "Mi2\u03b2 is required for \u03b3-globin gene silencing: temporal assembly of a GATA-1-FOG-1-Mi2 repressor complex in \u03b2-YAC transgenic mice."
+   }
+  ],
+  "query_terms": [
+   "MBD3"
+  ],
+  "records_considered": 45,
+  "rejected_candidates": [
+   {
+    "date": "2010-04-01",
+    "pmid": "20395365",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional silencing of {gamma}-globin by BCL11A involves long-range interactions and cooperation with SOX6."
+   },
+   {
+    "date": "2013-02-26",
+    "pmid": "23444401",
+    "rejected_because": "title does not name the gene",
+    "title": "Mi2\u03b2-mediated silencing of the fetal \u03b3-globin gene in adult erythroid cells."
+   },
+   {
+    "date": "2013-12-16",
+    "pmid": "24336163",
+    "rejected_because": "title does not name the gene",
+    "title": "Induced pluripotent stem cell (iPSCs) and their application in immunotherapy."
+   }
+  ],
+  "symbol": "MBD3"
+ },
+ "MTA1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2010-03-01",
+    "pmid": "20201948",
+    "rejected_because": "title does not name the gene",
+    "title": "Advances in the understanding of haemoglobin switching."
+   },
+   {
+    "date": "2012-12-20",
+    "pmid": "23284307",
+    "rejected_because": "title does not name the gene",
+    "title": "Mi2\u03b2 is required for \u03b3-globin gene silencing: temporal assembly of a GATA-1-FOG-1-Mi2 repressor complex in \u03b2-YAC transgenic mice."
+   },
+   {
+    "date": "2019-04-19",
+    "pmid": "31004025",
+    "rejected_because": "title does not name the gene",
+    "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+   },
+   {
+    "date": "2021-10-01",
+    "pmid": "34729375",
+    "rejected_because": "title does not name the gene",
+    "title": "CRISPR-Cas9 to induce fetal hemoglobin for the treatment of sickle cell disease."
+   },
+   {
+    "date": "2024-06-15",
+    "pmid": "38879530",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal hemoglobin induction in azacytidine responders enlightens methylation patterns related to blast clearance in higher-risk MDS and CMML."
+   }
+  ],
+  "query_terms": [
+   "MTA1"
+  ],
+  "records_considered": 39,
+  "rejected_candidates": [
+   {
+    "date": "2013-02-25",
+    "pmid": "23438597",
+    "rejected_because": "title does not name the gene",
+    "title": "The BCL11A transcription factor directly activates RAG gene expression and V(D)J recombination."
+   },
+   {
+    "date": "2016-06-01",
+    "pmid": "27250345",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hematopoietic development by ZBTB transcription factors."
+   },
+   {
+    "date": "2017-12-13",
+    "pmid": "29038163",
+    "rejected_because": "title does not name the gene",
+    "title": "Corrected and Republished from: BCL11A Is a Critical Component of a Transcriptional Network That Activates RAG Expression and V(D)J Recombination."
+   }
+  ],
+  "symbol": "MTA1"
+ },
+ "MTA2": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2006-04-11",
+    "pmid": "16608912",
+    "rejected_because": "title does not name the gene",
+    "title": "Methyl binding domain protein 2 mediates gamma-globin gene silencing in adult human betaYAC transgenic mice."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2008-12-29",
+    "pmid": "19114560",
+    "rejected_because": "title does not name the gene",
+    "title": "Ikaros and GATA-1 combinatorial effect is required for silencing of human gamma-globin genes."
+   }
+  ],
+  "query_terms": [
+   "MTA2",
+   "nurd"
+  ],
+  "records_considered": 265,
+  "rejected_candidates": [
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2007-10-15",
+    "pmid": "17938210",
+    "rejected_because": "title does not name the gene",
+    "title": "Sumoylation of EKLF promotes transcriptional repression and is involved in inhibition of megakaryopoiesis."
+   },
+   {
+    "date": "2008-04-28",
+    "pmid": "18443038",
+    "rejected_because": "title does not name the gene",
+    "title": "A T-to-G transversion at nucleotide -567 upstream of HBG2 in a GATA-1 binding motif is associated with elevated hemoglobin F."
+   }
+  ],
+  "symbol": "MTA2"
+ },
+ "MTA3": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "MTA3"
+  ],
+  "records_considered": 12,
+  "rejected_candidates": [
+   {
+    "date": "2016-06-01",
+    "pmid": "27250345",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hematopoietic development by ZBTB transcription factors."
+   },
+   {
+    "date": "2023-06-29",
+    "pmid": "37385984",
+    "rejected_because": "title does not name the gene",
+    "title": "Dissecting the roles of MBD2 isoforms and domains in regulating NuRD complex function during cellular differentiation."
+   }
+  ],
+  "symbol": "MTA3"
+ },
+ "MYB": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2006-04-17",
+   "doi": "10.1016/j.bbrc.2006.03.203",
+   "journal": null,
+   "pmid": "16631597",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "cAMP differentially regulates gamma-globin gene expression in erythroleukemic cells and primary erythroblasts through c-Myb expression."
+  },
+  "near_misses": [
+   {
+    "date": "1987-11-01",
+    "pmid": "3479779",
+    "rejected_because": "title does not name the gene",
+    "title": "A chromosome 11-linked determinant controls fetal globin expression and the fetal-to-adult globin switch."
+   },
+   {
+    "date": "1997-02-01",
+    "pmid": "9049302",
+    "rejected_because": "title does not name the gene",
+    "title": "Rapid stimulation of a soybean protein-serine kinase that phosphorylates a novel bZIP DNA-binding protein, G/HBF-1, during the induction of early transcription-dependent defenses."
+   },
+   {
+    "date": "2002-08-15",
+    "pmid": "12393583",
+    "rejected_because": "title does not name the gene",
+    "title": "Short-chain fatty acid derivatives induce fetal globin expression and erythropoiesis in vivo."
+   }
+  ],
+  "query_terms": [
+   "MYB",
+   "hbs1l-myb"
+  ],
+  "records_considered": 930,
+  "rejected_candidates": [
+   {
+    "date": "1986-07-01",
+    "pmid": "3523478",
+    "rejected_because": "title does not name the gene",
+    "title": "Inducible production of c-fos antisense RNA inhibits 3T3 cell proliferation."
+   },
+   {
+    "date": "1989-05-01",
+    "pmid": "2747642",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of c-myc mRNA stability in vitro by a labile destabilizer with an essential nucleic acid component."
+   },
+   {
+    "date": "1990-06-01",
+    "pmid": "1693431",
+    "rejected_because": "title does not name the gene",
+    "title": "5-Azacytidine-induced reactivation of the human X chromosome-linked PGK1 gene is associated with a large region of cytosine demethylation in the 5' CpG island."
+   }
+  ],
+  "symbol": "MYB"
+ },
+ "NFE2": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "1990-11-01",
+    "pmid": "2123346",
+    "rejected_because": "title does not name the gene",
+    "title": "Synergistic enhancement of globin gene expression by activator protein-1-like proteins."
+   },
+   {
+    "date": "1994-06-01",
+    "pmid": "8036168",
+    "rejected_because": "title does not name the gene",
+    "title": "Cloning and functional characterization of LCR-F1: a bZIP transcription factor that activates erythroid-specific, human globin gene expression."
+   },
+   {
+    "date": "1994-12-01",
+    "pmid": "7949149",
+    "rejected_because": "title does not name the gene",
+    "title": "Augmentation of gamma-globin gene promoter activity by carboxylic acids and components of the human beta-globin locus control region."
+   },
+   {
+    "date": "1996-06-01",
+    "pmid": "8662960",
+    "rejected_because": "title does not name the gene",
+    "title": "Globin gene switching. In vivo protein-DNA interactions of the human beta-globin locus in erythroid cells expressing the fetal or the adult globin gene program."
+   },
+   {
+    "date": "1997-09-01",
+    "pmid": "9305615",
+    "rejected_because": "title does not name the gene",
+    "title": "Time-course of butyric acid-induced differentiation in human K562 leukemic cell line: rapid increase in gamma-globin, porphobilinogen deaminase and NF-E2 mRNA levels."
+   },
+   {
+    "date": "1999-01-01",
+    "pmid": "9892636",
+    "rejected_because": "title does not name the gene",
+    "title": "Tissue-specific and developmental stage-specific DNA binding by a mammalian SWI/SNF complex associated with human fetal-to-adult globin gene switching."
+   }
+  ],
+  "query_terms": [
+   "NFE2"
+  ],
+  "records_considered": 197,
+  "rejected_candidates": [
+   {
+    "date": "1990-10-01",
+    "pmid": "2235483",
+    "rejected_because": "title does not name the gene",
+    "title": "Inducibility of the HS II enhancer depends on binding of an erythroid specific nuclear protein."
+   },
+   {
+    "date": "1991-05-01",
+    "pmid": "1709381",
+    "rejected_because": "title does not name the gene",
+    "title": "Functional properties of the beta-globin locus control region in K562 erythroleukemia cells."
+   },
+   {
+    "date": "1991-06-01",
+    "pmid": "1902783",
+    "rejected_because": "title does not name the gene",
+    "title": "The 5'HS2 of the globin locus control region enhances transcription through the interaction of a multimeric complex binding at two functionally distinct NF-E2 b"
+   }
+  ],
+  "symbol": "NFE2"
+ },
+ "NFIX": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2023-06-14",
+   "doi": "10.1038/s42003-023-05025-4",
+   "journal": null,
+   "pmid": "37316562",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Erythroid lineage chromatin accessibility maps facilitate identification and validation of NFIX as a fetal hemoglobin repressor."
+  },
+  "near_misses": [
+   {
+    "date": "2021-05-06",
+    "pmid": "33958780",
+    "rejected_because": "title does not name the gene",
+    "title": "Single-nucleotide-level mapping of DNA regulatory elements that control fetal hemoglobin expression."
+   },
+   {
+    "date": "2021-09-29",
+    "pmid": "34585664",
+    "rejected_because": "title does not name the gene",
+    "title": "3'HS1 CTCF binding site in human \u03b2-globin locus regulates fetal hemoglobin expression."
+   },
+   {
+    "date": "2022-05-26",
+    "pmid": "35618846",
+    "rejected_because": "title does not name the gene",
+    "title": "Dual function NFI factors control fetal hemoglobin silencing in adult erythroid cells."
+   },
+   {
+    "date": "2023-03-15",
+    "pmid": null,
+    "rejected_because": "title does not name the gene",
+    "title": "Genomic discovery and functional validation of MRP1 as a novel fetal hemoglobin modulator and potential therapeutic target in sickle cell disease"
+   },
+   {
+    "date": "2023-06-01",
+    "pmid": "36893455",
+    "rejected_because": "title does not name the gene",
+    "title": "Molecular basis of polycomb group protein-mediated fetal hemoglobin repression."
+   }
+  ],
+  "query_terms": [
+   "NFIX"
+  ],
+  "records_considered": 51,
+  "rejected_candidates": [
+   {
+    "date": "2010-04-01",
+    "pmid": "20395365",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional silencing of {gamma}-globin by BCL11A involves long-range interactions and cooperation with SOX6."
+   },
+   {
+    "date": "2015-09-14",
+    "pmid": "26366553",
+    "rejected_because": "title does not name the gene",
+    "title": "Genome-wide association analyses based on whole-genome sequencing in Sardinia provide insights into regulation of hemoglobin levels."
+   },
+   {
+    "date": "2018-04-01",
+    "pmid": "29432581",
+    "rejected_because": "title does not name the gene",
+    "title": "14q32 and let-7 microRNAs regulate transcriptional networks in fetal and adult human erythroblasts."
+   }
+  ],
+  "symbol": "NFIX"
+ },
+ "NR2C1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2002-07-01",
+    "pmid": "12093744",
+    "rejected_because": "title does not name the gene",
+    "title": "An embryonic/fetal beta-type globin gene repressor contains a nuclear receptor TR2/TR4 heterodimer."
+   },
+   {
+    "date": "2007-04-12",
+    "pmid": "17431400",
+    "rejected_because": "title does not name the gene",
+    "title": "Embryonic and fetal beta-globin gene repression by the orphan nuclear receptors, TR2 and TR4."
+   },
+   {
+    "date": "2014-07-14",
+    "pmid": "25022757",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal globin gene repressors as drug targets for molecular therapies to treat the \u03b2-globinopathies."
+   },
+   {
+    "date": "2015-01-05",
+    "pmid": "25561507",
+    "rejected_because": "title does not name the gene",
+    "title": "Compound loss of function of nuclear receptors Tr2 and Tr4 leads to induction of murine embryonic \u03b2-type globin genes."
+   },
+   {
+    "date": "2015-06-01",
+    "pmid": "26031919",
+    "rejected_because": "title does not name the gene",
+    "title": "The LSD1 inhibitor RN-1 induces fetal hemoglobin synthesis and reduces disease pathology in sickle cell mice."
+   },
+   {
+    "date": "2016-04-13",
+    "pmid": "27073918",
+    "rejected_because": "title does not name the gene",
+    "title": "Chemical Inhibition of Histone Deacetylases 1 and 2 Induces Fetal Hemoglobin through Activation of GATA2."
+   }
+  ],
+  "query_terms": [
+   "NR2C1"
+  ],
+  "records_considered": 33,
+  "rejected_candidates": [
+   {
+    "date": "2013-11-01",
+    "pmid": "24288404",
+    "rejected_because": "title does not name the gene",
+    "title": "The TRIMming on an erythroid repressor complex."
+   },
+   {
+    "date": "2017-10-10",
+    "pmid": "29018082",
+    "rejected_because": "title does not name the gene",
+    "title": "The orphan nuclear receptor TR4 regulates erythroid cell proliferation and maturation."
+   },
+   {
+    "date": "2017-10-28",
+    "pmid": "29080249",
+    "rejected_because": "title does not name the gene",
+    "title": "Concise Review: Epigenetic Regulation of Hematopoiesis: Biological Insights and Therapeutic Applications."
+   }
+  ],
+  "symbol": "NR2C1"
+ },
+ "NR2C2": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2002-07-01",
+    "pmid": "12093744",
+    "rejected_because": "title does not name the gene",
+    "title": "An embryonic/fetal beta-type globin gene repressor contains a nuclear receptor TR2/TR4 heterodimer."
+   },
+   {
+    "date": "2007-04-12",
+    "pmid": "17431400",
+    "rejected_because": "title does not name the gene",
+    "title": "Embryonic and fetal beta-globin gene repression by the orphan nuclear receptors, TR2 and TR4."
+   },
+   {
+    "date": "2013-02-17",
+    "pmid": "23416702",
+    "rejected_because": "title does not name the gene",
+    "title": "Lysine-specific demethylase 1 is a therapeutic target for fetal hemoglobin induction."
+   },
+   {
+    "date": "2014-07-14",
+    "pmid": "25022757",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal globin gene repressors as drug targets for molecular therapies to treat the \u03b2-globinopathies."
+   },
+   {
+    "date": "2015-01-05",
+    "pmid": "25561507",
+    "rejected_because": "title does not name the gene",
+    "title": "Compound loss of function of nuclear receptors Tr2 and Tr4 leads to induction of murine embryonic \u03b2-type globin genes."
+   },
+   {
+    "date": "2015-06-01",
+    "pmid": "26031919",
+    "rejected_because": "title does not name the gene",
+    "title": "The LSD1 inhibitor RN-1 induces fetal hemoglobin synthesis and reduces disease pathology in sickle cell mice."
+   }
+  ],
+  "query_terms": [
+   "NR2C2"
+  ],
+  "records_considered": 37,
+  "rejected_candidates": [
+   {
+    "date": "2013-11-01",
+    "pmid": "24288404",
+    "rejected_because": "title does not name the gene",
+    "title": "The TRIMming on an erythroid repressor complex."
+   },
+   {
+    "date": "2016-04-13",
+    "pmid": "27073918",
+    "rejected_because": "title does not name the gene",
+    "title": "Chemical Inhibition of Histone Deacetylases 1 and 2 Induces Fetal Hemoglobin through Activation of GATA2."
+   },
+   {
+    "date": "2017-10-10",
+    "pmid": "29018082",
+    "rejected_because": "title does not name the gene",
+    "title": "The orphan nuclear receptor TR4 regulates erythroid cell proliferation and maturation."
+   }
+  ],
+  "symbol": "NR2C2"
+ },
+ "PGRMC1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "PGRMC1"
+  ],
+  "records_considered": 15,
+  "rejected_candidates": [
+   {
+    "date": "2020-10-02",
+    "pmid": "33023155",
+    "rejected_because": "title does not name the gene",
+    "title": "Systematic Surveys of Iron Homeostasis Mechanisms Reveal Ferritin Superfamily and Nucleotide Surveillance Regulation to be Modified by PINK1 Absence."
+   }
+  ],
+  "symbol": "PGRMC1"
+ },
+ "PRMT5": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2010-05-21",
+   "doi": "10.1182/blood-2009-10-251116",
+   "journal": null,
+   "pmid": "20495075",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Identification of a PRMT5-dependent repressor complex linked to silencing of human fetal globin gene expression."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "PRMT5"
+  ],
+  "records_considered": 72,
+  "rejected_candidates": [],
+  "symbol": "PRMT5"
+ },
+ "RBBP4": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2019-04-19",
+   "doi": "10.3324/haematol.2018.210963",
+   "journal": null,
+   "pmid": "31004025",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2005-08-18",
+    "pmid": "16109777",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of human fetal hemoglobin: new players, new complexities."
+   },
+   {
+    "date": "2008-03-17",
+    "pmid": "18347053",
+    "rejected_because": "title does not name the gene",
+    "title": "Silencing of Agamma-globin gene expression during adult definitive erythropoiesis mediated by GATA-1-FOG-1-Mi2 complex binding at the -566 GATA site."
+   },
+   {
+    "date": "2008-12-29",
+    "pmid": "19114560",
+    "rejected_because": "title does not name the gene",
+    "title": "Ikaros and GATA-1 combinatorial effect is required for silencing of human gamma-globin genes."
+   },
+   {
+    "date": "2009-07-02",
+    "pmid": "19576949",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional activation of the gamma-globin gene in baboons treated with decitabine and in cultured erythroid progenitor cells involves different mechanisms."
+   }
+  ],
+  "query_terms": [
+   "RBBP4",
+   "nurd"
+  ],
+  "records_considered": 268,
+  "rejected_candidates": [
+   {
+    "date": "2005-06-01",
+    "pmid": "15931385",
+    "rejected_because": "title does not name the gene",
+    "title": "Understanding globin regulation in beta-thalassemia: it's as simple as alpha, beta, gamma, delta."
+   },
+   {
+    "date": "2007-10-15",
+    "pmid": "17938210",
+    "rejected_because": "title does not name the gene",
+    "title": "Sumoylation of EKLF promotes transcriptional repression and is involved in inhibition of megakaryopoiesis."
+   },
+   {
+    "date": "2008-04-28",
+    "pmid": "18443038",
+    "rejected_because": "title does not name the gene",
+    "title": "A T-to-G transversion at nucleotide -567 upstream of HBG2 in a GATA-1 binding motif is associated with elevated hemoglobin F."
+   }
+  ],
+  "symbol": "RBBP4"
+ },
+ "RBBP7": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2012-12-20",
+    "pmid": "23284307",
+    "rejected_because": "title does not name the gene",
+    "title": "Mi2\u03b2 is required for \u03b3-globin gene silencing: temporal assembly of a GATA-1-FOG-1-Mi2 repressor complex in \u03b2-YAC transgenic mice."
+   },
+   {
+    "date": "2013-04-01",
+    "pmid": "23576758",
+    "rejected_because": "title does not name the gene",
+    "title": "Corepressor-dependent silencing of fetal hemoglobin expression by BCL11A."
+   },
+   {
+    "date": "2023-01-07",
+    "pmid": "36611033",
+    "rejected_because": "title does not name the gene",
+    "title": "Role of microRNA in hydroxyurea mediated HbF induction in sickle cell anaemia patients."
+   }
+  ],
+  "query_terms": [
+   "RBBP7"
+  ],
+  "records_considered": 13,
+  "rejected_candidates": [
+   {
+    "date": "2021-04-14",
+    "pmid": "33936112",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic Dynamics in the Function of T-Lineage Regulatory Factor Bcl11b."
+   }
+  ],
+  "symbol": "RBBP7"
+ },
+ "SETD8": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "SETD8"
+  ],
+  "records_considered": 17,
+  "rejected_candidates": [
+   {
+    "date": "2020-03-16",
+    "pmid": "32178723",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "The histone methyltransferase Setd8 alters the chromatin landscape and regulates the expression of key transcription factors during erythroid differentiation."
+   },
+   {
+    "date": "2022-03-07",
+    "pmid": "35330735",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic and Transcriptional Control of Erythropoiesis."
+   },
+   {
+    "date": "2025-04-11",
+    "pmid": "40214280",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone modifications in the regulation of erythropoiesis."
+   }
+  ],
+  "symbol": "SETD8"
+ },
+ "SIRT1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2017-08-28",
+   "doi": "10.1002/ajh.24879",
+   "journal": null,
+   "pmid": "28776729",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "SIRT1 activates the expression of fetal hemoglobin genes."
+  },
+  "near_misses": [
+   {
+    "date": "2003-08-14",
+    "pmid": "12920038",
+    "rejected_because": "title does not name the gene",
+    "title": "Induction of human gamma globin gene expression by histone deacetylase inhibitors."
+   },
+   {
+    "date": "2012-10-10",
+    "pmid": "23071749",
+    "rejected_because": "title does not name the gene",
+    "title": "NF-Y recruits both transcription activator and repressor to modulate tissue- and developmental stage-specific expression of human \u03b3-globin gene."
+   }
+  ],
+  "query_terms": [
+   "SIRT1"
+  ],
+  "records_considered": 141,
+  "rejected_candidates": [
+   {
+    "date": "2008-05-29",
+    "pmid": "18617435",
+    "rejected_because": "title does not name the gene",
+    "title": "Histone deacetylase inhibitors and hemoglobin F induction in beta-thalassemia."
+   },
+   {
+    "date": "2010-02-18",
+    "pmid": "20167115",
+    "rejected_because": "title does not name the gene",
+    "title": "Microarray analysis of Foxl2 mediated gene regulation in the mouse ovary derived KK1 granulosa cell line: Over-expression of Foxl2 leads to activation of the go"
+   },
+   {
+    "date": "2012-07-02",
+    "pmid": "22752410",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of the stress proteome as a mechanism for small molecule therapeutics."
+   }
+  ],
+  "symbol": "SIRT1"
+ },
+ "SMAD1": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2009-07-13",
+    "pmid": "19597182",
+    "rejected_because": "title does not name the gene",
+    "title": "Cytokine-mediated increases in fetal hemoglobin are associated with globin gene histone modification and transcription factor reprogramming."
+   },
+   {
+    "date": "2010-10-09",
+    "pmid": "20932329",
+    "rejected_because": "title does not name the gene",
+    "title": "CTD small phosphatase like 2 (CTDSPL2) can increase \u03b5- and \u03b3-globin gene expression in K562 cells and CD34+ cells derived from umbilical cord blood."
+   }
+  ],
+  "query_terms": [
+   "SMAD1"
+  ],
+  "records_considered": 50,
+  "rejected_candidates": [
+   {
+    "date": "2009-07-14",
+    "pmid": "19602726",
+    "rejected_because": "title does not name the gene",
+    "title": "Kruppel-like factor KLF10 targets transforming growth factor-beta1 to regulate CD4(+)CD25(-) T cells and T regulatory cells."
+   },
+   {
+    "date": "2013-05-22",
+    "pmid": "23717633",
+    "rejected_because": "title does not name the gene",
+    "title": "Eafs control erythroid cell fate by regulating c-myb expression through Wnt signaling."
+   },
+   {
+    "date": "2015-03-05",
+    "pmid": "25754204",
+    "rejected_because": "title does not name the gene",
+    "title": "The polycomb group protein L3MBTL1 represses a SMAD5-mediated hematopoietic transcriptional program in human pluripotent stem cells."
+   }
+  ],
+  "symbol": "SMAD1"
+ },
+ "SMAD5": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [],
+  "query_terms": [
+   "SMAD5"
+  ],
+  "records_considered": 28,
+  "rejected_candidates": [
+   {
+    "date": "2009-07-14",
+    "pmid": "19602726",
+    "rejected_because": "title does not name the gene",
+    "title": "Kruppel-like factor KLF10 targets transforming growth factor-beta1 to regulate CD4(+)CD25(-) T cells and T regulatory cells."
+   },
+   {
+    "date": "2011-10-12",
+    "pmid": "21998215",
+    "rejected_because": "title does not name the gene",
+    "title": "From stem cell to red cell: regulation of erythropoiesis at multiple levels by multiple proteins, RNAs, and chromatin modifications."
+   },
+   {
+    "date": "2012-10-22",
+    "pmid": "23090966",
+    "rejected_because": "title does not name the gene",
+    "title": "EKLF/KLF1, a tissue-restricted integrator of transcriptional control, chromatin remodeling, and lineage determination."
+   }
+  ],
+  "symbol": "SMAD5"
+ },
+ "SOX6": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2011-04-01",
+   "doi": "10.1182/blood-2010-11-320887",
+   "journal": null,
+   "pmid": "21511965",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Heterozygous disruption of human SOX6 is insufficient to impair erythropoiesis or silencing of fetal hemoglobin."
+  },
+  "near_misses": [
+   {
+    "date": "2009-07-13",
+    "pmid": "19597182",
+    "rejected_because": "title does not name the gene",
+    "title": "Cytokine-mediated increases in fetal hemoglobin are associated with globin gene histone modification and transcription factor reprogramming."
+   },
+   {
+    "date": "2009-11-13",
+    "pmid": "21415991",
+    "rejected_because": "title does not name the gene",
+    "title": "Role of stem cell factor in the reactivation of human fetal hemoglobin."
+   },
+   {
+    "date": "2010-03-01",
+    "pmid": "20201948",
+    "rejected_because": "title does not name the gene",
+    "title": "Advances in the understanding of haemoglobin switching."
+   },
+   {
+    "date": "2010-08-05",
+    "pmid": "20688955",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal globin expression is regulated by Friend of Prmt1."
+   },
+   {
+    "date": "2010-10-23",
+    "pmid": "20974210",
+    "rejected_because": "title does not name the gene",
+    "title": "siDNMT1 increases \u03b3-globin expression in chemical inducer of dimerization (CID)-dependent mouse \u03b2YAC bone marrow cells and in baboon erythroid progenitor cell cultures."
+   },
+   {
+    "date": "2011-01-01",
+    "pmid": "22160074",
+    "rejected_because": "title does not name the gene",
+    "title": "Targeted therapeutic strategies for fetal hemoglobin induction."
+   }
+  ],
+  "query_terms": [
+   "SOX6"
+  ],
+  "records_considered": 262,
+  "rejected_candidates": [
+   {
+    "date": "2010-04-01",
+    "pmid": "20395365",
+    "rejected_because": "title does not name the HbF phenotype",
+    "title": "Transcriptional silencing of {gamma}-globin by BCL11A involves long-range interactions and cooperation with SOX6."
+   },
+   {
+    "date": "2011-01-04",
+    "pmid": "21205891",
+    "rejected_because": "title does not name the gene",
+    "title": "MicroRNA-15a and -16-1 act via MYB to elevate fetal hemoglobin expression in human trisomy 13."
+   },
+   {
+    "date": "2011-02-01",
+    "pmid": "21157349",
+    "rejected_because": "title does not name the gene",
+    "title": "Update on fetal hemoglobin gene regulation in hemoglobinopathies."
+   }
+  ],
+  "symbol": "SOX6"
+ },
+ "TAL1": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2015-06-08",
+   "doi": "10.1371/journal.pone.0129431",
+   "journal": null,
+   "pmid": "26053062",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Variation in Gamma-Globin Expression before and after Induction with Hydroxyurea Associated with BCL11A, KLF1 and TAL1."
+  },
+  "near_misses": [
+   {
+    "date": "2002-01-01",
+    "pmid": "11805317",
+    "rejected_because": "title does not name the gene",
+    "title": "Multiple hematopoietic defects and delayed globin switching in Ikaros null mice."
+   },
+   {
+    "date": "2009-07-13",
+    "pmid": "19597182",
+    "rejected_because": "title does not name the gene",
+    "title": "Cytokine-mediated increases in fetal hemoglobin are associated with globin gene histone modification and transcription factor reprogramming."
+   },
+   {
+    "date": "2011-02-01",
+    "pmid": "21157349",
+    "rejected_because": "title does not name the gene",
+    "title": "Update on fetal hemoglobin gene regulation in hemoglobinopathies."
+   },
+   {
+    "date": "2011-02-14",
+    "pmid": "21321359",
+    "rejected_because": "title does not name the gene",
+    "title": "Transcriptional regulation of fetal to adult hemoglobin switching: new therapeutic opportunities."
+   },
+   {
+    "date": "2011-10-18",
+    "pmid": "22010104",
+    "rejected_because": "title does not name the gene",
+    "title": "Distinct Ldb1/NLI complexes orchestrate \u03b3-globin repression and reactivation through ETO2 in human adult erythroid cells."
+   },
+   {
+    "date": "2012-04-26",
+    "pmid": "22537182",
+    "rejected_because": "title does not name the gene",
+    "title": "Characterization of the transcriptome profiles related to globin gene switching during in vitro erythroid maturation."
+   }
+  ],
+  "query_terms": [
+   "TAL1"
+  ],
+  "records_considered": 366,
+  "rejected_candidates": [
+   {
+    "date": "1996-10-01",
+    "pmid": "9147623",
+    "rejected_because": "title does not name the gene",
+    "title": "Differentiation and gene regulation."
+   },
+   {
+    "date": "2001-05-01",
+    "pmid": "11287616",
+    "rejected_because": "title does not name the gene",
+    "title": "Unanticipated repression function linked to erythroid Kr\u00fcppel-like factor."
+   },
+   {
+    "date": "2004-12-08",
+    "pmid": "15590906",
+    "rejected_because": "title does not name the gene",
+    "title": "A novel E2 box-GATA element modulates Cdc6 transcription during human cells polyploidization."
+   }
+  ],
+  "symbol": "TAL1"
+ },
+ "TET2": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2020-07-26",
+    "pmid": "32715783",
+    "rejected_because": "title does not name the gene",
+    "title": "NRF2 mediates \u03b3-globin gene regulation through epigenetic modifications in a \u03b2-YAC transgenic mouse model."
+   },
+   {
+    "date": "2021-07-22",
+    "pmid": "34292080",
+    "rejected_because": "title does not name the gene",
+    "title": "Exploring epigenetic and microRNA approaches for \u03b3-globin gene regulation."
+   },
+   {
+    "date": "2023-02-25",
+    "pmid": "36980849",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic Regulation of \u03b2-Globin Genes and the Potential to Treat Hemoglobinopathies through Epigenome Editing."
+   },
+   {
+    "date": "2024-06-15",
+    "pmid": "38879530",
+    "rejected_because": "title does not name the gene",
+    "title": "Fetal hemoglobin induction in azacytidine responders enlightens methylation patterns related to blast clearance in higher-risk MDS and CMML."
+   },
+   {
+    "date": "2025-07-01",
+    "pmid": "40637230",
+    "rejected_because": "title does not name the gene",
+    "title": "Dissecting the epigenetic regulation of the fetal hemoglobin genes to unravel a novel therapeutic approach for \u03b2-hemoglobinopathies."
+   },
+   {
+    "date": "2026-03-06",
+    "pmid": "41790270",
+    "rejected_because": "title does not name the gene",
+    "title": "Circ_0001428 regulates erythropoiesis and \u03b3-globin expression via activating the ATF4-BCL11A axis in \u03b2-thalassemia."
+   }
+  ],
+  "query_terms": [
+   "TET2"
+  ],
+  "records_considered": 198,
+  "rejected_candidates": [
+   {
+    "date": "2013-07-18",
+    "pmid": "23864224",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic drug combination induces genome-wide demethylation and altered gene expression in neuro-ectodermal tumor-derived cell lines."
+   },
+   {
+    "date": "2013-12-24",
+    "pmid": "24454381",
+    "rejected_because": "title does not name the gene",
+    "title": "MicroRNAs as Haematopoiesis Regulators."
+   },
+   {
+    "date": "2014-08-15",
+    "pmid": "25193380",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic enzymes are the therapeutic targets for CD4(+)CD25(+/high)Foxp3(+) regulatory T cells."
+   }
+  ],
+  "symbol": "TET2"
+ },
+ "TR2": {
+  "core_scope": false,
+  "established": true,
+  "establishing_record": {
+   "date": "2002-07-01",
+   "doi": "10.1093/emboj/cdf340",
+   "journal": null,
+   "pmid": "12093744",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "An embryonic/fetal beta-type globin gene repressor contains a nuclear receptor TR2/TR4 heterodimer."
+  },
+  "near_misses": [],
+  "query_terms": [
+   "TR2"
+  ],
+  "records_considered": 128,
+  "rejected_candidates": [
+   {
+    "date": "1996-10-01",
+    "pmid": "9147623",
+    "rejected_because": "title does not name the gene",
+    "title": "Differentiation and gene regulation."
+   }
+  ],
+  "symbol": "TR2"
+ },
+ "VHL": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2013-10-01",
+    "pmid": "24159170",
+    "rejected_because": "title does not name the gene",
+    "title": "Effect of congenital upregulation of hypoxia inducible factors on percentage of fetal hemoglobin in the blood."
+   },
+   {
+    "date": "2022-06-01",
+    "pmid": "35240686",
+    "rejected_because": "title does not name the gene",
+    "title": "Identification of novel \u03b3-globin inducers among all potential erythroid druggable targets."
+   },
+   {
+    "date": "2022-10-12",
+    "pmid": "36224385",
+    "rejected_because": "title does not name the gene",
+    "title": "Activation of \u03b3-globin expression by hypoxia-inducible factor 1\u03b1."
+   },
+   {
+    "date": "2024-08-01",
+    "pmid": "38728575",
+    "rejected_because": "title does not name the gene",
+    "title": "Elevating fetal hemoglobin: recently discovered regulators and mechanisms."
+   },
+   {
+    "date": "2024-09-18",
+    "pmid": "39381253",
+    "rejected_because": "title does not name the gene",
+    "title": "Genetic modifications of <i>EGLN1</i> reactivate HbF production in \u03b2<sup>0</sup>-thalassemia/HbE."
+   },
+   {
+    "date": "2025-10-06",
+    "pmid": "41059790",
+    "rejected_because": "title does not name the gene",
+    "title": "Correlation of changes in circulating levels of hypoxia-induced factor-1\u03b1, erythropoietin, and cell-free fetal hemoglobin with feto-maternal pregnancy outcomes."
+   }
+  ],
+  "query_terms": [
+   "VHL"
+  ],
+  "records_considered": 150,
+  "rejected_candidates": [
+   {
+    "date": "2007-02-06",
+    "pmid": "17284534",
+    "rejected_because": "title does not name the gene",
+    "title": "BMP4, SCF, and hypoxia cooperatively regulate the expansion of murine stress erythroid progenitors."
+   },
+   {
+    "date": "2014-08-15",
+    "pmid": "25193380",
+    "rejected_because": "title does not name the gene",
+    "title": "Epigenetic enzymes are the therapeutic targets for CD4(+)CD25(+/high)Foxp3(+) regulatory T cells."
+   },
+   {
+    "date": "2020-10-02",
+    "pmid": "33023155",
+    "rejected_because": "title does not name the gene",
+    "title": "Systematic Surveys of Iron Homeostasis Mechanisms Reveal Ferritin Superfamily and Nucleotide Surveillance Regulation to be Modified by PINK1 Absence."
+   }
+  ],
+  "symbol": "VHL"
+ },
+ "ZBTB33": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2013-04-01",
+    "pmid": "23576758",
+    "rejected_because": "title does not name the gene",
+    "title": "Corepressor-dependent silencing of fetal hemoglobin expression by BCL11A."
+   }
+  ],
+  "query_terms": [
+   "ZBTB33"
+  ],
+  "records_considered": 10,
+  "rejected_candidates": [
+   {
+    "date": "2016-06-01",
+    "pmid": "27250345",
+    "rejected_because": "title does not name the gene",
+    "title": "Regulation of hematopoietic development by ZBTB transcription factors."
+   },
+   {
+    "date": "2022-10-01",
+    "pmid": "36694897",
+    "rejected_because": "title does not name the gene",
+    "title": "DNA Methylation: Genomewide Distribution, Regulatory Mechanism and Therapy Target."
+   }
+  ],
+  "symbol": "ZBTB33"
+ },
+ "ZBTB7A": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2016-01-01",
+   "doi": "10.1126/science.aad3312",
+   "journal": null,
+   "pmid": "26816381",
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "Transcription factors LRF and BCL11A independently repress expression of fetal hemoglobin."
+  },
+  "near_misses": [
+   {
+    "date": "2015-07-02",
+    "pmid": "26143582",
+    "rejected_because": "title does not name the gene",
+    "title": "An international effort to cure a global health problem: A report on the 19th Hemoglobin Switching Conference."
+   }
+  ],
+  "query_terms": [
+   "LRF",
+   "ZBTB7A",
+   "leukemia/lymphoma related factor",
+   "pokemon"
+  ],
+  "records_considered": 362,
+  "rejected_candidates": [
+   {
+    "date": "2011-10-12",
+    "pmid": "21998215",
+    "rejected_because": "title does not name the gene",
+    "title": "From stem cell to red cell: regulation of erythropoiesis at multiple levels by multiple proteins, RNAs, and chromatin modifications."
+   },
+   {
+    "date": "2012-10-22",
+    "pmid": "23090966",
+    "rejected_because": "title does not name the gene",
+    "title": "EKLF/KLF1, a tissue-restricted integrator of transcriptional control, chromatin remodeling, and lineage determination."
+   }
+  ],
+  "symbol": "ZBTB7A"
+ },
+ "ZNF143": {
+  "core_scope": false,
+  "established": false,
+  "establishing_record": null,
+  "near_misses": [
+   {
+    "date": "2015-07-02",
+    "pmid": "26143582",
+    "rejected_because": "title does not name the gene",
+    "title": "An international effort to cure a global health problem: A report on the 19th Hemoglobin Switching Conference."
+   }
+  ],
+  "query_terms": [
+   "ZNF143"
+  ],
+  "records_considered": 7,
+  "rejected_candidates": [
+   {
+    "date": "2017-08-25",
+    "pmid": "28842659",
+    "rejected_because": "title does not name the gene",
+    "title": "HIV-1 envelope glycoprotein stimulates viral transcription and increases the infectivity of the progeny virus through the manipulation of cellular machinery."
+   },
+   {
+    "date": "2018-08-01",
+    "pmid": "29726898",
+    "rejected_because": "title does not name the gene",
+    "title": "Enhancers: bridging the gap between gene control and human disease."
+   },
+   {
+    "date": "2026-07-16",
+    "pmid": "42461945",
+    "rejected_because": "title does not name the gene",
+    "title": "Wiz regulates clustered protocadherin genes by restricting CTCF/cohesin loop extrusion in a genomic-distance biased manner."
+   }
+  ],
+  "symbol": "ZNF143"
+ },
+ "ZNF410": {
+  "core_scope": true,
+  "established": true,
+  "establishing_record": {
+   "date": "2020-08-31",
+   "doi": "10.1101/2020.08.31.272856",
+   "journal": null,
+   "pmid": null,
+   "reason": "title asserts a regulatory role over an HbF readout",
+   "title": "ZNF410 represses fetal globin by devoted control of CHD4/NuRD"
+  },
+  "near_misses": [],
+  "query_terms": [
+   "ZNF410"
+  ],
+  "records_considered": 59,
+  "rejected_candidates": [],
+  "symbol": "ZNF410"
+ }
+}
