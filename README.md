@@ -221,7 +221,7 @@ article text is present. Project Score is excluded entirely, because its data
 usage policy grants a non-transferable right of internal use that does not
 permit redistribution here; the reason is quoted in full in DATA_SOURCES.md.
 
-## Reading the results honestly
+## Results
 
 Numbers that look bad are left in. Read this section before the table above.
 
