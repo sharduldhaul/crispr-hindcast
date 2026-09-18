@@ -1258,7 +1258,7 @@
    "beta globin",
    "beta-globin"
   ],
-  "records_considered": 4415,
+  "records_considered": 4431,
   "rejected_candidates": [
    {
     "date": "1973-12-01",
@@ -1482,7 +1482,7 @@
    "gamma globin",
    "gamma-globin"
   ],
-  "records_considered": 4118,
+  "records_considered": 4117,
   "rejected_candidates": [
    {
     "date": "1976-05-01",
@@ -2890,37 +2890,6 @@
   ],
   "symbol": "RBBP7"
  },
- "SETD8": {
-  "core_scope": false,
-  "established": false,
-  "establishing_record": null,
-  "near_misses": [],
-  "query_terms": [
-   "SETD8"
-  ],
-  "records_considered": 17,
-  "rejected_candidates": [
-   {
-    "date": "2020-03-16",
-    "pmid": "32178723",
-    "rejected_because": "title does not name the HbF phenotype",
-    "title": "The histone methyltransferase Setd8 alters the chromatin landscape and regulates the expression of key transcription factors during erythroid differentiation."
-   },
-   {
-    "date": "2022-03-07",
-    "pmid": "35330735",
-    "rejected_because": "title does not name the gene",
-    "title": "Epigenetic and Transcriptional Control of Erythropoiesis."
-   },
-   {
-    "date": "2025-04-11",
-    "pmid": "40214280",
-    "rejected_because": "title does not name the gene",
-    "title": "Histone modifications in the regulation of erythropoiesis."
-   }
-  ],
-  "symbol": "SETD8"
- },
  "SIRT1": {
   "core_scope": false,
   "established": true,
@@ -3264,32 +3233,6 @@
    }
   ],
   "symbol": "TET2"
- },
- "TR2": {
-  "core_scope": false,
-  "established": true,
-  "establishing_record": {
-   "date": "2002-07-01",
-   "doi": "10.1093/emboj/cdf340",
-   "journal": null,
-   "pmid": "12093744",
-   "reason": "title asserts a regulatory role over an HbF readout",
-   "title": "An embryonic/fetal beta-type globin gene repressor contains a nuclear receptor TR2/TR4 heterodimer."
-  },
-  "near_misses": [],
-  "query_terms": [
-   "TR2"
-  ],
-  "records_considered": 128,
-  "rejected_candidates": [
-   {
-    "date": "1996-10-01",
-    "pmid": "9147623",
-    "rejected_because": "title does not name the gene",
-    "title": "Differentiation and gene regulation."
-   }
-  ],
-  "symbol": "TR2"
  },
  "VHL": {
   "core_scope": false,

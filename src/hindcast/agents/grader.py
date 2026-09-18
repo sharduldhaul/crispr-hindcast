@@ -51,6 +51,7 @@ class TrapResult(BaseModel):
     correct_answer: str
     system_answer: str
     passed: bool
+    vacuous: bool = False
     detail: str
 
 
@@ -80,6 +81,12 @@ class Scorecard(BaseModel):
     traps: list[TrapResult] = Field(default_factory=list)
     traps_passed: int = 0
     traps_total: int = 0
+    #: Passes that only happened because the forecast was empty. A trap suite
+    #: that can be passed by forecasting nothing is not measuring trap
+    #: avoidance, so these are counted separately and excluded from the
+    #: headline figure rather than quietly inflating it.
+    traps_passed_vacuously: int = 0
+    traps_passed_meaningfully: int = 0
 
     alias_attacks_total: int = 0
     alias_attacks_resolved: int = 0
@@ -147,8 +154,19 @@ class Grader(Agent):
             card.traps = results
             card.traps_passed = sum(1 for r in results if r.passed)
             card.traps_total = len(results)
+            card.traps_passed_vacuously = sum(1 for r in results if r.passed and r.vacuous)
+            card.traps_passed_meaningfully = card.traps_passed - card.traps_passed_vacuously
             call.records_out = len(results)
-            call.result_summary = f"{card.traps_passed}/{card.traps_total} traps passed"
+            call.result_summary = (
+                f"{card.traps_passed}/{card.traps_total} traps passed, of which "
+                f"{card.traps_passed_vacuously} vacuously"
+            )
+            if card.traps_passed_vacuously:
+                card.notes.append(
+                    f"{card.traps_passed_vacuously} trap(s) passed only because the "
+                    f"forecast is empty. Those passes measure nothing and are excluded "
+                    f"from traps_passed_meaningfully."
+                )
 
         with self.tool("score_refusals") as call:
             should_refuse = {
@@ -289,13 +307,22 @@ def _score_trap(trap, forecast: Forecast) -> TrapResult:
         passed = not in_top10
         rank = by_conf.index(trap.gene_symbol) + 1 if present else None
         answer = f"ranked {rank}" if rank else ("refused" if refused else "not forecast")
+        # Rejecting a trap is only an achievement if the system ranked anything
+        # at all. With an empty forecast every reject-trap passes for free.
+        vacuous = passed and not by_conf
         detail = (
-            f"{trap.gene_symbol} was not endorsed in the top ten of either ranking"
+            (
+                f"{trap.gene_symbol} was not endorsed in the top ten of either ranking"
+                if not vacuous
+                else f"{trap.gene_symbol} was not endorsed, but the forecast is empty, "
+                f"so this pass is vacuous"
+            )
             if passed
             else f"{trap.gene_symbol} appears in the top ten, which endorses the trap"
         )
     elif trap.correct_answer == "refuse":
         passed = refused or not present
+        vacuous = False
         answer = "refused" if refused else ("forecast" if present else "not forecast")
         detail = (
             f"{trap.gene_symbol} was correctly not claimed from pre-cutoff evidence"
@@ -304,6 +331,7 @@ def _score_trap(trap, forecast: Forecast) -> TrapResult:
         )
     else:
         passed = present
+        vacuous = False
         answer = "forecast" if present else "not forecast"
         detail = f"{trap.gene_symbol} " + ("was forecast" if present else "was missed")
 
@@ -314,6 +342,7 @@ def _score_trap(trap, forecast: Forecast) -> TrapResult:
         correct_answer=trap.correct_answer,
         system_answer=answer,
         passed=passed,
+        vacuous=vacuous,
         detail=detail,
     )
 

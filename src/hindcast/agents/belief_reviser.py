@@ -41,10 +41,36 @@ EVIDENCE_STRENGTH = 0.85
 #: Confidence below which the system refuses rather than forecasts.
 REFUSAL_CONFIDENCE_THRESHOLD = 0.25
 
-#: A claim must have at least one supporting measurement this strong to be
-#: reportable. Without it, a pile of text-mined co-mentions could carry a claim
-#: to the threshold on its own.
+#: A claim is reportable if it has one supporting measurement at least this
+#: strong. See `Claim.reportable` for the second route.
 MIN_SUPPORTING_WEIGHT = 0.30
+
+#: The second route to reportability: this many publications naming the gene
+#: together with fetal hemoglobin specifically. A gene with a substantial,
+#: independent HbF literature is a gene the field considers an HbF gene, and
+#: refusing to rank it at all would throw away the strongest signal the open
+#: record actually contains. The number is a policy, stated here and frozen.
+MIN_HBF_PUBLICATIONS = 5
+
+#: Total log-odds a claim's entire literature can contribute, as
+#: LITERATURE_SCALE * ln(1 + number of HbF-specific publications).
+#:
+#: This is the correction for the largest modelling error in an earlier version
+#: of this module. Literature evidence was applied as one independent update per
+#: publication, so two hundred papers co-mentioning BCL11A with fetal hemoglobin
+#: drove its confidence to 1.000. Two hundred papers are not two hundred
+#: independent experiments. They are two hundred correlated observations of one
+#: literature, and treating them as independent is the error that produces
+#: certainty from a pile of citations.
+#:
+#: Under the logarithmic form, 3 HbF-specific publications take a claim from the
+#: 0.05 prior to about 0.17, 20 take it to about 0.52, and 200 to about 0.91. A
+#: gene the field has written two hundred HbF papers about ends up believed but
+#: not certain, and a gene with three stays low. Each publication still writes
+#: its own audit row: the k-th contributes the difference between ln(1+k) and
+#: ln(k), so the rows sum to exactly the total above and the timeline still
+#: shows belief accumulating as the literature arrives.
+LITERATURE_SCALE = 1.0
 
 
 def to_log_odds(p: float) -> float:
@@ -92,6 +118,7 @@ class Claim(BaseModel):
     supporting_record_ids: list[str] = Field(default_factory=list)
     contradicting_record_ids: list[str] = Field(default_factory=list)
     max_supporting_weight: float = 0.0
+    hbf_publication_support: int = 0
     evidence_count: int = 0
     implied_modality: str | None = None
     modality_rationale: str = ""
@@ -101,11 +128,29 @@ class Claim(BaseModel):
     last_evidence_date: str | None = None
 
     @property
+    def has_evidence_of_substance(self) -> bool:
+        """Either one real measurement, or a substantial HbF-specific literature.
+
+        Two routes, because the open record contains both kinds of evidence and
+        recognising only one of them makes the system unable to say anything.
+        The first route is a measurement strong enough to stand on: a genetic
+        association, or a functional result in a system that matters. The second
+        is a literature that many independent groups have contributed to.
+
+        What neither route admits is a claim resting on a handful of co-mentions,
+        which is the failure mode these thresholds exist to block.
+        """
+        return (
+            self.max_supporting_weight >= MIN_SUPPORTING_WEIGHT
+            or self.hbf_publication_support >= MIN_HBF_PUBLICATIONS
+        )
+
+    @property
     def reportable(self) -> bool:
         """Whether this claim clears the refusal thresholds. See METHODOLOGY.md."""
         return (
             self.confidence >= REFUSAL_CONFIDENCE_THRESHOLD
-            and self.max_supporting_weight >= MIN_SUPPORTING_WEIGHT
+            and self.has_evidence_of_substance
         )
 
     def refusal_reason(self) -> str:
@@ -117,10 +162,12 @@ class Claim(BaseModel):
                 f"piece(s) of evidence."
             )
         return (
-            f"The evidence before the cutoff about {self.gene_symbol} is all weak: the "
-            f"strongest supporting measurement has weight "
+            f"The evidence before the cutoff about {self.gene_symbol} has no substance "
+            f"behind it: the strongest supporting measurement has weight "
             f"{self.max_supporting_weight:.3f}, below the {MIN_SUPPORTING_WEIGHT} "
-            f"minimum, so the claim rests on co-mentions rather than measurements."
+            f"minimum, and only {self.hbf_publication_support} publication(s) name the "
+            f"gene with fetal hemoglobin, below the {MIN_HBF_PUBLICATIONS} minimum. The "
+            f"claim would rest on co-mentions rather than on evidence."
         )
 
 
@@ -270,6 +317,11 @@ class BeliefReviser(Agent):
             for a in axiom_set.of_kind("implied_modality")
             for gid in a.subject_gene_ids
         }
+        hbf_pubs_by_gene = {
+            gid: int(a.scope_conditions.get("hbf_specific_publications", 0) or 0)
+            for a in axiom_set.of_kind("literature_association")
+            for gid in a.subject_gene_ids
+        }
         claims: dict[str, Claim] = {}
         for axiom in axiom_set.axioms:
             for gene_id in axiom.subject_gene_ids:
@@ -295,6 +347,7 @@ class BeliefReviser(Agent):
                     log_odds=PRIOR_LOG_ODDS,
                     implied_modality=modality.implied_modality if modality else None,
                     modality_rationale=modality.modality_rationale if modality else "",
+                    hbf_publication_support=hbf_pubs_by_gene.get(gene_id, 0),
                     axiom_ids=[axiom.id],
                 )
         # Keyed by claim ID from here on.
@@ -364,22 +417,41 @@ class BeliefReviser(Agent):
                             (node.prov.effective_date, 1, weights.get(rid, 0.1), rid, why)
                         )
                 elif axiom.kind == "literature_association":
-                    hbf_specific = axiom.scope_conditions.get("hbf_specific_publications", 0)
+                    # Publications are correlated observations of one literature,
+                    # so their total contribution is logarithmic in their number.
+                    # The k-th publication contributes ln(1+k) - ln(k), which
+                    # sums to exactly LITERATURE_SCALE * ln(1 + n). Ordered by
+                    # date, so the earliest paper carries the largest increment
+                    # and the timeline shows belief accumulating as the field
+                    # actually published.
+                    records = []
                     for rid in axiom.supporting_record_ids:
                         node = publications.get(rid)
                         if node is None or node.prov.effective_date is None:
                             continue
                         tiers = node.attrs.get("matched_tiers") or []
-                        weight = 0.20 if "hbf" in tiers else 0.05
+                        records.append((node.prov.effective_date, rid, "hbf" in tiers))
+                    records.sort(key=lambda r: (r[0], r[1]))
+                    n_hbf = sum(1 for _, _, is_hbf in records if is_hbf)
+                    for k, (when, rid, is_hbf) in enumerate(records, start=1):
+                        increment = LITERATURE_SCALE * (math.log1p(k) - math.log(k))
+                        if not is_hbf:
+                            # A record naming only the erythroid context, not HbF.
+                            # A quarter of the weight, because working in the
+                            # right tissue is weaker than working on the trait.
+                            increment *= 0.25
+                        weight = increment / EVIDENCE_STRENGTH
                         by_claim[claim_id].append(
                             (
-                                node.prov.effective_date,
+                                when,
                                 1,
                                 weight,
                                 rid,
-                                f"publication co-mentioning the gene with "
-                                f"{'fetal hemoglobin' if 'hbf' in tiers else 'the erythroid context'}"
-                                f"; {hbf_specific} HbF-specific records for this gene",
+                                f"publication {k} of {len(records)} co-mentioning the gene "
+                                f"with "
+                                + ("fetal hemoglobin" if is_hbf else "the erythroid context")
+                                + f"; contribution is logarithmic in the count, "
+                                f"{n_hbf} HbF-specific records for this gene",
                             )
                         )
         return by_claim

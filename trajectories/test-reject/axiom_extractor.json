@@ -1,6 +1,6 @@
 {
   "agent": "axiom_extractor",
-  "duration_ms": 0.483,
+  "duration_ms": 0.605,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T06:31:52.605135+00:00",
+  "finished_at": "2026-09-18T06:38:10.872854+00:00",
   "inputs": {
     "cutoff": "2018-01-01",
     "measurements": 1
@@ -24,13 +24,13 @@
     "rejected": 0
   },
   "run_id": "test-reject",
-  "started_at": "2026-09-18T06:31:52.595958+00:00",
+  "started_at": "2026-09-18T06:38:10.863832+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2018-01-01"
       },
-      "duration_ms": 0.112,
+      "duration_ms": 0.15,
       "name": "load_measurements",
       "records_in": 0,
       "records_out": 1,
@@ -38,7 +38,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.005,
+      "duration_ms": 0.006,
       "name": "compute_replication_and_genetic_support",
       "records_in": 0,
       "records_out": 0,
@@ -46,7 +46,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.051,
+      "duration_ms": 0.056,
       "name": "weight_measurements",
       "records_in": 1,
       "records_out": 1,
@@ -70,7 +70,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.038,
+      "duration_ms": 0.04,
       "name": "extract_functional_axioms",
       "records_in": 0,
       "records_out": 1,
@@ -86,7 +86,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.025,
+      "duration_ms": 0.035,
       "name": "extract_modality_axioms",
       "records_in": 0,
       "records_out": 1,

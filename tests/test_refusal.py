@@ -38,11 +38,66 @@ def test_a_claim_at_the_prior_is_refused():
 
 def test_confidence_alone_is_not_enough():
     """A pile of weak co-mentions must not make a claim reportable."""
-    claim = make_claim(confidence=0.9, max_supporting_weight=0.01, evidence_count=400)
+    claim = make_claim(
+        confidence=0.9, max_supporting_weight=0.01, hbf_publication_support=2,
+        evidence_count=400,
+    )
     assert not claim.reportable
     reason = claim.refusal_reason()
-    assert "all weak" in reason
-    assert "co-mentions rather than measurements" in reason
+    assert "no substance" in reason
+    assert "rest on co-mentions" in reason
+
+
+def test_a_substantial_hbf_literature_is_the_second_route_to_reportability():
+    """A gene many independent groups have published HbF papers about can be
+    ranked even with no single strong measurement."""
+    from hindcast.agents.belief_reviser import MIN_HBF_PUBLICATIONS
+
+    claim = make_claim(
+        confidence=0.6, max_supporting_weight=0.02,
+        hbf_publication_support=MIN_HBF_PUBLICATIONS,
+    )
+    assert claim.has_evidence_of_substance
+    assert claim.reportable
+
+    thin = make_claim(
+        confidence=0.6, max_supporting_weight=0.02,
+        hbf_publication_support=MIN_HBF_PUBLICATIONS - 1,
+    )
+    assert not thin.has_evidence_of_substance
+    assert not thin.reportable
+
+
+def test_literature_contribution_is_logarithmic_not_linear():
+    """The correction for treating correlated papers as independent evidence."""
+    import math
+
+    from hindcast.agents.belief_reviser import (
+        LITERATURE_SCALE,
+        PRIOR_LOG_ODDS,
+        from_log_odds,
+    )
+
+    def confidence_after(n: int) -> float:
+        return from_log_odds(PRIOR_LOG_ODDS + LITERATURE_SCALE * math.log1p(n))
+
+    # A large literature produces belief, not certainty.
+    assert 0.85 < confidence_after(200) < 0.95
+    # A handful of papers stays low.
+    assert confidence_after(3) < 0.25
+    # The k-th publication adds less than the first. The property holds in
+    # log-odds, which is where the update happens: each paper contributes
+    # ln(1+k) - ln(k), a decreasing sequence.
+    increments = [
+        LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 30)
+    ]
+    assert increments == sorted(increments, reverse=True)
+    assert increments[0] > 10 * increments[-1]
+
+    # Linear accumulation is what this replaces. At 0.20 per paper, 200 papers
+    # would add 40 log-odds and drive confidence to 1.0.
+    assert from_log_odds(PRIOR_LOG_ODDS + 200 * 0.20) > 0.999
+    assert confidence_after(200) < 0.95
 
 
 def test_one_strong_measurement_alone_is_not_enough():

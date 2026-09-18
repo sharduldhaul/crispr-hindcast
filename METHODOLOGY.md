@@ -224,6 +224,43 @@ independent measurements does.
 It was not tuned against the evaluation. The calibration results reported in the
 README are what this value produces, including where they are poor.
 
+### Literature evidence is logarithmic, not linear
+
+Publications are not independent experiments. Two hundred papers co-mentioning
+BCL11A with fetal hemoglobin are two hundred correlated observations of one
+literature, and an earlier version of this module treated each as an independent
+update. The result was a confidence of 1.000 for any well-studied gene, which is
+not a calibration problem so much as a category error: a pile of citations
+became certainty.
+
+A claim's entire literature therefore contributes
+
+    LITERATURE_SCALE * ln(1 + number of HbF-specific publications)
+
+with `LITERATURE_SCALE` at 1.0 log-odds. Each publication still writes its own
+audit row, ordered by date: the k-th contributes the difference between ln(1+k)
+and ln(k), so the rows sum to exactly the total above, the earliest paper
+carries the largest increment, and the timeline still shows belief accumulating
+as the field published. A record naming only the erythroid context rather than
+HbF gets a quarter of the increment, because working in the right tissue is
+weaker evidence than working on the trait.
+
+The resulting curve, from the 0.05 prior:
+
+| HbF-specific publications | Confidence |
+| --- | --- |
+| 1 | 0.095 |
+| 3 | 0.174 |
+| 5 | 0.240 |
+| 10 | 0.367 |
+| 20 | 0.525 |
+| 50 | 0.729 |
+| 100 | 0.842 |
+| 200 | 0.914 |
+
+A gene the field has written two hundred HbF papers about ends up believed and
+not certain. A gene with three stays below the refusal threshold.
+
 ### Contradiction and supersession
 
 A contradiction subtracts. It does not zero a claim, because a failure to
@@ -240,14 +277,37 @@ its confidence.
 
 Refusal is a scored outcome, and the threshold is a policy.
 
-A claim is reported as a forecast only if its confidence exceeds 0.25 and at
-least one supporting measurement has a method signature weight of at least 0.30.
-The second condition is what stops a claim being carried to the threshold by a
-pile of text-mined co-mentions, each worth 0.01.
+A claim is reported as a forecast only if its confidence reaches 0.25 and it has
+evidence of substance behind it. Evidence of substance means either of two
+routes:
+
+*   one supporting measurement with a method signature weight of at least 0.30,
+    meaning a genetic association or a functional result in a system that
+    matters; or
+*   at least five publications naming the gene together with fetal hemoglobin
+    specifically.
+
+Two routes rather than one, because the open record contains both kinds of
+evidence and recognising only the first makes the system unable to say anything
+at all. There are almost no open, dated, redistributable functional HbF
+measurements, as DATA_SOURCES.md and LIMITATIONS.md set out, so a
+measurement-only rule refuses every gene and the benchmark measures nothing.
+
+What neither route admits is a claim resting on a handful of co-mentions. Five
+HbF-specific publications is a stated threshold, frozen with the rest, and the
+logarithmic literature rule above means five of them only reach a confidence of
+0.240, so a gene needs a little more than the bare minimum on both counts
+before it is reported.
 
 Below the threshold the system returns a refusal naming what is missing, not a
 low-confidence guess. The refusal is graded: on questions whose answer genuinely
 postdates the cutoff, a refusal is correct and scores.
+
+One consequence is worth stating because it affects how the trap row should be
+read. If the forecast is empty, every trap whose correct answer is "reject"
+passes for free. The grader detects that case, marks those passes vacuous, and
+reports `traps_passed_meaningfully` separately, so a system that refuses
+everything cannot appear to have avoided every trap.
 
 ## Cost lens
 

@@ -283,10 +283,19 @@ class Adversary(Agent):
                         f"the evidence does not support the claim. Naming it with "
                         f"confidence would indicate contamination rather than insight."
                     ),
-                    evidence_record_ids=[f"pub:{record['pmid']}"] if record.get("pmid") else [],
+                    # Only name the record if it has a PMID. A preprint in the
+                    # rule book can have a DOI and no PMID, and naming
+                    # "pub:None" would be an untraceable reference, which is the
+                    # thing hard rule 1 forbids.
+                    evidence_record_ids=(
+                        [f"pub:{record['pmid']}"]
+                        if record.get("pmid") and str(record["pmid"]).isdigit()
+                        else []
+                    ),
                     supporting_numbers={
                         "establishing_date": record["date"][:10],
                         "establishing_pmid": record.get("pmid"),
+                        "establishing_doi": record.get("doi"),
                         "days_after_cutoff": (established_on - cutoff).days,
                     },
                 )

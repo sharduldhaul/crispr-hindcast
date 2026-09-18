@@ -137,7 +137,13 @@ def check_traps(trap_set: Any, store: Store) -> ProvenanceReport:
     report = ProvenanceReport()
     for trap in trap_set.traps:
         report.checked_objects += 1
-        if trap.supporting_numbers and not trap.evidence_record_ids:
+        # A postdates-cutoff trap quotes the establishing record's own date and
+        # identifier, which come from the frozen rule book and not from the
+        # store. The rule book is committed and hashed, so those numbers are
+        # traceable; they are just not traceable to a node. Every other trap
+        # quotes numbers computed over store rows and must name them.
+        from_rulebook = trap.kind == "postdates_cutoff"
+        if trap.supporting_numbers and not trap.evidence_record_ids and not from_rulebook:
             report.untraceable += 1
             report.findings.append(
                 ProvenanceFinding(
