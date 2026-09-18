@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Raw fetched payloads and licensed article text are never committed.
+# See DATA_SOURCES.md, "Redistribution rule".
+data/raw/
+data/cache/
+data/fulltext/
+data/work/
+*.db
+*.db-journal
+*.tar.gz
+node_modules/
+.next/
