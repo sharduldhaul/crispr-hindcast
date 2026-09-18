@@ -72,6 +72,44 @@ Exactly these nine.
 | `IMPLIES_MODALITY` | `Claim` to `Modality` | The cost lens. Separate edge because one claim can imply more than one route at different confidences. |
 | `ACTS_THROUGH` | `Gene` to `Gene` | Mechanistic dependency, for example ZNF410 acting through CHD4. This is the edge the primary evaluation is trying to forecast, so it is explicit rather than encoded in claim text. |
 
+### Which edge types actually carry rows
+
+The nine types above are the schema. Five of them are populated by the current
+build, and saying which is more useful than leaving a reader to assume all nine
+are:
+
+| Edge type | Rows | Producer |
+| --- | --- | --- |
+| `REPORTS` | 58,823 | A publication reporting a screen or a measurement |
+| `PERTURBS` | 57,514 | A perturbation applied to a gene in a screen |
+| `MEASURED_IN` | 57,514 | A measurement made in a cell context |
+| `SCREEN_TESTED` | 57,484 | A screen that tested a gene, including where it found nothing |
+| `IMPLIES_MODALITY` | 236 | The cost lens, from a claim to a route |
+| `ACTS_THROUGH` | 180 | HGNC gene groups whose name ends "complex subunits" |
+| `SUPPORTS` | 0 | No producer. Support is carried as belief revision entries. |
+| `CONTRADICTS` | 0 | No producer. |
+| `SUPERSEDES` | 0 | No producer. |
+
+`SUPPORTS` has no rows because support is recorded in the append-only
+`belief_revision` table instead, where each entry carries the evidence
+identifier, the prior and posterior log-odds, the weight applied and the
+rationale. That is strictly more information than an edge would hold, and
+duplicating it as edges would create two places where the same fact could
+disagree. The edge type is kept in the vocabulary because the frontend needs to
+draw the relation and because a future build that materialises it should not
+have to change the schema.
+
+`CONTRADICTS` and `SUPERSEDES` have no rows because nothing in the ingested
+sources states a contradiction or a refinement in machine-readable form.
+Detecting either from titles would require asserting that one paper refutes
+another, which the title rule cannot support. Both remain specified, and
+METHODOLOGY.md states how belief revision would treat them, but no row is
+invented to fill them.
+
+`SCREEN_TESTED` is the one that records negative evidence: a screen that tested
+a gene and found nothing still produces an edge, so absence of a hit is
+distinguishable from absence of a test.
+
 ## Provenance columns, on every row of both tables
 
 | Column | Rule |

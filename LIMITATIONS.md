@@ -162,3 +162,114 @@ project forbids. The consequence is that belief revision uses the direction and
 the method weight of each measurement, and not its magnitude. A gene with a
 large effect and a gene with a small but real effect, measured the same way,
 move a claim by the same amount.
+
+## The two headline findings were not recovered
+
+EIF2AK1 and ZNF410 are the two post-2017 results this benchmark was built
+around, and the system refuses both.
+
+After the title rule is applied, EIF2AK1 has two pre-2018 publications naming it
+with fetal hemoglobin, and ZNF410 has none. Neither has a functional measurement
+in any ingested source. Both sit at the prior or just above it, and both are
+refused for want of evidence of substance.
+
+The refusal is correct on the evidence available, and it is also a missed
+forecast. Those are not in tension: the system is right that the pre-2018 record
+it can see does not support a claim, and the field nonetheless found the answer
+within three years. Both facts are reported. EIF2AK1 and ZNF410 appear in the
+scorecard as passed contamination checks and as absent from the forecast, and
+neither entry is suppressed in favour of the other.
+
+What would have been needed to reach them is worth stating, because it says what
+the benchmark is actually measuring. ZNF410 acts through CHD4, and the pre-2018
+evidence for that link is ChIP-seq occupancy at the CHD4 promoter, which lives
+in ENCODE. ENCODE was excluded from this build on relevance grounds, with the
+query and counts recorded in DATA_SOURCES.md, and that exclusion is the reason
+the link is unreachable here. EIF2AK1 requires connecting heme-regulated
+translational control to gamma-globin output, which no ingested source states.
+
+## Two correct answers sit just below the refusal threshold
+
+LIN28B and HDAC2 both reach confidence 0.240 at the 2017 cutoff, on exactly five
+HbF-specific publications each, against a frozen refusal threshold of 0.25. A
+threshold of 0.24 would have forecast both, taking the forecast from two items
+to four and roughly tripling P@5.
+
+The threshold was committed and tagged before the run and has not been moved.
+This is the most concrete illustration in the repository of what freezing a
+policy costs, and of why the tag is worth having: a reader has no way to
+distinguish a threshold chosen for good reasons from one chosen because it
+worked, except by the order of the commits.
+
+It also means the reported precision is sensitive to a threshold sitting
+accidentally close to a cluster of claims. Two genes at 0.240 and a threshold at
+0.25 is not a robust measurement, and the number should be read as one draw
+rather than as the system's accuracy.
+
+## The composition route never fires at the primary slice
+
+`ACTS_THROUGH` is derived and present in the graph: 180 edges over 90 gene pairs
+that HGNC curates into the same protein complex. It produces zero axioms at the
+2017 cutoff.
+
+The reason is the data. The composition rule requires the partner's support to
+be a measurement, and every HbF-family measurement in that slice is a genetic
+association at the globin locus, at BCL11A, at MYB or at HBS1L. None of those
+genes shares a curated protein complex with another gene in scope, so there is
+no partner to transfer from. The NuRD subunits, which do share a complex, are
+supported in the pre-2018 record only by literature.
+
+Five of the thirteen ground-truth genes at that slice are NuRD subunits: MBD2,
+MTA2, GATAD2A, RBBP4 and HDAC2. A rule that admitted literature-established
+partners would have reached several of them. That rule was not adopted, because
+it would have been adopted after seeing the answer key, and because there is no
+defensible coefficient for transferring a co-mention count along a complex edge.
+The consequence is that the system's only composition step is inert here, and
+the forecast rests almost entirely on the literature route.
+
+## Two ablations change nothing
+
+Removing the method signature and removing ontology normalization leave the
+forecast, both rankings, the traps and the refusals identical at every slice.
+ECE moves by less than 0.002.
+
+This is an honest negative result about this evidence base rather than about the
+ideas. The method signature weights measurements, and the pre-2018 slice
+contains thirty HbF-family measurements, all of them genetic associations of
+similar standing. There is nothing for it to discriminate between. Ontology
+normalization matters for ingestion correctness, which the exclusion counts
+reflect, but the genes that survive normalization are the same genes either way.
+
+Anyone reading the ablation table should take from it that belief revision and
+the graph carry the result here, and that two of the five components are
+unevidenced by this experiment in either direction.
+
+## Held-out recovery is close to vacuous
+
+The held-out test hides a gene's measurement rows inside the pre-cutoff window
+and asks whether the gene is still reportable. It reports recovery of 1 of 1 at
+the 2014 and 2017 cutoffs and 5 of 5 at 2020.
+
+A rate of 1.00 over a single gene is not evidence of anything. Only BCL11A
+clears reportability on measurement evidence alone in the early windows, so the
+denominator is one by construction. The test also hides measurements and not
+publications, so for most genes the confidence with and without their rows is
+identical, and the test is measuring nothing for them.
+
+One side effect is worth recording because it shows the sign conventions are
+working. Hiding CHD4's measurements at the 2017 cutoff *raises* its confidence,
+from 0.098 to 0.240, because its measurements are fitness hits and therefore
+evidence against it as a target. That is correct behaviour and it is also a sign
+that the recovery rate is not measuring what its name suggests.
+
+## Four genes have a truncated erythroid literature tier
+
+The Europe PMC fetch caps retrieval per query. Four genes exceeded the cap on
+the erythroid tier: HBB, TET2, NFE2 and MAPK1. Their erythroid counts are
+floors, not totals, and `data/raw/europepmc/coverage.json` records the hit count
+alongside the retrieved count for every gene so the shortfall is visible.
+
+No gene was truncated on the HbF tier, which is the tier that drives
+reportability, so the effect on the forecast is limited to the quarter-weight
+erythroid increments. The published counts for those four genes should still be
+read as lower bounds.

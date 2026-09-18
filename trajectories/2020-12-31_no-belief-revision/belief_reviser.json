@@ -1,0 +1,59 @@
+{
+  "agent": "belief_reviser",
+  "duration_ms": 1718.728,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:48:33.022491+00:00",
+  "inputs": {
+    "axioms": 208,
+    "cutoff": "2020-12-31"
+  },
+  "notes": [],
+  "output_summary": {
+    "claims": 69,
+    "cutoff": "2020-12-31",
+    "flat_confidence_ablation": true,
+    "refusals": 69,
+    "reportable": 0,
+    "revisions": 0,
+    "top": []
+  },
+  "run_id": "2020-12-31_no-belief-revision",
+  "started_at": "2026-09-18T07:48:31.303763+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "axioms": 208
+      },
+      "duration_ms": 1.162,
+      "name": "build_claims",
+      "records_in": 0,
+      "records_out": 69,
+      "result_summary": "69 candidate claims seeded from axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 1703.599,
+      "name": "collect_evidence",
+      "records_in": 0,
+      "records_out": 5162,
+      "result_summary": "5162 evidence applications over 65 claims"
+    },
+    {
+      "args": {
+        "rule": "log-odds accumulation",
+        "strength": 0.85
+      },
+      "duration_ms": 1.04,
+      "name": "revise",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 revisions written (flat-confidence ablation: none applied)"
+    }
+  ]
+}

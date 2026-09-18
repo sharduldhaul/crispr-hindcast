@@ -1,0 +1,73 @@
+{
+  "agent": "adversary",
+  "duration_ms": 2782.332,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:48:59.628739+00:00",
+  "inputs": {},
+  "notes": [],
+  "output_summary": {
+    "alias_attacks": 161,
+    "by_kind": {
+      "association_without_function": 3,
+      "pan_essential": 4,
+      "postdates_cutoff": 2
+    },
+    "cutoff": "2020-12-31",
+    "named_traps": [
+      "HBBP1",
+      "OR51B5",
+      "OR51B6",
+      "EIF2S1",
+      "CTCF",
+      "RBBP4",
+      "PRMT5",
+      "HIC2",
+      "NFIX"
+    ],
+    "traps": 9
+  },
+  "run_id": "2020-12-31_no-ontology-normalization",
+  "started_at": "2026-09-18T07:48:56.846419+00:00",
+  "tool_calls": [
+    {
+      "args": {},
+      "duration_ms": 44.315,
+      "name": "find_association_without_function",
+      "records_in": 0,
+      "records_out": 3,
+      "result_summary": "3 association-without-function traps"
+    },
+    {
+      "args": {},
+      "duration_ms": 404.327,
+      "name": "find_pan_essential",
+      "records_in": 0,
+      "records_out": 4,
+      "result_summary": "4 pan-essentiality traps"
+    },
+    {
+      "args": {
+        "cutoff": "2020-12-31"
+      },
+      "duration_ms": 334.62,
+      "name": "find_postdates_cutoff",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "2 questions whose answer postdates the cutoff"
+    },
+    {
+      "args": {},
+      "duration_ms": 1998.993,
+      "name": "build_alias_attacks",
+      "records_in": 0,
+      "records_out": 161,
+      "result_summary": "161 alias and paraphrase probes"
+    }
+  ]
+}

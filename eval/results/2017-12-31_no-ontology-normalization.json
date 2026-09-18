@@ -1,0 +1,774 @@
+{
+  "ablation": "no ontology normalization",
+  "axiom_count": 206,
+  "claim_count": 69,
+  "cutoff": "2017-12-31",
+  "forecast": {
+    "already_established": [
+      "ATF2",
+      "BCL11A",
+      "CHD4",
+      "CTCF",
+      "EHMT1",
+      "EHMT2",
+      "GATA1",
+      "HBA1",
+      "HBA2",
+      "HBB",
+      "HBD",
+      "HBE1",
+      "HBG1",
+      "HBG2",
+      "HBS1L",
+      "HDAC1",
+      "KDM1A",
+      "KLF1",
+      "KLF3",
+      "MYB",
+      "PRMT5",
+      "SIRT1",
+      "SOX6",
+      "TAL1",
+      "ZBTB7A"
+    ],
+    "cutoff": "2017-12-31",
+    "items": [
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7780",
+        "confidence": 0.486486,
+        "contradicting_record_ids": [],
+        "cost_impact": 0.486486,
+        "cost_weight": 1.0,
+        "evidence_count": 17,
+        "gene_id": "gene:HGNC:7780",
+        "gene_symbol": "NFE2",
+        "implied_modality": "EX_VIVO_SINGLE_EDIT",
+        "max_supporting_weight": 0.0,
+        "modality_rationale": "NFE2 is a sequence-specific DNA-binding protein (transcription factors), a class with no useful small-molecule surface, so the route is an edit of the gene or its enhancer",
+        "rank_by_confidence": 1,
+        "rank_by_cost_impact": 1,
+        "statement": "Loss or inhibition of NFE2 increases fetal hemoglobin in human erythroid cells.",
+        "supporting_record_ids": [
+          "pub:1902783",
+          "pub:8423810",
+          "pub:8355703",
+          "pub:8400240",
+          "pub:8049443",
+          "pub:8078893",
+          "pub:7828582",
+          "pub:7724591",
+          "pub:7738198",
+          "pub:8586452",
+          "pub:8816476",
+          "pub:9305615",
+          "pub:9918824",
+          "pub:11517325",
+          "pub:12490281",
+          "pub:16263792",
+          "pub:24608802"
+        ]
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:3821",
+        "confidence": 0.366667,
+        "contradicting_record_ids": [],
+        "cost_impact": 0.366667,
+        "cost_weight": 1.0,
+        "evidence_count": 10,
+        "gene_id": "gene:HGNC:3821",
+        "gene_symbol": "FOXO3",
+        "implied_modality": "EX_VIVO_SINGLE_EDIT",
+        "max_supporting_weight": 0.0,
+        "modality_rationale": "FOXO3 has no protein class implying a small molecule, so an edit is assumed as the conservative route",
+        "rank_by_confidence": 2,
+        "rank_by_cost_impact": 2,
+        "statement": "Loss or inhibition of FOXO3 increases fetal hemoglobin in human erythroid cells.",
+        "supporting_record_ids": [
+          "pub:18178829",
+          "pub:20123982",
+          "pub:23975182",
+          "pub:24966026",
+          "pub:27091996",
+          "pub:27685445",
+          "pub:28250026",
+          "pub:28903387",
+          "pub:31966756",
+          "pub:29258239"
+        ]
+      }
+    ],
+    "ranking_note": "Two rankings are reported. rank_by_confidence is the evidence ordering. rank_by_cost_impact multiplies confidence by the cost weight of the implied route, so a moderately confident small molecule outranks a highly confident multi-edit ex vivo product.",
+    "refusals": [
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:4853",
+        "confidence": 0.24,
+        "evidence_count": 5,
+        "gene_id": "gene:HGNC:4853",
+        "gene_symbol": "HDAC2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about HDAC2: confidence 0.240 is below the 0.25 threshold, from 5 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:32207",
+        "confidence": 0.24,
+        "evidence_count": 5,
+        "gene_id": "gene:HGNC:32207",
+        "gene_symbol": "LIN28B",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about LIN28B: confidence 0.240 is below the 0.25 threshold, from 5 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:2976",
+        "confidence": 0.208333,
+        "evidence_count": 4,
+        "gene_id": "gene:HGNC:2976",
+        "gene_symbol": "DNMT1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about DNMT1: confidence 0.208 is below the 0.25 threshold, from 4 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6871",
+        "confidence": 0.208333,
+        "evidence_count": 4,
+        "gene_id": "gene:HGNC:6871",
+        "gene_symbol": "MAPK1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MAPK1: confidence 0.208 is below the 0.25 threshold, from 4 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6859",
+        "confidence": 0.173913,
+        "evidence_count": 3,
+        "gene_id": "gene:HGNC:6859",
+        "gene_symbol": "MAP3K7",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MAP3K7: confidence 0.174 is below the 0.25 threshold, from 3 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6917",
+        "confidence": 0.173913,
+        "evidence_count": 3,
+        "gene_id": "gene:HGNC:6917",
+        "gene_symbol": "MBD2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MBD2: confidence 0.174 is below the 0.25 threshold, from 3 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7972",
+        "confidence": 0.173913,
+        "evidence_count": 3,
+        "gene_id": "gene:HGNC:7972",
+        "gene_symbol": "NR2C2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about NR2C2: confidence 0.174 is below the 0.25 threshold, from 3 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:12687",
+        "confidence": 0.142689,
+        "evidence_count": 388,
+        "gene_id": "gene:HGNC:12687",
+        "gene_symbol": "VHL",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about VHL: confidence 0.143 is below the 0.25 threshold, from 388 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:24921",
+        "confidence": 0.136364,
+        "evidence_count": 2,
+        "gene_id": "gene:HGNC:24921",
+        "gene_symbol": "EIF2AK1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EIF2AK1: confidence 0.136 is below the 0.25 threshold, from 2 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6771",
+        "confidence": 0.136364,
+        "evidence_count": 2,
+        "gene_id": "gene:HGNC:6771",
+        "gene_symbol": "SMAD5",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about SMAD5: confidence 0.136 is below the 0.25 threshold, from 2 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:25941",
+        "confidence": 0.136364,
+        "evidence_count": 2,
+        "gene_id": "gene:HGNC:25941",
+        "gene_symbol": "TET2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about TET2: confidence 0.136 is below the 0.25 threshold, from 2 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:2978",
+        "confidence": 0.127766,
+        "evidence_count": 59,
+        "gene_id": "gene:HGNC:2978",
+        "gene_symbol": "DNMT3A",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about DNMT3A: confidence 0.128 is below the 0.25 threshold, from 59 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:3374",
+        "confidence": 0.104338,
+        "evidence_count": 23,
+        "gene_id": "gene:HGNC:3374",
+        "gene_symbol": "EPAS1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EPAS1: confidence 0.104 is below the 0.25 threshold, from 23 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:19687",
+        "confidence": 0.100155,
+        "evidence_count": 19,
+        "gene_id": "gene:HGNC:19687",
+        "gene_symbol": "EIF2AK4",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EIF2AK4: confidence 0.100 is below the 0.25 threshold, from 19 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:19088",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:19088",
+        "gene_symbol": "ASH1L",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about ASH1L: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:2979",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:2979",
+        "gene_symbol": "DNMT3B",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about DNMT3B: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:3255",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:3255",
+        "gene_symbol": "EIF2AK3",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EIF2AK3: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:29989",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:29989",
+        "gene_symbol": "GATAD2A",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about GATAD2A: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:28866",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:28866",
+        "gene_symbol": "IGF2BP1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about IGF2BP1: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7411",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:7411",
+        "gene_symbol": "MTA2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MTA2: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6767",
+        "confidence": 0.095238,
+        "evidence_count": 15,
+        "gene_id": "gene:HGNC:6767",
+        "gene_symbol": "SMAD1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about SMAD1: confidence 0.095 is below the 0.25 threshold, from 15 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:12928",
+        "confidence": 0.095238,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:12928",
+        "gene_symbol": "ZNF143",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about ZNF143: confidence 0.095 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:3265",
+        "confidence": 0.091063,
+        "evidence_count": 425,
+        "gene_id": "gene:HGNC:3265",
+        "gene_symbol": "EIF2S1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EIF2S1: confidence 0.091 is below the 0.25 threshold, from 425 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:4828",
+        "confidence": 0.08813,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:4828",
+        "gene_symbol": "HBBP1",
+        "max_supporting_weight": 0.715,
+        "reason": "The evidence before the cutoff does not support a claim about HBBP1: confidence 0.088 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:19599",
+        "confidence": 0.08813,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:19599",
+        "gene_symbol": "OR51B5",
+        "max_supporting_weight": 0.715,
+        "reason": "The evidence before the cutoff does not support a claim about OR51B5: confidence 0.088 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:19600",
+        "confidence": 0.08813,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:19600",
+        "gene_symbol": "OR51B6",
+        "max_supporting_weight": 0.715,
+        "reason": "The evidence before the cutoff does not support a claim about OR51B6: confidence 0.088 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:29489",
+        "confidence": 0.078858,
+        "evidence_count": 6,
+        "gene_id": "gene:HGNC:29489",
+        "gene_symbol": "KMT5A",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about KMT5A: confidence 0.079 is below the 0.25 threshold, from 6 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7788",
+        "confidence": 0.076104,
+        "evidence_count": 5,
+        "gene_id": "gene:HGNC:7788",
+        "gene_symbol": "NFIX",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about NFIX: confidence 0.076 is below the 0.25 threshold, from 5 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:16682",
+        "confidence": 0.076104,
+        "evidence_count": 5,
+        "gene_id": "gene:HGNC:16682",
+        "gene_symbol": "ZBTB33",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about ZBTB33: confidence 0.076 is below the 0.25 threshold, from 5 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:6918",
+        "confidence": 0.07296,
+        "evidence_count": 4,
+        "gene_id": "gene:HGNC:6918",
+        "gene_symbol": "MBD3",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MBD3: confidence 0.073 is below the 0.25 threshold, from 4 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7410",
+        "confidence": 0.069276,
+        "evidence_count": 3,
+        "gene_id": "gene:HGNC:7410",
+        "gene_symbol": "MTA1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MTA1: confidence 0.069 is below the 0.25 threshold, from 3 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:18595",
+        "confidence": 0.058903,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:18595",
+        "gene_symbol": "HIC2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about HIC2: confidence 0.059 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:23784",
+        "confidence": 0.058903,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:23784",
+        "gene_symbol": "MTA3",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about MTA3: confidence 0.059 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:16090",
+        "confidence": 0.058903,
+        "evidence_count": 1,
+        "gene_id": "gene:HGNC:16090",
+        "gene_symbol": "PGRMC1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about PGRMC1: confidence 0.059 is below the 0.25 threshold, from 1 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:1918",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:1918",
+        "gene_symbol": "CHD3",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about CHD3: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:9437",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:9437",
+        "gene_symbol": "EIF2AK2",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about EIF2AK2: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:30778",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:30778",
+        "gene_symbol": "GATAD2B",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about GATAD2B: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:7971",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:7971",
+        "gene_symbol": "NR2C1",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about NR2C1: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:9890",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:9890",
+        "gene_symbol": "RBBP7",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about RBBP7: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:20144",
+        "confidence": 0.05,
+        "evidence_count": 0,
+        "gene_id": "gene:HGNC:20144",
+        "gene_symbol": "ZNF410",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about ZNF410: confidence 0.050 is below the 0.25 threshold, from 0 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:9887",
+        "confidence": 0.04987,
+        "evidence_count": 404,
+        "gene_id": "gene:HGNC:9887",
+        "gene_symbol": "RBBP4",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about RBBP4: confidence 0.050 is below the 0.25 threshold, from 404 piece(s) of evidence."
+      },
+      {
+        "claim_id": "claim:hbf_increase:gene:HGNC:786",
+        "confidence": 0.036862,
+        "evidence_count": 361,
+        "gene_id": "gene:HGNC:786",
+        "gene_symbol": "ATF4",
+        "max_supporting_weight": 0.0,
+        "reason": "The evidence before the cutoff does not support a claim about ATF4: confidence 0.037 is below the 0.25 threshold, from 361 piece(s) of evidence."
+      }
+    ]
+  },
+  "provenance_report": {
+    "checked_objects": 265,
+    "checked_record_ids": 31553,
+    "exempt_fields": {
+      "confidence": "computed by the belief reviser from weighted records, which are checked",
+      "cost_impact": "confidence times a frozen policy coefficient",
+      "cost_weight": "a frozen policy coefficient from hindcast.cost, not a measurement",
+      "evidence_count": "a count of the records named on the same object",
+      "forecast_size": "a count of the system's own output",
+      "max_supporting_weight": "a method signature weight over records named on the same object",
+      "rank_by_confidence": "a rank over the system's own output, not a measurement",
+      "rank_by_cost_impact": "a rank over the system's own output, not a measurement",
+      "refusal_count": "a count of the system's own output"
+    },
+    "findings": [],
+    "missing_license": 0,
+    "untraceable": 0
+  },
+  "revision_count": 4773,
+  "run_id": "2017-12-31_no-ontology-normalization",
+  "scorecard": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.091049,
+        "n": 38,
+        "observed_frequency": 0.236842,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.252667,
+        "n": 5,
+        "observed_frequency": 0.8,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.486486,
+        "n": 1,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 8,
+    "contamination_traps_total": 8,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "EX_VIVO_SINGLE_EDIT",
+    "cutoff": "2017-12-31",
+    "expected_calibration_error": 0.199165,
+    "fabricated_detail": [],
+    "fabricated_numbers": 0,
+    "forecast_size": 2,
+    "ground_truth_symbols": [
+      "ATF4",
+      "DNMT1",
+      "EIF2AK1",
+      "FOXO3",
+      "GATAD2A",
+      "HDAC2",
+      "HIC2",
+      "LIN28B",
+      "MBD2",
+      "MTA2",
+      "NFIX",
+      "RBBP4",
+      "ZNF410"
+    ],
+    "judgement_traps_passed": 7,
+    "judgement_traps_total": 7,
+    "notes": [
+      "8 of 8 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: ATF4, EIF2AK1, GATAD2A, HIC2, MTA2, NFIX, RBBP4, ZNF410. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 2,
+      "hits_at_10": [
+        "FOXO3"
+      ],
+      "hits_at_5": [
+        "FOXO3"
+      ],
+      "mean_reciprocal_rank": 0.5,
+      "n_ground_truth": 13,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 2,
+      "hits_at_10": [
+        "FOXO3"
+      ],
+      "hits_at_5": [
+        "FOXO3"
+      ],
+      "mean_reciprocal_rank": 0.5,
+      "n_ground_truth": 13,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 1.0,
+    "refusal_correct": 8,
+    "refusal_count": 42,
+    "refusal_total": 8,
+    "run_id": "2017-12-31_no-ontology-normalization",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "HBBP1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "HBBP1",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:HBBP1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ATF4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ATF4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ATF4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EIF2AK1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EIF2AK1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EIF2AK1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "GATAD2A was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "GATAD2A",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:GATAD2A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MTA2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "MTA2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:MTA2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "RBBP4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "RBBP4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZNF410 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZNF410",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ZNF410",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 15,
+    "traps_passed_meaningfully": 15,
+    "traps_passed_vacuously": 0,
+    "traps_total": 15
+  },
+  "slice_manifest": {
+    "cutoff": "2017-12-31",
+    "dropped_dangling_edges": "0",
+    "edges": "105644",
+    "nodes": "104620",
+    "source_db": "graph.db"
+  },
+  "trap_count": 15
+}

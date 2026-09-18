@@ -1,0 +1,114 @@
+{
+  "agent": "axiom_extractor",
+  "duration_ms": 3405.792,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:47:07.987862+00:00",
+  "inputs": {
+    "cutoff": "2017-12-31",
+    "measurements": 26365
+  },
+  "notes": [],
+  "output_summary": {
+    "axioms": 206,
+    "by_kind": {
+      "essentiality": 66,
+      "genetic_support": 11,
+      "implied_modality": 69,
+      "literature_association": 60
+    },
+    "cutoff": "2017-12-31",
+    "rejected": 0
+  },
+  "run_id": "2017-12-31_no-ontology-normalization",
+  "started_at": "2026-09-18T07:47:04.582069+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2017-12-31"
+      },
+      "duration_ms": 274.122,
+      "name": "load_measurements",
+      "records_in": 0,
+      "records_out": 26365,
+      "result_summary": "26365 measurements visible before 2017-12-31"
+    },
+    {
+      "args": {},
+      "duration_ms": 5.922,
+      "name": "compute_replication_and_genetic_support",
+      "records_in": 0,
+      "records_out": 11,
+      "result_summary": "11 genes with genome-wide significant HbF support, replication counted over distinct PMIDs"
+    },
+    {
+      "args": {},
+      "duration_ms": 382.532,
+      "name": "weight_measurements",
+      "records_in": 26365,
+      "records_out": 26365,
+      "result_summary": "weights assigned, max 1.216"
+    },
+    {
+      "args": {},
+      "duration_ms": 5.411,
+      "name": "extract_genetic_support_axioms",
+      "records_in": 0,
+      "records_out": 11,
+      "result_summary": "11 genetic support axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 343.531,
+      "name": "extract_essentiality_axioms",
+      "records_in": 0,
+      "records_out": 66,
+      "result_summary": "66 essentiality axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 266.407,
+      "name": "extract_functional_axioms",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 functional HbF axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 2104.155,
+      "name": "extract_literature_axioms",
+      "records_in": 0,
+      "records_out": 60,
+      "result_summary": "60 literature association axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 9.239,
+      "name": "extract_composition_axioms",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 complex-composition axioms, one per gene from its strongest measured partner"
+    },
+    {
+      "args": {},
+      "duration_ms": 5.589,
+      "name": "extract_modality_axioms",
+      "records_in": 0,
+      "records_out": 69,
+      "result_summary": "69 modality axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.028,
+      "name": "validate",
+      "records_in": 206,
+      "records_out": 206,
+      "result_summary": "0 axioms rejected by the validator"
+    }
+  ]
+}

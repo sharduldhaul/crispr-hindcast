@@ -1,0 +1,66 @@
+{
+  "nodes_loaded": 287026,
+  "edges_loaded": 231751,
+  "records_available": 295986,
+  "excluded": 10269,
+  "exclusions_by_reason": {
+    "malformed_record": 3345,
+    "out_of_scope": 6341,
+    "unresolvable_date": 117,
+    "unresolved_cell_line": 95,
+    "unresolved_symbol": 371
+  },
+  "exclusions_by_source": {
+    "biogrid_orcs": 1180,
+    "europepmc": 3231,
+    "graph": 50,
+    "gwas_catalog": 5708,
+    "hgnc": 100
+  },
+  "nodes_by_type": {
+    "CellContext": 1904,
+    "Gene": 44954,
+    "Measurement": 134278,
+    "Modality": 5,
+    "Perturbation": 9,
+    "Phenotype": 7,
+    "Publication": 102922,
+    "Screen": 1101,
+    "Trial": 1846
+  },
+  "edges_by_type": {
+    "ACTS_THROUGH": 180,
+    "IMPLIES_MODALITY": 236,
+    "MEASURED_IN": 57514,
+    "PERTURBS": 57514,
+    "REPORTS": 58823,
+    "SCREEN_TESTED": 57484
+  },
+  "available_by_source": {
+    "biogrid_orcs.scope_gene_rows": 57484,
+    "biogrid_orcs.screens": 2217,
+    "cellosaurus.cell_lines": 694,
+    "clinicaltrials_gov.studies": 1846,
+    "depmap.gene_effect_rows": 76445,
+    "europepmc.publications": 106153,
+    "gwas_catalog.association_gene_rows": 33,
+    "gwas_catalog.associations": 5730,
+    "hgnc.complex_pairs": 90,
+    "hgnc.genes": 44954,
+    "hindcast_vocabulary": 21,
+    "opentargets.evidence_rows": 319
+  },
+  "nodes_by_source": {
+    "biogrid_orcs": 58585,
+    "cellosaurus": 694,
+    "clinicaltrials_gov": 1846,
+    "depmap": 77653,
+    "europepmc": 102922,
+    "gwas_catalog": 30,
+    "hgnc": 44954,
+    "opentargets": 319,
+    "vocab": 23
+  },
+  "spurious": 0,
+  "spurious_detail": []
+}

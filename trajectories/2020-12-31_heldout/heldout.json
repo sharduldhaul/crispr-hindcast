@@ -1,0 +1,164 @@
+{
+  "agent": "heldout",
+  "duration_ms": 138338.192,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:58:13.673990+00:00",
+  "inputs": {},
+  "notes": [],
+  "output_summary": {
+    "cutoff": "2020-12-31",
+    "genes_tested": 5,
+    "mean_confidence_drop": 0.028983,
+    "note": "Only genes that were reportable with their measurements present are counted in the recovery rate. A gene the system could not rank in the first place says nothing about recovery.",
+    "recovered": 5,
+    "recovery_rate": 1.0
+  },
+  "run_id": "2020-12-31_heldout",
+  "started_at": "2026-09-18T07:55:55.325772+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2020-12-31"
+      },
+      "duration_ms": 3329.651,
+      "name": "find_eligible_genes",
+      "records_in": 0,
+      "records_out": 12,
+      "result_summary": "12 genes have at least 2 measurements in the slice and are eligible for holdout"
+    },
+    {
+      "args": {},
+      "duration_ms": 9747.416,
+      "name": "baseline_run",
+      "records_in": 0,
+      "records_out": 69,
+      "result_summary": "69 claims in the unmodified slice"
+    },
+    {
+      "args": {
+        "gene": "ASH1L"
+      },
+      "duration_ms": 10435.624,
+      "name": "holdout_run",
+      "records_in": 872,
+      "records_out": 0,
+      "result_summary": "ASH1L: 872 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "ATF2"
+      },
+      "duration_ms": 10363.958,
+      "name": "holdout_run",
+      "records_in": 899,
+      "records_out": 0,
+      "result_summary": "ATF2: 899 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "ATF4"
+      },
+      "duration_ms": 10526.601,
+      "name": "holdout_run",
+      "records_in": 867,
+      "records_out": 0,
+      "result_summary": "ATF4: 867 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "BCL11A"
+      },
+      "duration_ms": 10393.596,
+      "name": "holdout_run",
+      "records_in": 896,
+      "records_out": 0,
+      "result_summary": "BCL11A: 896 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "CHD3"
+      },
+      "duration_ms": 10521.982,
+      "name": "holdout_run",
+      "records_in": 871,
+      "records_out": 0,
+      "result_summary": "CHD3: 871 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "CHD4"
+      },
+      "duration_ms": 10399.608,
+      "name": "holdout_run",
+      "records_in": 883,
+      "records_out": 0,
+      "result_summary": "CHD4: 883 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "CTCF"
+      },
+      "duration_ms": 10682.937,
+      "name": "holdout_run",
+      "records_in": 893,
+      "records_out": 0,
+      "result_summary": "CTCF: 893 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "DNMT1"
+      },
+      "duration_ms": 10527.256,
+      "name": "holdout_run",
+      "records_in": 869,
+      "records_out": 0,
+      "result_summary": "DNMT1: 869 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "DNMT3A"
+      },
+      "duration_ms": 10435.427,
+      "name": "holdout_run",
+      "records_in": 862,
+      "records_out": 0,
+      "result_summary": "DNMT3A: 862 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "DNMT3B"
+      },
+      "duration_ms": 10199.216,
+      "name": "holdout_run",
+      "records_in": 862,
+      "records_out": 0,
+      "result_summary": "DNMT3B: 862 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "EHMT1"
+      },
+      "duration_ms": 10490.545,
+      "name": "holdout_run",
+      "records_in": 873,
+      "records_out": 0,
+      "result_summary": "EHMT1: 873 measurements hidden"
+    },
+    {
+      "args": {
+        "gene": "EHMT2"
+      },
+      "duration_ms": 10281.782,
+      "name": "holdout_run",
+      "records_in": 881,
+      "records_out": 0,
+      "result_summary": "EHMT2: 881 measurements hidden"
+    }
+  ]
+}

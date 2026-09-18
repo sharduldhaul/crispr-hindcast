@@ -1,0 +1,244 @@
+{
+  "cutoff": "2014-12-31",
+  "genes_tested": 1,
+  "holdouts": [
+    {
+      "confidence_with_measurements": 0.095238,
+      "confidence_without_measurements": 0.095238,
+      "gene_id": "gene:HGNC:19088",
+      "gene_symbol": "ASH1L",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:19088",
+        "meas:orcs:104:HGNC:19088",
+        "meas:orcs:5:HGNC:19088",
+        "meas:orcs:6:HGNC:19088"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 1,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.136364,
+      "confidence_without_measurements": 0.136364,
+      "gene_id": "gene:HGNC:784",
+      "gene_symbol": "ATF2",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:784",
+        "meas:orcs:104:HGNC:784",
+        "meas:orcs:5:HGNC:784",
+        "meas:orcs:6:HGNC:784",
+        "meas:ot:HGNC:784:456784f1d9063363415832ea3c67b31b3c51f3b1",
+        "meas:ot:HGNC:784:ef4d32c8414b2e0873b10aff5bf07b615fca2ae0"
+      ],
+      "measurements_hidden": 6,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 2,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.081318,
+      "confidence_without_measurements": 0.081318,
+      "gene_id": "gene:HGNC:786",
+      "gene_symbol": "ATF4",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:786",
+        "meas:orcs:104:HGNC:786",
+        "meas:orcs:5:HGNC:786",
+        "meas:orcs:6:HGNC:786"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 7,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.997424,
+      "confidence_without_measurements": 0.688525,
+      "gene_id": "gene:HGNC:13221",
+      "gene_symbol": "BCL11A",
+      "hidden_record_ids": [
+        "meas:gwas:GCST000069:HGNC:13221:1",
+        "meas:gwas:GCST000150:HGNC:13221:22",
+        "meas:gwas:GCST000545:HGNC:13221:32",
+        "meas:gwas:GCST000545:HGNC:13221:34",
+        "meas:gwas:GCST000982:HGNC:13221:95",
+        "meas:gwas:GCST000982:HGNC:13221:96",
+        "meas:gwas:GCST002687:HGNC:13221:124",
+        "meas:orcs:103:HGNC:13221",
+        "meas:orcs:104:HGNC:13221",
+        "meas:orcs:5:HGNC:13221",
+        "meas:orcs:6:HGNC:13221",
+        "meas:ot:HGNC:13221:17921ed80a55fea442984875ff2f981c6a4602cc",
+        "meas:ot:HGNC:13221:3f056560b8aba2e686749d4fd1dda3c15ba2b1a1",
+        "meas:ot:HGNC:13221:54ec735bfb4d288f4ae1664db768b646b8f0878e",
+        "meas:ot:HGNC:13221:bf49a420736a5771615cba87ae81b0f427d016b1",
+        "meas:ot:HGNC:13221:c31b5ce1b82044fab53ea073eddd5e2f30cfe975",
+        "meas:ot:HGNC:13221:d0ddfdb63217a8ce99f5650e4120bb33ebde7315",
+        "meas:ot:HGNC:13221:e4938165c17ee3b3e813e5e24329ad92e387e6eb",
+        "meas:ot:HGNC:13221:ec33d6841e363845232065e88dfbe89d1eef49a5"
+      ],
+      "measurements_hidden": 19,
+      "note": "recovered from the remaining evidence",
+      "recovered": true,
+      "remaining_evidence_count": 41,
+      "reportable_with": true,
+      "reportable_without": true
+    },
+    {
+      "confidence_with_measurements": 0.05,
+      "confidence_without_measurements": 0.0,
+      "gene_id": "gene:HGNC:1918",
+      "gene_symbol": "CHD3",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:1918",
+        "meas:orcs:104:HGNC:1918",
+        "meas:orcs:5:HGNC:1918",
+        "meas:orcs:6:HGNC:1918"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 0,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.173913,
+      "confidence_without_measurements": 0.173913,
+      "gene_id": "gene:HGNC:1919",
+      "gene_symbol": "CHD4",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:1919",
+        "meas:orcs:104:HGNC:1919",
+        "meas:orcs:5:HGNC:1919",
+        "meas:orcs:6:HGNC:1919",
+        "meas:orcs:94:HGNC:1919"
+      ],
+      "measurements_hidden": 5,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 3,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.173913,
+      "confidence_without_measurements": 0.173913,
+      "gene_id": "gene:HGNC:13723",
+      "gene_symbol": "CTCF",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:13723",
+        "meas:orcs:104:HGNC:13723",
+        "meas:orcs:5:HGNC:13723",
+        "meas:orcs:6:HGNC:13723"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 3,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.095238,
+      "confidence_without_measurements": 0.095238,
+      "gene_id": "gene:HGNC:2976",
+      "gene_symbol": "DNMT1",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:2976",
+        "meas:orcs:104:HGNC:2976",
+        "meas:orcs:5:HGNC:2976",
+        "meas:orcs:6:HGNC:2976"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 1,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.107122,
+      "confidence_without_measurements": 0.107122,
+      "gene_id": "gene:HGNC:2978",
+      "gene_symbol": "DNMT3A",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:2978",
+        "meas:orcs:104:HGNC:2978",
+        "meas:orcs:5:HGNC:2978",
+        "meas:orcs:6:HGNC:2978"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 26,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.083545,
+      "confidence_without_measurements": 0.083545,
+      "gene_id": "gene:HGNC:2979",
+      "gene_symbol": "DNMT3B",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:2979",
+        "meas:orcs:104:HGNC:2979",
+        "meas:orcs:5:HGNC:2979",
+        "meas:orcs:6:HGNC:2979"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 8,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.058903,
+      "confidence_without_measurements": 0.058903,
+      "gene_id": "gene:HGNC:24650",
+      "gene_symbol": "EHMT1",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:24650",
+        "meas:orcs:104:HGNC:24650",
+        "meas:orcs:5:HGNC:24650",
+        "meas:orcs:6:HGNC:24650"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 1,
+      "reportable_with": false,
+      "reportable_without": false
+    },
+    {
+      "confidence_with_measurements": 0.058903,
+      "confidence_without_measurements": 0.058903,
+      "gene_id": "gene:HGNC:14129",
+      "gene_symbol": "EHMT2",
+      "hidden_record_ids": [
+        "meas:orcs:103:HGNC:14129",
+        "meas:orcs:104:HGNC:14129",
+        "meas:orcs:5:HGNC:14129",
+        "meas:orcs:6:HGNC:14129"
+      ],
+      "measurements_hidden": 4,
+      "note": "not recoverable once its measurements were hidden",
+      "recovered": false,
+      "remaining_evidence_count": 1,
+      "reportable_with": false,
+      "reportable_without": false
+    }
+  ],
+  "mean_confidence_drop": 0.308899,
+  "note": "Only genes that were reportable with their measurements present are counted in the recovery rate. A gene the system could not rank in the first place says nothing about recovery.",
+  "recovered": 1,
+  "recovery_rate": 1.0
+}

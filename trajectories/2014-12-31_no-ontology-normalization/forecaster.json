@@ -1,0 +1,58 @@
+{
+  "agent": "forecaster",
+  "duration_ms": 0.13,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:45:43.301891+00:00",
+  "inputs": {},
+  "notes": [],
+  "output_summary": {
+    "already_established": 19,
+    "cutoff": "2014-12-31",
+    "forecast_items": 2,
+    "refusals": 47,
+    "top5_by_confidence": [
+      "NFE2",
+      "SIRT1"
+    ],
+    "top5_by_cost_impact": [
+      "SIRT1",
+      "NFE2"
+    ]
+  },
+  "run_id": "2014-12-31_no-ontology-normalization",
+  "started_at": "2026-09-18T07:45:43.301754+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "claims": 68
+      },
+      "duration_ms": 0.007,
+      "name": "partition_claims",
+      "records_in": 68,
+      "records_out": 49,
+      "result_summary": "19 genes already established before the cutoff were set aside; 49 remain as forecast candidates"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.006,
+      "name": "apply_refusal_rule",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "2 claims clear the refusal thresholds, 47 are refused"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.019,
+      "name": "rank_two_ways",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "2 of 2 items change rank under the cost lens"
+    }
+  ]
+}

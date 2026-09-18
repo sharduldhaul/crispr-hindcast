@@ -254,7 +254,14 @@ def build_graph(
         path.unlink()
     store = Store(path)
     try:
-        return Curator(run_id, Path(raw_dir)).run(store)
+        report = Curator(run_id, Path(raw_dir)).run(store)
+        # Written out so the scorecard's ingestion row is read from the run that
+        # produced the graph, rather than retyped from a terminal.
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        (RESULTS_DIR / "ingestion.json").write_text(
+            report.model_dump_json(indent=2) + "\n"
+        )
+        return report
     finally:
         store.close()
 

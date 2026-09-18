@@ -1,0 +1,100 @@
+{
+  "agent": "belief_reviser",
+  "duration_ms": 1761.151,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:58:13.668301+00:00",
+  "inputs": {
+    "axioms": 207,
+    "cutoff": "2020-12-31"
+  },
+  "notes": [],
+  "output_summary": {
+    "claims": 69,
+    "cutoff": "2020-12-31",
+    "flat_confidence_ablation": false,
+    "refusals": 36,
+    "reportable": 33,
+    "revisions": 5162,
+    "top": [
+      {
+        "confidence": 0.9999,
+        "gene": "BCL11A"
+      },
+      {
+        "confidence": 0.9979,
+        "gene": "HBB"
+      },
+      {
+        "confidence": 0.9834,
+        "gene": "HBG1"
+      },
+      {
+        "confidence": 0.9834,
+        "gene": "HBG2"
+      },
+      {
+        "confidence": 0.9523,
+        "gene": "MYB"
+      },
+      {
+        "confidence": 0.8538,
+        "gene": "HBA2"
+      },
+      {
+        "confidence": 0.8304,
+        "gene": "HBA1"
+      },
+      {
+        "confidence": 0.8256,
+        "gene": "HBE1"
+      },
+      {
+        "confidence": 0.8109,
+        "gene": "HBD"
+      },
+      {
+        "confidence": 0.8055,
+        "gene": "HBS1L"
+      }
+    ]
+  },
+  "run_id": "2020-12-31_heldout-ho",
+  "started_at": "2026-09-18T07:58:11.907142+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "axioms": 207
+      },
+      "duration_ms": 1.201,
+      "name": "build_claims",
+      "records_in": 0,
+      "records_out": 69,
+      "result_summary": "69 candidate claims seeded from axioms"
+    },
+    {
+      "args": {},
+      "duration_ms": 1730.542,
+      "name": "collect_evidence",
+      "records_in": 0,
+      "records_out": 5162,
+      "result_summary": "5162 evidence applications over 65 claims"
+    },
+    {
+      "args": {
+        "rule": "log-odds accumulation",
+        "strength": 0.85
+      },
+      "duration_ms": 15.748,
+      "name": "revise",
+      "records_in": 0,
+      "records_out": 5162,
+      "result_summary": "5162 revisions written"
+    }
+  ]
+}

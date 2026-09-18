@@ -261,6 +261,69 @@ The resulting curve, from the 0.05 prior:
 A gene the field has written two hundred HbF papers about ends up believed and
 not certain. A gene with three stays below the refusal threshold.
 
+### Essentiality is bounded the same way, on the other side
+
+The same correction applies to the negative side of the ledger, and it was
+needed for the same reason.
+
+The pre-2018 slice holds 26,171 fitness readouts. A pan-essential gene is hit in
+most of the screens that tested it, so applying one independent negative update
+per readout gave genes like CHD4 around 400 negative updates and drove their
+confidence to exactly 0.000. Three of the genes that happened to are in the
+answer key. Those 400 screens are not 400 experiments; they are one fact about
+the gene, measured 400 times in different cell lines.
+
+So essentiality now contributes a bounded total. Each screen keeps its own
+audit entry and its own provenance, the per-screen increments are harmonic in
+the same way as the literature increments, and the whole sequence is normalised
+to sum to:
+
+    ESSENTIALITY_CEILING * fitness_hit_fraction
+
+with `ESSENTIALITY_CEILING = 1.20` log-odds. A gene essential in every screen
+that tested it loses the full 1.20. A gene essential in 70% of them, which is
+the pan-essential threshold, loses 0.84.
+
+The ceiling is set so that pan-essentiality roughly cancels the support of three
+HbF-specific publications. It is deliberately not larger. Essentiality argues
+that a gene is not a usable target, and the cost lens already records that
+separately as `NOT_THERAPEUTIC`. It is not an argument that the gene has no
+effect on HbF, and a coefficient large enough to annihilate the belief would be
+making that second, stronger claim on the strength of a fitness screen.
+
+### The composition route
+
+`ACTS_THROUGH` is the only route that can reach a gene the pre-cutoff literature
+does not write about, which is the case the benchmark is about. It is derived
+from HGNC gene groups whose names end "complex subunits", which assert that the
+members are subunits of one protein complex.
+
+Structural domain groups are not used. "Zinc fingers C2H2-type" and "BTB domain
+containing" assert a shared fold, not a shared mechanism, and they run to
+hundreds of genes, so an edge drawn from them would be noise with a provenance
+row attached.
+
+Two restrictions keep the route from manufacturing claims. The partner's support
+must be a *measurement*, because transferring a co-mention count through a
+complex would turn one weak signal into several. And there is one axiom per
+gene, from its single strongest partner, because subunits of a complex are
+studied together and are not independent observations.
+
+A partner's strongest measurement transfers at `COMPOSITION_DISCOUNT = 0.35`,
+and the resulting weight must reach `MIN_COMPOSITION_WEIGHT = 0.25` to make a
+claim reportable by this route. A third is the stated allowance for the fact
+that a complex contains subunits that carry its function and subunits that do
+not, and co-membership does not say which is which.
+
+**This route fires zero times at the primary slice.** No measurement-backed
+partner sits in any curated complex at 2017, because every HbF-family
+measurement in that slice is a genetic association at the globin locus, at
+BCL11A, at MYB or at HBS1L, and none of those genes shares a curated complex
+with another gene in scope. Five of the thirteen ground-truth genes at that
+slice are NuRD subunits, so a rule admitting literature-established partners
+would have reached several of them. That is recorded here rather than acted on;
+see the disclosure at the end of this document.
+
 ### Contradiction and supersession
 
 A contradiction subtracts. It does not zero a claim, because a failure to
@@ -374,3 +437,56 @@ enhancer with a single edit. The ordering follows the established pathway rather
 than the complex annotation. That is a judgement informed by knowing what was
 approved, it is not derived from the pre-T record, and a reader should weigh it
 as such.
+
+## Disclosure: what changed after the answer key was visible
+
+The rule book was frozen and tagged `rulebook-frozen-v1` before the scored runs,
+and the commit timestamp is the evidence. But an honest account needs more than
+a timestamp, because the code was still being fixed while the ground-truth gene
+list was on screen. What follows is every change made in that window and why
+none of it is tuning.
+
+Four defects were found by rebuilding the graph on the complete literature
+corpus, after the answer key existed. All four were wrong on their own terms,
+independently of any score:
+
+1.  `matched_tiers` was never written onto publication nodes, so no consumer
+    could tell an HbF record from an erythroid one. The forecast was empty and
+    every gene was refused. This was an absent field, not a judgement.
+2.  Publication support trusted the full-text retrieval tag, which credited
+    EIF2AK1 with thirty pre-2018 HbF records of which about three concerned the
+    gene; the rest included a Bacillus strain and a dairy cattle guideline.
+    Requiring the title to name the gene *reduced* EIF2AK1's support from 30 to
+    2, which moved it further from being forecast, not closer.
+3.  `gene_by_symbol` resolved HBG1 to ACSBG1, an acyl-CoA synthetase that lists
+    `hBG1` as an alias, because ties were broken by string-sorted identifier.
+    Fixing it removed a gene from the forecast and lowered the item count from
+    three to two.
+4.  Essentiality applied one independent update per fitness screen and zeroed
+    every pan-essential gene. Fixing it left the forecast and every ranking
+    metric unchanged and improved ECE from 0.206 to 0.199.
+
+Two of the four lowered the score. Two left the forecast untouched. None was
+made by looking at whether a ground-truth gene moved.
+
+The composition route is the case where the temptation was real and is worth
+being explicit about. It was specified and implemented on the reasoning in this
+document, and it produces nothing at the primary slice. Only afterwards was it
+apparent that five of the thirteen ground-truth genes at that slice are NuRD
+subunits, and that admitting literature-established partners instead of
+measurement-backed ones would have reached several of them. That change was not
+made. There is no principled coefficient for transferring a co-mention count
+along a complex edge, and the only argument available for making the change was
+that it would have improved the score. The route is reported as firing zero
+times.
+
+The same applies to the refusal threshold. LIN28B and HDAC2 both land at
+confidence 0.240 against the frozen 0.25, on five HbF publications each. Moving
+the threshold to 0.24 would have forecast two more correct genes. It was not
+moved.
+
+The general shape of the rule for anyone extending this: a change that makes a
+number wrong into a number right is a fix, and it stays even when it costs
+score. A change that makes a defensible number into a different defensible
+number, chosen because of where the answers are, is tuning, and it does not go
+in.

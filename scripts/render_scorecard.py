@@ -24,8 +24,26 @@ def fmt(value: object, places: int = 3) -> str:
 
 
 def load() -> list[dict]:
+    """Slice results only.
+
+    `hindcast heldout` writes its reports into the same directory with a
+    different shape, so the glob is filtered on the file name rather than on
+    what happens to parse.
+    """
     out = []
     for path in sorted(RESULTS.glob("*.json")):
+        payload = json.loads(path.read_text())
+        # A slice result is the only thing that carries an ablation name. The
+        # held-out reports and the ingestion report live in the same directory.
+        if "ablation" not in payload:
+            continue
+        out.append(payload)
+    return out
+
+
+def load_heldout() -> list[dict]:
+    out = []
+    for path in sorted(RESULTS.glob("heldout_*.json")):
         out.append(json.loads(path.read_text()))
     return out
 
@@ -39,6 +57,29 @@ def main() -> None:
     full.sort(key=lambda r: r["cutoff"])
 
     lines: list[str] = []
+
+    ingestion_path = RESULTS / "ingestion.json"
+    if ingestion_path.exists():
+        ing = json.loads(ingestion_path.read_text())
+        considered = sum(ing["available_by_source"].values())
+        lines.append("### Ingestion\n")
+        lines.append("| Measure | Value |")
+        lines.append("| --- | --- |")
+        lines.append(f"| Source records considered | {considered:,} |")
+        lines.append(f"| Nodes loaded | {ing['nodes_loaded']:,} |")
+        lines.append(f"| Edges loaded | {ing['edges_loaded']:,} |")
+        lines.append(f"| Excluded, with a recorded reason | {ing['excluded']:,} |")
+        lines.append(f"| Spurious records created | {ing['spurious']} |")
+        lines.append("")
+        lines.append("Exclusions by reason:\n")
+        lines.append("| Reason | Records |")
+        lines.append("| --- | --- |")
+        for reason, n in sorted(
+            ing["exclusions_by_reason"].items(), key=lambda kv: -kv[1]
+        ):
+            lines.append(f"| {reason} | {n:,} |")
+        lines.append("")
+
     lines.append("### Scorecard, full system\n")
     lines.append(
         "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
@@ -110,6 +151,36 @@ def main() -> None:
             lines.append(
                 f"| {b['lower']:.1f} to {b['upper']:.1f} | {b['n']} | "
                 f"{fmt(b['mean_confidence'])} | {fmt(b['observed_frequency'])} |"
+            )
+
+    lines.append("\n### Cost lens, full system\n")
+    lines.append(
+        "| Slice | Forecast | Items reordered by cost weighting | "
+        "Top by confidence | Top by cost impact | Surfaces a small molecule |"
+    )
+    lines.append("| --- | --- | --- | --- | --- | --- |")
+    for r in full:
+        c = r["scorecard"]
+        lines.append(
+            f"| {c['cutoff']} | {c['forecast_size']} | "
+            f"{c.get('cost_lens_reordered', 0)} | "
+            f"{c.get('cost_lens_top_route_by_confidence') or '--'} | "
+            f"{c.get('cost_lens_top_route_by_cost_impact') or '--'} | "
+            f"{'yes' if c.get('cost_lens_surfaces_small_molecule') else 'no'} |"
+        )
+
+    heldout = load_heldout()
+    if heldout:
+        lines.append("\n### Held-out recovery\n")
+        lines.append(
+            "| Slice | Genes tested | Recovered | Rate | Mean confidence drop |"
+        )
+        lines.append("| --- | --- | --- | --- | --- |")
+        for h in sorted(heldout, key=lambda x: x["cutoff"]):
+            lines.append(
+                f"| {h['cutoff']} | {h.get('genes_tested', 0)} | "
+                f"{h.get('recovered', 0)} | {fmt(h.get('recovery_rate'), 2)} | "
+                f"{fmt(h.get('mean_confidence_drop'))} |"
             )
 
     text = "\n".join(lines)

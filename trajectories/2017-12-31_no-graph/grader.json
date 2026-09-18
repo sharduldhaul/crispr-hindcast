@@ -1,0 +1,357 @@
+{
+  "agent": "grader",
+  "duration_ms": 0.298,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:47:35.634525+00:00",
+  "inputs": {
+    "cutoff": "2017-12-31"
+  },
+  "notes": [],
+  "output_summary": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.021896,
+        "n": 57,
+        "observed_frequency": 0.210526,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.784615,
+        "n": 1,
+        "observed_frequency": 0.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.989423,
+        "n": 2,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 1,
+    "contamination_traps_total": 8,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "EX_VIVO_SINGLE_EDIT",
+    "cutoff": "2017-12-31",
+    "expected_calibration_error": 0.225256,
+    "fabricated_detail": [
+      "forecast item HBG2: carries confidence 1.0 but names no record ID, so the number cannot be traced",
+      "forecast item HBG1: carries confidence 0.978846 but names no record ID, so the number cannot be traced",
+      "forecast item HBB: carries confidence 0.784615 but names no record ID, so the number cannot be traced",
+      "forecast item HBA2: carries confidence 0.190385 but names no record ID, so the number cannot be traced",
+      "forecast item HBA1: carries confidence 0.159615 but names no record ID, so the number cannot be traced",
+      "forecast item BCL11A: carries confidence 0.151923 but names no record ID, so the number cannot be traced",
+      "forecast item GATA1: carries confidence 0.113462 but names no record ID, so the number cannot be traced",
+      "forecast item KLF1: carries confidence 0.103846 but names no record ID, so the number cannot be traced",
+      "forecast item MYB: carries confidence 0.075 but names no record ID, so the number cannot be traced",
+      "forecast item HBE1: carries confidence 0.057692 but names no record ID, so the number cannot be traced",
+      "forecast item SIRT1: carries confidence 0.046154 but names no record ID, so the number cannot be traced",
+      "forecast item HBS1L: carries confidence 0.044231 but names no record ID, so the number cannot be traced",
+      "forecast item HBD: carries confidence 0.042308 but names no record ID, so the number cannot be traced",
+      "forecast item NFE2: carries confidence 0.032692 but names no record ID, so the number cannot be traced",
+      "forecast item SOX6: carries confidence 0.021154 but names no record ID, so the number cannot be traced",
+      "forecast item FOXO3: carries confidence 0.019231 but names no record ID, so the number cannot be traced",
+      "forecast item KDM1A: carries confidence 0.017308 but names no record ID, so the number cannot be traced",
+      "forecast item VHL: carries confidence 0.015385 but names no record ID, so the number cannot be traced",
+      "forecast item HDAC1: carries confidence 0.011538 but names no record ID, so the number cannot be traced",
+      "forecast item PRMT5: carries confidence 0.011538 but names no record ID, so the number cannot be traced"
+    ],
+    "fabricated_numbers": 60,
+    "forecast_size": 60,
+    "ground_truth_symbols": [
+      "ATF4",
+      "DNMT1",
+      "EIF2AK1",
+      "FOXO3",
+      "GATAD2A",
+      "HDAC2",
+      "HIC2",
+      "LIN28B",
+      "MBD2",
+      "MTA2",
+      "NFIX",
+      "RBBP4",
+      "ZNF410"
+    ],
+    "judgement_traps_passed": 7,
+    "judgement_traps_total": 7,
+    "notes": [
+      "1 of 8 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: ATF4, EIF2AK1, GATAD2A, HIC2, MTA2, NFIX, RBBP4, ZNF410. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 16,
+      "hits_at_10": [],
+      "hits_at_5": [],
+      "mean_reciprocal_rank": 0.0625,
+      "n_ground_truth": 13,
+      "n_ranked": 60,
+      "precision_at_10": 0.0,
+      "precision_at_5": 0.0,
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 16,
+      "hits_at_10": [],
+      "hits_at_5": [],
+      "mean_reciprocal_rank": 0.0625,
+      "n_ground_truth": 13,
+      "n_ranked": 60,
+      "precision_at_10": 0.0,
+      "precision_at_5": 0.0,
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 0.0,
+    "refusal_correct": 0,
+    "refusal_count": 0,
+    "refusal_total": 8,
+    "run_id": "2017-12-31_no-graph",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "HBBP1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "HBBP1",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:HBBP1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "ranked 21",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "ranked 28",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "ranked 35",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "ranked 20",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ATF4 was forecast although its role postdates the cutoff",
+        "gene_symbol": "ATF4",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:ATF4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EIF2AK1 was forecast although its role postdates the cutoff",
+        "gene_symbol": "EIF2AK1",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:EIF2AK1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "GATAD2A was forecast although its role postdates the cutoff",
+        "gene_symbol": "GATAD2A",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:GATAD2A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was forecast although its role postdates the cutoff",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MTA2 was forecast although its role postdates the cutoff",
+        "gene_symbol": "MTA2",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:MTA2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was forecast although its role postdates the cutoff",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "RBBP4 was forecast although its role postdates the cutoff",
+        "gene_symbol": "RBBP4",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZNF410 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZNF410",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:postdates:ZNF410",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 8,
+    "traps_passed_meaningfully": 8,
+    "traps_passed_vacuously": 0,
+    "traps_total": 15
+  },
+  "run_id": "2017-12-31_no-graph",
+  "started_at": "2026-09-18T07:47:35.634215+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2017-12-31"
+      },
+      "duration_ms": 0.02,
+      "name": "build_ground_truth",
+      "records_in": 0,
+      "records_out": 13,
+      "result_summary": "13 genes whose HbF role was established on or after 2017-12-31"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.023,
+      "name": "score_rankings",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "precision@5 0.000 by confidence, 0.000 by cost"
+    },
+    {
+      "args": {
+        "traps": 15
+      },
+      "duration_ms": 0.148,
+      "name": "score_traps",
+      "records_in": 0,
+      "records_out": 15,
+      "result_summary": "8/15 traps passed, of which 0 vacuously"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.006,
+      "name": "score_refusals",
+      "records_in": 0,
+      "records_out": 8,
+      "result_summary": "0/8 unanswerable questions correctly refused"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.023,
+      "name": "score_calibration",
+      "records_in": 0,
+      "records_out": 5,
+      "result_summary": "expected calibration error 0.2253"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.005,
+      "name": "check_cost_lens",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 items reordered; top route by cost EX_VIVO_SINGLE_EDIT"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.001,
+      "name": "check_provenance",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "60 untraceable numbers"
+    }
+  ]
+}

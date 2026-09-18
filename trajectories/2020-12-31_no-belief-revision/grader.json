@@ -1,0 +1,267 @@
+{
+  "agent": "grader",
+  "duration_ms": 0.161,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:48:45.473458+00:00",
+  "inputs": {
+    "cutoff": "2020-12-31"
+  },
+  "notes": [],
+  "output_summary": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.05,
+        "n": 34,
+        "observed_frequency": 0.088235,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 2,
+    "contamination_traps_total": 2,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": null,
+    "cost_lens_top_route_by_cost_impact": null,
+    "cutoff": "2020-12-31",
+    "expected_calibration_error": 0.038235,
+    "fabricated_detail": [],
+    "fabricated_numbers": 0,
+    "forecast_size": 0,
+    "ground_truth_symbols": [
+      "DNMT1",
+      "HIC2",
+      "NFIX"
+    ],
+    "judgement_traps_passed": 0,
+    "judgement_traps_total": 7,
+    "notes": [
+      "2 of 2 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "7 trap(s) passed only because the forecast is empty. Those passes measure nothing and are excluded from traps_passed_meaningfully.",
+      "Correctly refused and also in the ground truth: HIC2, NFIX. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": null,
+      "hits_at_10": [],
+      "hits_at_5": [],
+      "mean_reciprocal_rank": 0.0,
+      "n_ground_truth": 3,
+      "n_ranked": 0,
+      "precision_at_10": 0.0,
+      "precision_at_5": 0.0,
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": null,
+      "hits_at_10": [],
+      "hits_at_5": [],
+      "mean_reciprocal_rank": 0.0,
+      "n_ground_truth": 3,
+      "n_ranked": 0,
+      "precision_at_10": 0.0,
+      "precision_at_5": 0.0,
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 1.0,
+    "refusal_correct": 2,
+    "refusal_count": 34,
+    "refusal_total": 2,
+    "run_id": "2020-12-31_no-belief-revision",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "HBBP1 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "HBBP1",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:HBBP1",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed, but the forecast is empty, so this pass is vacuous",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": true
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 9,
+    "traps_passed_meaningfully": 2,
+    "traps_passed_vacuously": 7,
+    "traps_total": 9
+  },
+  "run_id": "2020-12-31_no-belief-revision",
+  "started_at": "2026-09-18T07:48:45.473280+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2020-12-31"
+      },
+      "duration_ms": 0.02,
+      "name": "build_ground_truth",
+      "records_in": 0,
+      "records_out": 3,
+      "result_summary": "3 genes whose HbF role was established on or after 2020-12-31"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.013,
+      "name": "score_rankings",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "precision@5 0.000 by confidence, 0.000 by cost"
+    },
+    {
+      "args": {
+        "traps": 9
+      },
+      "duration_ms": 0.037,
+      "name": "score_traps",
+      "records_in": 0,
+      "records_out": 9,
+      "result_summary": "9/9 traps passed, of which 7 vacuously"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.006,
+      "name": "score_refusals",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "2/2 unanswerable questions correctly refused"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.017,
+      "name": "score_calibration",
+      "records_in": 0,
+      "records_out": 5,
+      "result_summary": "expected calibration error 0.0382"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.002,
+      "name": "check_cost_lens",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 items reordered; top route by cost None"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.001,
+      "name": "check_provenance",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 untraceable numbers"
+    }
+  ]
+}

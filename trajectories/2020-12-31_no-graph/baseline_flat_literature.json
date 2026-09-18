@@ -1,0 +1,49 @@
+{
+  "agent": "baseline_flat_literature",
+  "duration_ms": 577.16,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:49:12.646546+00:00",
+  "inputs": {},
+  "notes": [],
+  "output_summary": {
+    "genes_ranked": 62,
+    "top10": [
+      "HBG2",
+      "HBG1",
+      "HBB",
+      "BCL11A",
+      "HBA2",
+      "HBA1",
+      "KLF1",
+      "GATA1",
+      "MYB",
+      "SIRT1"
+    ]
+  },
+  "run_id": "2020-12-31_no-graph",
+  "started_at": "2026-09-18T07:49:12.069371+00:00",
+  "tool_calls": [
+    {
+      "args": {},
+      "duration_ms": 564.434,
+      "name": "count_publications_per_gene",
+      "records_in": 0,
+      "records_out": 62,
+      "result_summary": "62 genes with at least one publication"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.171,
+      "name": "rank_by_count",
+      "records_in": 0,
+      "records_out": 62,
+      "result_summary": "62 genes ranked by raw publication count"
+    }
+  ]
+}

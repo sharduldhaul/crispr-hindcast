@@ -1,0 +1,420 @@
+{
+  "agent": "grader",
+  "duration_ms": 0.242,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "none: all decisions are stated rules, see agents/base.py",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-09-18T07:45:12.940416+00:00",
+  "inputs": {
+    "cutoff": "2014-12-31"
+  },
+  "notes": [],
+  "output_summary": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.087249,
+        "n": 45,
+        "observed_frequency": 0.377778,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.256587,
+        "n": 3,
+        "observed_frequency": 0.666667,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.486486,
+        "n": 1,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 16,
+    "contamination_traps_total": 16,
+    "cost_lens_reordered": 2,
+    "cost_lens_surfaces_small_molecule": true,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "SMALL_MOLECULE",
+    "cutoff": "2014-12-31",
+    "expected_calibration_error": 0.301847,
+    "fabricated_detail": [],
+    "fabricated_numbers": 0,
+    "forecast_size": 2,
+    "ground_truth_symbols": [
+      "ATF4",
+      "DNMT1",
+      "EHMT1",
+      "EHMT2",
+      "EIF2AK1",
+      "FOXO3",
+      "GATAD2A",
+      "HDAC2",
+      "HIC2",
+      "KDM1A",
+      "LIN28B",
+      "MBD2",
+      "MTA2",
+      "NFIX",
+      "RBBP4",
+      "SIRT1",
+      "TAL1",
+      "ZBTB7A",
+      "ZNF410"
+    ],
+    "judgement_traps_passed": 6,
+    "judgement_traps_total": 6,
+    "notes": [
+      "16 of 16 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: ATF4, DNMT1, EHMT1, EHMT2, EIF2AK1, GATAD2A, HDAC2, HIC2, LIN28B, MBD2, MTA2, NFIX, RBBP4, TAL1, ZBTB7A, ZNF410. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 2,
+      "hits_at_10": [
+        "SIRT1"
+      ],
+      "hits_at_5": [
+        "SIRT1"
+      ],
+      "mean_reciprocal_rank": 0.5,
+      "n_ground_truth": 19,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 1,
+      "hits_at_10": [
+        "SIRT1"
+      ],
+      "hits_at_5": [
+        "SIRT1"
+      ],
+      "mean_reciprocal_rank": 1.0,
+      "n_ground_truth": 19,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 1.0,
+    "refusal_correct": 16,
+    "refusal_count": 47,
+    "refusal_total": 16,
+    "run_id": "2014-12-31_full-system",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ATF4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ATF4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ATF4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "DNMT1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "DNMT1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:DNMT1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EHMT1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EHMT1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EHMT1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EHMT2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EHMT2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EHMT2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EIF2AK1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EIF2AK1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EIF2AK1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "GATAD2A was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "GATAD2A",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:GATAD2A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HDAC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HDAC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HDAC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "LIN28B was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "LIN28B",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:LIN28B",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MBD2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "MBD2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:MBD2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MTA2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "MTA2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:MTA2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "RBBP4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "RBBP4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "TAL1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "TAL1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:TAL1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZBTB7A was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZBTB7A",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ZBTB7A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZNF410 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZNF410",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ZNF410",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 22,
+    "traps_passed_meaningfully": 22,
+    "traps_passed_vacuously": 0,
+    "traps_total": 22
+  },
+  "run_id": "2014-12-31_full-system",
+  "started_at": "2026-09-18T07:45:12.940161+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2014-12-31"
+      },
+      "duration_ms": 0.022,
+      "name": "build_ground_truth",
+      "records_in": 0,
+      "records_out": 19,
+      "result_summary": "19 genes whose HbF role was established on or after 2014-12-31"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.023,
+      "name": "score_rankings",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "precision@5 0.200 by confidence, 0.200 by cost"
+    },
+    {
+      "args": {
+        "traps": 22
+      },
+      "duration_ms": 0.079,
+      "name": "score_traps",
+      "records_in": 0,
+      "records_out": 22,
+      "result_summary": "22/22 traps passed, of which 0 vacuously"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.011,
+      "name": "score_refusals",
+      "records_in": 0,
+      "records_out": 16,
+      "result_summary": "16/16 unanswerable questions correctly refused"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.026,
+      "name": "score_calibration",
+      "records_in": 0,
+      "records_out": 5,
+      "result_summary": "expected calibration error 0.3018"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.008,
+      "name": "check_cost_lens",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "2 items reordered; top route by cost SMALL_MOLECULE"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.003,
+      "name": "check_provenance",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "0 untraceable numbers"
+    }
+  ]
+}
