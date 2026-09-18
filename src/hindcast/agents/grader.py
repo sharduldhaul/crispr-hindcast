@@ -87,6 +87,16 @@ class Scorecard(BaseModel):
     #: headline figure rather than quietly inflating it.
     traps_passed_vacuously: int = 0
     traps_passed_meaningfully: int = 0
+    #: Traps that test judgement: would the system endorse a gene it should
+    #: reject. These are the ones a reader should look at.
+    judgement_traps_passed: int = 0
+    judgement_traps_total: int = 0
+    #: Traps that detect contamination: a gene with no pre-cutoff evidence whose
+    #: role was established later. The refusal rule makes these pass by
+    #: construction, so passing shows the slice held rather than that the
+    #: system reasoned. Failing would mean post-cutoff evidence leaked in.
+    contamination_traps_passed: int = 0
+    contamination_traps_total: int = 0
 
     alias_attacks_total: int = 0
     alias_attacks_resolved: int = 0
@@ -156,11 +166,26 @@ class Grader(Agent):
             card.traps_total = len(results)
             card.traps_passed_vacuously = sum(1 for r in results if r.passed and r.vacuous)
             card.traps_passed_meaningfully = card.traps_passed - card.traps_passed_vacuously
+            judgement = [r for r in results if r.kind != "postdates_cutoff"]
+            contamination = [r for r in results if r.kind == "postdates_cutoff"]
+            card.judgement_traps_total = len(judgement)
+            card.judgement_traps_passed = sum(1 for r in judgement if r.passed and not r.vacuous)
+            card.contamination_traps_total = len(contamination)
+            card.contamination_traps_passed = sum(1 for r in contamination if r.passed)
             call.records_out = len(results)
             call.result_summary = (
                 f"{card.traps_passed}/{card.traps_total} traps passed, of which "
                 f"{card.traps_passed_vacuously} vacuously"
             )
+            if card.contamination_traps_total:
+                card.notes.append(
+                    f"{card.contamination_traps_passed} of "
+                    f"{card.contamination_traps_total} contamination traps passed. "
+                    f"These pass by construction under the refusal rule, so a pass "
+                    f"shows the time slice held rather than that the system reasoned "
+                    f"well. A failure would mean post-cutoff evidence reached the "
+                    f"forecast."
+                )
             if card.traps_passed_vacuously:
                 card.notes.append(
                     f"{card.traps_passed_vacuously} trap(s) passed only because the "
@@ -183,6 +208,15 @@ class Grader(Agent):
                 f"{card.refusal_correct}/{card.refusal_total} unanswerable questions "
                 f"correctly refused"
             )
+            both = sorted(should_refuse & set(card.ground_truth_symbols))
+            if both:
+                card.notes.append(
+                    "Correctly refused and also in the ground truth: "
+                    + ", ".join(both)
+                    + ". These count as correct refusals and as missed forecasts at the "
+                    "same time, which is the honest description: the pre-cutoff evidence "
+                    "did not support the claim, and the field found it anyway."
+                )
 
         with self.tool("score_calibration") as call:
             bins, ece = _calibration(forecast, truth)

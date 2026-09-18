@@ -41,9 +41,11 @@ def main() -> None:
     lines: list[str] = []
     lines.append("### Scorecard, full system\n")
     lines.append(
-        "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Traps | Refusal acc | ECE | Fabricated |"
+        "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
     )
-    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    lines.append(
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+    )
     for r in full:
         c = r["scorecard"]
         conf = c.get("ranking_by_confidence") or {}
@@ -54,7 +56,8 @@ def main() -> None:
             f"{c['refusal_count']} | {fmt(conf.get('precision_at_5'), 2)} | "
             f"{fmt(cost.get('precision_at_5'), 2)} | {fmt(conf.get('precision_at_10'), 2)} | "
             f"{fmt(conf.get('mean_reciprocal_rank'))} | "
-            f"{c['traps_passed']}/{c['traps_total']} | "
+            f"{c.get('judgement_traps_passed', 0)}/{c.get('judgement_traps_total', 0)} | "
+            f"{c.get('contamination_traps_passed', 0)}/{c.get('contamination_traps_total', 0)} | "
             f"{c['refusal_correct']}/{c['refusal_total']}"
             + (f" ({fmt(acc, 2)})" if acc is not None else "")
             + f" | {fmt(c.get('expected_calibration_error'))} | {c['fabricated_numbers']} |"
@@ -65,7 +68,9 @@ def main() -> None:
         [r for r in results if r["cutoff"] == "2017-12-31"],
         key=lambda r: r["ablation"] != "full system",
     )
-    lines.append("| Ablation | Forecast | Refusals | P@5 conf | P@10 conf | MRR | Traps | ECE |")
+    lines.append(
+        "| Ablation | Forecast | Refusals | P@5 conf | P@10 conf | MRR | Judgement traps | ECE |"
+    )
     lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
     for r in primary:
         c = r["scorecard"]
@@ -73,7 +78,8 @@ def main() -> None:
         lines.append(
             f"| {r['ablation']} | {c['forecast_size']} | {c['refusal_count']} | "
             f"{fmt(conf.get('precision_at_5'), 2)} | {fmt(conf.get('precision_at_10'), 2)} | "
-            f"{fmt(conf.get('mean_reciprocal_rank'))} | {c['traps_passed']}/{c['traps_total']} | "
+            f"{fmt(conf.get('mean_reciprocal_rank'))} | "
+            f"{c.get('judgement_traps_passed', 0)}/{c.get('judgement_traps_total', 0)} | "
             f"{fmt(c.get('expected_calibration_error'))} |"
         )
 
@@ -85,6 +91,10 @@ def main() -> None:
         lines.append("| --- | --- | --- | --- | --- |")
         for t in r["scorecard"]["traps"]:
             mark = "pass" if t["passed"] else "**FAIL**"
+            if t["passed"] and t.get("vacuous"):
+                mark = "pass (vacuous)"
+            if t["passed"] and t["kind"] == "postdates_cutoff":
+                mark = "pass (contamination check)"
             lines.append(
                 f"| {t['gene_symbol']} | {t['kind']} | {t['correct_answer']} | "
                 f"{t['system_answer']} | {mark} |"

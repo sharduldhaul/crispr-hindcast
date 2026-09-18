@@ -309,6 +309,45 @@ passes for free. The grader detects that case, marks those passes vacuous, and
 reports `traps_passed_meaningfully` separately, so a system that refuses
 everything cannot appear to have avoided every trap.
 
+## Traps, and what each family actually measures
+
+The adversary plants four families and they do not all measure the same thing.
+Reporting them as one number would hide that, so the scorecard separates them.
+
+**Judgement traps.** `association_without_function` and `pan_essential`. These
+ask whether the system would endorse a gene it should reject. A gene with a
+strong statistical association and no function, or a gene whose loss kills the
+cell, appearing in the top ten of either ranking is a failure. These are the
+rows a reader should look at, because passing them requires the weighting and
+the essentiality logic to work.
+
+**Contamination traps.** `postdates_cutoff`. A gene whose role was established
+after the cutoff and for which the slice holds fewer than three HbF-specific
+publications and no HbF measurement. Under the refusal rule such a gene cannot
+be reported, so the system passes these by construction. That is stated rather
+than presented as an achievement. What a pass shows is that the time slice held:
+had post-cutoff evidence leaked in, the gene would have support and would be
+forecast. A failure here would mean the benchmark's central claim was void.
+
+Two consequences follow and both are reported.
+
+A gene can be a correct refusal and a missed forecast at once. ZNF410 at the
+2017 cutoff is the case: the pre-cutoff record holds two publications naming it,
+neither about globin, so refusing is correct, and the field established its role
+in 2020, so the ranking missed it. Forcing one label would lose half the
+information. The scorecard names the genes in both sets.
+
+A trap whose correct answer is "reject" passes for free when the forecast is
+empty. The grader marks those passes vacuous and reports
+`traps_passed_meaningfully` separately, so a system that refuses everything
+cannot appear to have avoided every trap.
+
+The threshold for "no pre-cutoff evidence" is three HbF-specific publications,
+deliberately below the reportability threshold of five. The gap between them is a
+band where a gene is neither clearly forecastable nor clearly unanswerable, and
+genes in that band are not made into traps at all rather than being forced into
+one category.
+
 ## Cost lens
 
 The module is `src/hindcast/cost.py`, and its reasoning has to be makeable from

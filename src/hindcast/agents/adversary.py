@@ -15,8 +15,21 @@ Each trap family corresponds to a way a system of this kind actually fails.
     receptors.
 *   `pan_essential`. A gene whose loss kills the cell. Raising HbF is no use if
     the cell is dead, so ranking one of these highly is the expensive mistake.
-*   `postdates_cutoff`. A question whose answer is not in the pre-T record.
-    Refusal is the correct answer and scores as one.
+*   `postdates_cutoff`. A question whose answer is not in the pre-T record at
+    all: the gene's role was established after the cutoff and the slice holds
+    almost no evidence linking it to HbF. Refusal is the correct answer.
+
+    This family is a contamination detector rather than a test of reasoning, and
+    it is worth being precise about why. Under the refusal rule a gene with no
+    evidence of substance cannot be reported, so the system passes these by
+    construction. What passing shows is that no post-cutoff evidence leaked in:
+    if it had, the gene would have support and would be forecast. A failure here
+    would mean the slice is not doing its job. The grader reports these
+    separately from the traps that test judgement.
+
+    A gene can therefore be both a correct refusal here and a missed forecast in
+    the ranking. That is not a contradiction. It is the honest description of a
+    finding the evidence did not support and that turned out to be true anyway.
 *   `alias_attack` and `paraphrase_attack`. The same question in older symbols
     and informal names, to test whether performance depends on surface strings.
 """
@@ -33,6 +46,14 @@ from hindcast.agents.base import Agent
 from hindcast.models import NodeType
 from hindcast.scope import INFORMAL_NAMES
 from hindcast.store import SliceStore, Store
+
+#: A gene with fewer than this many pre-cutoff HbF-specific publications, and no
+#: pre-cutoff HbF measurement, counts as having no pre-cutoff evidence. Stated
+#: as a policy and frozen with the rest. Deliberately smaller than the
+#: reportability threshold in the belief reviser: the gap between them is the
+#: band where a gene is neither clearly forecastable nor clearly unanswerable,
+#: and genes in it are simply not made into traps.
+NO_EVIDENCE_PUBLICATION_LIMIT = 3
 
 TrapKind = Literal[
     "association_without_function",
@@ -104,7 +125,7 @@ class Adversary(Agent):
             traps.extend(got)
 
         with self.tool("find_postdates_cutoff", cutoff=cutoff.isoformat()) as call:
-            got = self._postdates_traps(establishment, cutoff)
+            got = self._postdates_traps(slice_store, establishment, cutoff)
             call.records_out = len(got)
             call.result_summary = f"{len(got)} questions whose answer postdates the cutoff"
             traps.extend(got)
@@ -252,11 +273,22 @@ class Adversary(Agent):
             )
         return out
 
-    def _postdates_traps(self, establishment: dict[str, dict], cutoff: date) -> list[Trap]:
-        """Questions whose answer is not in the pre-cutoff record.
+    def _postdates_traps(
+        self, slice_store: SliceStore, establishment: dict[str, dict], cutoff: date
+    ) -> list[Trap]:
+        """Questions whose answer is not in the pre-cutoff record at all.
 
-        Refusal is the correct answer. These are the rows that make refusal a
-        scored outcome rather than a way of avoiding the scorecard.
+        Two conditions, not one. The gene's role has to be established after the
+        cutoff, and the slice has to hold almost nothing linking the gene to
+        HbF. The second condition is what keeps this family coherent.
+
+        Without it, every gene established after the cutoff would be a trap
+        demanding refusal, while the same genes are the ground truth the ranking
+        is supposed to surface. That asks the system to refuse and to rank the
+        same thing. A gene with eighty pre-cutoff HbF papers whose formal
+        establishment came later is a legitimate forecast target, not an
+        unanswerable question, and only genes with essentially no pre-cutoff
+        evidence belong here.
         """
         out: list[Trap] = []
         for symbol, entry in sorted(establishment.items()):
@@ -265,6 +297,12 @@ class Adversary(Agent):
                 continue
             established_on = date.fromisoformat(record["date"][:10])
             if established_on < cutoff:
+                continue
+            evidence = self._pre_cutoff_hbf_evidence(slice_store, symbol)
+            if (
+                evidence["hbf_publications"] >= NO_EVIDENCE_PUBLICATION_LIMIT
+                or evidence["hbf_measurements"] > 0
+            ):
                 continue
             out.append(
                 Trap(
@@ -279,7 +317,11 @@ class Adversary(Agent):
                     rationale=(
                         f"The role of {symbol} was established on "
                         f"{record['date'][:10]} by PMID {record['pmid']}, after the "
-                        f"cutoff. A system reading only pre-cutoff evidence should say "
+                        f"cutoff, and the slice holds "
+                        f"{evidence['hbf_publications']} publication(s) naming it with "
+                        f"fetal hemoglobin and {evidence['hbf_measurements']} HbF "
+                        f"measurement(s). There is nothing before the cutoff to reason "
+                        f"from, so a system reading only pre-cutoff evidence should say "
                         f"the evidence does not support the claim. Naming it with "
                         f"confidence would indicate contamination rather than insight."
                     ),
@@ -297,10 +339,44 @@ class Adversary(Agent):
                         "establishing_pmid": record.get("pmid"),
                         "establishing_doi": record.get("doi"),
                         "days_after_cutoff": (established_on - cutoff).days,
+                        "pre_cutoff_hbf_publications": evidence["hbf_publications"],
+                        "pre_cutoff_hbf_measurements": evidence["hbf_measurements"],
                     },
                 )
             )
         return out
+
+    @staticmethod
+    def _pre_cutoff_hbf_evidence(slice_store: SliceStore, symbol: str) -> dict[str, int]:
+        """How much the slice links this gene to HbF. Counted, not judged."""
+        gene = slice_store.gene_by_symbol(symbol)
+        if gene is None:
+            return {"hbf_publications": 0, "hbf_measurements": 0}
+        pubs = slice_store.sql(
+            """
+            SELECT count(*) FROM node
+             WHERE type = 'Publication'
+               AND EXISTS (SELECT 1 FROM json_each(attrs, '$.matched_genes')
+                            WHERE json_each.value = ?)
+               AND EXISTS (SELECT 1 FROM json_each(attrs, '$.matched_tiers')
+                            WHERE json_each.value = 'hbf')
+            """,
+            (symbol,),
+        )
+        meas = slice_store.sql(
+            """
+            SELECT count(*) FROM node m
+              JOIN node p ON p.id = json_extract(m.attrs, '$.phenotype_id')
+             WHERE m.type = 'Measurement'
+               AND json_extract(m.attrs, '$.gene_id') = ?
+               AND json_extract(p.attrs, '$.family') = 'HBF'
+            """,
+            (gene.id,),
+        )
+        return {
+            "hbf_publications": int(pubs[0][0]) if pubs else 0,
+            "hbf_measurements": int(meas[0][0]) if meas else 0,
+        }
 
     def _alias_attacks(
         self, slice_store: SliceStore, establishment: dict[str, dict]
