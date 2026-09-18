@@ -38,6 +38,10 @@ ESSENTIAL_EFFECT = -1.0
 #: Fraction of tested lines that must be essential for a pan-essential call.
 PAN_ESSENTIAL_FRACTION = 0.70
 
+#: How many publication records a literature axiom names. See the comment where
+#: it is applied.
+LITERATURE_RECORD_CAP = 400
+
 
 class AxiomValidationError(ValueError):
     """An axiom that cannot enter the system, and why."""
@@ -494,7 +498,20 @@ class AxiomExtractor(Agent):
                             "evidence of an effect or its direction."
                         ),
                     },
-                    supporting_record_ids=sorted(p.id for p in hbf_pubs or pub_list)[:200],
+                    # Capped, and the cap is by date rather than by identifier
+                    # so the records kept are the earliest ones. Two reasons for
+                    # a cap: an axiom naming twelve thousand publications is not
+                    # readable, and the logarithmic literature rule means the
+                    # later records contribute almost nothing anyway. The count
+                    # in `hbf_specific_publications` above is the full count, not
+                    # the capped one, so the reported support is not understated.
+                    supporting_record_ids=[
+                        p.id
+                        for p in sorted(
+                            hbf_pubs or pub_list,
+                            key=lambda x: (x.prov.effective_date, x.id),
+                        )[:LITERATURE_RECORD_CAP]
+                    ],
                     confidence=0.0,
                     evidence_weight_total=round(
                         len(hbf_pubs) * 0.20 + (len(pub_list) - len(hbf_pubs)) * 0.05, 6

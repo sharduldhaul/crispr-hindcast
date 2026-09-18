@@ -26,6 +26,7 @@ from hindcast.pipeline import (
     build_snapshot,
     load_snapshot,
     run_all_slices,
+    run_heldout,
     run_slice,
 )
 from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
@@ -133,6 +134,30 @@ def scorecard() -> None:
             f"{card['refusal_correct']}/{card['refusal_total']}",
             f"{card.get('expected_calibration_error')}",
             str(card["fabricated_numbers"]),
+        )
+    console.print(table)
+
+
+@app.command()
+def heldout(
+    cutoff: str = typer.Option(PRIMARY_SLICE.isoformat()),
+    db: Path = typer.Option(DEFAULT_DB),
+    max_genes: int = typer.Option(12, help="How many genes to hold out in turn."),
+) -> None:
+    """Hide a gene's measurements inside the pre-cutoff window and test recovery."""
+    report = run_heldout(date.fromisoformat(cutoff), store_path=db, max_genes=max_genes)
+    console.print(
+        f"held out {report.genes_tested} reportable gene(s); recovered {report.recovered}"
+        + (f" ({report.recovery_rate:.2f})" if report.recovery_rate is not None else "")
+    )
+    table = Table("gene", "hidden", "conf with", "conf without", "recovered")
+    for h in report.holdouts:
+        table.add_row(
+            h.gene_symbol,
+            str(h.measurements_hidden),
+            f"{h.confidence_with_measurements:.3f}",
+            f"{h.confidence_without_measurements:.3f}",
+            "yes" if h.recovered else "no",
         )
     console.print(table)
 

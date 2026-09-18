@@ -19,6 +19,18 @@ def dated_prov(source_id: str, when: date, **kw) -> Provenance:
     )
 
 
+@pytest.fixture(autouse=True)
+def _trajectories_to_tmp(tmp_path: Path, monkeypatch) -> None:
+    """Keep test runs out of the committed trajectories directory.
+
+    `trajectories/` holds the logs for the real evaluation runs and is committed.
+    A test that writes there would put junk beside the evidence.
+    """
+    import hindcast.agents.base as base
+
+    monkeypatch.setattr(base, "TRAJECTORY_DIR", tmp_path / "trajectories")
+
+
 @pytest.fixture
 def toy_store(tmp_path: Path) -> Store:
     """A graph with one pre-2018 and one post-2018 measurement.

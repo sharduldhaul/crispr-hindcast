@@ -337,6 +337,31 @@ def load_snapshot(
         store.close()
 
 
+def run_heldout(
+    cutoff: date,
+    *,
+    store_path: Path | str = DEFAULT_DB,
+    max_genes: int = 12,
+    write_results: bool = True,
+) -> Any:
+    """Run the held-out prediction evaluation for one slice."""
+    from hindcast.heldout import HeldOutEvaluator
+
+    store = Store(store_path)
+    try:
+        report = HeldOutEvaluator(f"{cutoff.isoformat()}_heldout").run(
+            store, cutoff, max_genes=max_genes
+        )
+        if write_results:
+            RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+            (RESULTS_DIR / f"heldout_{cutoff.isoformat()}.json").write_text(
+                json.dumps(report.model_dump(), indent=2, sort_keys=True, default=str)
+            )
+        return report
+    finally:
+        store.close()
+
+
 def run_all_slices(
     *,
     store_path: Path | str = DEFAULT_DB,
