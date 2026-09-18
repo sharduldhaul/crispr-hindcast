@@ -1,4 +1,4 @@
-# crispr-hindcast
+# CRISPR HINDCAST
 
 **Freeze the evidence at a date. Forecast what the field finds next. Grade
 against what it actually found.**
