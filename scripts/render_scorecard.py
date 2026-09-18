@@ -1,0 +1,113 @@
+"""Render the scorecard from eval/results/ as the markdown the README leads with.
+
+Reads only committed result files. Prints bad numbers with the same prominence
+as good ones, because a middling figure left in place is worth more than a clean
+sheet.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "eval" / "results"
+
+
+def fmt(value: object, places: int = 3) -> str:
+    if value is None:
+        return "not run"
+    if isinstance(value, float):
+        return f"{value:.{places}f}"
+    return str(value)
+
+
+def load() -> list[dict]:
+    out = []
+    for path in sorted(RESULTS.glob("*.json")):
+        out.append(json.loads(path.read_text()))
+    return out
+
+
+def main() -> None:
+    results = load()
+    if not results:
+        raise SystemExit("no results in eval/results; run `hindcast run-all` first")
+
+    full = [r for r in results if r["ablation"] == "full system"]
+    full.sort(key=lambda r: r["cutoff"])
+
+    lines: list[str] = []
+    lines.append("### Scorecard, full system\n")
+    lines.append(
+        "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Traps | Refusal acc | ECE | Fabricated |"
+    )
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    for r in full:
+        c = r["scorecard"]
+        conf = c.get("ranking_by_confidence") or {}
+        cost = c.get("ranking_by_cost_impact") or {}
+        acc = c.get("refusal_accuracy")
+        lines.append(
+            f"| {c['cutoff']} | {len(c['ground_truth_symbols'])} | {c['forecast_size']} | "
+            f"{c['refusal_count']} | {fmt(conf.get('precision_at_5'), 2)} | "
+            f"{fmt(cost.get('precision_at_5'), 2)} | {fmt(conf.get('precision_at_10'), 2)} | "
+            f"{fmt(conf.get('mean_reciprocal_rank'))} | "
+            f"{c['traps_passed']}/{c['traps_total']} | "
+            f"{c['refusal_correct']}/{c['refusal_total']}"
+            + (f" ({fmt(acc, 2)})" if acc is not None else "")
+            + f" | {fmt(c.get('expected_calibration_error'))} | {c['fabricated_numbers']} |"
+        )
+
+    lines.append("\n### Ablations, primary slice\n")
+    primary = sorted(
+        [r for r in results if r["cutoff"] == "2017-12-31"],
+        key=lambda r: r["ablation"] != "full system",
+    )
+    lines.append("| Ablation | Forecast | Refusals | P@5 conf | P@10 conf | MRR | Traps | ECE |")
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
+    for r in primary:
+        c = r["scorecard"]
+        conf = c.get("ranking_by_confidence") or {}
+        lines.append(
+            f"| {r['ablation']} | {c['forecast_size']} | {c['refusal_count']} | "
+            f"{fmt(conf.get('precision_at_5'), 2)} | {fmt(conf.get('precision_at_10'), 2)} | "
+            f"{fmt(conf.get('mean_reciprocal_rank'))} | {c['traps_passed']}/{c['traps_total']} | "
+            f"{fmt(c.get('expected_calibration_error'))} |"
+        )
+
+    lines.append("\n### Traps, primary slice, named individually\n")
+    for r in primary:
+        if r["ablation"] != "full system":
+            continue
+        lines.append("| Trap | Kind | Correct answer | System answer | Result |")
+        lines.append("| --- | --- | --- | --- | --- |")
+        for t in r["scorecard"]["traps"]:
+            mark = "pass" if t["passed"] else "**FAIL**"
+            lines.append(
+                f"| {t['gene_symbol']} | {t['kind']} | {t['correct_answer']} | "
+                f"{t['system_answer']} | {mark} |"
+            )
+
+    lines.append("\n### Reliability, primary slice, full system\n")
+    for r in primary:
+        if r["ablation"] != "full system":
+            continue
+        lines.append("| Confidence bin | Claims | Mean confidence | Observed frequency |")
+        lines.append("| --- | --- | --- | --- |")
+        for b in r["scorecard"]["calibration_bins"]:
+            lines.append(
+                f"| {b['lower']:.1f} to {b['upper']:.1f} | {b['n']} | "
+                f"{fmt(b['mean_confidence'])} | {fmt(b['observed_frequency'])} |"
+            )
+
+    text = "\n".join(lines)
+    out = ROOT / "eval" / "scorecard.md"
+    out.write_text(text + "\n")
+    print(text)
+    print(f"\nwritten to {out.relative_to(ROOT)}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

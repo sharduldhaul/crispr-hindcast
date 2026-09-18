@@ -261,12 +261,12 @@
   "core_scope": true,
   "established": true,
   "establishing_record": {
-   "date": "2019-04-19",
-   "doi": "10.3324/haematol.2018.210963",
+   "date": "2012-12-20",
+   "doi": "10.1371/journal.pgen.1003155",
    "journal": null,
-   "pmid": "31004025",
+   "pmid": "23284307",
    "reason": "title asserts a regulatory role over an HbF readout",
-   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
+   "title": "Mi2\u03b2 is required for \u03b3-globin gene silencing: temporal assembly of a GATA-1-FOG-1-Mi2 repressor complex in \u03b2-YAC transgenic mice."
   },
   "near_misses": [
    {
@@ -308,7 +308,10 @@
   ],
   "query_terms": [
    "CHD4",
+   "CHD4/NuRD",
+   "Mi-2b",
    "Mi-2beta",
+   "Mi2b",
    "Mi2beta",
    "mi-2beta",
    "mi2b",
@@ -1255,7 +1258,7 @@
    "beta globin",
    "beta-globin"
   ],
-  "records_considered": 4431,
+  "records_considered": 4415,
   "rejected_candidates": [
    {
     "date": "1973-12-01",
@@ -1479,7 +1482,7 @@
    "gamma globin",
    "gamma-globin"
   ],
-  "records_considered": 4117,
+  "records_considered": 4118,
   "rejected_candidates": [
    {
     "date": "1976-05-01",
@@ -2169,15 +2172,8 @@
  },
  "MBD3": {
   "core_scope": false,
-  "established": true,
-  "establishing_record": {
-   "date": "2019-04-19",
-   "doi": "10.3324/haematol.2018.210963",
-   "journal": null,
-   "pmid": "31004025",
-   "reason": "title asserts a regulatory role over an HbF readout",
-   "title": "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high level HbF expression in human adult erythroid cells."
-  },
+  "established": false,
+  "establishing_record": null,
   "near_misses": [
    {
     "date": "2006-04-11",

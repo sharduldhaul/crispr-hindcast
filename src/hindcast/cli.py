@@ -21,7 +21,10 @@ from hindcast.pipeline import (
     ABLATIONS,
     DEFAULT_DB,
     RESULTS_DIR,
+    SNAPSHOT_DIR,
     build_graph,
+    build_snapshot,
+    load_snapshot,
     run_all_slices,
     run_slice,
 )
@@ -44,9 +47,19 @@ def build(
         True, help="Build from the committed snapshot rather than raw payloads."
     ),
 ) -> None:
-    """Build the graph. Uses the committed snapshot by default, so it works offline."""
-    source = snapshot if from_snapshot else raw_dir
-    report = build_graph(source, db)
+    """Build the graph. Uses the committed snapshot by default, so it works offline.
+
+    The two paths are not interchangeable. `--from-snapshot` reads the committed
+    rows and needs no network and no raw payloads, which is the path a clone
+    takes. `--no-from-snapshot` re-normalizes the fetched payloads, which is the
+    path used after a re-fetch, and it needs data/raw to be populated.
+    """
+    if from_snapshot:
+        report = load_snapshot(snapshot, db)
+        console.print(f"built from the committed snapshot at {snapshot}")
+    else:
+        report = build_graph(raw_dir, db)
+        console.print(f"built by re-normalizing the raw payloads at {raw_dir}")
     console.print(f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}")
     console.print(f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}")
     table = Table("source", "available", "loaded")
@@ -122,6 +135,21 @@ def scorecard() -> None:
             str(card["fabricated_numbers"]),
         )
     console.print(table)
+
+
+@app.command("build-snapshot")
+def build_snapshot_cmd(
+    raw_dir: Path = typer.Option(ROOT / "data" / "raw"),
+    snapshot: Path = typer.Option(SNAPSHOT_DIR),
+) -> None:
+    """Normalize the raw payloads into the committed snapshot."""
+    manifest = build_snapshot(raw_dir, snapshot)
+    console.print(f"snapshot written to {snapshot}")
+    table = Table("file", "bytes", "sha256")
+    for name, meta in manifest["files"].items():
+        table.add_row(name, f"{meta['bytes']:,}", meta["sha256"][:16] + "...")
+    console.print(table)
+    console.print(f"counts: {manifest['counts']}")
 
 
 @app.command()
