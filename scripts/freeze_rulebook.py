@@ -24,12 +24,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from hindcast.agents.axioms import (  # noqa: E402
+    COMPOSITION_DISCOUNT,
+    GWAS_SIGNIFICANCE,
+    PAN_ESSENTIAL_FRACTION,
+)
 from hindcast.agents.belief_reviser import (  # noqa: E402
+    ESSENTIALITY_CEILING,
     EVIDENCE_STRENGTH,
+    LITERATURE_SCALE,
+    MIN_COMPOSITION_WEIGHT,
+    MIN_HBF_PUBLICATIONS,
     MIN_SUPPORTING_WEIGHT,
     PRIOR_CONFIDENCE,
     REFUSAL_CONFIDENCE_THRESHOLD,
 )
+from hindcast.ingest.sources import COMPLEX_GROUP_SUFFIX  # noqa: E402
+from hindcast.textmatch import MIN_ALIAS_LENGTH, SHORT_ALIASES  # noqa: E402
 from hindcast.agents.method_signature import coefficient_manifest  # noqa: E402
 from hindcast.cost import COST_WEIGHTS, PRICE_ANCHORS  # noqa: E402
 from hindcast.scope import (  # noqa: E402
@@ -71,14 +82,56 @@ def main() -> None:
             "update_rule": "log-odds accumulation, order independent",
             "contradiction": "subtracts; does not zero a claim",
             "supersession": "does not subtract; the earlier claim was coarse, not wrong",
+            "literature_scale": LITERATURE_SCALE,
+            "literature_accumulation": (
+                "logarithmic: the k-th publication contributes ln(1+k) - ln(k), so n "
+                "publications total LITERATURE_SCALE * ln(1+n). Publications are "
+                "correlated observations of one literature, not independent "
+                "experiments."
+            ),
+            "essentiality_ceiling": ESSENTIALITY_CEILING,
+            "essentiality_accumulation": (
+                "harmonic increments normalised to ESSENTIALITY_CEILING times the "
+                "fitness hit fraction, so a gene measured in 26,171 correlated "
+                "screens cannot be driven to zero confidence."
+            ),
+            "composition_discount": COMPOSITION_DISCOUNT,
         },
         "refusal": {
             "confidence_threshold": REFUSAL_CONFIDENCE_THRESHOLD,
             "min_supporting_weight": MIN_SUPPORTING_WEIGHT,
+            "min_hbf_publications": MIN_HBF_PUBLICATIONS,
+            "min_composition_weight": MIN_COMPOSITION_WEIGHT,
             "rationale": (
-                "Both conditions are required. The weight floor is what stops a pile "
-                "of text-mined co-mentions carrying a claim over the confidence line."
+                "A confidence above the threshold is necessary but not sufficient. "
+                "The claim must also have evidence of substance by one of three "
+                "routes: a measurement at or above the weight floor, at least "
+                "MIN_HBF_PUBLICATIONS HbF-specific publications, or a "
+                "complex-composition step at or above its own floor. The floors are "
+                "what stop a pile of co-mentions carrying a claim over the line, and "
+                "they count different kinds of evidence so that they stay distinct."
             ),
+        },
+        "evidence_admission": {
+            "gene_named_by": "title_names_gene",
+            "rationale": (
+                "A publication supports a gene only if its title names the gene. The "
+                "Europe PMC query searches full text, so retrieval tags a record with "
+                "every scope gene whose name or alias appears anywhere in the article."
+            ),
+            "min_alias_length": MIN_ALIAS_LENGTH,
+            "short_alias_allowlist": {k: list(v) for k, v in SHORT_ALIASES.items()},
+            "acts_through_basis": (
+                f"HGNC gene groups whose name ends {COMPLEX_GROUP_SUFFIX!r}"
+            ),
+            "acts_through_excluded": (
+                "Structural domain groups such as 'Zinc fingers C2H2-type' and 'BTB "
+                "domain containing'. Sharing a domain is not sharing a mechanism."
+            ),
+        },
+        "thresholds": {
+            "gwas_significance": GWAS_SIGNIFICANCE,
+            "pan_essential_fraction": PAN_ESSENTIAL_FRACTION,
         },
         "cost_lens": {
             "weights": {str(k): v for k, v in COST_WEIGHTS.items()},

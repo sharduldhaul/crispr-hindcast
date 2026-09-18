@@ -42,6 +42,7 @@ from _fetchlib import ROOT, client, get_json
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES, SCOPE_GENES  # noqa: E402
+from hindcast.textmatch import fold, names_gene, usable_terms  # noqa: E402
 
 SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
@@ -89,58 +90,6 @@ def gene_query_terms(symbol: str) -> list[str]:
     return sorted(terms)
 
 
-#: Greek letters spelled out. Titles write "Mi2beta" and "Mi2β" and "gamma-globin"
-#: and "γ-globin" interchangeably, and a matcher that does not fold them is
-#: matching typography rather than content. This one mattered: without it the
-#: rule missed both 2012 and 2013 CHD4 papers, whose titles name the protein as
-#: "Mi2β", and dated CHD4 to 2019 instead. CHD4 is pre-cutoff knowledge for the
-#: primary slice, so getting that wrong would have moved a gene into the answer
-#: key that the field already knew about.
-GREEK = {
-    "α": "alpha", "β": "beta", "γ": "gamma", "δ": "delta", "ε": "epsilon",
-    "ζ": "zeta", "θ": "theta", "κ": "kappa", "λ": "lambda", "μ": "mu",
-    "Α": "alpha", "Β": "beta", "Γ": "gamma", "Δ": "delta", "Ε": "epsilon",
-}
-
-#: Phrases that negate the gene that follows them. A title reading "Disruption
-#: of the MBD2-NuRD complex but not MBD3-NuRD induces high fetal hemoglobin"
-#: asserts a role for MBD2 and denies one for MBD3. Without this the rule
-#: credited MBD3 with an establishing record from the paper that ruled it out.
-NEGATION_BEFORE = re.compile(
-    r"(but\s+not|rather\s+than|independent(?:ly)?\s+of|excluding|without|not)\s*$",
-    re.I,
-)
-
-
-def fold(text: str) -> str:
-    for greek, latin in GREEK.items():
-        text = text.replace(greek, latin)
-    return text
-
-
-def names_gene(title: str, terms: list[str]) -> bool:
-    """Whether the title positively names this gene.
-
-    Three things this has to get right. Word boundaries, so a three-letter
-    symbol is not matched inside an unrelated word. Greek letter folding, so
-    "Mi2beta" and "Mi2β" are the same name. And negation, so a title that names
-    a gene only to exclude it does not count as establishing it.
-    """
-    folded_title = fold(title)
-    for term in terms:
-        folded_term = fold(term)
-        for match in re.finditer(
-            rf"(?<![0-9A-Za-z]){re.escape(folded_term)}(?![0-9A-Za-z])",
-            folded_title,
-            re.I,
-        ):
-            preceding = folded_title[max(0, match.start() - 24) : match.start()]
-            if NEGATION_BEFORE.search(preceding.rstrip()):
-                continue
-            return True
-    return False
-
-
 def is_primary_claim(rec: dict, terms: list[str]) -> tuple[bool, str]:
     title = (rec.get("title") or "").strip()
     if not title:
@@ -163,8 +112,12 @@ def main() -> None:
     entries: dict[str, dict] = {}
     with client() as c:
         for symbol in ALL_SCOPE_GENES:
-            terms = gene_query_terms(symbol)
-            clause = "(" + " OR ".join(f'"{t}"' for t in terms) + ")"
+            query_terms = gene_query_terms(symbol)
+            # Search with every name, including the short ones, so nothing is
+            # missed at retrieval. Match titles with the curated subset, so a
+            # three-letter alias cannot credit an unrelated article.
+            terms = usable_terms(symbol, query_terms)
+            clause = "(" + " OR ".join(f'"{t}"' for t in query_terms) + ")"
             query = (
                 f"{clause} AND (\"fetal hemoglobin\" OR \"fetal haemoglobin\" OR \"HbF\" OR "
                 f"\"gamma-globin\" OR \"gamma globin\" OR \"globin switching\")"

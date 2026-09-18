@@ -192,19 +192,51 @@ class _Readable:
         return [_row_to_node(r) for r in self.conn.execute(sql, (gene_id,))]
 
     def gene_by_symbol(self, symbol: str) -> Node | None:
-        """Resolve a current symbol or a known alias. Alias lookup is what makes
-        the adversary's older-symbol attacks a test of the graph and not of string
-        matching."""
-        sql = """
+        """Resolve a current approved symbol, or an unambiguous alias.
+
+        Alias lookup is what makes the adversary's older-symbol attacks a test
+        of the graph and not of string matching. The precedence is what makes it
+        correct, and it is worth spelling out because getting it wrong was not
+        obvious from the outside.
+
+        An approved symbol always wins over another gene's alias. HGNC lists
+        "hBG1" among the aliases of ACSBG1, so a lookup of "HBG1" matches both
+        HBG1, where it is the approved symbol, and ACSBG1, where it is an alias.
+        An earlier version selected between them with `ORDER BY id LIMIT 1`,
+        which compares "gene:HGNC:29567" against "gene:HGNC:4831" as strings and
+        therefore returned ACSBG1. Every publication naming gamma globin was
+        credited to an acyl-CoA synthetase, which put ACSBG1 at the top of the
+        forecast with 509 supporting publications and a confidence of 0.955.
+
+        An alias that several genes share and none of them owns as its approved
+        symbol resolves to nothing. Refusing an ambiguous name is the same
+        policy the curator applies to ingestion: flag it rather than guess.
+        """
+        exact = self.conn.execute(
+            """
             SELECT * FROM node
              WHERE type = 'Gene'
-               AND (upper(json_extract(attrs, '$.symbol')) = upper(?)
-                    OR EXISTS (SELECT 1 FROM json_each(node.attrs, '$.aliases')
-                                WHERE upper(json_each.value) = upper(?)))
+               AND upper(json_extract(attrs, '$.symbol')) = upper(?)
              ORDER BY id LIMIT 1
-        """
-        row = self.conn.execute(sql, (symbol, symbol)).fetchone()
-        return _row_to_node(row) if row else None
+            """,
+            (symbol,),
+        ).fetchone()
+        if exact is not None:
+            return _row_to_node(exact)
+
+        by_alias = self.conn.execute(
+            """
+            SELECT * FROM node
+             WHERE type = 'Gene'
+               AND EXISTS (SELECT 1 FROM json_each(node.attrs, '$.aliases')
+                            WHERE upper(json_each.value) = upper(?))
+             ORDER BY id LIMIT 2
+            """,
+            (symbol,),
+        ).fetchall()
+        if len(by_alias) != 1:
+            return None
+        return _row_to_node(by_alias[0])
 
     # -- edges ------------------------------------------------------------
 

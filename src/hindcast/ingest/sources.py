@@ -41,6 +41,7 @@ from hindcast.scope import (
     is_erythroid_context,
     is_hbf_phenotype,
 )
+from hindcast.textmatch import title_named_genes
 
 
 @dataclass
@@ -234,13 +235,132 @@ def ingest_hgnc(idx: OntologyIndex) -> IngestResult:
 
 
 # --------------------------------------------------------------------------
+# HGNC gene groups: ACTS_THROUGH
+# --------------------------------------------------------------------------
+
+#: An HGNC gene group name that asserts the members sit in one protein complex.
+#: Only these are used to derive ACTS_THROUGH.
+COMPLEX_GROUP_SUFFIX = "complex subunits"
+
+#: Gene groups that are not used, recorded here because the choice matters.
+#: HGNC carries two different kinds of group. One asserts that the members are
+#: subunits of the same protein complex, which is a claim about shared
+#: mechanism: if CHD4 represses HbF as part of NuRD, another NuRD subunit is a
+#: candidate for acting through the same machinery. The other asserts only that
+#: the members share a structural domain, such as "Zinc fingers C2H2-type" or
+#: "BTB domain containing". Sharing a domain is not sharing a mechanism, and
+#: those groups run to hundreds of genes, so an edge drawn from them would be
+#: noise with a provenance row attached.
+#:
+#: This distinction was fixed before looking at what either rule would catch,
+#: and it is worth being explicit that the domain rule would have caught one
+#: post-cutoff answer: HIC2 shares "BTB domain containing" with ZBTB7A, an
+#: established repressor. Admitting domain groups to collect that would be
+#: tuning the rule against the test set, which the method forbids. The complex
+#: rule stands and HIC2 is not reachable through it.
+UNUSED_GROUP_KINDS = (
+    "domain containing",
+    "Zinc fingers",
+    "PHD finger proteins",
+    "host genes",
+)
+
+
+def complex_membership_edges(idx: OntologyIndex) -> IngestResult:
+    """ACTS_THROUGH between scope genes curated into the same protein complex.
+
+    This is the only producer of ACTS_THROUGH, and it is what gives the system
+    any route at all from a gene to a mechanism established for a different
+    gene. Without it the graph has no composition step and every forecast rests
+    on evidence naming the gene directly.
+
+    The edge is symmetric, because complex co-membership is: both directions are
+    written and the belief reviser discounts the step either way. It carries
+    HGNC's licence and HGNC's date, and the date used is the later of the two
+    approval dates, so an edge cannot appear in a slice before both of its
+    endpoints exist.
+    """
+    res = IngestResult()
+    lic = license_of("hgnc")
+    scope = {s.upper() for s in ALL_SCOPE_GENES}
+    in_scope = [g for g in idx.genes.values() if g.symbol.upper() in scope]
+
+    groups: dict[str, list] = defaultdict(list)
+    for gene in in_scope:
+        for group in (gene.gene_family or "").split("|"):
+            group = group.strip()
+            if group.lower().endswith(COMPLEX_GROUP_SUFFIX):
+                groups[group].append(gene)
+
+    for group, members in sorted(groups.items()):
+        members.sort(key=lambda g: g.hgnc_id)
+        for i, a in enumerate(members):
+            for b in members[i + 1 :]:
+                res.avail("hgnc.complex_pairs")
+                for src, dst in ((a, b), (b, a)):
+                    res.edges.append(
+                        Edge(
+                            id=f"acts:{src.hgnc_id}:{dst.hgnc_id}:{content_hash([group])[:8]}",
+                            type=EdgeType.ACTS_THROUGH,
+                            src=gene_id(src.hgnc_id),
+                            dst=gene_id(dst.hgnc_id),
+                            attrs={
+                                "basis": "hgnc_complex_group",
+                                "gene_group": group,
+                                "src_symbol": src.symbol,
+                                "dst_symbol": dst.symbol,
+                            },
+                            prov=Provenance(
+                                source_id=f"hgnc:{src.hgnc_id}:{dst.hgnc_id}",
+                                accession=group,
+                                license=lic,
+                                time_scope=TimeScope.REFERENCE,
+                                effective_date=max(a.approved, b.approved),
+                                ingest_hash=content_hash(
+                                    [src.hgnc_id, dst.hgnc_id, group]
+                                ),
+                            ),
+                        )
+                    )
+    return res
+
+
+# --------------------------------------------------------------------------
 # Europe PMC: publications
 # --------------------------------------------------------------------------
 
+def _query_terms_by_gene(raw_dir: Path) -> dict[str, list[str]]:
+    """The gene name lists the literature fetch actually searched with.
+
+    Read back from the fetch's own coverage report rather than rebuilt here, so
+    the terms a title is matched against are the terms the corpus was retrieved
+    with. A gene missing from the report gets its symbol alone.
+    """
+    path = raw_dir / "europepmc" / "coverage.json"
+    terms: dict[str, list[str]] = {symbol: [symbol] for symbol in ALL_SCOPE_GENES}
+    if not path.exists():
+        return terms
+    for entry in json.loads(path.read_text()):
+        symbol = entry.get("gene")
+        if symbol in terms:
+            terms[symbol] = sorted({symbol, *(entry.get("terms") or [])})
+    return terms
+
+
 def ingest_publications(raw_dir: Path, dates: DateIndex) -> IngestResult:
-    """Publication nodes. Bibliographic metadata only, never article text."""
+    """Publication nodes. Bibliographic metadata only, never article text.
+
+    The gene a publication supports is decided by its title, not by the query
+    that retrieved it. Europe PMC searches full text, so the retrieval tags a
+    record with every scope gene whose name appears anywhere in the article, and
+    for genes with short aliases most of those tags are wrong. Both are stored:
+    matched_genes is what the title names and is what the evidence routes count,
+    query_matched_genes is what the search returned and is kept so the
+    difference is inspectable. See hindcast.textmatch for the reasoning.
+    """
     res = IngestResult()
     lic = license_of("europepmc")
+    terms_by_gene = _query_terms_by_gene(raw_dir)
     seen: set[str] = set()
     for name in ("europepmc/scope_literature.json", "europepmc/orcs_publications.json"):
         path = raw_dir / name
@@ -273,6 +393,13 @@ def ingest_publications(raw_dir: Path, dates: DateIndex) -> IngestResult:
                 )
                 continue
             seen.add(pmid)
+            query_genes = sorted(
+                g for g in (rec.get("matched_genes") or []) if g in terms_by_gene
+            )
+            title_genes = title_named_genes(
+                rec.get("title") or "",
+                {g: terms_by_gene[g] for g in query_genes},
+            )
             res.nodes.append(
                 Node(
                     id=pub_id(pmid),
@@ -287,7 +414,10 @@ def ingest_publications(raw_dir: Path, dates: DateIndex) -> IngestResult:
                         "is_open_access": rec.get("isOpenAccess"),
                         "article_license": rec.get("license"),
                         "cited_by_count": rec.get("citedByCount"),
-                        "matched_genes": rec.get("matched_genes") or [],
+                        "matched_genes": title_genes,
+                        "query_matched_genes": query_genes,
+                        "matched_tiers": sorted(rec.get("matched_tiers") or []),
+                        "gene_match_rule": "title_names_gene",
                         "date_rule": resolved.rule,
                     },
                     prov=Provenance(

@@ -1,0 +1,119 @@
+{
+  "counts": {
+    "edges": 231751,
+    "exclusions": 10269,
+    "nodes": 287026
+  },
+  "created_at": "2026-09-18T07:42:37.054302+00:00",
+  "files": {
+    "edges.jsonl.gz": {
+      "bytes": 12587680,
+      "sha256": "3b9c62172dfedb5633c06fb2abde79ced417257b81118ffd262a0caa87ca062e"
+    },
+    "exclusions.jsonl.gz": {
+      "bytes": 43707,
+      "sha256": "fe919dec3e3178b1962eed2df9ea82725f1e08e42d4d9f96439e44ed2f88d210"
+    },
+    "nodes.jsonl.gz": {
+      "bytes": 40228037,
+      "sha256": "a10fd3ce19c2558d3412a7391b28006a2acd0b0d50fbc4b82599ab9271b5562a"
+    }
+  },
+  "hindcast_version": "0.1.0",
+  "notes": [
+    "Identifiers, structured metadata and numeric measurements only. No abstracts and no full text: per-article licenses vary and many do not permit redistribution.",
+    "Excluded source: project_score. Excluded. The Cancer Dependency Map at Sanger data usage policy grants users a 'non-exclusive, non-transferable right to use data files for internal proprietary research and educational purposes' and excludes 'use of the data (in whole or any significant part) for resale either alone or in combination with additional data/product offerings, or for provision of commercial services'. A non-transferable right of internal use does not permit committing the data to a public MIT-licensed repository, so Project Score is not ingested. Essentiality evidence comes from BioGRID ORCS and from DepMap instead. Checked 2026-09-17 at https://depmap.sanger.ac.uk/documentation/data-usage-policy/."
+  ],
+  "sources": {
+    "biogrid_orcs": {
+      "attribution": "CRISPR screen data from BioGRID ORCS (Open Repository of CRISPR Screens), https://orcs.thebiogrid.org/. BioGRID is distributed under the MIT License.",
+      "attribution_required": true,
+      "institution": "BioGRID, TyersLab, Mount Sinai Hospital and University of Montreal",
+      "license": "MIT License",
+      "name": "BioGRID ORCS",
+      "note": "",
+      "url": "https://orcs.thebiogrid.org/"
+    },
+    "cellosaurus": {
+      "attribution": "Cell line identifiers and metadata from Cellosaurus, https://www.cellosaurus.org/, SIB Swiss Institute of Bioinformatics, licensed CC BY 4.0.",
+      "attribution_required": true,
+      "institution": "SIB Swiss Institute of Bioinformatics",
+      "license": "CC BY 4.0",
+      "name": "Cellosaurus",
+      "note": "",
+      "url": "https://www.cellosaurus.org/"
+    },
+    "clinicaltrials_gov": {
+      "attribution": "Trial records from ClinicalTrials.gov, US National Library of Medicine.",
+      "attribution_required": false,
+      "institution": "US National Library of Medicine",
+      "license": "Public domain (US Government work)",
+      "name": "ClinicalTrials.gov",
+      "note": "",
+      "url": "https://clinicaltrials.gov/"
+    },
+    "depmap": {
+      "attribution": "DepMap, Broad (2024). DepMap 24Q4 Public. Figshare+. Dataset. https://doi.org/10.25452/figshare.plus.27993248.v1. Licensed CC BY 4.0.",
+      "attribution_required": true,
+      "institution": "Broad Institute",
+      "license": "CC BY 4.0",
+      "name": "DepMap",
+      "note": "Gene-effect values reach this project through the Open Targets Platform, which redistributes them. Both are attributed. The figshare release is the licensing record, confirmed as CC BY 4.0 via the figshare API.",
+      "url": "https://depmap.org/portal/"
+    },
+    "encode": {
+      "attribution": "Regulatory element annotations from the ENCODE Consortium, https://www.encodeproject.org/. ENCODE's data use policy states that external users may freely download, analyze and publish results based on any ENCODE data without restrictions, and asks that the Consortium and the accessions used be cited.",
+      "attribution_required": true,
+      "institution": "ENCODE Consortium",
+      "license": "Free to use without restriction, citation required",
+      "name": "ENCODE",
+      "note": "",
+      "url": "https://www.encodeproject.org/"
+    },
+    "europepmc": {
+      "attribution": "Publication metadata and resolved publication dates from Europe PMC, https://europepmc.org/.",
+      "attribution_required": true,
+      "institution": "EMBL-EBI",
+      "license": "Bibliographic metadata only; per-article licenses vary",
+      "name": "Europe PMC",
+      "note": "Only identifiers, dates, journal names, author strings and titles are committed. No abstracts and no full text, because per-article licenses vary and many do not permit redistribution. Where text is needed it is fetched to a gitignored cache by PMID.",
+      "url": "https://europepmc.org/"
+    },
+    "gwas_catalog": {
+      "attribution": "Genetic association data from the NHGRI-EBI GWAS Catalog, https://www.ebi.ac.uk/gwas/. EMBL-EBI data are available without restriction under its terms of use, which require attribution and citation of the originating studies. Study accessions and PubMed IDs are recorded on every association row in this repository.",
+      "attribution_required": true,
+      "institution": "EMBL-EBI and NHGRI",
+      "license": "EMBL-EBI terms of use, open access with attribution",
+      "name": "GWAS Catalog",
+      "note": "",
+      "url": "https://www.ebi.ac.uk/gwas/"
+    },
+    "hgnc": {
+      "attribution": "Gene symbols, identifiers and approval dates from the HUGO Gene Nomenclature Committee, https://www.genenames.org/, released under CC0.",
+      "attribution_required": false,
+      "institution": "HUGO Gene Nomenclature Committee, EMBL-EBI",
+      "license": "CC0 1.0",
+      "name": "HGNC",
+      "note": "",
+      "url": "https://www.genenames.org/"
+    },
+    "hindcast_vocabulary": {
+      "attribution": "Phenotype families and modality cost classes defined by this project.",
+      "attribution_required": false,
+      "institution": "this repository",
+      "license": "MIT License",
+      "name": "crispr-hindcast project vocabulary",
+      "note": "",
+      "url": "https://github.com/"
+    },
+    "opentargets": {
+      "attribution": "Target-disease evidence from the Open Targets Platform, https://platform.opentargets.org/, released under CC0 1.0.",
+      "attribution_required": false,
+      "institution": "Open Targets, EMBL-EBI and partners",
+      "license": "CC0 1.0",
+      "name": "Open Targets Platform",
+      "note": "",
+      "url": "https://platform.opentargets.org/"
+    }
+  }
+}

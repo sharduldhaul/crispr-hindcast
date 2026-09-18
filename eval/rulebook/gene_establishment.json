@@ -684,7 +684,7 @@
    {
     "date": "1994-06-01",
     "pmid": "7910943",
-    "rejected_because": "title does not name the gene",
+    "rejected_because": "title does not name the HbF phenotype",
     "title": "Erythroid expression of the heme-regulated eIF-2 alpha kinase."
    },
    {
@@ -930,7 +930,7 @@
    {
     "date": "1990-12-01",
     "pmid": "1701019",
-    "rejected_because": "title does not name the gene",
+    "rejected_because": "title does not name the HbF phenotype",
     "title": "Regulated expression of globin chains and the erythroid transcription factor GATA-1 during erythropoiesis in the developing mouse."
    },
    {
@@ -1068,12 +1068,12 @@
   "core_scope": false,
   "established": true,
   "establishing_record": {
-   "date": "1988-11-01",
-   "doi": "10.1128/mcb.8.11.5047-5051.1988",
+   "date": "1981-01-01",
+   "doi": null,
    "journal": null,
-   "pmid": "2850473",
+   "pmid": "6178203",
    "reason": "title asserts a regulatory role over an HbF readout",
-   "title": "A silencer element from the alpha-globin gene inhibits expression of beta-like genes."
+   "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
   },
   "near_misses": [
    {
@@ -1099,18 +1099,6 @@
     "pmid": "6164057",
     "rejected_because": "title does not name the gene",
     "title": "Unusual sequence homology at the 5-ends of the developmentally regulated beta A-, beta C-, and gamma-globin genes of the goat."
-   },
-   {
-    "date": "1981-01-01",
-    "pmid": "6178203",
-    "rejected_because": "title does not name the gene",
-    "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
-   },
-   {
-    "date": "1981-02-01",
-    "pmid": "6161945",
-    "rejected_because": "title does not name the gene",
-    "title": "Control of the simian fetal hemoglobin switch at the progenitor cell level."
    }
   ],
   "query_terms": [
@@ -1144,12 +1132,12 @@
   "core_scope": false,
   "established": true,
   "establishing_record": {
-   "date": "1988-11-01",
-   "doi": "10.1128/mcb.8.11.5047-5051.1988",
+   "date": "1981-01-01",
+   "doi": null,
    "journal": null,
-   "pmid": "2850473",
+   "pmid": "6178203",
    "reason": "title asserts a regulatory role over an HbF readout",
-   "title": "A silencer element from the alpha-globin gene inhibits expression of beta-like genes."
+   "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
   },
   "near_misses": [
    {
@@ -1181,12 +1169,6 @@
     "pmid": "6164057",
     "rejected_because": "title does not name the gene",
     "title": "Unusual sequence homology at the 5-ends of the developmentally regulated beta A-, beta C-, and gamma-globin genes of the goat."
-   },
-   {
-    "date": "1981-01-01",
-    "pmid": "6178203",
-    "rejected_because": "title does not name the gene",
-    "title": "Structural features of the DNA flanking the human non-alpha globin genes: implications in the control of fetal hemoglobin switching."
    }
   ],
   "query_terms": [
@@ -1482,7 +1464,7 @@
    "gamma globin",
    "gamma-globin"
   ],
-  "records_considered": 4117,
+  "records_considered": 4110,
   "rejected_candidates": [
    {
     "date": "1976-05-01",

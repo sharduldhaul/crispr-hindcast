@@ -63,10 +63,27 @@ def build(
         console.print(f"built by re-normalizing the raw payloads at {raw_dir}")
     console.print(f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}")
     console.print(f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}")
-    table = Table("source", "available", "loaded")
+    # Two tables, not one joined table. Source records are counted per payload
+    # bucket ("hgnc.genes") and nodes are counted per provenance prefix
+    # ("hgnc"), and those are different keys: one source bucket can produce
+    # nodes of several types and one prefix can serve several buckets. An
+    # earlier version joined them on the prefix, which printed a loaded count
+    # larger than the available count for depmap and repeated one number across
+    # both biogrid rows. The aggregate rate above is the one that pairs.
+    considered = Table("source record bucket", "records considered")
     for key, n in report.available_by_source.items():
-        table.add_row(key, str(n), str(report.nodes_by_source.get(key.split(".")[0], 0)))
-    console.print(table)
+        considered.add_row(key, str(n))
+    console.print(considered)
+
+    created = Table("provenance prefix", "nodes created")
+    for key, n in sorted(report.nodes_by_source.items()):
+        created.add_row(key, str(n))
+    console.print(created)
+
+    edges = Table("edge type", "edges created")
+    for key, n in sorted(report.edges_by_type.items()):
+        edges.add_row(key, str(n))
+    console.print(edges)
 
 
 @app.command()

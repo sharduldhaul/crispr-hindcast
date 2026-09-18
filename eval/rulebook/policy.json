@@ -1,0 +1,358 @@
+{
+  "belief_revision": {
+    "composition_discount": 0.35,
+    "contradiction": "subtracts; does not zero a claim",
+    "essentiality_accumulation": "harmonic increments normalised to ESSENTIALITY_CEILING times the fitness hit fraction, so a gene measured in 26,171 correlated screens cannot be driven to zero confidence.",
+    "essentiality_ceiling": 1.2,
+    "evidence_strength_log_odds_per_unit_weight": 0.85,
+    "literature_accumulation": "logarithmic: the k-th publication contributes ln(1+k) - ln(k), so n publications total LITERATURE_SCALE * ln(1+n). Publications are correlated observations of one literature, not independent experiments.",
+    "literature_scale": 1.0,
+    "prior_confidence": 0.05,
+    "supersession": "does not subtract; the earlier claim was coarse, not wrong",
+    "update_rule": "log-odds accumulation, order independent"
+  },
+  "cost_lens": {
+    "price_anchors": {
+      "exagamglogene autotemcel": {
+        "brand": "Casgevy",
+        "list_price_usd": 2200000,
+        "modality": "EX_VIVO_SINGLE_EDIT",
+        "note": "List price excludes the required inpatient stay and conditioning.",
+        "source": "manufacturer list price as widely reported at US approval, December 2023",
+        "target": "BCL11A erythroid enhancer"
+      },
+      "hydroxyurea": {
+        "brand": "several generic",
+        "list_price_usd": 1000,
+        "modality": "SMALL_MOLECULE",
+        "note": "Order-of-magnitude annual generic cost. Held as the small-molecule anchor.",
+        "source": "generic oral therapy, order of magnitude only",
+        "target": "multiple, including HbF induction"
+      },
+      "lovotibeglogene autotemcel": {
+        "brand": "Lyfgenia",
+        "list_price_usd": 3100000,
+        "modality": "EX_VIVO_SINGLE_EDIT",
+        "note": "List price excludes the required inpatient stay and conditioning.",
+        "source": "manufacturer list price as widely reported at US approval, December 2023",
+        "target": "beta-globin gene addition"
+      }
+    },
+    "weights": {
+      "EX_VIVO_MULTI_EDIT": 0.4,
+      "EX_VIVO_SINGLE_EDIT": 1.0,
+      "IN_VIVO_EDIT": 4.0,
+      "NOT_THERAPEUTIC": 0.0,
+      "SMALL_MOLECULE": 10.0
+    }
+  },
+  "evidence_admission": {
+    "acts_through_basis": "HGNC gene groups whose name ends 'complex subunits'",
+    "acts_through_excluded": "Structural domain groups such as 'Zinc fingers C2H2-type' and 'BTB domain containing'. Sharing a domain is not sharing a mechanism.",
+    "gene_named_by": "title_names_gene",
+    "min_alias_length": 4,
+    "rationale": "A publication supports a gene only if its title names the gene. The Europe PMC query searches full text, so retrieval tags a record with every scope gene whose name or alias appears anywhere in the article.",
+    "short_alias_allowlist": {
+      "EIF2AK1": [
+        "HRI"
+      ],
+      "ZBTB7A": [
+        "LRF"
+      ]
+    }
+  },
+  "frozen_at": "2026-09-18T07:44:06.255435+00:00",
+  "method_signature": {
+    "assay_modifiers": {
+      "depmap_gene_effect": 1.0,
+      "gwas_association": 1.0,
+      "literature_comention": 0.2,
+      "opentargets_animal_model": 0.6,
+      "opentargets_clinical": 1.0,
+      "opentargets_genetic_association": 1.0,
+      "opentargets_genetic_literature": 0.8,
+      "opentargets_literature": 0.25,
+      "orcs_screen_score": 1.0
+    },
+    "author_reported_gene_penalty": 0.55,
+    "combination": "multiplicative across all five terms, then clamped",
+    "directness_weights": {
+      "direct_protein": 1.0,
+      "proxy": 0.35,
+      "transcript": 0.65
+    },
+    "human_genetic_support_bonus": 1.3,
+    "max_weight": 2.0,
+    "min_weight": 0.01,
+    "perturbation_weights": {
+      "base_edit": 1.0,
+      "crispra": 0.7,
+      "crispri": 0.85,
+      "genetic_variant": 1.0,
+      "knock_in": 1.0,
+      "knockout": 0.7,
+      "overexpression": 0.3,
+      "rnai": 0.4,
+      "unspecified": 0.35
+    },
+    "replication_cap": 1.7,
+    "replication_multiplier": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.35,
+      "3": 1.55
+    },
+    "system_weights": {
+      "cell_free_or_unspecified": 0.1,
+      "human_cancer_line": 0.35,
+      "human_erythroid_progenitor_line": 0.75,
+      "human_immortalized_line": 0.3,
+      "human_population": 1.0,
+      "mouse_line": 0.2,
+      "mouse_model": 0.3,
+      "non_human_other": 0.1,
+      "primary_human_hspc": 1.0
+    }
+  },
+  "note": "Every number in this file is a stated policy, not a measurement and not a fitted value. It was committed before the first evaluation run and tagged, so the commit timestamp is the evidence it was not tuned against the answer key. The reasoning for each value is in METHODOLOGY.md.",
+  "refusal": {
+    "confidence_threshold": 0.25,
+    "min_composition_weight": 0.25,
+    "min_hbf_publications": 5,
+    "min_supporting_weight": 0.3,
+    "rationale": "A confidence above the threshold is necessary but not sufficient. The claim must also have evidence of substance by one of three routes: a measurement at or above the weight floor, at least MIN_HBF_PUBLICATIONS HbF-specific publications, or a complex-composition step at or above its own floor. The floors are what stop a pile of co-mentions carrying a claim over the line, and they count different kinds of evidence so that they stay distinct."
+  },
+  "scope": {
+    "genes": [
+      "HBG1",
+      "HBG2",
+      "HBB",
+      "BCL11A",
+      "ZBTB7A",
+      "CHD4",
+      "MBD2",
+      "GATAD2A",
+      "MTA2",
+      "ZNF410",
+      "KDM1A",
+      "DNMT1",
+      "NFIX",
+      "HIC2",
+      "EIF2AK1",
+      "KLF1",
+      "HDAC1",
+      "HDAC2",
+      "RBBP4",
+      "RBBP7",
+      "CHD3",
+      "MTA1",
+      "MTA3",
+      "GATAD2B",
+      "MBD3",
+      "GATA1",
+      "TAL1",
+      "SOX6",
+      "KLF3",
+      "ZBTB33",
+      "MYB",
+      "HBS1L",
+      "HBE1",
+      "HBD",
+      "LIN28B",
+      "IGF2BP1",
+      "NR2C1",
+      "NR2C2",
+      "SIRT1",
+      "ATF4",
+      "EIF2AK3",
+      "EIF2AK2",
+      "EIF2AK4",
+      "EIF2S1",
+      "HBA1",
+      "HBA2",
+      "PRMT5",
+      "KMT5A",
+      "EHMT1",
+      "EHMT2",
+      "DNMT3A",
+      "DNMT3B",
+      "TET2",
+      "ASH1L",
+      "FOXO3",
+      "NFE2",
+      "ZNF143",
+      "CTCF",
+      "VHL",
+      "EPAS1",
+      "SMAD1",
+      "SMAD5",
+      "ATF2",
+      "MAPK1",
+      "MAP3K7",
+      "PGRMC1"
+    ],
+    "informal_names": {
+      "a-gamma-globin": [
+        "HBG1"
+      ],
+      "alpha-globin": [
+        "HBA1",
+        "HBA2"
+      ],
+      "aof2": [
+        "KDM1A"
+      ],
+      "beta globin": [
+        "HBB"
+      ],
+      "beta-globin": [
+        "HBB"
+      ],
+      "ctip1": [
+        "BCL11A"
+      ],
+      "delta-globin": [
+        "HBD"
+      ],
+      "dnmt": [
+        "DNMT1"
+      ],
+      "eklf": [
+        "KLF1"
+      ],
+      "epsilon-globin": [
+        "HBE1"
+      ],
+      "fetal globin": [
+        "HBG1",
+        "HBG2"
+      ],
+      "g-gamma-globin": [
+        "HBG2"
+      ],
+      "gamma globin": [
+        "HBG1",
+        "HBG2"
+      ],
+      "gamma-globin": [
+        "HBG1",
+        "HBG2"
+      ],
+      "hbg": [
+        "HBG1",
+        "HBG2"
+      ],
+      "hbs1l-myb": [
+        "HBS1L",
+        "MYB"
+      ],
+      "heme-regulated eif2alpha kinase": [
+        "EIF2AK1"
+      ],
+      "heme-regulated inhibitor": [
+        "EIF2AK1"
+      ],
+      "hri": [
+        "EIF2AK1"
+      ],
+      "leukemia/lymphoma related factor": [
+        "ZBTB7A"
+      ],
+      "lrf": [
+        "ZBTB7A"
+      ],
+      "lsd1": [
+        "KDM1A"
+      ],
+      "mi-2beta": [
+        "CHD4"
+      ],
+      "mi2b": [
+        "CHD4"
+      ],
+      "nurd": [
+        "CHD4",
+        "MBD2",
+        "GATAD2A",
+        "MTA2",
+        "HDAC1",
+        "HDAC2",
+        "RBBP4"
+      ],
+      "p66alpha": [
+        "GATAD2A"
+      ],
+      "p66beta": [
+        "GATAD2B"
+      ],
+      "pokemon": [
+        "ZBTB7A"
+      ],
+      "pr-set7": [
+        "KMT5A"
+      ],
+      "setd8": [
+        "KMT5A"
+      ],
+      "tr2": [
+        "NR2C1"
+      ],
+      "tr4": [
+        "NR2C2"
+      ]
+    },
+    "phenotype_families": {
+      "cell_fitness": {
+        "directness": "proxy",
+        "family": "FITNESS",
+        "label": "Cell proliferation or viability",
+        "note": "Growth and survival. Not an HbF readout at all, but load bearing for the cost lens: a gene whose loss kills the cell is not a target."
+      },
+      "erythroid_differentiation": {
+        "directness": "proxy",
+        "family": "ERYTHROID",
+        "label": "Erythroid differentiation or maturation",
+        "note": "Differentiation state. Related to HbF but not a measure of it."
+      },
+      "f_cell": {
+        "directness": "direct_protein",
+        "family": "HBF",
+        "label": "F-cell percentage",
+        "note": "Percentage of erythroid cells staining positive for HbF."
+      },
+      "globin_switching": {
+        "directness": "transcript",
+        "family": "HBF",
+        "label": "Globin switching or HBB/HBG ratio",
+        "note": "Ratio readouts of the fetal-to-adult switch."
+      },
+      "hbf_protein": {
+        "directness": "direct_protein",
+        "family": "HBF",
+        "label": "HbF protein level",
+        "note": "HbF measured as protein, by HPLC or equivalent."
+      },
+      "hbg_mrna": {
+        "directness": "transcript",
+        "family": "HBF",
+        "label": "HBG1/HBG2 transcript level",
+        "note": "Gamma-globin mRNA, a step removed from the protein that matters."
+      },
+      "hbg_reporter": {
+        "directness": "proxy",
+        "family": "HBF",
+        "label": "HBG reporter or sorted-population readout",
+        "note": "Reporter constructs and sorted HbF-high populations. A proxy."
+      }
+    },
+    "slices": [
+      "2014-12-31",
+      "2017-12-31",
+      "2020-12-31"
+    ]
+  },
+  "thresholds": {
+    "gwas_significance": 5e-08,
+    "pan_essential_fraction": 0.7
+  }
+}

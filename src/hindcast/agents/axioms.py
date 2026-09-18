@@ -25,11 +25,25 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from hindcast.agents.base import Agent
 from hindcast.agents.method_signature import MethodSignature, Weighting
 from hindcast.cost import ModalityCall, infer_modality
-from hindcast.models import CostClass, NodeType
+from hindcast.models import CostClass, EdgeType, NodeType
 from hindcast.scope import PHENOTYPE_FAMILIES
 from hindcast.store import SliceStore
 
 #: Genome-wide significance. The conventional threshold, stated not derived.
+#: How much of a partner's support transfers along one ACTS_THROUGH step.
+#:
+#: A gene curated into the same protein complex as an established HbF repressor
+#: is a candidate for acting through the same machinery, and that is a real
+#: inference: it is how the field reasoned from MBD2 to the rest of NuRD. It is
+#: also much weaker than evidence naming the gene, because a complex contains
+#: subunits that carry its function and subunits that do not, and co-membership
+#: does not say which is which. A third is the stated allowance for that gap.
+#:
+#: This coefficient was fixed on the reasoning above, before any slice was
+#: scored with it. It is not tuned, and the ablation table shows what the
+#: system does without the composition route at all.
+COMPOSITION_DISCOUNT = 0.35
+
 GWAS_SIGNIFICANCE = 5e-8
 
 #: DepMap gene effect at or below which a gene is treated as essential in a line.
@@ -248,6 +262,15 @@ class AxiomExtractor(Agent):
             call.result_summary = f"{len(got)} literature association axioms"
             axioms.extend(got)
 
+        with self.tool("extract_composition_axioms") as call:
+            got = self._composition_axioms(slice_store, axioms)
+            call.records_out = len(got)
+            call.result_summary = (
+                f"{len(got)} complex-composition axioms, one per gene from its "
+                f"strongest measured partner"
+            )
+            axioms.extend(got)
+
         with self.tool("extract_modality_axioms") as call:
             got = self._modality_axioms(slice_store, axioms)
             call.records_out = len(got)
@@ -327,6 +350,10 @@ class AxiomExtractor(Agent):
                     scope_conditions={
                         "system_classes": ["human_population"],
                         "significance_threshold": GWAS_SIGNIFICANCE,
+                        "best_weight": max(w.weight for _, w in significant),
+                        "best_record_id": max(
+                            significant, key=lambda r: (r[1].weight, r[0].id)
+                        )[0].id,
                         "gene_assignment": "author_reported" if author_reported else "mixed",
                         "caveat": (
                             "The association identifies a locus. The gene named is the "
@@ -435,6 +462,7 @@ class AxiomExtractor(Agent):
                         "system_classes": systems,
                         "measurements": len(rows),
                         "best_weight": best[1].weight,
+                        "best_record_id": best[0].id,
                     },
                     supporting_record_ids=sorted(m.id for m, _ in rows),
                     confidence=0.0,
@@ -443,6 +471,106 @@ class AxiomExtractor(Agent):
                 )
             )
         return out
+
+    def _composition_axioms(
+        self, slice_store: SliceStore, existing: list[Axiom]
+    ) -> list[Axiom]:
+        """A gene may act through a partner in the same curated protein complex.
+
+        This is the only axiom family that reaches a gene the pre-cutoff record
+        does not write about directly, and it is the composition step the whole
+        benchmark is about: the field reasoned from one NuRD subunit to the rest
+        of the complex, and a system with no way to make that move can only
+        repeat what has already been measured.
+
+        Two restrictions keep it from becoming a guess with a provenance row.
+
+        First, the partner's support must be a measurement. A partner that is
+        merely well written about transfers nothing, because transferring a
+        co-mention count through a complex would turn one weak signal into
+        several. The transferred record is the partner's own strongest
+        measurement, so the number still traces to a source row.
+
+        Second, one axiom per gene, from the single best partner. Subunits of a
+        complex are studied together, so several partners are not several
+        independent observations.
+        """
+        best_measurement: dict[str, tuple[float, str]] = {}
+        for axiom in existing:
+            if axiom.kind not in ("functional_hbf", "genetic_support"):
+                continue
+            weight = float(axiom.scope_conditions.get("best_weight") or 0.0)
+            record = axiom.scope_conditions.get("best_record_id")
+            if not record or weight <= 0:
+                continue
+            for gene_id in axiom.subject_gene_ids:
+                if weight > best_measurement.get(gene_id, (0.0, ""))[0]:
+                    best_measurement[gene_id] = (weight, str(record))
+
+        if not best_measurement:
+            return []
+
+        out: list[Axiom] = []
+        for edge in slice_store.edges(type=EdgeType.ACTS_THROUGH):
+            subject, partner = edge.src, edge.dst
+            if partner not in best_measurement:
+                continue
+            if subject in best_measurement:
+                # The gene already has its own measurement. Composition adds
+                # nothing it does not already have from a stronger route.
+                continue
+            weight, record = best_measurement[partner]
+            transferred = round(COMPOSITION_DISCOUNT * weight, 6)
+            subject_symbol = self._gene_label(slice_store, subject)
+            partner_symbol = self._gene_label(slice_store, partner)
+            group = str(edge.attrs.get("gene_group") or "a shared complex")
+            candidate = Axiom(
+                id=f"axiom:composition:{subject}:{partner}",
+                kind="complex_composition",
+                statement=(
+                    f"{subject_symbol} may act on fetal hemoglobin through "
+                    f"{partner_symbol}, a subunit of {group} with measured HbF "
+                    f"support."
+                ),
+                subject_gene_ids=[subject],
+                phenotype_id="pheno:hbf_protein",
+                direction="increases",
+                scope_conditions={
+                    "partner_gene_id": partner,
+                    "partner_symbol": partner_symbol,
+                    "gene_group": group,
+                    "partner_best_weight": weight,
+                    "transferred_weight": transferred,
+                    "discount": COMPOSITION_DISCOUNT,
+                },
+                supporting_record_ids=[record],
+                confidence=0.0,
+                evidence_weight_total=transferred,
+                derivation=(
+                    "shared protein complex membership curated by HGNC, with the "
+                    "partner's strongest measurement transferred at the stated "
+                    "discount"
+                ),
+            )
+            keep = out and out[-1].subject_gene_ids == [subject]
+            if keep:
+                prior = float(out[-1].scope_conditions["transferred_weight"])
+                if transferred <= prior:
+                    continue
+                out[-1] = candidate
+            else:
+                out.append(candidate)
+        # One per gene, strongest partner. The loop above keeps the best only
+        # among adjacent edges, so collapse properly here.
+        by_gene: dict[str, Axiom] = {}
+        for axiom in out:
+            gene_id = axiom.subject_gene_ids[0]
+            current = by_gene.get(gene_id)
+            if current is None or float(
+                axiom.scope_conditions["transferred_weight"]
+            ) > float(current.scope_conditions["transferred_weight"]):
+                by_gene[gene_id] = axiom
+        return [by_gene[k] for k in sorted(by_gene)]
 
     def _literature_axioms(self, slice_store: SliceStore) -> list[Axiom]:
         """Dated literature association between a gene and the HbF phenotype.

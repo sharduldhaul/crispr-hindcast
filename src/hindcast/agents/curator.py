@@ -116,6 +116,16 @@ class Curator(Agent):
             )
             result.extend(genes)
 
+        with self.tool("derive_complex_membership", source="hgnc") as call:
+            complexes = src.complex_membership_edges(self.ontology)
+            call.records_in = complexes.available
+            call.records_out = len(complexes.edges)
+            call.result_summary = (
+                f"{len(complexes.edges)} ACTS_THROUGH edges from "
+                f"{complexes.available} shared-complex gene pairs"
+            )
+            result.extend(complexes)
+
         with self.tool("resolve_dates", source="europepmc") as call:
             dates = DateIndex.from_raw(self.raw_dir)
             call.records_out = len(dates)

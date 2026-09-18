@@ -24,7 +24,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from hindcast.agents.axioms import AxiomSet
+from hindcast.agents.axioms import COMPOSITION_DISCOUNT, AxiomSet
 from hindcast.agents.base import Agent
 from hindcast.models import NodeType
 from hindcast.store import SliceStore, Store
@@ -72,6 +72,34 @@ MIN_HBF_PUBLICATIONS = 5
 #: shows belief accumulating as the literature arrives.
 LITERATURE_SCALE = 1.0
 
+#: The most log-odds that essentiality can subtract from a claim, at a fitness
+#: hit fraction of 1.0.
+#:
+#: Essentiality is one fact about a gene, and the pre-2018 slice measures it in
+#: 26,171 fitness readouts. Applying one independent update per readout treated
+#: 400 correlated ORCS screens as 400 experiments and drove every pan-essential
+#: gene to a confidence of exactly 0.000, CHD4 and RBBP4 among them. That is the
+#: same error the literature term was corrected for, on the other side of the
+#: ledger, and it is corrected the same way: the per-record audit entries are
+#: kept, their increments are harmonic, and the total is normalised to this
+#: ceiling scaled by the fitness hit fraction. A gene that is essential
+#: everywhere loses the ceiling; a gene essential in a third of lines loses a
+#: third of it.
+#:
+#: The ceiling is set so that pan-essentiality roughly cancels the support of
+#: three HbF-specific publications. Essentiality argues that a gene is not a
+#: usable target, which the cost lens records separately as NOT_THERAPEUTIC; it
+#: is not meant to argue that the gene has no effect on HbF, and a coefficient
+#: large enough to annihilate the belief would be making that second claim.
+ESSENTIALITY_CEILING = 1.20
+
+#: The composition route's reportability bar, applied to the discounted weight.
+#: Slightly below MIN_SUPPORTING_WEIGHT, because a claim reaching this bar has
+#: a strongly supported partner behind it rather than a marginal direct result,
+#: and because holding composition to the direct-evidence bar would make the
+#: route unreachable for every partner short of a perfect one.
+MIN_COMPOSITION_WEIGHT = 0.25
+
 
 def to_log_odds(p: float) -> float:
     p = min(max(p, 1e-9), 1 - 1e-9)
@@ -118,6 +146,8 @@ class Claim(BaseModel):
     supporting_record_ids: list[str] = Field(default_factory=list)
     contradicting_record_ids: list[str] = Field(default_factory=list)
     max_supporting_weight: float = 0.0
+    composition_support_weight: float = 0.0
+    composition_partners: list[str] = Field(default_factory=list)
     hbf_publication_support: int = 0
     evidence_count: int = 0
     implied_modality: str | None = None
@@ -137,12 +167,24 @@ class Claim(BaseModel):
         association, or a functional result in a system that matters. The second
         is a literature that many independent groups have contributed to.
 
-        What neither route admits is a claim resting on a handful of co-mentions,
-        which is the failure mode these thresholds exist to block.
+        The third route is composition: the gene sits in a protein complex whose
+        mechanism is established for another subunit. This is the only route
+        that can reach a gene the pre-cutoff literature has barely written
+        about, which is exactly the case the benchmark is about.
+
+        What none of the routes admits is a claim resting on a handful of
+        co-mentions, which is the failure mode these thresholds exist to block.
+        Each route counts a different kind of evidence and they are kept
+        separate on purpose: `max_supporting_weight` counts measurements only.
+        An earlier version let the literature increments feed it, which meant a
+        single co-mention scored 0.815 and satisfied the measurement route on
+        its own, making the publication count route redundant and the guard
+        useless.
         """
         return (
             self.max_supporting_weight >= MIN_SUPPORTING_WEIGHT
             or self.hbf_publication_support >= MIN_HBF_PUBLICATIONS
+            or self.composition_support_weight >= MIN_COMPOSITION_WEIGHT
         )
 
     @property
@@ -166,8 +208,11 @@ class Claim(BaseModel):
             f"behind it: the strongest supporting measurement has weight "
             f"{self.max_supporting_weight:.3f}, below the {MIN_SUPPORTING_WEIGHT} "
             f"minimum, and only {self.hbf_publication_support} publication(s) name the "
-            f"gene with fetal hemoglobin, below the {MIN_HBF_PUBLICATIONS} minimum. The "
-            f"claim would rest on co-mentions rather than on evidence."
+            f"gene with fetal hemoglobin, below the {MIN_HBF_PUBLICATIONS} minimum, and "
+            f"the strongest complex-composition route carries weight "
+            f"{self.composition_support_weight:.3f}, below the "
+            f"{MIN_COMPOSITION_WEIGHT} minimum. The claim would rest on co-mentions "
+            f"rather than on evidence."
         )
 
 
@@ -229,7 +274,7 @@ class BeliefReviser(Agent):
                 claim = claims[claim_id]
                 # Publication-date order. Ties broken by record ID so a replay is
                 # byte-identical on any machine.
-                for when, direction, weight, record_id, rationale in sorted(
+                for when, direction, weight, record_id, rationale, kind in sorted(
                     items, key=lambda t: (t[0], t[3])
                 ):
                     if flat_confidence:
@@ -243,7 +288,14 @@ class BeliefReviser(Agent):
                     claim.evidence_count += 1
                     if direction > 0:
                         claim.supporting_record_ids.append(record_id)
-                        claim.max_supporting_weight = max(claim.max_supporting_weight, weight)
+                        if kind == "measurement":
+                            claim.max_supporting_weight = max(
+                                claim.max_supporting_weight, weight
+                            )
+                        elif kind == "composition":
+                            claim.composition_support_weight = max(
+                                claim.composition_support_weight, weight
+                            )
                     else:
                         claim.contradicting_record_ids.append(record_id)
                     iso = when.isoformat()
@@ -355,8 +407,12 @@ class BeliefReviser(Agent):
 
     def _collect_evidence(
         self, slice_store: SliceStore, axiom_set: AxiomSet, claims: dict[str, Claim]
-    ) -> dict[str, list[tuple[date, int, float, str, str]]]:
-        """Every evidence application, as (date, direction, weight, record, why).
+    ) -> dict[str, list[tuple[date, int, float, str, str, str]]]:
+        """Every evidence application, as (date, direction, weight, record, why, class).
+
+        The class is "measurement", "literature" or "composition", and it decides
+        which reportability route the item can satisfy. See Claim.
+        has_evidence_of_substance.
 
         Direction is the crux and is decided by rule, never by an LLM:
 
@@ -371,7 +427,7 @@ class BeliefReviser(Agent):
         *   A literature co-mention supports it very weakly, and cannot on its
             own make a claim reportable because of `MIN_SUPPORTING_WEIGHT`.
         """
-        by_claim: dict[str, list[tuple[date, int, float, str, str]]] = defaultdict(list)
+        by_claim: dict[str, list[tuple[date, int, float, str, str, str]]] = defaultdict(list)
         claim_by_gene = {c.gene_id: c.id for c in claims.values()}
         weights = axiom_set.weights
 
@@ -386,20 +442,41 @@ class BeliefReviser(Agent):
                 if axiom.kind == "essentiality":
                     if not axiom.scope_conditions.get("pan_essential"):
                         continue
+                    fraction = float(
+                        axiom.scope_conditions.get("fitness_hit_fraction") or 0.0
+                    )
+                    hits = []
                     for rid in axiom.supporting_record_ids:
                         node = measurements.get(rid)
                         if node is None or node.prov.effective_date is None:
                             continue
                         if not node.attrs.get("hit"):
                             continue
+                        hits.append((node.prov.effective_date, rid))
+                    if not hits or fraction <= 0:
+                        continue
+                    hits.sort()
+                    # Harmonic increments normalised to sum to the ceiling, so
+                    # every screen keeps its own audit entry and its own
+                    # provenance while the total stays bounded. See
+                    # ESSENTIALITY_CEILING.
+                    total = ESSENTIALITY_CEILING * fraction
+                    norm = math.log1p(len(hits))
+                    for k, (when, rid) in enumerate(hits, start=1):
+                        share = (math.log1p(k) - math.log(k)) / norm
+                        weight = (total * share) / EVIDENCE_STRENGTH
                         by_claim[claim_id].append(
                             (
-                                node.prov.effective_date,
+                                when,
                                 -1,
-                                weights.get(rid, 0.1),
+                                weight,
                                 rid,
-                                "fitness hit: loss of this gene reduces cell fitness, "
-                                "which counts against it as a therapeutic target",
+                                f"fitness hit {k} of {len(hits)}: loss of this gene "
+                                f"reduces cell fitness in "
+                                f"{fraction:.0%} of screens that tested it, which "
+                                f"counts against it as a therapeutic target; the "
+                                f"screens are correlated so their total is capped",
+                                "measurement",
                             )
                         )
                 elif axiom.kind in ("functional_hbf", "genetic_support"):
@@ -414,7 +491,14 @@ class BeliefReviser(Agent):
                             "to the HbF trait family"
                         )
                         by_claim[claim_id].append(
-                            (node.prov.effective_date, 1, weights.get(rid, 0.1), rid, why)
+                            (
+                                node.prov.effective_date,
+                                1,
+                                weights.get(rid, 0.1),
+                                rid,
+                                why,
+                                "measurement",
+                            )
                         )
                 elif axiom.kind == "literature_association":
                     # Publications are correlated observations of one literature,
@@ -452,6 +536,37 @@ class BeliefReviser(Agent):
                                 + ("fetal hemoglobin" if is_hbf else "the erythroid context")
                                 + f"; contribution is logarithmic in the count, "
                                 f"{n_hbf} HbF-specific records for this gene",
+                                "literature",
                             )
                         )
+                elif axiom.kind == "complex_composition":
+                    # One step, from the single strongest-supported partner. Not
+                    # one item per partner: the subunits of a complex are studied
+                    # in the same papers by the same groups, so treating each as
+                    # an independent observation would multiply one finding by
+                    # the size of the complex.
+                    partner = axiom.scope_conditions.get("partner_symbol") or "partner"
+                    transferred = float(
+                        axiom.scope_conditions.get("transferred_weight") or 0.0
+                    )
+                    rid = next(iter(sorted(axiom.supporting_record_ids)), None)
+                    when = None
+                    if rid is not None:
+                        node = measurements.get(rid) or publications.get(rid)
+                        when = node.prov.effective_date if node is not None else None
+                    if rid is None or when is None or transferred <= 0:
+                        continue
+                    by_claim[claim_id].append(
+                        (
+                            when,
+                            1,
+                            transferred,
+                            rid,
+                            f"acts through {partner}, a subunit of the same curated "
+                            f"protein complex with established HbF evidence; the "
+                            f"partner's strongest record transfers at "
+                            f"{COMPOSITION_DISCOUNT:g}",
+                            "composition",
+                        )
+                    )
         return by_claim
