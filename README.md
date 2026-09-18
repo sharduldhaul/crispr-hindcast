@@ -264,11 +264,11 @@ loosened, because it would have been loosened after seeing the answer key.
 because only BCL11A clears reportability on measurement evidence alone in the
 early windows. A rate of 1.00 over one gene is not evidence of anything.
 
-**The largest limitation is the data, not the method.** BioGRID ORCS curates no
+**Data Limitation.** BioGRID ORCS curates no
 fetal hemoglobin screen. The screens behind the field's key HbF results are not
 in any open, dated, redistributable form, so the pre-T evidence base here is
 human genetic association data, essentiality data, and dated bibliographic
-metadata, not the screen record. Nearly every weakness above follows from that.
+metadata, not the screen record. Nearly every weakness above follows from that. --> Follow up on this with the help of convolutional KANs?
 
 The expected calibration error is measured over tens of claims across five bins,
 several nearly empty. The ablation row comparing against a general model with no
