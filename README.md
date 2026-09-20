@@ -11,6 +11,23 @@ The domain is fetal hemoglobin induction as a therapeutic route for sickle cell
 disease. The method is a temporal holdout enforced at the data layer, with the
 subsequent literature as the answer key.
 
+## Table of Contents
+
+* [Ingestion](#ingestion)
+* [Scorecard, full system](#scorecard-full-system)
+* [Ablations, primary slice](#ablations-primary-slice)
+* [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
+* [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
+* [Cost lens, full system](#cost-lens-full-system)
+* [Held-out recovery](#held-out-recovery)
+* [Using temporal holdout as an alternative for contamination control](#using-temporal-holdout-as-an-alternative-for-contamination-control)
+* [What the system does](#what-the-system-does)
+* [The cost lens](#the-cost-lens)
+* [Setup](#setup)
+* [Results](#results)
+* [Licensing](#licensing)
+* [Repository](#repository)
+
 <!-- SCORECARD:START -->
 
 ### Ingestion
@@ -99,7 +116,7 @@ Exclusions by reason:
 
 <!-- SCORECARD:END -->
 
-## The contamination control, and why a temporal holdout beats name anonymization
+## Using temporal holdout as an alternative for contamination control
 
 This project exists because of a problem stated publicly by
 [Cortex Bio](https://cortexbiolabs.com) in their July 2026 case study
@@ -158,7 +175,7 @@ stated rule in a documented module.
 5. **Adversary** plants traps before grading, drawn from the data itself. The
    geometry-failure trap is not invented: the olfactory receptor genes OR51B5
    and OR51B6 are author-reported genes at an HbF-associated locus with a
-   p-value of 3e-08 and no plausible role in globin regulation.
+   p-value of 3e-08 and no plausible role in globin regulation. 
 6. **Grader** scores the forecast. It takes no slice and no belief map, so it
    cannot see the reasoning it is grading.
 
@@ -199,31 +216,10 @@ To re-fetch from the sources instead of using the snapshot, the scripts in
 re-normalizes the result. That path needs a network and takes about an hour,
 most of it Europe PMC pagination.
 
-## Licensing
-
-The code in this repository is MIT licensed, with the copyright in the author's
-own name. That license covers the code only.
-
-Each dataset keeps its original license, and every node and edge in the graph
-carries the license of the source it came from as a non-nullable field.
-DATA_SOURCES.md records each source with its institution, license, access date,
-snapshot hash, and the attribution it requires written out in full. BioGRID ORCS
-is MIT. DepMap is CC BY 4.0 and its required citation is reproduced there.
-Open Targets is CC0. HGNC is CC0. Cellosaurus is CC BY 4.0. ClinicalTrials.gov
-is public domain. The GWAS Catalog is open under EMBL-EBI's terms with
-attribution. Europe PMC contributes bibliographic metadata only.
-
-Only identifiers, structured metadata, numeric measurements and extracted facts
-are committed. No article text and no abstracts, because per-article licenses
-vary and many do not permit redistribution. `tests/test_redistribution.py` scans
-the committed snapshot and fails the build if it finds a field that would mean
-article text is present. Project Score is excluded entirely, because its data
-usage policy grants a non-transferable right of internal use that does not
-permit redistribution here; the reason is quoted in full in DATA_SOURCES.md.
 
 ## Results
 
-Numbers that look bad are left in. Read this section before the table above.
+Numbers that look bad are left in. 
 
 **The forecast is small and its precision is low.** Two genes at the 2017 slice,
 six at 2020. P@5 is 0.20 everywhere, which here means one correct gene in a
@@ -269,6 +265,8 @@ fetal hemoglobin screen. The screens behind the field's key HbF results are not
 in any open, dated, redistributable form, so the pre-T evidence base here is
 human genetic association data, essentiality data, and dated bibliographic
 metadata, not the screen record. Nearly every weakness above follows from that. --> Follow up on this with the help of convolutional KANs?
+Why convKANs? Since data is scarce, convKANs utilize available parameters in an optimal manner by applying apply learnable univariate functions (such as B-splines) to each element in the kernel that allow individual kernels to learn richer non-linear representations. 
+
 
 The expected calibration error is measured over tens of claims across five bins,
 several nearly empty. The ablation row comparing against a general model with no
@@ -277,6 +275,30 @@ makes no live calls, and the row is not estimated in their absence; the flat
 literature baseline stands in its place and is labelled as such.
 LIMITATIONS.md sets out what all of this means for every number in the
 scorecard.
+
+
+## Licensing
+
+The code in this repository is MIT licensed, with the copyright in the author's
+own name. That license covers the code only.
+
+Each dataset keeps its original license, and every node and edge in the graph
+carries the license of the source it came from as a non-nullable field.
+DATA_SOURCES.md records each source with its institution, license, access date,
+snapshot hash, and the attribution it requires written out in full. BioGRID ORCS
+is MIT. DepMap is CC BY 4.0 and its required citation is reproduced there.
+Open Targets is CC0. HGNC is CC0. Cellosaurus is CC BY 4.0. ClinicalTrials.gov
+is public domain. The GWAS Catalog is open under EMBL-EBI's terms with
+attribution. Europe PMC contributes bibliographic metadata only.
+
+Only identifiers, structured metadata, numeric measurements and extracted facts
+are committed. No article text and no abstracts, because per-article licenses
+vary and many do not permit redistribution. `tests/test_redistribution.py` scans
+the committed snapshot and fails the build if it finds a field that would mean
+article text is present. Project Score is excluded entirely, because its data
+usage policy grants a non-transferable right of internal use that does not
+permit redistribution here; the reason is quoted in full in DATA_SOURCES.md.
+
 
 ## Repository
 
