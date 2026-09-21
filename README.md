@@ -1,9 +1,7 @@
 # CRISPR HINDCAST
 
-**Freeze the evidence at a date. Forecast what the field finds next. Grade
-against what it actually found.**
 
-One question, asked three times: given only the evidence available on date T,
+Given only the evidence available on date T,
 can a system recover the governing rules of a field and correctly forecast what
 would be discovered after T?
 
