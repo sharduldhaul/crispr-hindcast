@@ -9,22 +9,128 @@ The domain is fetal hemoglobin induction as a therapeutic route for sickle cell
 disease. The method is a temporal holdout enforced at the data layer, with the
 subsequent literature as the answer key.
 
+![System architecture: public data is cleaned into an evidence graph, cut at a date T, reasoned over, and graded against what was published after T](diagrams/system_architecture.png)
+
+Public data is cleaned into an evidence graph, cut at a date T, and reasoned
+over. The forecast is graded against what was actually published after T, with
+trap questions mixed in. [ARCHITECTURE.md](ARCHITECTURE.md) has two more
+diagrams in moderate detail: how the evaluation is kept free of leakage, and how
+a gene's evidence becomes a prediction or a refusal.
+
 ## Table of Contents
 
-* [Ingestion](#ingestion)
-* [Scorecard, full system](#scorecard-full-system)
-* [Ablations, primary slice](#ablations-primary-slice)
-* [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
-* [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
-* [Cost lens, full system](#cost-lens-full-system)
-* [Held-out recovery](#held-out-recovery)
+* [What this is, in plain words](#what-this-is-in-plain-words)
+* [Launch the app](#launch-the-app)
+* [Scorecard](#scorecard)
+  * [Ingestion](#ingestion)
+  * [Scorecard, full system](#scorecard-full-system)
+  * [Ablations, primary slice](#ablations-primary-slice)
+  * [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
+  * [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
+  * [Cost lens, full system](#cost-lens-full-system)
+  * [Held-out recovery](#held-out-recovery)
 * [Using temporal holdout as an alternative for contamination control](#using-temporal-holdout-as-an-alternative-for-contamination-control)
 * [What the system does](#what-the-system-does)
 * [The cost lens](#the-cost-lens)
-* [Setup](#setup)
 * [Results](#results)
 * [Licensing](#licensing)
 * [Repository](#repository)
+
+## What this is, in plain words
+
+Sickle cell disease is caused by faulty adult hemoglobin, the protein that
+carries oxygen in blood. Before birth we all make a different version, fetal
+hemoglobin, which does not sickle. It switches off after birth, and turning it
+back on eases the disease. For decades researchers have been working out which
+genes control that switch.
+
+This project asks a simple question: **could a reasoning system have seen those
+discoveries coming?** It picks a cutoff date, say the end of 2017, and hides
+everything published after it. Using only the older evidence (genetic studies,
+lab screens and publication records), the system names the genes it expects the
+field to discover next, or says honestly that the evidence is not there yet.
+Then the sealed envelope is opened: the prediction is graded against what
+researchers actually published after the cutoff.
+
+It is a fair test because the hiding is enforced by the database and checked by
+tests, the answer key is the real published record rather than something the
+author wrote, and every rule and threshold was frozen in git before the first
+run. There is no AI language model inside. Every decision is a written rule you
+can read.
+
+The short version of the results: the system is cautious. It predicts two to six
+genes per cutoff, gets one right each time, avoids every trick question planted
+for it, and misses the two biggest discoveries after 2017 because the open data
+before 2018 held almost no trace of them. The app and the sections below explain
+why, without hiding the weak numbers.
+
+## Launch the app
+
+The app is a local website that explains the project, shows every result, and
+lets you re-run the whole pipeline from your browser. It works offline, with no
+API keys.
+
+**You need:** [Python 3.12+](https://www.python.org/downloads/),
+[uv](https://docs.astral.sh/uv/getting-started/installation/) (the Python
+package manager) and [Node.js 20.9+](https://nodejs.org/). Run everything from
+the repository root.
+
+```bash
+# 1. Install the Python pipeline (once)
+uv venv --python 3.12 .venv
+uv pip install -e ".[dev]"
+
+# 2. Build the evidence graph from the committed data snapshot (under a minute)
+.venv/bin/hindcast build
+
+# 3. Install and start the web app (the npm install is only needed once)
+cd web
+npm install
+npm run dev
+```
+
+Open **http://127.0.0.1:4100**. What you can do there:
+
+- **Overview**: the idea in plain language, with a timeline you can drag to see
+  which discoveries each cutoff hides.
+- **Results**: each cutoff's forecast, ranked by confidence or by how affordable
+  the resulting treatment would be, plus every refusal with its reason, the
+  trick questions, and a calibration chart.
+- **Ablations**: switch parts of the system off and see what each one is worth.
+- **Genes**: look up any gene to see what the system said about it at each
+  cutoff, and when the field actually found it.
+- **Run the pipeline**: rebuild the graph, re-run any cutoff or all of them, run
+  the held-out test, and run the test suite, with live output. Results appear in
+  the other pages as soon as a run finishes.
+- **Docs**: the methodology, data sources, schema and limitations.
+
+Steps 1 and 2 can also be done from the Run page once the app is up. For a
+faster, production build of the app, use `npm run build && npm run start`
+instead of `npm run dev`. The app serves on port 4100 by default; to use another
+port, run `npx next dev --port <port>`.
+
+### Command line only
+
+Everything the app does is also available from the terminal:
+
+```bash
+.venv/bin/hindcast slice --cutoff 2017-12-31   # run one cutoff (about 20 seconds)
+.venv/bin/hindcast heldout --cutoff 2017-12-31 # held-out recovery test
+.venv/bin/hindcast run-all                     # every cutoff and every ablation
+.venv/bin/hindcast scorecard                   # print the results table
+.venv/bin/python -m pytest -q                  # the checks that must pass to ship
+```
+
+Runs rewrite `eval/results/` and `trajectories/`. The results are deterministic,
+so in practice only the trajectory timestamps change, and
+`git checkout -- eval trajectories` restores them.
+
+To re-fetch from the sources instead of using the snapshot, the scripts in
+`scripts/` do it one source at a time, and `hindcast build-snapshot`
+re-normalizes the result. That path needs a network and takes about an hour,
+most of it Europe PMC pagination.
+
+## Scorecard
 
 <!-- SCORECARD:START -->
 
@@ -195,26 +301,6 @@ element. The forecast is reported twice, ranked by confidence and ranked by
 confidence times the route's cost weight, side by side, so the reordering is
 visible rather than asserted.
 
-## Setup
-
-Requires Python 3.12 or later. The demo needs no API keys and no network.
-
-```bash
-uv venv --python 3.12 .venv
-uv pip install -e ".[dev]"
-
-.venv/bin/hindcast build            # build the graph from the committed snapshot
-.venv/bin/hindcast run-all          # every slice, every ablation
-.venv/bin/hindcast scorecard        # render the table
-.venv/bin/python -m pytest -q       # the checks that must pass to ship
-```
-
-To re-fetch from the sources instead of using the snapshot, the scripts in
-`scripts/` do it one source at a time, and `hindcast build-snapshot`
-re-normalizes the result. That path needs a network and takes about an hour,
-most of it Europe PMC pagination.
-
-
 ## Results
 
 Numbers that look bad are left in. 
@@ -262,9 +348,20 @@ early windows. A rate of 1.00 over one gene is not evidence of anything.
 fetal hemoglobin screen. The screens behind the field's key HbF results are not
 in any open, dated, redistributable form, so the pre-T evidence base here is
 human genetic association data, essentiality data, and dated bibliographic
-metadata, not the screen record. Nearly every weakness above follows from that. --> Follow up on this with the help of convolutional KANs?
-Why convKANs? Since data is scarce, convKANs utilize available parameters in an optimal manner by applying apply learnable univariate functions (such as B-splines) to each element in the kernel that allow individual kernels to learn richer non-linear representations. 
+metadata, not the screen record. Nearly every weakness above follows from that.
+The lever that would move these numbers is more evidence, not a more expressive
+model: the two headline misses have no pre-cutoff measurement at all, and no
+learned model can rank a gene whose features are empty.
 
+**Why not convKANs?** I explored convolutional Kolmogorov-Arnold networks as a
+way to get more out of scarce data, since they are parameter-efficient on small
+datasets. I dropped the idea for three reasons. The missed genes have no
+pre-cutoff features at all, so model capacity is not the bottleneck. The
+evidence for each gene is a row of tabular features with no spatial or sequence
+structure for a convolution to exploit. And a learned model would need labels:
+the only ones that respect the time split are the 25 genes already established
+before the 2017 cutoff, and fitting weights at all would break the rule that every
+coefficient is stated and frozen before the answer key is seen.
 
 The expected calibration error is measured over tens of claims across five bins,
 several nearly empty. The ablation row comparing against a general model with no
@@ -310,3 +407,5 @@ permit redistribution here; the reason is quoted in full in DATA_SOURCES.md.
 | `eval/results/` | One JSON scorecard per slice and ablation |
 | `trajectories/` | Full agent logs for every run: inputs, tool calls, timings, outputs |
 | `data/snapshot/` | The committed data snapshot the offline demo reads |
+| `web/` | The Next.js app: reads the files above and drives the `hindcast` CLI |
+| `ARCHITECTURE.md`, `diagrams/` | System, evaluation and scoring diagrams, with Mermaid sources |

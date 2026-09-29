@@ -138,6 +138,9 @@ def scorecard() -> None:
     table = Table("slice", "ablation", "P@5 conf", "P@5 cost", "MRR", "traps", "refusals", "ECE", "fabricated")
     for path in files:
         data = json.loads(path.read_text())
+        # heldout_*.json and ingestion.json share the directory but are not slice runs.
+        if "scorecard" not in data:
+            continue
         card = data["scorecard"]
         conf = card.get("ranking_by_confidence") or {}
         cost = card.get("ranking_by_cost_impact") or {}

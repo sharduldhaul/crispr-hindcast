@@ -1,0 +1,48 @@
+%% CRISPR HINDCAST: how one gene becomes a prediction or an abstention.
+%% In ML terms: a hand-specified log-odds model with no fitted weights,
+%% an abstention gate (selective prediction) and a cost-weighted re-rank.
+flowchart TB
+    rec["Evidence record about a gene<br/>genetic association, screen hit,<br/>essentiality score, paper, protein complex"]
+
+    subgraph weight["1. Quality weight: how it was measured, never what it found"]
+        terms["w = system x perturbation x readout<br/>x replication x human genetics"]
+        clamp["clamped to a fixed range"]
+    end
+
+    subgraph update["2. Belief update in log-odds"]
+        prior["start at prior 0.05<br/>log-odds -2.94"]
+        delta["measurement: +/- 0.85 x w"]
+        lit["papers: ln(1 + n), diminishing returns"]
+        ess["essential everywhere: capped penalty"]
+        sum["running log-odds<br/>sum of all updates"]
+        audit["every update written to an<br/>append-only audit table"]
+    end
+
+    conf["confidence = sigmoid(log-odds)"]
+
+    subgraph gate["3. Abstention gate"]
+        thresh{"confidence at least 0.25<br/>AND one route of substance:<br/>measurement w at least 0.3,<br/>5+ HbF papers, or a complex link"}
+    end
+
+    forecast["Forecast"]
+    refuse["Refusal, with the reason<br/><i>scored as correct when the answer<br/>was not yet knowable</i>"]
+
+    subgraph cost["4. Cost lens"]
+        route["Infer likely treatment route<br/>from protein family"]
+        rerank["score x route weight<br/>pill 10, in-body edit 4,<br/>cell therapy 1, multi-edit 0.4"]
+        two["Report both rankings side by side"]
+    end
+
+    rec --> terms --> clamp --> delta
+    rec --> lit
+    rec --> ess
+    prior --> sum
+    delta --> sum
+    lit --> sum
+    ess --> sum
+    sum -.-> audit
+    sum --> conf
+    conf --> thresh
+    thresh -- yes --> forecast
+    thresh -- no --> refuse
+    forecast --> route --> rerank --> two

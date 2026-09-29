@@ -18,3 +18,8 @@ data/work/
 *.tar.gz
 node_modules/
 .next/
+*.tsbuildinfo
+next-env.d.ts
+# Agent hint files that `next dev` regenerates on every run.
+web/AGENTS.md
+web/CLAUDE.md

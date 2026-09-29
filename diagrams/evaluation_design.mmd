@@ -1,0 +1,44 @@
+%% CRISPR HINDCAST: how the evaluation stays leak-free.
+%% In ML terms: a time-based train/test split, a preregistered metric,
+%% adversarial test cases and an ablation study.
+flowchart TB
+    subgraph data["All evidence, every row timestamped"]
+        pre["Rows dated before T<br/><i>the only inputs</i>"]
+        post["Publications dated on or after T<br/><i>used only to build labels</i>"]
+    end
+
+    subgraph guard["Leak guard, enforced by the database"]
+        materialize["Copy pre-T rows into a<br/>separate slice database"]
+        lock["Open it read-only,<br/>block ATTACH to other DBs"]
+        leaktest["test_slice_leak.py<br/>tries every leak route"]
+    end
+
+    subgraph labels["Labels, fixed before any run"]
+        rule["Title rule: first paper<br/>asserting the gene regulates HbF"]
+        frozen["Answer key + all thresholds<br/>committed and git-tagged<br/><i>like a preregistration</i>"]
+    end
+
+    system["System under test<br/>no learned parameters"]
+    out["Ranked forecast + refusals"]
+
+    subgraph adv["Adversarial test cases"]
+        decoy["Decoys: near the right locus,<br/>no plausible function"]
+        essential["Essential-everywhere genes:<br/>look like hits, not therapies"]
+        canary["Post-T genes: must be refused,<br/><i>a canary for leakage</i>"]
+    end
+
+    grader["Blind grader<br/>never sees the slice<br/>or the reasoning"]
+    metrics["Metrics: P@5, P@10, MRR,<br/>trap pass rate, refusal accuracy,<br/>calibration error, untraceable numbers"]
+    ablate["Ablations: remove one component,<br/>re-run, compare"]
+    repeat["Repeat at three cutoffs:<br/>2014, 2017, 2020"]
+
+    pre --> materialize --> lock --> system
+    leaktest -.-> lock
+    post --> rule --> frozen --> grader
+    system --> out --> grader
+    decoy --> grader
+    essential --> grader
+    canary --> grader
+    grader --> metrics
+    metrics --> ablate
+    metrics --> repeat
