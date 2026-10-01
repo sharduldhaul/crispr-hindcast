@@ -19,7 +19,7 @@ a gene's evidence becomes a prediction or a refusal.
 
 ## Table of Contents
 
-* [What this is, in plain words](#what-this-is-in-plain-words)
+* [Description](#Description)
 * [Launch the app](#launch-the-app)
 * [Scorecard](#scorecard)
   * [Ingestion](#ingestion)
