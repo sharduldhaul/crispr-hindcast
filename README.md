@@ -36,7 +36,7 @@ a gene's evidence becomes a prediction or a refusal.
 * [Licensing](#licensing)
 * [Repository](#repository)
 
-## What this is, in plain words
+## Description
 
 Sickle cell disease is caused by faulty adult hemoglobin, the protein that
 carries oxygen in blood. Before birth we all make a different version, fetal
@@ -89,10 +89,9 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:4100**. What you can do there:
+Open **http://127.0.0.1:3000**. (If port is not 3000, check for other ports availability) What you can do there:
 
-- **Overview**: the idea in plain language, with a timeline you can drag to see
-  which discoveries each cutoff hides.
+- **Overview**: With a timeline you can drag to see which discoveries each cutoff hides.
 - **Results**: each cutoff's forecast, ranked by confidence or by how affordable
   the resulting treatment would be, plus every refusal with its reason, the
   trick questions, and a calibration chart.
@@ -222,13 +221,13 @@ Exclusions by reason:
 
 ## Using temporal holdout as an alternative for contamination control
 
-This project exists because of a problem stated publicly by
-[Cortex Bio](https://cortexbiolabs.com) in their July 2026 case study
+This project exists because of a problem stated publicly by 
+[CortexBiolabs](https://cortexbiolabs.com) in their July 2026 case study
 "Designing molecules that have never been made". Their evaluation used name
 anonymization as the contamination control and an answer key they wrote
-themselves. Both choices are reasonable and both have a hole in them.
+themselves. 
 
-Name anonymization hides the label and leaves the fingerprint. A model that has
+When going with name anonymization, it hides the label and leaves the fingerprint. A model that has
 read the literature does not need to be told a gene is called BCL11A: the
 combination of a zinc finger, an erythroid enhancer at +58 kilobases, and an
 association with fetal hemoglobin identifies it uniquely, and every one of those
@@ -246,19 +245,19 @@ fails. And the answer key is not self-authored: what the field published after T
 is a fact about the world, recorded in `eval/rulebook/` by a stated rule, frozen
 and git-tagged before the first evaluation run.
 
-A temporal holdout does not solve contamination, and LIMITATIONS.md says so
-plainly. It controls the evidence, not the reader. A language model placed in
+A temporal holdout does not solve contamination (refer LIMITATIONS.md). 
+It controls the evidence, not the reader. A language model placed in
 this pipeline would already have read the 2018 result, and no data-layer
 enforcement can remove that. What the holdout buys is that the control is
 checkable and the key is independent, which is more than anonymization can
 offer.
 
-This is an independent benchmark for a problem Cortex Bio named. It is not a
+This is an independent benchmark for a problem CortexBiolabs named. It is not a
 reimplementation of their product and makes no claim about it.
 
 ## What the system does
 
-Six agents with narrow contracts, no language model anywhere, every judgement a
+Six agents (without language models) with narrow contracts, every judgement a
 stated rule in a documented module.
 
 1. **Curator** normalizes raw records to the schema, resolving symbols through
@@ -353,13 +352,13 @@ The lever that would move these numbers is more evidence, not a more expressive
 model: the two headline misses have no pre-cutoff measurement at all, and no
 learned model can rank a gene whose features are empty.
 
-**Why not convKANs?** I explored convolutional Kolmogorov-Arnold networks as a
+**Why not convKANs?** I distinctively explored convolutional Kolmogorov-Arnold networks as a
 way to get more out of scarce data, since they are parameter-efficient on small
-datasets. I dropped the idea for three reasons. The missed genes have no
-pre-cutoff features at all, so model capacity is not the bottleneck. The
-evidence for each gene is a row of tabular features with no spatial or sequence
-structure for a convolution to exploit. And a learned model would need labels:
-the only ones that respect the time split are the 25 genes already established
+datasets. I dropped the idea for three reasons. 
+1. Model capacity: The missed genes have no pre-cutoff features at all, so model capacity is not the bottleneck. 
+2. Structural features: The evidence for each gene is a row of tabular features with no spatial or sequence
+structure for a convolution to exploit. 
+3. A learned model would need labels: the only ones that respect the time split are the 25 genes already established
 before the 2017 cutoff, and fitting weights at all would break the rule that every
 coefficient is stated and frozen before the answer key is seen.
 
