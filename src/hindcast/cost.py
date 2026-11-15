@@ -126,9 +126,9 @@ MULTI_EDIT_HINTS: tuple[str, ...] = (
     r"Polycomb",
 )
 
-_SM_RE = re.compile("|".join(SMALL_MOLECULE_FAMILIES), re.I)
-_HARD_RE = re.compile("|".join(HARD_TO_DRUG_FAMILIES), re.I)
-_MULTI_RE = re.compile("|".join(MULTI_EDIT_HINTS), re.I)
+_SM_RE = re.compile("|".join(SMALL_MOLECULE_FAMILIES), re.IGNORECASE)
+_HARD_RE = re.compile("|".join(HARD_TO_DRUG_FAMILIES), re.IGNORECASE)
+_MULTI_RE = re.compile("|".join(MULTI_EDIT_HINTS), re.IGNORECASE)
 
 
 @dataclass(frozen=True)

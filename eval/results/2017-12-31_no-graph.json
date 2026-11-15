@@ -1391,10 +1391,26 @@
       "hits_at_10": [],
       "hits_at_5": [],
       "mean_reciprocal_rank": 0.0625,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.035714,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 61,
+        "upper": 0.1
+      },
       "n_ground_truth": 13,
       "n_ranked": 60,
       "precision_at_10": 0.0,
       "precision_at_5": 0.0,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 61,
+        "upper": 0.0
+      },
       "ranking": "confidence"
     },
     "ranking_by_cost_impact": {
@@ -1402,10 +1418,26 @@
       "hits_at_10": [],
       "hits_at_5": [],
       "mean_reciprocal_rank": 0.0625,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.035714,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 61,
+        "upper": 0.1
+      },
       "n_ground_truth": 13,
       "n_ranked": 60,
       "precision_at_10": 0.0,
       "precision_at_5": 0.0,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 61,
+        "upper": 0.0
+      },
       "ranking": "cost_impact"
     },
     "refusal_accuracy": 0.0,

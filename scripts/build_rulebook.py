@@ -41,8 +41,8 @@ from pathlib import Path
 from _fetchlib import ROOT, client, get_json
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES, SCOPE_GENES  # noqa: E402
-from hindcast.textmatch import fold, names_gene, usable_terms  # noqa: E402
+from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES, SCOPE_GENES
+from hindcast.textmatch import fold, names_gene, usable_terms
 
 SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
@@ -51,14 +51,14 @@ REGULATORY_VERB = re.compile(
     r"\b(regulat\w*|silenc\w*|repress\w*|induc\w*|activat\w*|control\w*|"
     r"modulat\w*|derepress\w*|reactivat\w*|elevat\w*|increas\w*|suppress\w*|"
     r"switch\w*|de-?repress\w*)\b",
-    re.I,
+    re.IGNORECASE,
 )
 
 #: The phenotype, as a title would name it.
 PHENOTYPE_TERM = re.compile(
     r"(fetal h[ae]moglobin|hbf\b|f-cells?\b|gamma-?globin|γ-?globin|"
     r"fetal globin|globin switch\w*|globin gene)",
-    re.I,
+    re.IGNORECASE,
 )
 
 #: Titles that assert a role the article did not establish. Reviews and
@@ -68,7 +68,7 @@ NON_PRIMARY = re.compile(
     r"\b(review|overview|perspective|commentary|editorial|news and views|"
     r"progress and prospects|a survey|current (status|understanding)|"
     r"therapeutic (target|approach)es? (in|for)|potential (diagnostic|therapeutic))\b",
-    re.I,
+    re.IGNORECASE,
 )
 
 NON_PRIMARY_TYPES = {"review", "editorial", "comment", "letter", "news"}
@@ -119,8 +119,8 @@ def main() -> None:
             terms = usable_terms(symbol, query_terms)
             clause = "(" + " OR ".join(f'"{t}"' for t in query_terms) + ")"
             query = (
-                f"{clause} AND (\"fetal hemoglobin\" OR \"fetal haemoglobin\" OR \"HbF\" OR "
-                f"\"gamma-globin\" OR \"gamma globin\" OR \"globin switching\")"
+                f'{clause} AND ("fetal hemoglobin" OR "fetal haemoglobin" OR "HbF" OR '
+                f'"gamma-globin" OR "gamma globin" OR "globin switching")'
             )
             cursor, records = "*", []
             while True:

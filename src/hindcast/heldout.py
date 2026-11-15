@@ -24,7 +24,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
-from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -32,7 +31,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from hindcast.agents.axioms import AxiomExtractor
 from hindcast.agents.base import Agent
 from hindcast.agents.belief_reviser import (
-    REFUSAL_CONFIDENCE_THRESHOLD,
     BeliefReviser,
 )
 from hindcast.models import NodeType
@@ -122,9 +120,7 @@ class HeldOutEvaluator(Agent):
             with self.tool("holdout_run", gene=labels.get(gid, gid)) as call:
                 without = self._confidences(store, cutoff, hidden=hidden)
                 call.records_in = len(hidden)
-                call.result_summary = (
-                    f"{labels.get(gid, gid)}: {len(hidden)} measurements hidden"
-                )
+                call.result_summary = f"{labels.get(gid, gid)}: {len(hidden)} measurements hidden"
             claim_id = f"claim:hbf_increase:{gid}"
             with_conf, with_report, _ = baseline.get(claim_id, (0.0, False, 0))
             no_conf, no_report, remaining = without.get(claim_id, (0.0, False, 0))
@@ -150,10 +146,7 @@ class HeldOutEvaluator(Agent):
 
         tested = [h for h in holdouts if h.reportable_with]
         recovered = [h for h in tested if h.recovered]
-        drops = [
-            h.confidence_with_measurements - h.confidence_without_measurements
-            for h in tested
-        ]
+        drops = [h.confidence_with_measurements - h.confidence_without_measurements for h in tested]
         report = HeldOutReport(
             cutoff=cutoff.isoformat(),
             genes_tested=len(tested),

@@ -1,5 +1,8 @@
 # CRISPR HINDCAST
 
+[![CI](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sharduldhaul/crispr-hindcast)
+
 
 Given only the evidence available on date T,
 can a system recover the governing rules of a field and correctly forecast what
@@ -19,17 +22,22 @@ a gene's evidence becomes a prediction or a refusal.
 
 ## Table of Contents
 
-* [Description](#Description)
+* [Description](#description)
 * [Launch the app](#launch-the-app)
+  * [In a browser, with GitHub Codespaces](#in-a-browser-with-github-codespaces)
+  * [Command line only](#command-line-only)
 * [Scorecard](#scorecard)
   * [Ingestion](#ingestion)
   * [Scorecard, full system](#scorecard-full-system)
+  * [Rule-based system and language model](#rule-based-system-and-language-model)
   * [Ablations, primary slice](#ablations-primary-slice)
   * [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
   * [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
   * [Cost lens, full system](#cost-lens-full-system)
   * [Held-out recovery](#held-out-recovery)
-* [Using temporal holdout as an alternative for contamination control](#using-temporal-holdout-as-an-alternative-for-contamination-control)
+* [Temporal holdout as a complementary contamination control](#temporal-holdout-as-a-complementary-contamination-control)
+* [Language-model track](#language-model-track)
+  * [Design decisions](#design-decisions)
 * [What the system does](#what-the-system-does)
 * [The cost lens](#the-cost-lens)
 * [Results](#results)
@@ -55,8 +63,9 @@ researchers actually published after the cutoff.
 It is a fair test because the hiding is enforced by the database and checked by
 tests, the answer key is the real published record rather than something the
 author wrote, and every rule and threshold was frozen in git before the first
-run. There is no AI language model inside. Every decision is a written rule you
-can read.
+run. The system itself contains no AI language model: every decision is a
+written rule you can read. A language model is evaluated separately, on the same
+cutoffs and by the same grader, as a comparison.
 
 The short version of the results: the system is cautious. It predicts two to six
 genes per cutoff, gets one right each time, avoids every trick question planted
@@ -89,13 +98,15 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:3000**. (If port is not 3000, check for other ports availability) What you can do there:
+Open **http://127.0.0.1:4100**. What you can do there:
 
 - **Overview**: With a timeline you can drag to see which discoveries each cutoff hides.
 - **Results**: each cutoff's forecast, ranked by confidence or by how affordable
   the resulting treatment would be, plus every refusal with its reason, the
   trick questions, and a calibration chart.
 - **Ablations**: switch parts of the system off and see what each one is worth.
+- **Model**: the language-model rows beside the rule-based system, and each
+  claim with the IDs it cited.
 - **Genes**: look up any gene to see what the system said about it at each
   cutoff, and when the field actually found it.
 - **Run the pipeline**: rebuild the graph, re-run any cutoff or all of them, run
@@ -107,6 +118,22 @@ Steps 1 and 2 can also be done from the Run page once the app is up. For a
 faster, production build of the app, use `npm run build && npm run start`
 instead of `npm run dev`. The app serves on port 4100 by default; to use another
 port, run `npx next dev --port <port>`.
+
+### In a browser, with GitHub Codespaces
+
+The badge at the top of this page opens the repository in a codespace. It
+installs the pipeline, builds the graph, builds the app and opens it on port
+4100, with nothing to do by hand. `hindcast verify` runs the test suite there.
+
+A live model run needs your own key. Add `ANTHROPIC_API_KEY` as a
+[Codespaces secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
+for this repository, then in the codespace's terminal:
+
+```bash
+.venv/bin/hindcast llm --cutoff 2017-12-31 --retrieval graph --live
+```
+
+Without the key every result still replays from the committed files.
 
 ### Command line only
 
@@ -155,11 +182,46 @@ Exclusions by reason:
 
 ### Scorecard, full system
 
-| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |
+| Slice | Ground truth | Forecast | Refusals | P@5 conf [95% interval] | P@5 cost | P@10 conf | MRR [95% interval] | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2014-12-31 | 19 | 2 | 47 | 0.20 | 0.20 | 0.10 | 0.500 | 6/6 | 16/16 | 16/16 (1.00) | 0.302 | 0 |
-| 2017-12-31 | 13 | 2 | 42 | 0.20 | 0.20 | 0.10 | 0.500 | 7/7 | 8/8 | 8/8 (1.00) | 0.199 | 0 |
-| 2020-12-31 | 3 | 6 | 28 | 0.20 | 0.20 | 0.10 | 0.333 | 7/7 | 2/2 | 2/2 (1.00) | 0.066 | 0 |
+| 2014-12-31 | 19 | 2 | 47 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.500 [0.000, 1.000] | 6/6 | 16/16 | 16/16 (1.00) | 0.302 | 0 |
+| 2017-12-31 | 13 | 2 | 42 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.500 [0.000, 1.000] | 7/7 | 8/8 | 8/8 (1.00) | 0.199 | 0 |
+| 2020-12-31 | 3 | 6 | 28 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.333 [0.000, 1.000] | 7/7 | 2/2 | 2/2 (1.00) | 0.066 | 0 |
+
+### Rule-based system and language model
+
+| Slice | System | P@5 [95% interval] | MRR [95% interval] | Traps passed | Refusal acc | ECE | Grounded-claim rate [95% interval] | Fabricated IDs | Recalled claims |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2014-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 22/22 | 16/16 (1.00) | 0.302 | n/a | n/a | n/a |
+| 2014-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.071 [0.042, 0.111] | 8/22 | 0/16 (0.00) | 0.325 | n/a | n/a | n/a |
+| 2014-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2014-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2014-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 15/15 | 8/8 (1.00) | 0.199 | n/a | n/a | n/a |
+| 2017-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.062 [0.036, 0.100] | 8/15 | 0/8 (0.00) | 0.225 | n/a | n/a | n/a |
+| 2017-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.333 [0.000, 1.000] | 9/9 | 2/2 (1.00) | 0.066 | n/a | n/a | n/a |
+| 2020-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.034 [0.000, 0.045] | 7/9 | 0/2 (0.00) | 0.079 | n/a | n/a | n/a |
+| 2020-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+
+Model: `claude-opus-5-5`.
+Not run: 9 of 9 model rows have no response in `eval/model_cache/`. They are reported as not run, never estimated.
+
+| Column | Definition |
+| --- | --- |
+| P@5 | Precision at 5: genes later established among the 5 highest-confidence claims, over 5. |
+| MRR | Reciprocal rank of the first established gene in the ranking. |
+| Traps passed | Traps answered correctly, over all traps for the slice. |
+| Refusal acc | Genes refused, over the genes the slice holds too little evidence to answer. |
+| ECE | Expected calibration error over five confidence bins. |
+| Grounded-claim rate | Claims citing at least one row the model was given that names the claimed gene, over all claims. A lower bar than the faithfulness metrics of RAG evaluation: it does not test that the row supports the claim. |
+| Fabricated IDs | Cited IDs that no store holds. |
+| Recalled claims | Claims for a gene established on or after the cutoff that are not grounded, over all claims for such genes. |
+| n/a | The rule-based rows cite no IDs, so the column does not apply. |
 
 ### Ablations, primary slice
 
@@ -219,41 +281,93 @@ Exclusions by reason:
 
 <!-- SCORECARD:END -->
 
-## Using temporal holdout as an alternative for contamination control
+## Temporal holdout as a complementary contamination control
 
-This project exists because of a problem stated publicly by 
-[CortexBiolabs](https://cortexbiolabs.com) in their July 2026 case study
-"Designing molecules that have never been made". Their evaluation used name
-anonymization as the contamination control and an answer key they wrote
-themselves. 
+The idea for this project came from
+[Cortex Bio](https://cortexbiolabs.com) and their July 2026 case study,
+[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
+The post says its source "is a published 2024 paper that a frontier model has
+very likely seen in training", and describes two controls:
 
-When going with name anonymization, it hides the label and leaves the fingerprint. A model that has
-read the literature does not need to be told a gene is called BCL11A: the
-combination of a zinc finger, an erythroid enhancer at +58 kilobases, and an
-association with fetal hemoglobin identifies it uniquely, and every one of those
-facts has to stay in the problem for the problem to be answerable. Anonymization
-also cannot be verified. There is no test you can write that proves a
-description no longer identifies its subject.
+- They ran the task twice, "once with the real names, and once with every
+  compound, warhead, and ligand replaced by an anonymous token", and compared
+  the scores.
+- They "froze a rule book of the governing trends, checked against the table,
+  before any model ran".
 
-A temporal holdout is a different kind of control, and its two advantages are
-worth stating separately. It is verifiable: the claim "no evidence dated on or
-after T reached the reasoning" is a property of a data layer, and this
-repository enforces it by materializing a separate database holding only pre-T
-rows and serving it over a connection that cannot attach anything else.
-`tests/test_slice_leak.py` attempts the leak by every route and asserts each one
-fails. And the answer key is not self-authored: what the field published after T
-is a fact about the world, recorded in `eval/rulebook/` by a stated rule, frozen
-and git-tagged before the first evaluation run.
+This project follows that design. Its answer key is a rule book frozen before
+the first evaluation run, as in the second control, and it adds a temporal
+holdout as a third control aimed at the same problem from the data side. The
+controls are complementary: a temporal holdout constrains which evidence can
+reach the reasoning, and token replacement constrains what the model can
+recognize in that evidence. Neither replaces the other.
 
-A temporal holdout does not solve contamination (refer LIMITATIONS.md). 
-It controls the evidence, not the reader. A language model placed in
-this pipeline would already have read the 2018 result, and no data-layer
-enforcement can remove that. What the holdout buys is that the control is
-checkable and the key is independent, which is more than anonymization can
-offer.
+What a temporal holdout verifies:
 
-This is an independent benchmark for a problem CortexBiolabs named. It is not a
-reimplementation of their product and makes no claim about it.
+- **No evidence dated on or after the cutoff T reached the reasoning.** This is
+  a property of the data layer. The repository materializes a separate database
+  holding only pre-T rows and serves it over a connection that cannot attach
+  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
+  asserts each one fails.
+- **The answer key was fixed before any result existed.** What the field
+  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
+  the tag
+  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
+  which predates the first commit with evaluation results.
+
+What it does not verify:
+
+- **What the reader already knows.** The holdout controls the evidence, not the
+  reader. A language model placed in this pipeline may have read the 2018 result
+  in training, and no data-layer enforcement can remove that.
+  [LIMITATIONS.md](LIMITATIONS.md) covers this.
+- **That a description no longer identifies its subject.** That is the question
+  token replacement addresses, and this project does not test it.
+
+This is an independent project that builds on a problem Cortex Bio named and
+on the controls they described. It is not a reimplementation of their product
+and makes no claim about it.
+
+## Language-model track
+
+A language model is asked the same question as the rule-based system, at the
+same cutoffs, and its answer is scored by the same grader. It runs in three
+retrieval conditions, so a result can be read against what the model was given:
+
+| Condition | What the model is given |
+| --- | --- |
+| Model alone | The question and the candidate genes, and no evidence. |
+| Model with text retrieval | Pre-cutoff publication titles retrieved for each gene. |
+| Model with graph tools | Read-only tools that query the pre-cutoff graph. |
+
+Results are in the scorecard table
+[Rule-based system and language model](#rule-based-system-and-language-model),
+and in the app's Model page claim by claim. A row with no committed response
+reads `not run`; the line under the table gives the count. A live run needs a
+key and is opt-in (`hindcast llm --live`). Its responses are written to
+`eval/model_cache/`, and once committed the row replays offline like every
+other result.
+
+Beside the ranking metrics, each model row reports whether its claims cite
+evidence the model was shown (the grounded-claim rate), the IDs it cited that
+do not exist, and the correct claims the given evidence does not account for
+(recalled claims). [METHODOLOGY.md](METHODOLOGY.md#language-model-track) defines
+each, and [LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound)
+states what they cannot detect.
+
+### Design decisions
+
+Each choice follows from the hard rules in
+[CONTRIBUTING.md](CONTRIBUTING.md): the slice database enforces the cutoff,
+every number traces to a source row, and a clone reproduces every result
+offline.
+
+| Decision | Alternative | Why the alternative was not chosen |
+| --- | --- | --- |
+| Exact vector search: the query is compared with every title vector in the slice. | An approximate nearest-neighbour index. | A slice holds few enough titles that exact search is fast. An approximate index would add a recall parameter to tune and report, and results that can vary with how the index was built. |
+| The title index and the vectors live inside the slice database. | One index over all titles, filtered by date at query time. | A date filter is calling code, and a missing or wrong filter returns post-cutoff rows. Inside the slice a post-cutoff title has no index entry and no vector, so there is nothing to filter, and the leak tests cover retrieval like any other read. |
+| A small open embedding model that runs locally. | A hosted embedding API. | Computing retrieval sends no data to a third party and needs no key. The ranked IDs are committed, so a clone replays retrieval without the model at all. The cost is a smaller model than the hosted ones. |
+| Tools that query the existing evidence graph. | GraphRAG, in which a language model extracts entities and relations from text to build the graph. | The graph here is built from curated sources, and every node carries its source and date. Extracted nodes would have no source row, and a model trained after the cutoff could write later knowledge into a graph that is supposed to predate it. The repository also commits titles only, so there is no article text to extract from. |
 
 ## What the system does
 
@@ -288,8 +402,9 @@ answer postdates T, and it earns points.
 
 ## The cost lens
 
-Casgevy lists at about $2.2M and Lyfgenia at about $3.1M, neither figure
-including the required inpatient stay. Both need apheresis, GMP manufacturing of
+Casgevy lists at about $2.2M and Lyfgenia at about $3.1M
+([BioPharma Dive, December 2023](https://www.biopharmadive.com/news/crispr-sickle-cell-price-millions-gene-therapy-vertex-bluebird/702066/)),
+neither figure including the required inpatient stay. Both need apheresis, GMP manufacturing of
 an autologous product, and busulfan myeloablative conditioning. That pathway is
 unavailable in most of the regions carrying the disease burden.
 
@@ -363,10 +478,9 @@ before the 2017 cutoff, and fitting weights at all would break the rule that eve
 coefficient is stated and frozen before the answer key is seen.
 
 The expected calibration error is measured over tens of claims across five bins,
-several nearly empty. The ablation row comparing against a general model with no
-graph is reported as not run, because this repository contains no API keys and
-makes no live calls, and the row is not estimated in their absence; the flat
-literature baseline stands in its place and is labelled as such.
+several nearly empty. The language-model rows that have no committed response
+are reported as not run and are not estimated; the flat literature baseline is
+the comparison that is always present, and is labelled as such.
 LIMITATIONS.md sets out what all of this means for every number in the
 scorecard.
 

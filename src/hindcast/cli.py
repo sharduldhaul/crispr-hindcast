@@ -1,15 +1,19 @@
 """Command line interface.
 
-    hindcast build                  build the graph from the committed snapshot
-    hindcast slice --cutoff DATE    run one evaluation slice
-    hindcast run-all                run every slice and every ablation
-    hindcast scorecard              render the scorecard table from results
-    hindcast verify                 run the checks that must pass to ship
+hindcast build                  build the graph from the committed snapshot
+hindcast slice --cutoff DATE    run one evaluation slice
+hindcast run-all                run every slice and every ablation
+hindcast llm --cutoff DATE      run the language-model forecaster on one slice
+hindcast embed-titles           embed publication titles into the local cache
+hindcast retrieve               write the text retrieval record for every cutoff
+hindcast scorecard              render the scorecard table from results
+hindcast verify                 run the checks that must pass to ship
 """
 
 from __future__ import annotations
 
 import json
+import os
 from datetime import date
 from pathlib import Path
 
@@ -17,6 +21,10 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from hindcast.llm import retrieval
+from hindcast.llm.client import DEFAULT_MODEL_ID, ModelTransportError, anthropic_transport
+from hindcast.llm.forecaster import RetrievalCondition, RunStatus
+from hindcast.llm.run import LLMSliceResult, candidate_symbols, run_llm_slice
 from hindcast.pipeline import (
     ABLATIONS,
     DEFAULT_DB,
@@ -24,12 +32,14 @@ from hindcast.pipeline import (
     SNAPSHOT_DIR,
     build_graph,
     build_snapshot,
+    load_rulebook,
     load_snapshot,
     run_all_slices,
     run_heldout,
     run_slice,
 )
 from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
+from hindcast.store import Store
 
 app = typer.Typer(add_completion=False, help=__doc__)
 console = Console()
@@ -40,9 +50,7 @@ ROOT = Path(__file__).resolve().parents[2]
 @app.command()
 def build(
     raw_dir: Path = typer.Option(ROOT / "data" / "raw", help="Raw payload directory."),
-    snapshot: Path = typer.Option(
-        ROOT / "data" / "snapshot", help="Committed snapshot directory."
-    ),
+    snapshot: Path = typer.Option(ROOT / "data" / "snapshot", help="Committed snapshot directory."),
     db: Path = typer.Option(DEFAULT_DB, help="Graph database to write."),
     from_snapshot: bool = typer.Option(
         True, help="Build from the committed snapshot rather than raw payloads."
@@ -61,8 +69,12 @@ def build(
     else:
         report = build_graph(raw_dir, db)
         console.print(f"built by re-normalizing the raw payloads at {raw_dir}")
-    console.print(f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}")
-    console.print(f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}")
+    console.print(
+        f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}"
+    )
+    console.print(
+        f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}"
+    )
     # Two tables, not one joined table. Source records are counted per payload
     # bucket ("hgnc.genes") and nodes are counted per provenance prefix
     # ("hgnc"), and those are different keys: one source bucket can produce
@@ -95,7 +107,9 @@ def slice(
     """Run one evaluation slice."""
     spec = next((a for a in ABLATIONS if a.name == ablation), None)
     if spec is None:
-        raise typer.BadParameter(f"unknown ablation {ablation!r}; one of {[a.name for a in ABLATIONS]}")
+        raise typer.BadParameter(
+            f"unknown ablation {ablation!r}; one of {[a.name for a in ABLATIONS]}"
+        )
     result = run_slice(date.fromisoformat(cutoff), store_path=db, ablation=spec)
     card = result.scorecard
     console.print(f"\n[bold]slice {result.cutoff}[/bold]  ablation: {result.ablation}")
@@ -116,8 +130,12 @@ def slice(
             f"by cost impact: P@5 {r.precision_at_5:.2f}  P@10 {r.precision_at_10:.2f}  "
             f"MRR {r.mean_reciprocal_rank:.3f}  hits {r.hits_at_10}"
         )
-    console.print(f"traps {card.traps_passed}/{card.traps_total}  refusals correct {card.refusal_correct}/{card.refusal_total}")
-    console.print(f"ECE {card.expected_calibration_error}  untraceable numbers {card.fabricated_numbers}")
+    console.print(
+        f"traps {card.traps_passed}/{card.traps_total}  refusals correct {card.refusal_correct}/{card.refusal_total}"
+    )
+    console.print(
+        f"ECE {card.expected_calibration_error}  untraceable numbers {card.fabricated_numbers}"
+    )
 
 
 @app.command("run-all")
@@ -126,6 +144,120 @@ def run_all(db: Path = typer.Option(DEFAULT_DB)) -> None:
     results = run_all_slices(store_path=db)
     console.print(f"{len(results)} runs written to {RESULTS_DIR}")
     scorecard()
+    # Language-model rows are replayed from the cache, never called live here.
+    for cutoff in ALL_SLICES:
+        for condition in RetrievalCondition:
+            _print_llm_result(run_llm_slice(cutoff, condition, store_path=db))
+
+
+@app.command()
+def llm(
+    cutoff: str = typer.Option(PRIMARY_SLICE.isoformat(), help="Evaluation cutoff, YYYY-MM-DD."),
+    retrieval: RetrievalCondition = typer.Option(
+        RetrievalCondition.NONE, help="What evidence the model is given."
+    ),
+    model: str = typer.Option(DEFAULT_MODEL_ID, help="Full model ID, recorded in the result."),
+    live: bool = typer.Option(
+        False, help="Call the API for requests missing from eval/model_cache/."
+    ),
+    db: Path = typer.Option(DEFAULT_DB),
+) -> None:
+    """Run the language-model forecaster on one slice, replaying from the cache.
+
+    Without `--live`, or without ANTHROPIC_API_KEY, a request that is not in
+    the cache is reported as not run and the command still exits 0.
+    """
+    transport = None
+    if live and os.environ.get("ANTHROPIC_API_KEY"):
+        transport = anthropic_transport
+    elif live:
+        console.print("ANTHROPIC_API_KEY is not set, so no live call will be made")
+    try:
+        result = run_llm_slice(
+            date.fromisoformat(cutoff),
+            retrieval,
+            model_id=model,
+            store_path=db,
+            transport=transport,
+        )
+    except ModelTransportError as exc:
+        console.print(f"the model call failed and nothing was written: {exc}")
+        raise typer.Exit(1) from None
+    _print_llm_result(result)
+
+
+@app.command("embed-titles")
+def embed_titles(db: Path = typer.Option(DEFAULT_DB)) -> None:
+    """Embed every publication title into the local cache. Needs the `llm` extra.
+
+    The first run downloads the embedding model. Titles already in the cache
+    are skipped.
+    """
+    store = Store(db)
+    try:
+        report = retrieval.build_title_embeddings(store)
+    finally:
+        store.close()
+    console.print(
+        f"{report.titles_embedded} of {report.titles_total} titles embedded with "
+        f"{report.embedding_model} in {report.seconds} s; "
+        f"cache is {report.size_bytes / 1e6:.1f} MB"
+    )
+
+
+@app.command()
+def retrieve(db: Path = typer.Option(DEFAULT_DB)) -> None:
+    """Compute text retrieval for every cutoff and write the records. Needs the `llm` extra.
+
+    Run `hindcast embed-titles` first. The records in
+    eval/model_cache/retrieval/ are what a `text` run replays.
+    """
+    if not retrieval.EMBEDDINGS_DB.exists():
+        console.print("no embedding cache; run `hindcast embed-titles` first")
+        raise typer.Exit(1)
+    establishment = load_rulebook()
+    embed_query = retrieval.fastembed_embedder(query=True)
+    store = Store(db)
+    try:
+        for cutoff in ALL_SLICES:
+            with store.open_slice(cutoff, title_embeddings=retrieval.EMBEDDINGS_DB) as sl:
+                sl.assert_no_leak()
+                record = retrieval.retrieve(
+                    sl, candidate_symbols(establishment, cutoff), embed_query=embed_query
+                )
+            path = retrieval.write_record(record)
+            rows = sum(len(g.node_ids) for g in record.genes)
+            console.print(f"{cutoff}: {rows} rows for {len(record.genes)} genes -> {path.name}")
+    finally:
+        store.close()
+
+
+def _print_llm_result(result: LLMSliceResult) -> None:
+    run = result.run
+    console.print(
+        f"\n[bold]llm {result.cutoff}[/bold]  retrieval: {run.condition}  model: {run.model_id}"
+    )
+    if run.status is not RunStatus.RAN:
+        console.print(f"{str(run.status).replace('_', ' ')}: {run.status_reason}")
+        return
+    card = result.scorecard
+    assert card is not None
+    console.print(
+        f"{run.calls_replayed} call(s) replayed, {run.calls_live} live; "
+        f"{run.input_tokens} input tokens, {run.output_tokens} output tokens, "
+        f"${run.cost_usd:.4f}"
+    )
+    if card.ranking_by_confidence:
+        r = card.ranking_by_confidence
+        console.print(
+            f"P@5 {r.precision_at_5:.2f}  MRR {r.mean_reciprocal_rank:.3f}  hits {r.hits_at_10}"
+        )
+    console.print(
+        f"forecast {card.forecast_size} items, {card.refusal_count} refusals; "
+        f"traps {card.traps_passed}/{card.traps_total}; "
+        f"refusals correct {card.refusal_correct}/{card.refusal_total}; "
+        f"ECE {card.expected_calibration_error}"
+    )
 
 
 @app.command()
@@ -135,7 +267,9 @@ def scorecard() -> None:
     if not files:
         console.print("no results; run `hindcast run-all` first")
         raise typer.Exit(1)
-    table = Table("slice", "ablation", "P@5 conf", "P@5 cost", "MRR", "traps", "refusals", "ECE", "fabricated")
+    table = Table(
+        "slice", "ablation", "P@5 conf", "P@5 cost", "MRR", "traps", "refusals", "ECE", "fabricated"
+    )
     for path in files:
         data = json.loads(path.read_text())
         # heldout_*.json and ingestion.json share the directory but are not slice runs.
@@ -203,9 +337,7 @@ def verify(db: Path = typer.Option(DEFAULT_DB)) -> None:
     import subprocess
 
     console.print("[bold]running the test suite[/bold]")
-    proc = subprocess.run(
-        [str(ROOT / ".venv" / "bin" / "python"), "-m", "pytest", "-q"], cwd=ROOT
-    )
+    proc = subprocess.run([str(ROOT / ".venv" / "bin" / "python"), "-m", "pytest", "-q"], cwd=ROOT)
     raise typer.Exit(proc.returncode)
 
 

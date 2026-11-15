@@ -438,6 +438,227 @@ than the complex annotation. That is a judgement informed by knowing what was
 approved, it is not derived from the pre-T record, and a reader should weigh it
 as such.
 
+## Bootstrap intervals
+
+Each slice has between 3 and 19 ground-truth genes, so a precision of 0.20 is
+one gene. Precision at 5, the reciprocal rank of the first hit (reported as
+MRR) and, for language-model rows, the grounded-claim rate each carry a 95%
+percentile bootstrap interval, computed by `src/hindcast/bootstrap.py`.
+
+The resampled unit is the gene. For a ranking the units are the genes the
+question covered: those ranked, those refused and those in the ground truth.
+Each resample draws as many genes as there are units, with replacement, keeps
+the drawn genes in their ranked order (a gene drawn twice takes two adjacent
+places) and scores the result as the ranking was scored. For the grounded-claim
+rate the units are the claimed genes. The interval runs from the 2.5th to the
+97.5th percentile of the resampled values by nearest rank, so each bound is a
+value some resample produced.
+
+| Constant | Value | Reason |
+| --- | --- | --- |
+| `RESAMPLES` | 2000 | Enough that the percentile bounds are stable to the second decimal for metrics that take a handful of distinct values. |
+| `LEVEL` | 0.95 | The conventional level. |
+| `SEED` | 20171231 | The project's fixed seed. Each interval starts its own generator from it, so intervals replay exactly. |
+
+The interval describes how much the metric depends on which genes happened to
+be in the question. It does not cover error in the answer key, and with 3
+ground-truth genes it is wide because 3 genes say little. No model is called
+again: a language-model row's interval is over the genes of its one committed
+answer and says nothing about how a second response would differ.
+
+## Language-model track
+
+A language model is asked the same question as the rule-based system, on the
+same slices, and its answer is scored by the same grader. The code is
+`src/hindcast/llm/`. The rule-based system does not use it.
+
+### What the model is asked
+
+The prompt (`SYSTEM_PROMPT` and `TASK_PROMPT` in `llm/forecaster.py`) gives the
+cutoff date and the candidate genes: the scope genes in `scope.py`, minus those
+whose role the rule book dates before the cutoff. The rule-based forecaster is
+told the same set of already-established genes. For each candidate the model
+either claims it, with a confidence, the IDs of the evidence rows it relies on
+and a one-sentence rationale, or refuses it with a reason. The model never
+receives the rule book's establishing records or the traps; the traps are built
+after it has answered.
+
+The retrieval condition sets what evidence the prompt carries. In `none` it
+carries no evidence, so the row measures what the model answers from its
+training alone. In `text` it carries publication titles retrieved from the
+slice. In `graph` it carries no rows and the model is given tools that query
+the slice. Both are described next.
+
+### Text retrieval
+
+Code: `src/hindcast/llm/retrieval.py`. For each candidate gene, two rankers
+search the titles of the publications in the slice, and their results are fused.
+
+- **Lexical.** BM25 over an FTS5 index of titles. The query is the gene symbol,
+  so this ranker returns titles that name the gene.
+- **Dense.** Cosine similarity between a query sentence (`DENSE_QUERY`, which
+  names the gene and the phenotype) and a vector for each title. The search is
+  exact: the query is compared with every vector in the slice. At this size, a
+  few tens of thousands of titles per slice, exact search takes well under a
+  second per slice, so an approximate index would add a recall parameter and
+  save nothing.
+- **Fusion.** Reciprocal rank fusion: a title scores 1 / (`RRF_K` + rank) under
+  each ranker that returns it, and the scores are summed. Ties are broken by ID.
+
+Both indexes live inside the slice database. The title index is built during
+materialization from the publication rows the slice already holds. Vectors are
+computed once per title into a local cache, and the slice copies only the
+vectors of publications it contains. A post-cutoff title therefore has no index
+entry and no vector in the slice, and `tests/test_slice_leak.py` asserts both.
+
+The prompt lists each retrieved row as its node ID, publication date and title,
+under the gene it was retrieved for. Only titles are searched and shown: the
+repository commits no abstracts or article text.
+
+The ranked IDs for each cutoff are committed as a retrieval record in
+`eval/model_cache/retrieval/`. A run replays the record, reading each ID back
+through the slice connection, and stops with an error if the slice does not hold
+one. The embedding model is therefore needed to write a record and not to
+replay one. With no record the row is `not_run`; there is no fallback to the
+lexical ranker alone.
+
+The symbol-only lexical query does not match a title that uses an alias, and a
+symbol that is also a common word or abbreviation can match unrelated titles.
+The row measures retrieval as specified here, with those limits.
+
+### Graph tools
+
+In the `graph` condition the model queries the slice itself, through five tools
+defined in `llm/tools.py`:
+
+| Tool | Returns |
+| --- | --- |
+| `gene_evidence_summary` | Counts for one gene: publications naming it, measurements by assay, complex partners. |
+| `gene_measurements` | Measurements for one gene, most recent first: ID, date, assay, data source, phenotype, value. |
+| `gene_publications` | Publications naming one gene, most recent first: ID, date, title. |
+| `complex_partners` | Genes joined to one gene by an `ACTS_THROUGH` edge, with the complex they share. |
+| `genes_by_publication_count` | The candidate genes ranked by the number of publications naming them. |
+
+A tool takes a gene symbol or nothing. None takes a date, a path or a query, so
+no argument can ask for a later row, and each runs on the slice connection,
+which holds no row dated on or after the cutoff. Every result names its rows by
+node ID, and the union of the IDs a run was shown is recorded as its context.
+A result holds at most `ROWS_PER_TOOL_RESULT` rows and states the total.
+
+The run is a loop. Each model turn is one request through the replay cache, and
+each tool call in the response is answered from the slice and sent back. A tool
+result is a deterministic function of the slice, so replaying the first
+committed response rebuilds the second request exactly, and the loop replays
+offline. If any turn is missing from the cache the whole row is `not_run`.
+
+The model may make `TOOL_CALL_BUDGET` calls. A call past the budget is not run:
+the model is told the budget is spent and must answer. A call that names an
+unknown gene or tool is returned to the model as an error and counts against
+the budget. A model that is still calling tools after `MAX_MODEL_TURNS` turns
+is recorded as `failed`. Every call is written to the result and the trajectory
+with its arguments, its outcome and the IDs it returned.
+
+The model chooses whether to call a tool. The API rejects a forced tool choice
+for the pinned model, so a run in which the model calls no tool is possible and
+is reported with zero calls.
+
+### What counts as an answer
+
+The response must parse into the answer schema (`ModelAnswer`). A response that
+does not parse, is refused, is cut off at the output limit, has a confidence
+outside 0 to 1, or answers the same gene twice is recorded with the status
+`failed` and its reason. It is not repaired and not retried. A request with no
+committed response and no live call is `not_run`. Only `ran` rows have a
+scorecard.
+
+Gene names in the answer are resolved through the slice exactly as ingested
+records are, so an alias is graded as the gene it names.
+
+### Grounding
+
+Grounding asks whether a claim rests on evidence the model was given. It is
+computed by `llm/grounding.py` from the run record, after grading, with no
+model involved. The grader does not read it.
+
+| Term | Definition |
+| --- | --- |
+| Valid citation | A cited ID the slice holds. |
+| In-context citation | A valid citation that was also among the rows or tool results the model received. |
+| Out-of-context citation | A valid citation the model was not shown. |
+| Post-cutoff citation | A cited ID the slice lacks and the full store holds: a row dated on or after the cutoff. |
+| Fabricated ID | A cited ID that no store holds. |
+| Grounded claim | A claim that cites at least one in-context evidence row that names its gene. |
+
+An evidence row is a measurement or a publication. A measurement names the
+gene it was recorded for. A publication names a gene that ingest matched to it,
+or whose approved symbol stands as a word in its title. A gene's reference
+node carries no evidence, so citing it alone grounds nothing.
+
+Three rates are reported per run, each as a numerator and a denominator:
+citation validity (valid citations over all citations), in-context citations
+over all citations, and the grounded-claim rate (grounded claims over all
+claims). Post-cutoff and fabricated IDs are listed.
+
+What the grounded-claim rate does not say: that the cited row supports the
+claim. A title that names a gene grounds a claim about that gene whatever the
+title reports. The rate is a lower bar than entailment, chosen because it can
+be checked without a judge model. In the `none` condition the model is shown
+nothing, so no claim can be grounded and the rate is 0 by construction.
+
+### Memorization signal
+
+A claim is *recalled* when its gene's role was established on or after the
+cutoff, by the frozen rule book, and the claim is not grounded. The claim is
+correct and cites nothing the model was shown that names the gene, so the
+evidence given does not account for it. `llm/memorization.py` lists the recalled
+claims of each run and reports them over the run's post-cutoff claims. It also
+lists the postdates-cutoff traps the forecast failed: genes it claimed although
+the slice holds no evidence for them.
+
+The `none` condition is the reference. The model is shown nothing there, so
+every post-cutoff gene it claims is recalled. A retrieval condition is read
+against it: the same gene claimed in `text` or `graph` with a grounded citation
+is no longer counted as recalled, which shows that pre-cutoff evidence naming
+the gene was available and cited, and does not show that the model relied on it.
+[LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound) states
+what the signal cannot detect.
+
+### Conventions that differ from the rule-based rows
+
+- **Refusals enter calibration at 0.** The model gives a reason for a refusal
+  and no number. The grader computes the calibration error over claims and
+  refusals together, so a model refusal is entered with confidence 0. A refused
+  gene that the field later established therefore counts against calibration in
+  the lowest bin.
+- **No cost lens.** The model is not asked for a therapeutic route. Every item
+  carries the same route and both rankings are identical, as for the flat
+  literature baseline.
+
+### Fixed parameters
+
+| Constant | Value | Reason |
+| --- | --- | --- |
+| `DEFAULT_MODEL_ID` | `claude-opus-5-5` | One pinned model for every committed row. The ID is part of the cache key and is written into each result, with the model ID the API reports having served. |
+| `EFFORT` | `medium` | The provider's default for this model, set explicitly so a change of default cannot change a result. Sampling parameters are not accepted by this model and none are sent. |
+| `MAX_OUTPUT_TOKENS` | 16000 | Covers reasoning and a full answer over the candidate list. A response that reaches the limit is a failure. |
+| `MAX_TRANSPORT_RETRIES` | 2 | The SDK default, for connection errors and HTTP 408, 409, 429 and 5xx only. |
+| `EMBEDDING_MODEL` | `BAAI/bge-small-en-v1.5` | A small open model (MIT license, 384 dimensions) that runs locally on a CPU through fastembed, so computing retrieval sends no data to a third party and needs no key. |
+| `RRF_K` | 60 | The constant from the paper that introduced reciprocal rank fusion (Cormack, Clarke and Büttcher, SIGIR 2009). Not tuned here. |
+| `RANKER_DEPTH` | 50 | Rows each ranker contributes per gene before fusion. Ten times the rows kept, so a row needs a high rank under one ranker or a moderate rank under both. |
+| `ROWS_PER_GENE` | 5 | Fused rows per gene in the prompt. Keeps the evidence for all candidates in one request. |
+| `TOOL_CALL_BUDGET` | 40 | Tool calls per run. About one per candidate gene at the 2017 cutoff (41 candidates), so the model can look at every gene once or at fewer genes in depth, and the cost of a run is bounded. Set before any live run. |
+| `ROWS_PER_TOOL_RESULT` | 20 | Rows per tool result. Bounds the size of each request; the total is always stated. |
+| `MAX_MODEL_TURNS` | 42 | `TOOL_CALL_BUDGET` + 2: every turn before the budget is spent uses at least one call, one further turn is told the budget is spent, and one must answer. |
+| `PRICES_USD_PER_MILLION_TOKENS` | 4 input, 20 output | List price for the pinned model. `cost_usd` is input and output tokens at these prices. |
+
+### Replay
+
+Every call goes through the cache in `eval/model_cache/`, keyed by the SHA-256
+of the whole request. [eval/model_cache/README.md](eval/model_cache/README.md)
+gives the format. Responses are not deterministic at the API, so the committed
+response is the result: a second live run could differ, and the cache is what
+makes the reported row reproducible.
+
 ## Disclosure: what changed after the answer key was visible
 
 The rule book was frozen and tagged `rulebook-frozen-v1` before the scored runs,

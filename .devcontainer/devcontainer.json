@@ -1,0 +1,24 @@
+{
+  "name": "crispr-hindcast",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+  // Installs the pipeline with the model extra, builds the graph from the
+  // committed snapshot, and builds the web app.
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  // Serves the built app. A production build is used because the dev server
+  // refuses requests that arrive through the forwarded hostname.
+  "postStartCommand": "nohup bash -c 'cd web && npm run start' > /tmp/hindcast-web.log 2>&1 &",
+  "forwardPorts": [4100],
+  "portsAttributes": {
+    "4100": { "label": "crispr-hindcast", "onAutoForward": "openPreview" }
+  },
+  // Optional. Only `hindcast llm --live` reads it; everything else replays.
+  "secrets": {
+    "ANTHROPIC_API_KEY": {
+      "description": "Optional. Needed only for a live model run (hindcast llm --live). Results replay without it.",
+      "documentationUrl": "https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces"
+    }
+  }
+}

@@ -1,6 +1,9 @@
 // Shapes of the JSON files the Python pipeline writes to eval/results and
 // eval/rulebook. Only the fields the interface reads are typed.
 
+/** What the full system said about one gene at one cutoff, judged against the answer key. */
+export type VerdictKind = "hit" | "forecast" | "missed" | "refused" | "known" | "none";
+
 export interface ForecastItem {
   claim_id: string;
   gene_symbol: string;
@@ -34,6 +37,8 @@ export interface Ranking {
   precision_at_5: number;
   precision_at_10: number;
   mean_reciprocal_rank: number;
+  precision_at_5_interval: Interval;
+  mean_reciprocal_rank_interval: Interval;
   hits_at_5: string[];
   hits_at_10: string[];
   first_hit_rank: number | null;
@@ -113,6 +118,62 @@ export interface SliceResult {
   };
 }
 
+/** A bootstrap interval over genes, from hindcast.bootstrap. */
+export interface Interval {
+  lower: number;
+  upper: number;
+  level: number;
+}
+
+/** A rate as its two counts. With a denominator of 0 there is no rate. */
+export interface Rate {
+  numerator: number;
+  denominator: number;
+}
+
+export type RunStatus = "ran" | "not_run" | "failed";
+export type RetrievalCondition = "none" | "text" | "graph";
+export type CitationStatus = "in_context" | "out_of_context" | "post_cutoff" | "fabricated";
+
+export interface ClaimGrounding {
+  gene_symbol: string;
+  gene_id: string;
+  grounded: boolean;
+  citations: { cited_id: string; status: CitationStatus; names_gene: boolean }[];
+}
+
+/** One language-model row, from eval/results/llm. */
+export interface LlmResult {
+  cutoff: string;
+  run_id: string;
+  run: {
+    status: RunStatus;
+    status_reason: string;
+    condition: RetrievalCondition;
+    model_id: string;
+    input_tokens: number;
+    output_tokens: number;
+    cost_usd: number;
+    tool_call_budget: number;
+    tool_calls: { tool: string }[];
+    forecast: { items: ForecastItem[]; refusals: Refusal[] } | null;
+  };
+  /** Present exactly when `run.status` is "ran", as are `grounding` and `memorization`. */
+  scorecard: Scorecard | null;
+  grounding: {
+    grounded_claim_rate: Rate;
+    grounded_claim_rate_interval: Interval;
+    fabricated_ids: string[];
+    post_cutoff_ids: string[];
+    claims: ClaimGrounding[];
+  } | null;
+  memorization: {
+    post_cutoff_claims: string[];
+    recalled_claims: string[];
+    recalled_rate: Rate;
+  } | null;
+}
+
 export interface Holdout {
   gene_symbol: string;
   gene_id: string;
@@ -144,6 +205,8 @@ export interface Ingestion {
   exclusions_by_source: Record<string, number>;
   nodes_by_type: Record<string, number>;
   edges_by_type: Record<string, number>;
+  available_by_source: Record<string, number>;
+  nodes_by_source: Record<string, number>;
 }
 
 export interface PubRecord {
@@ -180,7 +243,7 @@ export interface Policy {
     weights: Record<string, number>;
     price_anchors: Record<
       string,
-      { brand: string; list_price_usd: number; modality: string; note: string; target: string }
+      { brand: string; list_price_usd: number; modality: string; note: string; target: string; source: string }
     >;
   };
 }

@@ -1,0 +1,320 @@
+{
+  "cutoff": "2020-12-31",
+  "dense_query": "{symbol} regulation of fetal hemoglobin in erythroid cells",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "genes": [
+    {
+      "gene_symbol": "ASH1L",
+      "node_ids": [
+        "pub:27434206",
+        "pub:25866973",
+        "pub:16109777",
+        "pub:32398261",
+        "pub:2735651"
+      ]
+    },
+    {
+      "gene_symbol": "CHD3",
+      "node_ids": [
+        "pub:16109777",
+        "pub:30082317",
+        "pub:2735651",
+        "pub:7517214",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "DNMT1",
+      "node_ids": [
+        "pub:27693117",
+        "pub:11884600",
+        "pub:28989582",
+        "pub:26983918",
+        "pub:28401098"
+      ]
+    },
+    {
+      "gene_symbol": "DNMT3A",
+      "node_ids": [
+        "pub:22138693",
+        "pub:25693834",
+        "pub:33087320",
+        "pub:22200773",
+        "pub:29617651"
+      ]
+    },
+    {
+      "gene_symbol": "DNMT3B",
+      "node_ids": [
+        "pub:25130491",
+        "pub:30468428",
+        "pub:31105426",
+        "pub:12897133",
+        "pub:24880147"
+      ]
+    },
+    {
+      "gene_symbol": "EIF2AK2",
+      "node_ids": [
+        "pub:7910943",
+        "pub:31554636",
+        "pub:11050009",
+        "pub:24714526",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "EIF2AK3",
+      "node_ids": [
+        "pub:31554636",
+        "pub:7910943",
+        "pub:11050009",
+        "pub:24714526",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "EIF2AK4",
+      "node_ids": [
+        "pub:7910943",
+        "pub:31554636",
+        "pub:11050009",
+        "pub:24714526",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "EIF2S1",
+      "node_ids": [
+        "pub:7910943",
+        "pub:31554636",
+        "pub:11050009",
+        "pub:24880147",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "EPAS1",
+      "node_ids": [
+        "pub:31038790",
+        "pub:32470757",
+        "pub:16109777",
+        "pub:20181618",
+        "pub:23090011"
+      ]
+    },
+    {
+      "gene_symbol": "GATAD2B",
+      "node_ids": [
+        "pub:21609963",
+        "pub:11167015",
+        "pub:1701019",
+        "pub:8424101",
+        "pub:3223401"
+      ]
+    },
+    {
+      "gene_symbol": "HIC2",
+      "node_ids": [
+        "pub:16109777",
+        "pub:29061339",
+        "pub:2735651",
+        "pub:7517214",
+        "pub:2461566"
+      ]
+    },
+    {
+      "gene_symbol": "IGF2BP1",
+      "node_ids": [
+        "pub:28652347",
+        "pub:32154328",
+        "pub:32917856",
+        "pub:19541769",
+        "pub:14592835"
+      ]
+    },
+    {
+      "gene_symbol": "KMT5A",
+      "node_ids": [
+        "pub:3223401",
+        "pub:16109777",
+        "pub:20331458",
+        "pub:24880147",
+        "pub:29296711"
+      ]
+    },
+    {
+      "gene_symbol": "MAP3K7",
+      "node_ids": [
+        "pub:3223401",
+        "pub:16109777",
+        "pub:24880147",
+        "pub:2735651",
+        "pub:1878596"
+      ]
+    },
+    {
+      "gene_symbol": "MAPK1",
+      "node_ids": [
+        "pub:20223923",
+        "pub:25831013",
+        "pub:23701125",
+        "pub:3223401",
+        "pub:2239920"
+      ]
+    },
+    {
+      "gene_symbol": "MBD3",
+      "node_ids": [
+        "pub:31004025",
+        "pub:25538734",
+        "pub:16109777",
+        "pub:17708683",
+        "pub:2735651"
+      ]
+    },
+    {
+      "gene_symbol": "MTA1",
+      "node_ids": [
+        "pub:16109777",
+        "pub:30327463",
+        "pub:24880147",
+        "pub:25705708",
+        "pub:27144666"
+      ]
+    },
+    {
+      "gene_symbol": "MTA3",
+      "node_ids": [
+        "pub:17353275",
+        "pub:25705708",
+        "pub:16109777",
+        "pub:24966026",
+        "pub:2735651"
+      ]
+    },
+    {
+      "gene_symbol": "NFE2",
+      "node_ids": [
+        "pub:24951464",
+        "pub:25721735",
+        "pub:29519804",
+        "pub:12388799",
+        "pub:26947393"
+      ]
+    },
+    {
+      "gene_symbol": "NFIX",
+      "node_ids": [
+        "pub:25780920",
+        "pub:29430853",
+        "pub:24041575",
+        "pub:16109777",
+        "pub:18477394"
+      ]
+    },
+    {
+      "gene_symbol": "NR2C1",
+      "node_ids": [
+        "pub:28473619",
+        "pub:21464371",
+        "pub:24880147",
+        "pub:16109777",
+        "pub:2735651"
+      ]
+    },
+    {
+      "gene_symbol": "NR2C2",
+      "node_ids": [
+        "pub:28473619",
+        "pub:33116641",
+        "pub:21464371",
+        "pub:16109777",
+        "pub:24880147"
+      ]
+    },
+    {
+      "gene_symbol": "PGRMC1",
+      "node_ids": [
+        "pub:24662048",
+        "pub:27599036",
+        "pub:16109777",
+        "pub:3223401",
+        "pub:24880147"
+      ]
+    },
+    {
+      "gene_symbol": "RBBP7",
+      "node_ids": [
+        "pub:16109777",
+        "pub:2735651",
+        "pub:26397180",
+        "pub:3223401",
+        "pub:24880147"
+      ]
+    },
+    {
+      "gene_symbol": "SMAD1",
+      "node_ids": [
+        "pub:17761518",
+        "pub:21515822",
+        "pub:28438754",
+        "pub:16990609",
+        "pub:24614941"
+      ]
+    },
+    {
+      "gene_symbol": "SMAD5",
+      "node_ids": [
+        "pub:17761518",
+        "pub:12064918",
+        "pub:12393578",
+        "pub:18374325",
+        "pub:19375646"
+      ]
+    },
+    {
+      "gene_symbol": "TET2",
+      "node_ids": [
+        "pub:30498069",
+        "pub:21741591",
+        "pub:28242787",
+        "pub:26099018",
+        "pub:33048426"
+      ]
+    },
+    {
+      "gene_symbol": "VHL",
+      "node_ids": [
+        "pub:12393546",
+        "pub:22673568",
+        "pub:2735651",
+        "pub:16109777",
+        "pub:19340311"
+      ]
+    },
+    {
+      "gene_symbol": "ZBTB33",
+      "node_ids": [
+        "pub:16109777",
+        "pub:2735651",
+        "pub:24880147",
+        "pub:3223401",
+        "pub:21157349"
+      ]
+    },
+    {
+      "gene_symbol": "ZNF143",
+      "node_ids": [
+        "pub:28900037",
+        "pub:25645053",
+        "pub:33301730",
+        "pub:16109777",
+        "pub:20860770"
+      ]
+    }
+  ],
+  "ranker_depth": 50,
+  "rows_per_gene": 5,
+  "rrf_k": 60
+}

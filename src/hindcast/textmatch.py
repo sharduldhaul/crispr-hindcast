@@ -35,10 +35,20 @@ import re
 #: and the Greek-letter forms interchangeably, and a matcher that does not fold
 #: them is matching typography rather than content.
 GREEK: dict[str, str] = {
-    "α": "alpha", "β": "beta", "γ": "gamma", "δ": "delta",
-    "ε": "epsilon", "ζ": "zeta", "θ": "theta", "κ": "kappa",
-    "λ": "lambda", "μ": "mu",
-    "Α": "alpha", "Β": "beta", "Γ": "gamma", "Δ": "delta",
+    "α": "alpha",
+    "β": "beta",
+    "γ": "gamma",
+    "δ": "delta",
+    "ε": "epsilon",
+    "ζ": "zeta",
+    "θ": "theta",
+    "κ": "kappa",
+    "λ": "lambda",
+    "μ": "mu",
+    "Α": "alpha",
+    "Β": "beta",
+    "Γ": "gamma",
+    "Δ": "delta",
     "Ε": "epsilon",
 }
 
@@ -47,7 +57,7 @@ GREEK: dict[str, str] = {
 #: hemoglobin" asserts a role for MBD2 and denies one for MBD3.
 NEGATION_BEFORE = re.compile(
     r"(but\s+not|rather\s+than|independent(?:ly)?\s+of|excluding|without|not)\s*$",
-    re.I,
+    re.IGNORECASE,
 )
 
 #: How far back to look for a negating phrase. Long enough to catch "but not"
@@ -142,7 +152,7 @@ def names_gene(title: str, terms: list[str]) -> bool:
         pattern = term_pattern(term)
         if pattern is None:
             continue
-        for match in re.finditer(pattern, folded_title, re.I):
+        for match in re.finditer(pattern, folded_title, re.IGNORECASE):
             preceding = folded_title[max(0, match.start() - NEGATION_WINDOW) : match.start()]
             if NEGATION_BEFORE.search(preceding.rstrip()):
                 continue

@@ -63,9 +63,8 @@ def main() -> None:
                     params["pageToken"] = token
                 data = get_json(c, API, params=params)
                 for st in data.get("studies") or []:
-                    nct = (
-                        ((st.get("protocolSection") or {}).get("identificationModule") or {})
-                        .get("nctId")
+                    nct = ((st.get("protocolSection") or {}).get("identificationModule") or {}).get(
+                        "nctId"
                     )
                     if nct:
                         studies.setdefault(nct, st)

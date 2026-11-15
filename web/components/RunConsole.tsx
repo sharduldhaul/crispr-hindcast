@@ -23,7 +23,6 @@ export function RunConsole({ slices, ablations, primary, status }: Props) {
   const [elapsed, setElapsed] = useState(0);
   const [cutoff, setCutoff] = useState(primary);
   const [ablation, setAblation] = useState(ablations[0]);
-  const [heldoutCutoff, setHeldoutCutoff] = useState(primary);
   const [lastRun, setLastRun] = useState<Action | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const termRef = useRef<HTMLPreElement | null>(null);
@@ -88,9 +87,8 @@ export function RunConsole({ slices, ablations, primary, status }: Props) {
     }
   }
 
-  const disabled = running !== null;
-  const needsVenv = !status.hasVenv;
-  const needsGraph = !status.hasGraph;
+  const busy = running !== null;
+  const ready = status.hasVenv && status.hasGraph;
 
   const resultLink =
     exitCode === 0 && lastRun
@@ -104,99 +102,109 @@ export function RunConsole({ slices, ablations, primary, status }: Props) {
       : null;
 
   return (
-    <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))", gap: 28, alignItems: "start" }}>
-      <div style={{ display: "grid", gap: 14 }}>
-        <Step
-          n={1}
-          title="Set up Python"
-          done={status.hasVenv}
-          text="Creates .venv and installs the package with uv. Only needed once. You can also do this in a terminal (see the README)."
-        >
-          <button className="button ghost" disabled={disabled} onClick={() => run("setup", { action: "setup" })}>
-            {status.hasVenv ? "Reinstall" : "Install"}
-          </button>
-        </Step>
+    <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))", gap: 40, alignItems: "start" }}>
+      <div style={{ display: "grid", gap: 32 }}>
+        <div className="envbar" title={status.repoRoot}>
+          <span className={status.hasVenv ? "ok" : "missing"}>{status.hasVenv ? "✓" : "○"} Python</span>
+          <span className={status.hasGraph ? "ok" : "missing"}>{status.hasGraph ? "✓" : "○"} Graph</span>
+          <span className={status.hasResults ? "ok" : "muted"}>{status.hasResults ? "✓" : "○"} Results</span>
+          {ready && (
+            <span style={{ marginLeft: "auto", display: "flex", gap: 14 }}>
+              <button className="linkish small" disabled={busy} onClick={() => run("setup", { action: "setup" })}>
+                Reinstall
+              </button>
+              <button className="linkish small" disabled={busy} onClick={() => run("build", { action: "build" })}>
+                Rebuild graph
+              </button>
+            </span>
+          )}
+        </div>
 
-        <Step
-          n={2}
-          title="Build the graph"
-          done={status.hasGraph}
-          text="Loads the committed data snapshot into a local SQLite graph. Offline, no API keys, under a minute."
-        >
-          <button className="button ghost" disabled={disabled || needsVenv} onClick={() => run("build", { action: "build" })}>
-            {status.hasGraph ? "Rebuild" : "Build"}
-          </button>
-        </Step>
+        {!status.hasVenv && (
+          <div className="card">
+            <h3>First, set up Python</h3>
+            <p className="small muted">Creates .venv and installs the package with uv. Only needed once.</p>
+            <button className="button" disabled={busy} onClick={() => run("setup", { action: "setup" })}>
+              Install
+            </button>
+          </div>
+        )}
+        {status.hasVenv && !status.hasGraph && (
+          <div className="card">
+            <h3>Then, build the graph</h3>
+            <p className="small muted">Loads the committed data snapshot into a local SQLite graph. Offline, under a minute.</p>
+            <button className="button" disabled={busy} onClick={() => run("build", { action: "build" })}>
+              Build
+            </button>
+          </div>
+        )}
 
-        <Step n={3} title="Run one cutoff" text="Freeze the evidence at a date and run the whole system once. About 20 seconds.">
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <select value={cutoff} onChange={(e) => setCutoff(e.target.value)} aria-label="Cutoff">
-              {slices.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            <select value={ablation} onChange={(e) => setAblation(e.target.value)} aria-label="Variant">
-              {ablations.map((a) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
-              ))}
-            </select>
+        <div className="control-group" style={{ opacity: ready ? 1 : 0.5 }}>
+          <span className="control-label">Cutoff</span>
+          <div className="segmented lg" role="group" aria-label="Cutoff">
+            {slices.map((s) => (
+              <button key={s} type="button" aria-pressed={cutoff === s} onClick={() => setCutoff(s)}>
+                {s.slice(0, 4)}
+              </button>
+            ))}
+          </div>
+          <span className="control-label" style={{ marginTop: 8 }}>
+            Variant
+          </span>
+          <select value={ablation} onChange={(e) => setAblation(e.target.value)} aria-label="Variant" style={{ maxWidth: 320 }}>
+            {ablations.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+          <div className="actions" style={{ marginTop: 8 }}>
             <button
               className="button"
-              disabled={disabled || needsVenv || needsGraph}
-              onClick={() => run(`slice ${cutoff}`, { action: "slice", cutoff, ablation })}
+              disabled={busy || !ready}
+              onClick={() => run(`${cutoff.slice(0, 4)} · ${ablation}`, { action: "slice", cutoff, ablation })}
             >
-              Run
+              Run the forecast
             </button>
-          </div>
-        </Step>
-
-        <Step n={4} title="Held-out test" text="Hide each reportable gene's measurements in turn and check it can still be reached.">
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <select value={heldoutCutoff} onChange={(e) => setHeldoutCutoff(e.target.value)} aria-label="Held-out cutoff">
-              {slices.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
             <button
               className="button ghost"
-              disabled={disabled || needsVenv || needsGraph}
-              onClick={() => run(`heldout ${heldoutCutoff}`, { action: "heldout", cutoff: heldoutCutoff })}
+              disabled={busy || !ready}
+              onClick={() => run(`held-out ${cutoff.slice(0, 4)}`, { action: "heldout", cutoff })}
             >
-              Run
+              Held-out test
             </button>
           </div>
-        </Step>
+          <p className="small muted" style={{ margin: 0 }}>
+            A forecast takes about 20 seconds. The held-out test hides each reportable gene’s measurements in turn and checks it can
+            still be reached.
+          </p>
+        </div>
 
-        <Step n={5} title="Run everything" text="Every cutoff and every variant, then the scorecard. Several minutes.">
-          <button className="button ghost" disabled={disabled || needsVenv || needsGraph} onClick={() => run("run-all", { action: "run-all" })}>
-            Run all
-          </button>
-        </Step>
-
-        <Step n={6} title="Check it" text="Run the test suite, including the checks that try to leak future data into a slice.">
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="button ghost" disabled={disabled || needsVenv} onClick={() => run("verify", { action: "verify" })}>
-              Run tests
+        <div className="control-group" style={{ paddingTop: 24, borderTop: "1px solid var(--rule)" }}>
+          <span className="control-label">Everything</span>
+          <div className="actions">
+            <button className="button ghost sm" disabled={busy || !ready} onClick={() => run("run-all", { action: "run-all" })}>
+              Run every cutoff and variant
             </button>
-            <button className="button ghost" disabled={disabled || needsVenv} onClick={() => run("scorecard", { action: "scorecard" })}>
-              Print scorecard
+            <button className="button ghost sm" disabled={busy || !status.hasVenv} onClick={() => run("tests", { action: "verify" })}>
+              Run the tests
+            </button>
+            <button className="button ghost sm" disabled={busy || !status.hasVenv} onClick={() => run("scorecard", { action: "scorecard" })}>
+              Print the scorecard
             </button>
           </div>
-        </Step>
+          <p className="small muted" style={{ margin: 0 }}>
+            The full run takes several minutes. The tests include the checks that try to leak future data into a slice.
+          </p>
+        </div>
       </div>
 
-      <div style={{ position: "sticky", top: 84 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, gap: 12, flexWrap: "wrap" }}>
+      <div style={{ position: "sticky", top: 80 }}>
+        <div className="terminal-bar">
           <div className="small" style={{ display: "flex", gap: 10, alignItems: "center" }}>
             {running ? (
               <>
-                <span className="pulse" aria-hidden /> Running <b>{running}</b> · {elapsed}s
+                <span className="pulse" aria-hidden /> Running <b>{running}</b> <span className="muted mono">{elapsed}s</span>
               </>
             ) : exitCode === null ? (
               <span className="muted">Output appears here.</span>
@@ -205,10 +213,14 @@ export function RunConsole({ slices, ablations, primary, status }: Props) {
             ) : (
               <span className="tag bad">exit {exitCode}</span>
             )}
-            {resultLink && !running && <Link href={resultLink}>See the results →</Link>}
+            {resultLink && !running && (
+              <Link className="go" href={resultLink}>
+                See the results
+              </Link>
+            )}
           </div>
           {running && (
-            <button className="button ghost" onClick={() => abortRef.current?.abort()}>
+            <button className="button ghost sm" onClick={() => abortRef.current?.abort()}>
               Stop
             </button>
           )}
@@ -216,55 +228,16 @@ export function RunConsole({ slices, ablations, primary, status }: Props) {
         <pre className="terminal" ref={termRef} aria-live="polite">
           {output || (
             <span className="dim">
-              <span className="prompt">$</span> waiting for a command{"\n\n"}
-              {`repository: ${status.repoRoot}\n`}
-              {`python env: ${status.hasVenv ? "ready" : "missing"}\n`}
-              {`graph:      ${status.hasGraph ? "built" : "not built"}\n`}
-              {`results:    ${status.hasResults ? "present" : "none yet"}`}
+              <span className="prompt">$</span> {ready ? "ready" : "waiting for setup"}
+              {"\n\n"}
+              {status.repoRoot}
             </span>
           )}
         </pre>
-        <p className="small muted" style={{ marginTop: 10 }}>
-          Runs rewrite the files in <code>eval/results/</code> and <code>trajectories/</code>. The results
-          are deterministic, so only timestamps change; <code>git checkout -- eval trajectories</code> restores
-          them.
+        <p className="small muted" style={{ marginTop: 12 }}>
+          Runs rewrite <code>eval/results/</code> and <code>trajectories/</code>. Results are deterministic, so only timestamps change;{" "}
+          <code>git checkout -- eval trajectories</code> restores them.
         </p>
-      </div>
-    </div>
-  );
-}
-
-function Step({
-  n,
-  title,
-  text,
-  done,
-  children,
-}: {
-  n: number;
-  title: string;
-  text: string;
-  done?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="card lift" style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 14 }}>
-      <div
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "1.9rem",
-          lineHeight: 1,
-          color: done ? "var(--ok)" : "var(--muted)",
-        }}
-      >
-        {done ? "✓" : n}
-      </div>
-      <div>
-        <h3 style={{ fontSize: "1.1rem", marginBottom: 4 }}>{title}</h3>
-        <p className="small muted" style={{ marginBottom: 12 }}>
-          {text}
-        </p>
-        {children}
       </div>
     </div>
   );

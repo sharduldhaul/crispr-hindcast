@@ -25,14 +25,15 @@ def _literature_total(n: int) -> float:
 
 
 def test_literature_total_is_logarithmic() -> None:
+    # The sum telescopes to log1p(n) exactly on paper. In floating point the
+    # last digit depends on the platform's math library, so compare with a
+    # tolerance far below anything a result is rounded to.
     for n in (1, 5, 20, 200):
-        assert _literature_total(n) == LITERATURE_SCALE * math.log1p(n)
+        assert math.isclose(_literature_total(n), LITERATURE_SCALE * math.log1p(n), rel_tol=1e-12)
 
 
 def test_literature_increments_decrease() -> None:
-    increments = [
-        LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 12)
-    ]
+    increments = [LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 12)]
     assert increments == sorted(increments, reverse=True)
 
 

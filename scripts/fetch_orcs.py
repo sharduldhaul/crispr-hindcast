@@ -27,8 +27,8 @@ UA = "crispr-hindcast/0.1 (research benchmark; contact via repository)"
 
 
 def strip_tags(page: str) -> str:
-    page = re.sub(r"<script.*?</script>", " ", page, flags=re.S | re.I)
-    page = re.sub(r"<style.*?</style>", " ", page, flags=re.S | re.I)
+    page = re.sub(r"<script.*?</script>", " ", page, flags=re.DOTALL | re.IGNORECASE)
+    page = re.sub(r"<style.*?</style>", " ", page, flags=re.DOTALL | re.IGNORECASE)
     page = re.sub(r"<[^>]+>", " ", page)
     return re.sub(r"\s+", " ", html.unescape(page)).strip()
 
@@ -46,10 +46,22 @@ def field(text: str, label: str, stops: list[str]) -> str | None:
 # "Format", "Enzyme" and "Methodology" are NOT here: they appear only inside the
 # pipe-delimited library line, and a bare "Type" search would match "Cell Type".
 LABELS = [
-    "Screen Rationale", "Cell Type", "Cell Line", "Phenotype", "Condition",
-    "Library", "Analysis Method", "Number of Hits", "Full Dataset Size",
-    "Experimental Setup", "Duration", "Significance", "Notes",
-    "Score Distribution", "Title", "Screen Details",
+    "Screen Rationale",
+    "Cell Type",
+    "Cell Line",
+    "Phenotype",
+    "Condition",
+    "Library",
+    "Analysis Method",
+    "Number of Hits",
+    "Full Dataset Size",
+    "Experimental Setup",
+    "Duration",
+    "Significance",
+    "Notes",
+    "Score Distribution",
+    "Title",
+    "Screen Details",
 ]
 
 # The library line reads:
@@ -59,8 +71,11 @@ LIBRARY_KEYS = ("Type", "Format", "Enzyme", "Methodology")
 
 # Everything from here on is site chrome, not screen content.
 NOTES_CUTS = (
-    "View More Screens", "Score Distribution", "CRISPR Screen Results",
-    "Download Screen", "A BioGRID Project",
+    "View More Screens",
+    "Score Distribution",
+    "CRISPR Screen Results",
+    "Download Screen",
+    "A BioGRID Project",
 )
 
 

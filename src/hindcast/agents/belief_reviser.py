@@ -20,7 +20,6 @@ from __future__ import annotations
 import math
 from collections import defaultdict
 from datetime import date
-from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -190,10 +189,7 @@ class Claim(BaseModel):
     @property
     def reportable(self) -> bool:
         """Whether this claim clears the refusal thresholds. See METHODOLOGY.md."""
-        return (
-            self.confidence >= REFUSAL_CONFIDENCE_THRESHOLD
-            and self.has_evidence_of_substance
-        )
+        return self.confidence >= REFUSAL_CONFIDENCE_THRESHOLD and self.has_evidence_of_substance
 
     def refusal_reason(self) -> str:
         if self.confidence < REFUSAL_CONFIDENCE_THRESHOLD:
@@ -289,9 +285,7 @@ class BeliefReviser(Agent):
                     if direction > 0:
                         claim.supporting_record_ids.append(record_id)
                         if kind == "measurement":
-                            claim.max_supporting_weight = max(
-                                claim.max_supporting_weight, weight
-                            )
+                            claim.max_supporting_weight = max(claim.max_supporting_weight, weight)
                         elif kind == "composition":
                             claim.composition_support_weight = max(
                                 claim.composition_support_weight, weight
@@ -331,9 +325,8 @@ class BeliefReviser(Agent):
                         )
             belief.revision_count = applied
             call.records_out = applied
-            call.result_summary = (
-                f"{applied} revisions written"
-                + (" (flat-confidence ablation: none applied)" if flat_confidence else "")
+            call.result_summary = f"{applied} revisions written" + (
+                " (flat-confidence ablation: none applied)" if flat_confidence else ""
             )
 
         reportable = [c for c in belief.claims.values() if c.reportable]
@@ -365,9 +358,7 @@ class BeliefReviser(Agent):
         mentions, which is what the forecast has to work from.
         """
         modality_by_gene = {
-            gid: a
-            for a in axiom_set.of_kind("implied_modality")
-            for gid in a.subject_gene_ids
+            gid: a for a in axiom_set.of_kind("implied_modality") for gid in a.subject_gene_ids
         }
         hbf_pubs_by_gene = {
             gid: int(a.scope_conditions.get("hbf_specific_publications", 0) or 0)
@@ -442,9 +433,7 @@ class BeliefReviser(Agent):
                 if axiom.kind == "essentiality":
                     if not axiom.scope_conditions.get("pan_essential"):
                         continue
-                    fraction = float(
-                        axiom.scope_conditions.get("fitness_hit_fraction") or 0.0
-                    )
+                    fraction = float(axiom.scope_conditions.get("fitness_hit_fraction") or 0.0)
                     hits = []
                     for rid in axiom.supporting_record_ids:
                         node = measurements.get(rid)
@@ -471,11 +460,13 @@ class BeliefReviser(Agent):
                                 -1,
                                 weight,
                                 rid,
-                                f"fitness hit {k} of {len(hits)}: loss of this gene "
-                                f"reduces cell fitness in "
-                                f"{fraction:.0%} of screens that tested it, which "
-                                f"counts against it as a therapeutic target; the "
-                                f"screens are correlated so their total is capped",
+                                (
+                                    f"fitness hit {k} of {len(hits)}: loss of this gene "
+                                    f"reduces cell fitness in "
+                                    f"{fraction:.0%} of screens that tested it, which "
+                                    f"counts against it as a therapeutic target; the "
+                                    f"screens are correlated so their total is capped"
+                                ),
                                 "measurement",
                             )
                         )
@@ -546,9 +537,7 @@ class BeliefReviser(Agent):
                     # an independent observation would multiply one finding by
                     # the size of the complex.
                     partner = axiom.scope_conditions.get("partner_symbol") or "partner"
-                    transferred = float(
-                        axiom.scope_conditions.get("transferred_weight") or 0.0
-                    )
+                    transferred = float(axiom.scope_conditions.get("transferred_weight") or 0.0)
                     rid = next(iter(sorted(axiom.supporting_record_ids)), None)
                     when = None
                     if rid is not None:
@@ -562,10 +551,12 @@ class BeliefReviser(Agent):
                             1,
                             transferred,
                             rid,
-                            f"acts through {partner}, a subunit of the same curated "
-                            f"protein complex with established HbF evidence; the "
-                            f"partner's strongest record transfers at "
-                            f"{COMPOSITION_DISCOUNT:g}",
+                            (
+                                f"acts through {partner}, a subunit of the same curated "
+                                f"protein complex with established HbF evidence; the "
+                                f"partner's strongest record transfers at "
+                                f"{COMPOSITION_DISCOUNT:g}"
+                            ),
                             "composition",
                         )
                     )

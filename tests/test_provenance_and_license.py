@@ -10,9 +10,10 @@ from __future__ import annotations
 from datetime import date
 
 import pytest
+from pydantic import ValidationError
 
 from hindcast.ingest.licenses import SOURCES
-from hindcast.models import Node, NodeType, Provenance
+from hindcast.models import NodeType, Provenance
 from hindcast.store import Store
 
 
@@ -40,7 +41,7 @@ def test_every_measurement_has_a_value_and_a_gene(toy_store: Store):
 
 def test_a_row_cannot_be_created_without_a_license():
     """The model rejects it, so the database never sees it."""
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         Provenance(source_id="x", license="", publication_date=date(2015, 1, 1))
 
 

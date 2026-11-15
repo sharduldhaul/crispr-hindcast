@@ -4,14 +4,13 @@ Every agent logs what it was given, what it did, what it returned and how long
 it took, to `trajectories/`. The logs are committed, because a scorecard whose
 reasoning cannot be inspected is a claim rather than a result.
 
-There is no language model anywhere in this system. That is a design decision,
-not an omission, and it follows from hard rule 4: a clone of this repository in
-2027 must reproduce the exact scorecard offline with no API keys and no network.
-Every judgement an agent makes is a stated rule in a documented module, so the
-trajectory records tool calls and record counts where an LLM-backed agent would
-record prompts and token counts. `hindcast.agents.baseline` holds the harness
-for the one comparison that does need a model, and reports that row as not run
-unless cached responses are committed.
+There is no language model in the rule-based system. That is a design decision,
+not an omission: every judgement an agent in this package makes is a stated rule
+in a documented module, so the trajectory records tool calls and record counts.
+The language-model forecaster is a separate track in `hindcast.llm`. It uses the
+same trajectory format, records its model ID and token counts there, and replays
+its responses from `eval/model_cache/`, so hard rule 4 holds for it too: a clone
+reproduces every row offline with no API keys.
 """
 
 from __future__ import annotations
@@ -20,10 +19,11 @@ import json
 import platform
 import sys
 import time
+from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 

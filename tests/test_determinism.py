@@ -80,9 +80,7 @@ def test_axiom_extraction_replays_identically(toy_store: Store):
         with toy_store.open_slice(CUTOFF) as sl:
             result = AxiomExtractor(f"det-ax-{i}").run(sl)
             out.append(
-                json.dumps(
-                    [a.model_dump() for a in result.axioms], sort_keys=True, default=str
-                )
+                json.dumps([a.model_dump() for a in result.axioms], sort_keys=True, default=str)
             )
     assert out[0] == out[1]
 

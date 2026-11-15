@@ -12,8 +12,17 @@ from datetime import date
 
 import pytest
 
+from hindcast.llm import retrieval
+from hindcast.llm.tools import GraphTool, run_tool
 from hindcast.models import Edge, EdgeType, Node, NodeType, Provenance
-from hindcast.store import SliceStore, Store
+from hindcast.store import SliceLeakError, SliceStore, Store
+from tests.retrieval_fakes import (
+    POST_TITLE,
+    POST_TITLE_ID,
+    PRE_TITLE_ID,
+    add_post_cutoff_title,
+    fake_embed,
+)
 
 CUTOFF = date(2018, 1, 1)
 
@@ -43,8 +52,10 @@ def test_slice_is_read_only(toy_store: Store):
     """A slice cannot be written to, so it cannot be used to smuggle rows in."""
     with toy_store.open_slice(CUTOFF) as sl:
         for statement in (
-            "INSERT INTO node (id,type,label,attrs,source_id,license,time_scope,effective_date) "
-            "VALUES ('x','Gene','X','{}','s','MIT','DATED','2019-01-01')",
+            (
+                "INSERT INTO node (id,type,label,attrs,source_id,license,time_scope,effective_date) "
+                "VALUES ('x','Gene','X','{}','s','MIT','DATED','2019-01-01')"
+            ),
             "DELETE FROM node",
             "UPDATE node SET label = 'tampered'",
             "DROP TABLE node",
@@ -91,9 +102,10 @@ def test_reference_nodes_are_filtered_by_approval_date(toy_store: Store):
 
 def test_earlier_slice_is_a_subset_of_a_later_one(toy_store: Store):
     """Monotonicity. Evidence only ever accumulates as T moves forward."""
-    with toy_store.open_slice(date(2014, 1, 1)) as early, toy_store.open_slice(
-        date(2019, 1, 1)
-    ) as late:
+    with (
+        toy_store.open_slice(date(2014, 1, 1)) as early,
+        toy_store.open_slice(date(2019, 1, 1)) as late,
+    ):
         early_ids = {n.id for n in early.nodes()}
         late_ids = {n.id for n in late.nodes()}
         assert early_ids < late_ids
@@ -117,3 +129,121 @@ def test_agents_receive_a_slice_with_no_path_back(toy_store: Store):
         assert not hasattr(sl, "open_slice")
         assert isinstance(sl, SliceStore)
         assert toy_store.path.name != sl.path.name
+
+
+def test_the_title_index_cannot_return_a_post_cutoff_title(toy_store: Store):
+    """Full-text search runs inside the slice, over titles the slice holds."""
+    add_post_cutoff_title(toy_store)
+    with toy_store.open_slice(CUTOFF) as sl:
+        assert retrieval.lexical_ranking(sl, "EIF2AK1") == []
+        assert retrieval.lexical_ranking(sl, "hemoglobin") == []
+        # Asked for directly, and by every term, with no filter of our own.
+        assert [r[0] for r in sl.sql("SELECT node_id FROM title_fts")] == [PRE_TITLE_ID]
+        assert sl.sql("SELECT 1 FROM title_fts WHERE title_fts MATCH 'HRI OR kinase'") == []
+    with toy_store.open_slice(date(2019, 1, 1)) as later:
+        assert retrieval.lexical_ranking(later, "EIF2AK1") == [POST_TITLE_ID]
+
+
+def test_the_slice_copies_no_post_cutoff_vector(toy_store: Store, tmp_path):
+    """The embedding cache covers every publication. The slice takes its own rows only."""
+    add_post_cutoff_title(toy_store)
+    cache = tmp_path / "title_embeddings.db"
+    report = retrieval.build_title_embeddings(toy_store, cache, embed=fake_embed)
+    assert report.titles_embedded == 2
+
+    with toy_store.open_slice(CUTOFF, title_embeddings=cache) as sl:
+        assert [r[0] for r in sl.sql("SELECT node_id FROM title_embedding")] == [PRE_TITLE_ID]
+        # The slice connection never had the cache attached, and cannot attach it.
+        with pytest.raises(sqlite3.DatabaseError):
+            sl.sql("SELECT vector FROM embeddings.title_embedding")
+        with pytest.raises(sqlite3.DatabaseError):
+            sl.conn.execute(f"ATTACH DATABASE '{cache}' AS embeddings")
+
+
+def test_embedding_search_cannot_return_a_post_cutoff_row(toy_store: Store, tmp_path):
+    """Queried with the hidden title's own vector, the search still cannot find it."""
+    add_post_cutoff_title(toy_store)
+    cache = tmp_path / "title_embeddings.db"
+    retrieval.build_title_embeddings(toy_store, cache, embed=fake_embed)
+
+    with toy_store.open_slice(CUTOFF, title_embeddings=cache) as sl:
+        ids, matrix = retrieval.load_slice_vectors(sl)
+        assert retrieval.dense_ranking(ids, matrix, fake_embed([POST_TITLE])[0]) == [PRE_TITLE_ID]
+        record = retrieval.retrieve(
+            sl, ["EIF2AK1"], embed_query=lambda texts: fake_embed([POST_TITLE])
+        )
+        assert record.genes[0].node_ids == [PRE_TITLE_ID]
+
+
+def test_a_retrieval_record_naming_a_post_cutoff_row_is_refused(toy_store: Store):
+    """A committed record is replayed through the slice, so it cannot carry a row in."""
+    add_post_cutoff_title(toy_store)
+    record = retrieval.RetrievalRecord(
+        cutoff=CUTOFF.isoformat(),
+        embedding_model=retrieval.EMBEDDING_MODEL,
+        rrf_k=retrieval.RRF_K,
+        ranker_depth=retrieval.RANKER_DEPTH,
+        rows_per_gene=retrieval.ROWS_PER_GENE,
+        dense_query=retrieval.DENSE_QUERY,
+        genes=[retrieval.GeneRetrieval(gene_symbol="EIF2AK1", node_ids=[POST_TITLE_ID])],
+    )
+    with toy_store.open_slice(CUTOFF) as sl, pytest.raises(SliceLeakError):
+        retrieval.evidence_rows(record, sl)
+
+
+def test_the_slice_allows_only_the_pragma_full_text_search_needs(toy_store: Store):
+    with toy_store.open_slice(CUTOFF) as sl:
+        for statement in (
+            "PRAGMA writable_schema = 1",
+            "PRAGMA query_only = 0",
+            "PRAGMA data_version = 5",
+            "PRAGMA journal_mode = WAL",
+        ):
+            with pytest.raises(sqlite3.DatabaseError):
+                sl.conn.execute(statement)
+
+
+@pytest.mark.parametrize("tool", list(GraphTool))
+def test_no_graph_tool_can_return_a_post_cutoff_row(toy_store: Store, tool: GraphTool):
+    """Every tool, asked about the hidden gene, with later rows of each kind in the store."""
+    add_post_cutoff_title(toy_store)
+    toy_store.conn.execute(
+        "UPDATE node SET attrs = json_set(attrs, '$.matched_genes', json_array('EIF2AK1')) "
+        "WHERE id = ?",
+        (POST_TITLE_ID,),
+    )
+    toy_store.conn.commit()
+    toy_store.add_edges(
+        [
+            Edge(
+                id="edge:late_partner",
+                type=EdgeType.ACTS_THROUGH,
+                src="gene:HGNC:3005",
+                dst="gene:HGNC:13221",
+                attrs={"src_symbol": "EIF2AK1", "dst_symbol": "BCL11A", "gene_group": "late"},
+                prov=Provenance(
+                    source_id="test:late_partner",
+                    license="MIT License",
+                    time_scope="DATED",
+                    publication_date=date(2018, 6, 1),
+                ),
+            )
+        ]
+    )
+    arguments = {} if tool is GraphTool.GENES_BY_PUBLICATION_COUNT else {"gene_symbol": "EIF2AK1"}
+
+    # Against the full store the tool does find the later rows, so the
+    # assertions below test the slice and not an empty fixture.
+    in_full_store = run_tool(toy_store, ["EIF2AK1"], tool, arguments)  # type: ignore[arg-type]
+    late = (POST_TITLE_ID, "meas:post", '"late"', POST_TITLE)
+    counted = '"publications_naming_gene": 1' in in_full_store.content
+    assert counted or any(marker in in_full_store.content for marker in late)
+
+    with toy_store.open_slice(CUTOFF) as slice_store:
+        result = run_tool(slice_store, ["EIF2AK1"], tool, arguments)
+        for node_id in result.node_ids:
+            assert slice_store.node(node_id) is not None
+    for marker in late:
+        assert marker not in result.content
+    assert '"publications_naming_gene": 1' not in result.content
+    assert "gene:HGNC:13221" not in result.node_ids

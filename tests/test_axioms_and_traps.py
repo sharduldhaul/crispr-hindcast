@@ -9,6 +9,7 @@ from __future__ import annotations
 from datetime import date
 
 import pytest
+from pydantic import ValidationError
 
 from hindcast.agents.axioms import (
     Axiom,
@@ -23,16 +24,16 @@ CUTOFF = date(2018, 1, 1)
 
 
 def base_axiom(**kw) -> Axiom:
-    args = dict(
-        id="axiom:test",
-        kind="functional_hbf",
-        statement="TESTGENE loss raises HbF.",
-        subject_gene_ids=["gene:HGNC:1"],
-        phenotype_id="pheno:hbf_protein",
-        direction="increases",
-        supporting_record_ids=["meas:1"],
-        confidence=0.4,
-    )
+    args = {
+        "id": "axiom:test",
+        "kind": "functional_hbf",
+        "statement": "TESTGENE loss raises HbF.",
+        "subject_gene_ids": ["gene:HGNC:1"],
+        "phenotype_id": "pheno:hbf_protein",
+        "direction": "increases",
+        "supporting_record_ids": ["meas:1"],
+        "confidence": 0.4,
+    }
     args.update(kw)
     return Axiom(**args)
 
@@ -71,7 +72,7 @@ def test_validator_accepts_a_corpus_level_axiom_with_no_gene():
 
 
 def test_an_unknown_direction_is_rejected_by_the_model():
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         base_axiom(direction="sideways")
 
 
@@ -113,7 +114,7 @@ def test_extractor_weights_every_measurement_it_saw(toy_store: Store):
 def test_trap_answers_are_only_the_three_allowed_values():
     from hindcast.agents.adversary import Trap
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         Trap(
             id="t",
             kind="pan_essential",

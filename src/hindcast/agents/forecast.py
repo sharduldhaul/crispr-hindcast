@@ -13,8 +13,6 @@ system was handed, and this benchmark is about what comes next.
 
 from __future__ import annotations
 
-from typing import Any
-
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast.agents.base import Agent
@@ -106,8 +104,7 @@ class Forecaster(Agent):
             refused = [c for c in candidates if not c.reportable]
             call.records_out = len(reportable)
             call.result_summary = (
-                f"{len(reportable)} claims clear the refusal thresholds, "
-                f"{len(refused)} are refused"
+                f"{len(reportable)} claims clear the refusal thresholds, {len(refused)} are refused"
             )
 
         with self.tool("rank_two_ways") as call:

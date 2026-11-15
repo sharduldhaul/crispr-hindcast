@@ -1,14 +1,14 @@
 {
   "agent": "adversary",
-  "duration_ms": 3322.769,
+  "duration_ms": 3589.732,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
-    "platform": "macOS-27.0-arm64-arm-64bit",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T07:46:36.056096+00:00",
+  "finished_at": "2026-11-15T05:10:58.872366+00:00",
   "inputs": {},
   "notes": [],
   "output_summary": {
@@ -39,11 +39,11 @@
     "traps": 15
   },
   "run_id": "2017-12-31_no-method-signature",
-  "started_at": "2026-09-18T07:46:32.733338+00:00",
+  "started_at": "2026-11-15T05:10:55.282634+00:00",
   "tool_calls": [
     {
       "args": {},
-      "duration_ms": 21.809,
+      "duration_ms": 21.77,
       "name": "find_association_without_function",
       "records_in": 0,
       "records_out": 3,
@@ -51,7 +51,7 @@
     },
     {
       "args": {},
-      "duration_ms": 413.348,
+      "duration_ms": 512.834,
       "name": "find_pan_essential",
       "records_in": 0,
       "records_out": 4,
@@ -61,7 +61,7 @@
       "args": {
         "cutoff": "2017-12-31"
       },
-      "duration_ms": 986.699,
+      "duration_ms": 1091.884,
       "name": "find_postdates_cutoff",
       "records_in": 0,
       "records_out": 8,
@@ -69,7 +69,7 @@
     },
     {
       "args": {},
-      "duration_ms": 1900.842,
+      "duration_ms": 1963.159,
       "name": "build_alias_attacks",
       "records_in": 0,
       "records_out": 161,

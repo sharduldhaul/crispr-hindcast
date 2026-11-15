@@ -97,7 +97,7 @@ def check_forecast(forecast: Any, store: Store | SliceStore) -> ProvenanceReport
                     )
                 )
 
-    for refusal in forecast.refusals:
+    for _refusal in forecast.refusals:
         report.checked_objects += 1
         # A refusal states that evidence is insufficient. It quotes a confidence
         # and a weight, both of which are computed over the records the claim
@@ -148,9 +148,7 @@ def check_traps(trap_set: Any, store: Store) -> ProvenanceReport:
             report.findings.append(
                 ProvenanceFinding(
                     location=f"trap {trap.id}",
-                    detail=(
-                        f"quotes {sorted(trap.supporting_numbers)} but names no record ID"
-                    ),
+                    detail=(f"quotes {sorted(trap.supporting_numbers)} but names no record ID"),
                 )
             )
         for record_id in trap.evidence_record_ids:

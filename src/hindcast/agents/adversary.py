@@ -36,14 +36,12 @@ Each trap family corresponds to a way a system of this kind actually fails.
 
 from __future__ import annotations
 
-from collections import defaultdict
 from datetime import date
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast.agents.base import Agent
-from hindcast.models import NodeType
 from hindcast.scope import INFORMAL_NAMES
 from hindcast.store import SliceStore, Store
 
@@ -140,10 +138,7 @@ class Adversary(Agent):
             {
                 "cutoff": slice_store.cutoff,
                 "traps": len(traps),
-                "by_kind": {
-                    k: len(trap_set.by_kind(k))
-                    for k in sorted({t.kind for t in traps})
-                },
+                "by_kind": {k: len(trap_set.by_kind(k)) for k in sorted({t.kind for t in traps})},
                 "alias_attacks": len(attacks),
                 "named_traps": [t.gene_symbol for t in traps],
             }
@@ -250,8 +245,7 @@ class Adversary(Agent):
                     kind="pan_essential",
                     gene_symbol=symbol,
                     question=(
-                        f"Should {symbol} be ranked as a therapeutic target for HbF "
-                        f"induction?"
+                        f"Should {symbol} be ranked as a therapeutic target for HbF induction?"
                     ),
                     correct_answer="reject",
                     rationale=(

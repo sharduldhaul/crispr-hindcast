@@ -31,7 +31,7 @@ def _parse(raw: object) -> date | None:
     if not raw:
         return None
     text = str(raw).strip()
-    for length, fmt in ((10, "%Y-%m-%d"),):
+    for length, _fmt in ((10, "%Y-%m-%d"),):
         if len(text) >= length:
             try:
                 return date.fromisoformat(text[:10])
@@ -71,9 +71,7 @@ class DateIndex:
             resolved, rule = issue, "europepmc.printPublicationDate"
         if resolved is None:
             return
-        self._by_pmid[pmid] = ResolvedDate(
-            resolved=resolved, online=online, issue=issue, rule=rule
-        )
+        self._by_pmid[pmid] = ResolvedDate(resolved=resolved, online=online, issue=issue, rule=rule)
         self._meta[pmid] = rec
 
     def get(self, pmid: str | None) -> ResolvedDate | None:

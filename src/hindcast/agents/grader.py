@@ -14,7 +14,6 @@ Every metric here is computed from committed data. Nothing is estimated.
 
 from __future__ import annotations
 
-import math
 from datetime import date
 from typing import Any
 
@@ -23,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from hindcast.agents.adversary import TrapSet
 from hindcast.agents.base import Agent
 from hindcast.agents.forecast import Forecast
+from hindcast.bootstrap import Interval, ranking_intervals
 
 #: Reliability-diagram bins for the calibration figure and the ECE.
 CALIBRATION_BINS = ((0.0, 0.2), (0.2, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0))
@@ -35,6 +35,9 @@ class RankingScore(BaseModel):
     precision_at_5: float
     precision_at_10: float
     mean_reciprocal_rank: float
+    #: Bootstrap intervals over genes. See hindcast.bootstrap.
+    precision_at_5_interval: Interval
+    mean_reciprocal_rank_interval: Interval
     hits_at_5: list[str] = Field(default_factory=list)
     hits_at_10: list[str] = Field(default_factory=list)
     first_hit_rank: int | None = None
@@ -147,11 +150,12 @@ class Grader(Agent):
         card.refusal_count = len(forecast.refusals)
 
         with self.tool("score_rankings") as call:
+            asked = forecast.refused_symbols() | set(forecast.symbols_by_confidence())
             card.ranking_by_confidence = _score_ranking(
-                "confidence", forecast.symbols_by_confidence(), truth
+                "confidence", forecast.symbols_by_confidence(), truth, asked
             )
             card.ranking_by_cost_impact = _score_ranking(
-                "cost_impact", forecast.symbols_by_cost_impact(), truth
+                "cost_impact", forecast.symbols_by_cost_impact(), truth, asked
             )
             call.records_out = 2
             call.result_summary = (
@@ -194,9 +198,7 @@ class Grader(Agent):
                 )
 
         with self.tool("score_refusals") as call:
-            should_refuse = {
-                t.gene_symbol for t in traps.traps if t.correct_answer == "refuse"
-            }
+            should_refuse = {t.gene_symbol for t in traps.traps if t.correct_answer == "refuse"}
             refused = forecast.refused_symbols()
             card.refusal_total = len(should_refuse)
             card.refusal_correct = len(should_refuse & refused)
@@ -231,22 +233,14 @@ class Grader(Agent):
             card.cost_lens_reordered = sum(
                 1 for i in forecast.items if i.rank_by_confidence != i.rank_by_cost_impact
             )
-            top_conf = next(
-                (i for i in forecast.items if i.rank_by_confidence == 1), None
-            )
-            top_cost = next(
-                (i for i in forecast.items if i.rank_by_cost_impact == 1), None
-            )
-            card.cost_lens_top_route_by_confidence = (
-                top_conf.implied_modality if top_conf else None
-            )
+            top_conf = next((i for i in forecast.items if i.rank_by_confidence == 1), None)
+            top_cost = next((i for i in forecast.items if i.rank_by_cost_impact == 1), None)
+            card.cost_lens_top_route_by_confidence = top_conf.implied_modality if top_conf else None
             card.cost_lens_top_route_by_cost_impact = (
                 top_cost.implied_modality if top_cost else None
             )
             if top_cost is not None:
-                has_small = any(
-                    i.implied_modality == "SMALL_MOLECULE" for i in forecast.items
-                )
+                has_small = any(i.implied_modality == "SMALL_MOLECULE" for i in forecast.items)
                 card.cost_lens_surfaces_small_molecule = (
                     top_cost.implied_modality == "SMALL_MOLECULE" if has_small else None
                 )
@@ -262,9 +256,7 @@ class Grader(Agent):
             else:
                 # Fall back to what the forecast itself carries: an item with a
                 # confidence but no supporting record is a number with no source.
-                missing = [
-                    i.gene_symbol for i in forecast.items if not i.supporting_record_ids
-                ]
+                missing = [i.gene_symbol for i in forecast.items if not i.supporting_record_ids]
                 card.fabricated_numbers = len(missing)
                 card.fabricated_detail = [
                     f"{s}: forecast item carries a confidence but no supporting record ID"
@@ -284,6 +276,7 @@ class Grader(Agent):
 # metric implementations
 # --------------------------------------------------------------------------
 
+
 def _ground_truth(establishment: dict[str, dict], cutoff: date) -> set[str]:
     """Genes whose HbF role was established on or after the cutoff.
 
@@ -301,7 +294,8 @@ def _ground_truth(establishment: dict[str, dict], cutoff: date) -> set[str]:
     return out
 
 
-def _score_ranking(name: str, ranked: list[str], truth: set[str]) -> RankingScore:
+def _score_ranking(name: str, ranked: list[str], truth: set[str], asked: set[str]) -> RankingScore:
+    p5_interval, mrr_interval = ranking_intervals(ranked, truth, asked)
     hits5 = [s for s in ranked[:5] if s in truth]
     hits10 = [s for s in ranked[:10] if s in truth]
     first = next((i + 1 for i, s in enumerate(ranked) if s in truth), None)
@@ -310,6 +304,8 @@ def _score_ranking(name: str, ranked: list[str], truth: set[str]) -> RankingScor
         precision_at_5=round(len(hits5) / 5, 6) if ranked else 0.0,
         precision_at_10=round(len(hits10) / 10, 6) if ranked else 0.0,
         mean_reciprocal_rank=round(1 / first, 6) if first else 0.0,
+        precision_at_5_interval=p5_interval,
+        mean_reciprocal_rank_interval=mrr_interval,
         hits_at_5=hits5,
         hits_at_10=hits10,
         first_hit_rank=first,
@@ -381,9 +377,7 @@ def _score_trap(trap, forecast: Forecast) -> TrapResult:
     )
 
 
-def _calibration(
-    forecast: Forecast, truth: set[str]
-) -> tuple[list[CalibrationBin], float | None]:
+def _calibration(forecast: Forecast, truth: set[str]) -> tuple[list[CalibrationBin], float | None]:
     """Reliability bins and the expected calibration error.
 
     Computed over every claim the system put a confidence on, forecast and

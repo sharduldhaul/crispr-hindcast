@@ -9,7 +9,6 @@ that only knows what the forecaster knows cannot set a trap.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -17,15 +16,15 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast import provenance
-from hindcast.provenance import ProvenanceReport
 from hindcast.agents.adversary import Adversary, TrapSet
 from hindcast.agents.axioms import AxiomExtractor, AxiomSet
-from hindcast.agents.baseline import CachedModelBaseline, FlatLiteratureBaseline
+from hindcast.agents.baseline import FlatLiteratureBaseline
 from hindcast.agents.belief_reviser import BeliefMap, BeliefReviser
 from hindcast.agents.curator import Curator, IngestionReport
 from hindcast.agents.forecast import Forecast, Forecaster
 from hindcast.agents.grader import Grader, Scorecard
 from hindcast.agents.method_signature import MethodSignature, UniformSignature
+from hindcast.provenance import ProvenanceReport
 from hindcast.scope import ALL_SLICES
 from hindcast.store import Store
 
@@ -140,9 +139,7 @@ def run_slice(
                 axioms = AxiomSet(cutoff=slice_store.cutoff)
                 belief = BeliefMap(cutoff=slice_store.cutoff)
             else:
-                signature = (
-                    UniformSignature() if spec.uniform_weights else MethodSignature()
-                )
+                signature = UniformSignature() if spec.uniform_weights else MethodSignature()
                 extractor = AxiomExtractor(
                     run_id, signature=signature, trajectory_dir=trajectory_dir
                 )
@@ -164,14 +161,10 @@ def run_slice(
                     and date.fromisoformat(entry["establishing_record"]["date"][:10]) < cutoff
                 }
                 forecaster = Forecaster(run_id, trajectory_dir=trajectory_dir)
-                forecast = forecaster.run(
-                    belief, established_before_cutoff=established_before
-                )
+                forecast = forecaster.run(belief, established_before_cutoff=established_before)
 
             adversary = Adversary(run_id, trajectory_dir=trajectory_dir)
-            traps = adversary.run(
-                store, slice_store, establishment=establishment, cutoff=cutoff
-            )
+            traps = adversary.run(store, slice_store, establishment=establishment, cutoff=cutoff)
 
             alias_check = _check_alias_resolution(slice_store, traps)
             prov = provenance.merge(
@@ -258,9 +251,7 @@ def build_graph(
         # Written out so the scorecard's ingestion row is read from the run that
         # produced the graph, rather than retyped from a terminal.
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        (RESULTS_DIR / "ingestion.json").write_text(
-            report.model_dump_json(indent=2) + "\n"
-        )
+        (RESULTS_DIR / "ingestion.json").write_text(report.model_dump_json(indent=2) + "\n")
         return report
     finally:
         store.close()
@@ -301,9 +292,11 @@ def build_snapshot(
             for key, spec in SOURCES.items()
         },
         notes=[
-            "Identifiers, structured metadata and numeric measurements only. No "
-            "abstracts and no full text: per-article licenses vary and many do not "
-            "permit redistribution.",
+            (
+                "Identifiers, structured metadata and numeric measurements only. No "
+                "abstracts and no full text: per-article licenses vary and many do not "
+                "permit redistribution."
+            ),
             *[f"Excluded source: {k}. {v}" for k, v in EXCLUDED_SOURCES.items()],
         ],
     )

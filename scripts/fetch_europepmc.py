@@ -39,7 +39,7 @@ from pathlib import Path
 from _fetchlib import RAW, client, get_json, write
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES  # noqa: E402
+from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES
 
 SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
@@ -79,8 +79,21 @@ ERYTHROID_QUERY = (
 #: Aliases that are too short or too common to search on without drowning the
 #: result set in unrelated records. Excluded from query expansion by name.
 UNSEARCHABLE_ALIASES = {
-    "hri", "lrf", "tr2", "tr4", "hel", "mi2b", "apa-1", "p66", "dnmt",
-    "kmt5a", "set8", "pr-set7", "cll", "bcl", "hbf",
+    "hri",
+    "lrf",
+    "tr2",
+    "tr4",
+    "hel",
+    "mi2b",
+    "apa-1",
+    "p66",
+    "dnmt",
+    "kmt5a",
+    "set8",
+    "pr-set7",
+    "cll",
+    "bcl",
+    "hbf",
 }
 
 

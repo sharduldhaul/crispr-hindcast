@@ -1,0 +1,46 @@
+{
+  "agent": "llm_forecaster",
+  "duration_ms": 7.691,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "claude-opus-5-5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-11-15T05:13:57.341795+00:00",
+  "inputs": {
+    "candidates": 41,
+    "condition": "none",
+    "cutoff": "2017-12-31",
+    "model_id": "claude-opus-5-5",
+    "prompt_hash": "b47a179d393f55d737809bced9985eed4b4747befcfa726fcf9eff50eb5366d2"
+  },
+  "notes": [],
+  "output_summary": {
+    "calls_live": 0,
+    "calls_replayed": 0,
+    "claims": 0,
+    "cost_usd": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "refusals": 0,
+    "status": "not_run",
+    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
+    "tool_calls": 0
+  },
+  "run_id": "2017-12-31_llm-none",
+  "started_at": "2026-11-15T05:13:57.334086+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cache_key": "73ce3f11f9fe56bb6052fb2d0943ffcadf031658ab1220e4e4527262924dae8a"
+      },
+      "duration_ms": 0.049,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "not in cache, no live transport: not run"
+    }
+  ]
+}

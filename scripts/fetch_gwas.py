@@ -141,8 +141,12 @@ def main() -> None:
         write("gwas/associations.json", associations)
         write("gwas/fetch_failures.json", failed)
         print(f"association fetch failures: {len(failed)}")
-        genes = sorted({g for a in associations for lo in a["loci"] for g in lo["reportedGenes"] if g})
-        print(f"studies={len(studies)} associations={len(associations)} reported_genes={len(genes)}")
+        genes = sorted(
+            {g for a in associations for lo in a["loci"] for g in lo["reportedGenes"] if g}
+        )
+        print(
+            f"studies={len(studies)} associations={len(associations)} reported_genes={len(genes)}"
+        )
 
 
 if __name__ == "__main__":

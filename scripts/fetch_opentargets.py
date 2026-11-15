@@ -24,7 +24,7 @@ from pathlib import Path
 from _fetchlib import client, post_json, write
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from hindcast.scope import ALL_SCOPE_GENES  # noqa: E402
+from hindcast.scope import ALL_SCOPE_GENES
 
 API = "https://api.platform.opentargets.org/api/v4/graphql"
 
@@ -145,9 +145,9 @@ def main() -> None:
             per_disease = {}
             for efo in efos:
                 got = (
-                    post_json(c, API, {"query": EVIDENCE, "variables": {"id": eid, "efo": efo}}).get(
-                        "data"
-                    )
+                    post_json(
+                        c, API, {"query": EVIDENCE, "variables": {"id": eid, "efo": efo}}
+                    ).get("data")
                     or {}
                 ).get("disease")
                 if got and (got.get("evidences") or {}).get("count"):

@@ -16,16 +16,16 @@ from hindcast.agents.belief_reviser import (
 
 
 def make_claim(**kw) -> Claim:
-    base = dict(
-        id="claim:test",
-        gene_id="gene:HGNC:1",
-        gene_symbol="TESTGENE",
-        phenotype_id="pheno:hbf_protein",
-        direction="increases",
-        statement="test",
-        confidence=PRIOR_CONFIDENCE,
-        log_odds=PRIOR_LOG_ODDS,
-    )
+    base = {
+        "id": "claim:test",
+        "gene_id": "gene:HGNC:1",
+        "gene_symbol": "TESTGENE",
+        "phenotype_id": "pheno:hbf_protein",
+        "direction": "increases",
+        "statement": "test",
+        "confidence": PRIOR_CONFIDENCE,
+        "log_odds": PRIOR_LOG_ODDS,
+    }
     base.update(kw)
     return Claim(**base)
 
@@ -39,7 +39,9 @@ def test_a_claim_at_the_prior_is_refused():
 def test_confidence_alone_is_not_enough():
     """A pile of weak co-mentions must not make a claim reportable."""
     claim = make_claim(
-        confidence=0.9, max_supporting_weight=0.01, hbf_publication_support=2,
+        confidence=0.9,
+        max_supporting_weight=0.01,
+        hbf_publication_support=2,
         evidence_count=400,
     )
     assert not claim.reportable
@@ -54,14 +56,16 @@ def test_a_substantial_hbf_literature_is_the_second_route_to_reportability():
     from hindcast.agents.belief_reviser import MIN_HBF_PUBLICATIONS
 
     claim = make_claim(
-        confidence=0.6, max_supporting_weight=0.02,
+        confidence=0.6,
+        max_supporting_weight=0.02,
         hbf_publication_support=MIN_HBF_PUBLICATIONS,
     )
     assert claim.has_evidence_of_substance
     assert claim.reportable
 
     thin = make_claim(
-        confidence=0.6, max_supporting_weight=0.02,
+        confidence=0.6,
+        max_supporting_weight=0.02,
         hbf_publication_support=MIN_HBF_PUBLICATIONS - 1,
     )
     assert not thin.has_evidence_of_substance
@@ -88,9 +92,7 @@ def test_literature_contribution_is_logarithmic_not_linear():
     # The k-th publication adds less than the first. The property holds in
     # log-odds, which is where the update happens: each paper contributes
     # ln(1+k) - ln(k), a decreasing sequence.
-    increments = [
-        LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 30)
-    ]
+    increments = [LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 30)]
     assert increments == sorted(increments, reverse=True)
     assert increments[0] > 10 * increments[-1]
 

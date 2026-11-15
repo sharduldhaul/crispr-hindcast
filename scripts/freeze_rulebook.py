@@ -39,16 +39,16 @@ from hindcast.agents.belief_reviser import (  # noqa: E402
     PRIOR_CONFIDENCE,
     REFUSAL_CONFIDENCE_THRESHOLD,
 )
-from hindcast.ingest.sources import COMPLEX_GROUP_SUFFIX  # noqa: E402
-from hindcast.textmatch import MIN_ALIAS_LENGTH, SHORT_ALIASES  # noqa: E402
 from hindcast.agents.method_signature import coefficient_manifest  # noqa: E402
 from hindcast.cost import COST_WEIGHTS, PRICE_ANCHORS  # noqa: E402
+from hindcast.ingest.sources import COMPLEX_GROUP_SUFFIX  # noqa: E402
 from hindcast.scope import (  # noqa: E402
     ALL_SCOPE_GENES,
     ALL_SLICES,
     INFORMAL_NAMES,
     PHENOTYPE_FAMILIES,
 )
+from hindcast.textmatch import MIN_ALIAS_LENGTH, SHORT_ALIASES  # noqa: E402
 
 RULEBOOK = ROOT / "eval" / "rulebook"
 TAG = "rulebook-frozen-v1"
@@ -62,9 +62,7 @@ def main() -> None:
     RULEBOOK.mkdir(parents=True, exist_ok=True)
     answer_key = RULEBOOK / "gene_establishment.json"
     if not answer_key.exists():
-        raise SystemExit(
-            f"{answer_key} is missing. Run scripts/build_rulebook.py first."
-        )
+        raise SystemExit(f"{answer_key} is missing. Run scripts/build_rulebook.py first.")
 
     policy = {
         "frozen_at": datetime.now(UTC).isoformat(),
@@ -121,9 +119,7 @@ def main() -> None:
             ),
             "min_alias_length": MIN_ALIAS_LENGTH,
             "short_alias_allowlist": {k: list(v) for k, v in SHORT_ALIASES.items()},
-            "acts_through_basis": (
-                f"HGNC gene groups whose name ends {COMPLEX_GROUP_SUFFIX!r}"
-            ),
+            "acts_through_basis": (f"HGNC gene groups whose name ends {COMPLEX_GROUP_SUFFIX!r}"),
             "acts_through_excluded": (
                 "Structural domain groups such as 'Zinc fingers C2H2-type' and 'BTB "
                 "domain containing'. Sharing a domain is not sharing a mechanism."

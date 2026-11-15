@@ -59,18 +59,26 @@ move a lot when one gene moves. Precision at 5 changes by 0.2 for a single
 position change. Nothing here should be read as an estimate of how a system
 would do on a different disease, a different phenotype, or a different decade.
 
+The scorecard gives a bootstrap interval over genes for the ranking metrics and
+the grounded-claim rate ([METHODOLOGY.md](METHODOLOGY.md#bootstrap-intervals)).
+The intervals are wide. A difference between a model row and the rule-based row that
+lies inside the intervals is not evidence that one is better. The grounded-claim
+rate has the same problem at a smaller size: its denominator is the claims of
+one run.
+
 ## Temporal holdout reduces contamination without eliminating it
 
 The slice is enforced at the data layer and the leak tests attempt each route,
 so no post-cutoff row reaches the reasoning through this repository. That is the
 part this project controls.
 
-It does not control what a model already knows. If a language model were placed
-in this pipeline, it would have read the 2018 HRI paper during training, and no
-data-layer enforcement can remove that. This particular system contains no
-language model, so the specific contamination channel is absent here, but the
-general point stands for anyone extending it: a temporal holdout controls the
-evidence and not the reader.
+It does not control what a model already knows. A language model has read the
+2018 HRI paper during training, and no data-layer enforcement can remove that.
+The rule-based system contains no language model, so this channel is absent from
+its rows. It is present in every row of the language-model track
+(`src/hindcast/llm/`), whose prompt asks the model to disregard what it recalls
+from after the cutoff and cannot verify that it did. A temporal holdout controls
+the evidence and not the reader.
 
 There is also a subtler channel that this project does control and that is worth
 naming because it is easy to miss. If gene nodes were created only for genes the
@@ -110,22 +118,65 @@ does not measure what a system could conclude from all the evidence that existed
 before the cutoff, because much of that evidence is in supplementary tables that
 cannot be committed here.
 
-## The model comparison row was not run
+## The memorization signal is a lower bound
 
-The ablation table's last row, a general model given the same prompt and no
-graph, is the row that answers whether the structure earns its place against a
-model's own knowledge. It is reported as not run.
+The language-model track counts a claim as recalled when its gene was
+established on or after the cutoff and the claim is not grounded
+([METHODOLOGY.md](METHODOLOGY.md#memorization-signal)). The count misses recall
+in four ways.
 
-The reason is hard rule 4: a clone must reproduce the scorecard offline with no
-API keys, so the pipeline makes no live model calls and there are no cached
-responses committed. The prompt is committed, the cache format is documented in
-`eval/model_cache/README.md`, and anyone with a key can populate it and have the
-row replay offline afterwards.
+- **Recall backed by weak pre-cutoff evidence.** A model that remembers a later
+  result can cite a pre-cutoff title that names the gene. The claim is grounded
+  and is not counted, although the title may say nothing about fetal hemoglobin.
+  Grounding checks that a cited row names the gene, not that it supports the
+  claim.
+- **Recall that sets the confidence.** A grounded claim can carry a confidence
+  the cited rows do not justify. The signal is per claim and does not look at
+  the number.
+- **Recall behind a refusal or a wrong answer.** Only claims for genes in the
+  answer key are examined. What the model recalled and chose not to claim, or
+  recalled about a gene the rule book does not list as established, is not seen.
+- **Recall the answer key cannot date.** The establishment dates come from a
+  rule over titles, described above. A gene the rule dates too late moves its
+  claims into the post-cutoff set, and one it dates too early removes them.
 
-What is reported instead is a no-graph baseline that ranks genes by pre-cutoff
-publication count. That answers a narrower question, whether the structure beats
-counting papers, and it does not answer whether the structure beats a model that
-has read the literature.
+The grounding check shares the first gap. It asks whether a cited row names the
+gene and was shown to the model, which is a lower bar than whether the row
+supports the claim, and it reads only the IDs the model chose to cite. Evidence
+the model used and did not cite, and knowledge it brought from training, are
+invisible to it.
+
+In the other direction, a recalled claim is not proof of memorization. A model
+can reason to a correct gene from general biology and cite nothing. The `none`
+condition cannot separate that from recall, and neither can this signal.
+
+## A model row is reported only once its response is committed
+
+The language-model rows answer whether the structure earns its place against a
+model's own knowledge. Hard rule 4 requires a clone to reproduce the scorecard
+offline with no API keys, so the pipeline makes no live call by default and a
+row with no response in `eval/model_cache/` is reported as not run. The
+scorecard states how many rows that is. A row is never estimated.
+
+A live run is one sample. The API is not deterministic, so a second live run of
+the same request could return a different answer, and the committed response is
+the result that is reported. The bootstrap intervals describe variation over
+genes, not over repeated runs of the model.
+
+The flat literature baseline, which ranks genes by pre-cutoff publication
+count, is always present. It answers a narrower question, whether the structure
+beats counting papers, and not whether it beats a model that has read the
+literature.
+
+## One model from one provider
+
+Every model row uses one pinned model
+([METHODOLOGY.md](METHODOLOGY.md#fixed-parameters)). Nothing here says how
+another model, another provider or a later version of the same model would
+answer. The training cutoff of the pinned model is later than all three
+evaluation cutoffs, so every model row is exposed to recall, and no row comes
+from a model trained before its cutoff. The prompts and the tool definitions
+were written for this model and were not tested on another.
 
 ## The cost lens is a stated policy, not a measurement
 

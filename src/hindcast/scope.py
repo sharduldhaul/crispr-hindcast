@@ -207,6 +207,7 @@ def is_hbf_phenotype(*texts: str | None) -> bool:
 def is_erythroid_context(*texts: str | None) -> bool:
     return bool(_ERY_RE.search(" ".join(t.lower() for t in texts if t)))
 
+
 #: Informal and historical names that are not HGNC aliases but appear constantly
 #: in the literature and in screen annotations. Project vocabulary, frozen with
 #: the rest of this file.
