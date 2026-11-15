@@ -1,7 +1,14 @@
 # Schema
 
-Two decisions were made in the first hour of the build and are recorded here with
-their reasons. Neither is abstracted over an alternative.
+The evidence graph is one SQLite file with one node table and one edge table.
+Every row carries its provenance and the date the time slice filters on.
+
+| Section | Answers |
+| --- | --- |
+| [Storage](#storage-sqlite) | Why SQLite, and why two tables |
+| [Node types](#node-types) and [edge types](#edge-types) | What a row is, and which edge types hold rows |
+| [Provenance columns](#provenance-columns-on-every-row-of-both-tables) | What every row must carry |
+| [effective_date and time_scope](#effective_date-and-time_scope) | Which date hides a row from a slice |
 
 ## Storage: SQLite
 
@@ -74,9 +81,7 @@ Exactly these nine.
 
 ### Which edge types actually carry rows
 
-The nine types above are the schema. Five of them are populated by the current
-build, and saying which is more useful than leaving a reader to assume all nine
-are:
+Six of the nine are populated by the current build:
 
 | Edge type | Rows | Producer |
 | --- | --- | --- |
@@ -134,8 +139,8 @@ What fills that column depends on `time_scope`.
 edges between them. Their `effective_date` is the resolved publication date.
 These are the rows the slice hides.
 
-`REFERENCE` rows are ontology entities: genes from HGNC, cell lines from
-Cellosaurus, diseases from MONDO. Their `effective_date` is the date the
+`REFERENCE` rows are ontology entities: genes from HGNC and cell lines from
+Cellosaurus. Their `effective_date` is the date the
 ontology approved the term, for genes the HGNC `date_approved_reserved`.
 
 Filtering reference rows by approval date closes a leak that is easy to miss. If
@@ -165,6 +170,5 @@ stored. Where the two disagree the online date is earlier, so this choice makes
 the slice strictly more conservative: an article is visible to the forecast from
 the earliest date on which anyone could have read it.
 
-Preprints are treated as publications with their own date. Where a preprint and
-its journal version are both in the corpus, the preprint's PMID carries the
-earlier date and the journal version is linked by `SUPERSEDES`.
+A preprint is a publication with its own date. No row links a preprint to its
+journal version.
