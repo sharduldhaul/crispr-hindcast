@@ -1,19 +1,33 @@
 %% CRISPR HINDCAST: system architecture, kept deliberately simple.
-%% Import into Excalidraw with More tools > Mermaid to Excalidraw.
+%% Rendered with the Excalidraw CLI:
+%%   npx -y @excalidraw/cli@0.3.0 mermaid diagrams/system_architecture.mmd \
+%%     --out diagrams/system_architecture.png --theme dark --scale 2
 flowchart LR
-    sources["Public biology data<br/>8 open databases"]
-    clean["Clean and link<br/>resolve gene names,<br/>drop unusable rows"]
-    store["Evidence graph<br/>SQLite"]
-    slice["Time slice<br/>only evidence<br/>dated before T"]
-    agents["Reasoning agents<br/>rules, beliefs,<br/>forecast"]
-    output["Forecast<br/>or refusal"]
-    key["Answer key<br/>what was published<br/>after T, frozen first"]
-    traps["Trap questions"]
-    grader["Grader"]
-    score["Scorecard"]
-    app["Web app"]
+    subgraph pipeline["Data pipeline"]
+        sources["Public biology data<br/>8 open databases"]
+        clean["Clean data and<br/>resolve gene names"]
+        store(("Evidence graph<br/>SQLite"))
+        slice["Time slice<br/>only evidence<br/>dated before T"]
+        sources --> clean --> store --> slice
+    end
 
-    sources --> clean --> store --> slice --> agents --> output --> grader
+    subgraph forecasters["Two forecasters, same question"]
+        rules["Rule-based system<br/>six agents,<br/>frozen rules"]
+        model["Language model<br/>three retrieval<br/>conditions"]
+    end
+
+    output{"Forecast<br/>or refusal"}
+    key["Answer key<br/>published after T"]
+    traps["Trap questions"]
+    grader(("Grader"))
+
+    subgraph app["Web app"]
+        score["Scorecard"]
+    end
+
+    slice --> rules --> output
+    slice --> model --> output
+    output --> grader
     key --> grader
     traps --> grader
-    grader --> score --> app
+    grader --> score

@@ -3,160 +3,70 @@
 [![CI](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml)
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sharduldhaul/crispr-hindcast)
 
+A benchmark that tests whether a system can forecast scientific discoveries
+from past evidence alone, built so that a correct answer cannot come from
+leaked data or a tuned answer key.
 
-Given only the evidence available on date T,
-can a system recover the governing rules of a field and correctly forecast what
-would be discovered after T?
+## The problem
 
-The domain is fetal hemoglobin induction as a therapeutic route for sickle cell
-disease. The method is a temporal holdout enforced at the data layer, with the
-subsequent literature as the answer key.
+When an AI system "predicts" a scientific result, it may only be repeating it.
+Language models are trained on the published record, so a test built from
+published findings cannot separate forecasting from recall. A high score is
+then not evidence of reasoning, and most evaluations give no way to tell.
 
-![System architecture: public data is cleaned into an evidence graph, cut at a date T, reasoned over, and graded against what was published after T](diagrams/system_architecture.png)
+## The solution
 
-Public data is cleaned into an evidence graph, cut at a date T, and reasoned
-over. The forecast is graded against what was actually published after T, with
-trap questions mixed in. [ARCHITECTURE.md](ARCHITECTURE.md) has two more
-diagrams in moderate detail: how the evaluation is kept free of leakage, and how
-a gene's evidence becomes a prediction or a refusal.
+A hindcast: pick a cutoff date T, remove every piece of evidence dated on or
+after T, ask for a forecast, and grade it against what the field published
+after T.
 
-## Table of Contents
+The test case is fetal hemoglobin, a therapeutic route for sickle cell disease:
+which genes controlling it would the field establish next? Two forecasters
+answer at three cutoffs (2014, 2017, 2020): a rule-based system with no
+language model, and a language model (`gemini-3.8-flash`) as the comparison.
 
-* [Description](#description)
-* [Launch the app](#launch-the-app)
-  * [In a browser, with GitHub Codespaces](#in-a-browser-with-github-codespaces)
-  * [Command line only](#command-line-only)
-* [Scorecard](#scorecard)
-  * [Ingestion](#ingestion)
-  * [Scorecard, full system](#scorecard-full-system)
-  * [Rule-based system and language model](#rule-based-system-and-language-model)
-  * [Ablations, primary slice](#ablations-primary-slice)
-  * [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
-  * [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
-  * [Cost lens, full system](#cost-lens-full-system)
-  * [Held-out recovery](#held-out-recovery)
-* [Temporal holdout as a complementary contamination control](#temporal-holdout-as-a-complementary-contamination-control)
-* [Language-model track](#language-model-track)
-  * [Design decisions](#design-decisions)
-* [What the system does](#what-the-system-does)
-* [The cost lens](#the-cost-lens)
-* [Results](#results)
-* [Licensing](#licensing)
-* [Repository](#repository)
+![System architecture: public data is cleaned into an evidence graph and cut at a date T; a rule-based system and a language model each forecast or refuse; a grader scores both against the answer key and trap questions](diagrams/system_architecture.png)
 
-## Description
+### How it solves the problem
 
-Sickle cell disease is caused by faulty adult hemoglobin, the protein that
-carries oxygen in blood. Before birth we all make a different version, fetal
-hemoglobin, which does not sickle. It switches off after birth, and turning it
-back on eases the disease. For decades researchers have been working out which
-genes control that switch.
+Each way a forecasting test can be fooled has a control that is enforced by
+code and checked by a test.
 
-This project asks a simple question: **could a reasoning system have seen those
-discoveries coming?** It picks a cutoff date, say the end of 2017, and hides
-everything published after it. Using only the older evidence (genetic studies,
-lab screens and publication records), the system names the genes it expects the
-field to discover next, or says honestly that the evidence is not there yet.
-Then the sealed envelope is opened: the prediction is graded against what
-researchers actually published after the cutoff.
+| Failure | Control | Checked by |
+| --- | --- | --- |
+| Later evidence leaks into the reasoning | Each cutoff gets its own database holding only earlier rows, served over a connection that can attach nothing else | `tests/test_slice_leak.py` |
+| The answer key is tuned to the result | The answer key and every threshold were frozen and tagged ([`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1)) before the first run | Git history |
+| Guessing is rewarded | Refusal is a scored outcome, and trap questions are mixed into the candidates | `tests/test_refusal.py` |
+| The model recalls the answer from training | The model runs alone, with text retrieval and with graph tools, and each claim is checked against the evidence it was given. This measures recall; it cannot remove it | [LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound) |
+| A number cannot be verified | Every number traces to a source row, and a clone reproduces every result offline, byte for byte, with no API key | `tests/test_provenance_and_license.py`, `tests/test_determinism.py` |
 
-It is a fair test because the hiding is enforced by the database and checked by
-tests, the answer key is the real published record rather than something the
-author wrote, and every rule and threshold was frozen in git before the first
-run. The system itself contains no AI language model: every decision is a
-written rule you can read. A language model is evaluated separately, on the same
-cutoffs and by the same grader, as a comparison.
+## Results
 
-The short version of the results: the system is cautious. It predicts two to six
-genes per cutoff, gets one right each time, avoids every trick question planted
-for it, and misses the two biggest discoveries after 2017 because the open data
-before 2018 held almost no trace of them. The app and the sections below explain
-why, without hiding the weak numbers.
+Three cutoffs and five ranking slots give wide intervals. The full tables, with
+intervals and definitions, are generated from `eval/results/` and sit in the
+scorecard below.
 
-## Launch the app
+- **Model alone scores highest, and the score is recall.** P@5 is 1.00, 0.80
+  and 0.20 across the cutoffs with no evidence given, and every claim for a
+  gene established after the cutoff is counted as recalled (6 of 6, 4 of 4,
+  1 of 1). This is the problem above,
+  measured.
+- **Graph tools keep most of the score and ground it.** P@5 is 0.80, 0.60 and
+  0.20, every claim cites a row the model was given (4 of 4, 3 of 3, 2 of 2),
+  and no cited ID is fabricated in any model row.
+- **The rule-based system is cautious.** P@5 is 0.20 (1 of 5) at every cutoff.
+  It passes every trap (22 of 22, 15 of 15, 9 of 9); the model rows miss up to
+  6 of 22.
+- **Its misses are reported.** The two main findings after 2017, EIF2AK1 and
+  ZNF410, were refused: the open data before 2018 holds no measurement for
+  either. Two correct genes stopped at confidence 0.240 against the frozen
+  threshold of 0.25, and the threshold was not moved.
 
-The app is a local website that explains the project, shows every result, and
-lets you re-run the whole pipeline from your browser. It works offline, with no
-API keys.
+[LIMITATIONS.md](LIMITATIONS.md) states what each number does and does not
+show.
 
-**You need:** [Python 3.12+](https://www.python.org/downloads/),
-[uv](https://docs.astral.sh/uv/getting-started/installation/) (the Python
-package manager) and [Node.js 20.9+](https://nodejs.org/). Run everything from
-the repository root.
-
-```bash
-# 1. Install the Python pipeline (once)
-uv venv --python 3.12 .venv
-uv pip install -e ".[dev]"
-
-# 2. Build the evidence graph from the committed data snapshot (under a minute)
-.venv/bin/hindcast build
-
-# 3. Install and start the web app (the npm install is only needed once)
-cd web
-npm install
-npm run dev
-```
-
-Open **http://127.0.0.1:4100**. What you can do there:
-
-- **Overview**: With a timeline you can drag to see which discoveries each cutoff hides.
-- **Results**: each cutoff's forecast, ranked by confidence or by how affordable
-  the resulting treatment would be, plus every refusal with its reason, the
-  trick questions, and a calibration chart.
-- **Ablations**: switch parts of the system off and see what each one is worth.
-- **Model**: the language-model rows beside the rule-based system, and each
-  claim with the IDs it cited.
-- **Genes**: look up any gene to see what the system said about it at each
-  cutoff, and when the field actually found it.
-- **Run the pipeline**: rebuild the graph, re-run any cutoff or all of them, run
-  the held-out test, and run the test suite, with live output. Results appear in
-  the other pages as soon as a run finishes.
-- **Docs**: the methodology, data sources, schema and limitations.
-
-Steps 1 and 2 can also be done from the Run page once the app is up. For a
-faster, production build of the app, use `npm run build && npm run start`
-instead of `npm run dev`. The app serves on port 4100 by default; to use another
-port, run `npx next dev --port <port>`.
-
-### In a browser, with GitHub Codespaces
-
-The badge at the top of this page opens the repository in a codespace. It
-installs the pipeline, builds the graph, builds the app and opens it on port
-4100, with nothing to do by hand. `hindcast verify` runs the test suite there.
-
-A live model run needs your own key. Add `GEMINI_API_KEY` as a
-[Codespaces secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
-for this repository, then in the codespace's terminal:
-
-```bash
-.venv/bin/hindcast llm --cutoff 2017-12-31 --retrieval graph --live
-```
-
-Without the key every result still replays from the committed files.
-
-### Command line only
-
-Everything the app does is also available from the terminal:
-
-```bash
-.venv/bin/hindcast slice --cutoff 2017-12-31   # run one cutoff (about 20 seconds)
-.venv/bin/hindcast heldout --cutoff 2017-12-31 # held-out recovery test
-.venv/bin/hindcast run-all                     # every cutoff and every ablation
-.venv/bin/hindcast scorecard                   # print the results table
-.venv/bin/python -m pytest -q                  # the checks that must pass to ship
-```
-
-Runs rewrite `eval/results/` and `trajectories/`. The results are deterministic,
-so in practice only the trajectory timestamps change, and
-`git checkout -- eval trajectories` restores them.
-
-To re-fetch from the sources instead of using the snapshot, the scripts in
-`scripts/` do it one source at a time, and `hindcast build-snapshot`
-re-normalizes the result. That path needs a network and takes about an hour,
-most of it Europe PMC pagination.
-
-## Scorecard
+<details>
+<summary>Full scorecard</summary>
 
 <!-- SCORECARD:START -->
 
@@ -280,244 +190,76 @@ Model: `gemini-3.8-flash`.
 
 <!-- SCORECARD:END -->
 
-## Temporal holdout as a complementary contamination control
+</details>
 
-The idea for this project came from
-[Cortex Bio](https://cortexbiolabs.com) and their July 2026 case study,
-[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
-The post says its source "is a published 2024 paper that a frontier model has
-very likely seen in training", and describes two controls:
+## Launch the app
 
-- They ran the task twice, "once with the real names, and once with every
-  compound, warhead, and ligand replaced by an anonymous token", and compared
-  the scores.
-- They "froze a rule book of the governing trends, checked against the table,
-  before any model ran".
+A local website that shows every result and re-runs the pipeline from the
+browser. It works offline, with no API key. The Codespaces badge above opens
+the same app with nothing to install.
 
-This project follows that design. Its answer key is a rule book frozen before
-the first evaluation run, as in the second control, and it adds a temporal
-holdout as a third control aimed at the same problem from the data side. The
-controls are complementary: a temporal holdout constrains which evidence can
-reach the reasoning, and token replacement constrains what the model can
-recognize in that evidence. Neither replaces the other.
+Needs [Python 3.12+](https://www.python.org/downloads/),
+[uv](https://docs.astral.sh/uv/getting-started/installation/) and
+[Node.js 20.9+](https://nodejs.org/).
 
-What a temporal holdout verifies:
+```bash
+uv venv --python 3.12 .venv
+uv pip install -e ".[dev]"
+.venv/bin/hindcast build          # evidence graph from the committed snapshot
+cd web && npm install && npm run dev
+```
 
-- **No evidence dated on or after the cutoff T reached the reasoning.** This is
-  a property of the data layer. The repository materializes a separate database
-  holding only pre-T rows and serves it over a connection that cannot attach
-  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
-  asserts each one fails.
-- **The answer key was fixed before any result existed.** What the field
-  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
-  the tag
-  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
-  which predates the first commit with evaluation results.
+Open http://127.0.0.1:4100.
 
-What it does not verify:
+From the command line:
 
-- **What the reader already knows.** The holdout controls the evidence, not the
-  reader. A language model placed in this pipeline may have read the 2018 result
-  in training, and no data-layer enforcement can remove that.
-  [LIMITATIONS.md](LIMITATIONS.md) covers this.
-- **That a description no longer identifies its subject.** That is the question
-  token replacement addresses, and this project does not test it.
+```bash
+.venv/bin/hindcast slice --cutoff 2017-12-31   # one cutoff, about 20 seconds
+.venv/bin/hindcast run-all                     # every cutoff and ablation
+.venv/bin/hindcast scorecard                   # print the results table
+.venv/bin/python -m pytest -q                  # the checks behind the table above
+```
 
-This is an independent project that builds on a problem Cortex Bio named and
-on the controls they described. It is not a reimplementation of their product
-and makes no claim about it.
+Model rows replay from `eval/model_cache/`. A new live run is opt-in and needs
+your own key:
 
-## Language-model track
+```bash
+GEMINI_API_KEY=... .venv/bin/hindcast llm --cutoff 2017-12-31 --retrieval graph --live
+```
 
-A language model is asked the same question as the rule-based system, at the
-same cutoffs, and its answer is scored by the same grader. It runs in three
-retrieval conditions, so a result can be read against what the model was given:
+In a codespace, set `GEMINI_API_KEY` as a
+[Codespaces secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
+instead.
 
-| Condition | What the model is given |
+## Documentation
+
+| File | Contents |
 | --- | --- |
-| Model alone | The question and the candidate genes, and no evidence. |
-| Model with text retrieval | Pre-cutoff publication titles retrieved for each gene. |
-| Model with graph tools | Read-only tools that query the pre-cutoff graph. |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Diagrams of the system, the evaluation and the scoring; the six agents |
+| [METHODOLOGY.md](METHODOLOGY.md) | Every coefficient and rule with its reason; the language-model track and its design decisions |
+| [LIMITATIONS.md](LIMITATIONS.md) | What the results do not show |
+| [DATA_SOURCES.md](DATA_SOURCES.md) | Sources, licenses, attributions and exclusions |
+| [SCHEMA.md](SCHEMA.md) | Node and edge types |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | The six hard rules and how each is enforced |
 
-Results are in the scorecard table
-[Rule-based system and language model](#rule-based-system-and-language-model),
-and in the app's Model page claim by claim. A row with no committed response
-reads `not run`; the line under the table gives the count. A live run needs a
-key and is opt-in (`hindcast llm --live`). Its responses are written to
-`eval/model_cache/`, and once committed the row replays offline like every
-other result.
+## Credit
 
-Beside the ranking metrics, each model row reports whether its claims cite
-evidence the model was shown (the grounded-claim rate), the IDs it cited that
-do not exist, and the correct claims the given evidence does not account for
-(recalled claims). [METHODOLOGY.md](METHODOLOGY.md#language-model-track) defines
-each, and [LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound)
-states what they cannot detect.
+The idea came from [Cortex Bio](https://cortexbiolabs.com) and their July 2026
+case study,
+[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made),
+which names the contamination problem and describes two controls for it. This
+project follows that design and adds a temporal holdout as a complementary
+control;
+[METHODOLOGY.md](METHODOLOGY.md#temporal-holdout-as-a-complementary-contamination-control)
+gives the comparison. It is an independent project, not affiliated with Cortex
+Bio, not a reimplementation of their product, and makes no claim about it.
 
-### Design decisions
+## License
 
-Each choice follows from the hard rules in
-[CONTRIBUTING.md](CONTRIBUTING.md): the slice database enforces the cutoff,
-every number traces to a source row, and a clone reproduces every result
-offline.
+Code: [MIT](LICENSE). Each dataset keeps its own license, recorded on every
+node and edge and listed with its required attribution in
+[DATA_SOURCES.md](DATA_SOURCES.md). Only identifiers, metadata, measurements
+and publication titles are committed; no article text or abstracts.
 
-| Decision | Alternative | Why the alternative was not chosen |
-| --- | --- | --- |
-| Exact vector search: the query is compared with every title vector in the slice. | An approximate nearest-neighbour index. | A slice holds few enough titles that exact search is fast. An approximate index would add a recall parameter to tune and report, and results that can vary with how the index was built. |
-| The title index and the vectors live inside the slice database. | One index over all titles, filtered by date at query time. | A date filter is calling code, and a missing or wrong filter returns post-cutoff rows. Inside the slice a post-cutoff title has no index entry and no vector, so there is nothing to filter, and the leak tests cover retrieval like any other read. |
-| A small open embedding model that runs locally. | A hosted embedding API. | Computing retrieval sends no data to a third party and needs no key. The ranked IDs are committed, so a clone replays retrieval without the model at all. The cost is a smaller model than the hosted ones. |
-| Tools that query the existing evidence graph. | GraphRAG, in which a language model extracts entities and relations from text to build the graph. | The graph here is built from curated sources, and every node carries its source and date. Extracted nodes would have no source row, and a model trained after the cutoff could write later knowledge into a graph that is supposed to predate it. The repository also commits titles only, so there is no article text to extract from. |
-
-## What the system does
-
-Six agents (without language models) with narrow contracts, every judgement a
-stated rule in a documented module.
-
-1. **Curator** normalizes raw records to the schema, resolving symbols through
-   HGNC and cell lines through Cellosaurus, and excluding anything it cannot
-   resolve rather than guessing.
-2. **Method signature** assigns each measurement a weight from how it was
-   produced and never from what it concluded. Five terms: the system, the
-   perturbation, the readout's directness, independent replication, and human
-   genetic support. Multiplicative, so a weak system discounts everything
-   measured in it. See METHODOLOGY.md for every coefficient and its reason.
-3. **Axiom extractor** turns pre-T evidence into executable rules. A validator
-   rejects any axiom that cannot name the records it came from, which is how
-   "no number without a source row" becomes structural rather than aspirational.
-4. **Belief reviser** accumulates log-odds in publication-date order, writing an
-   append-only audit row for every update. SQLite triggers enforce the
-   append-only property, so it is a property of the database rather than a habit
-   of the code.
-5. **Adversary** plants traps before grading, drawn from the data itself. The
-   geometry-failure trap is not invented: the olfactory receptor genes OR51B5
-   and OR51B6 are author-reported genes at an HbF-associated locus with a
-   p-value of 3e-08 and no plausible role in globin regulation. 
-6. **Grader** scores the forecast. It takes no slice and no belief map, so it
-   cannot see the reasoning it is grading.
-
-Refusal is built before the answer path and is a scored outcome. "The evidence
-before T does not support a claim here" is a correct answer on questions whose
-answer postdates T, and it earns points.
-
-## The cost lens
-
-Casgevy lists at about $2.2M and Lyfgenia at about $3.1M
-([BioPharma Dive, December 2023](https://www.biopharmadive.com/news/crispr-sickle-cell-price-millions-gene-therapy-vertex-bluebird/702066/)),
-neither figure including the required inpatient stay. Both need apheresis, GMP manufacturing of
-an autologous product, and busulfan myeloablative conditioning. That pathway is
-unavailable in most of the regions carrying the disease burden.
-
-So the final ranking is not by confidence. Every claim carries an implied
-therapeutic route with a cost class, inferred from pre-T facts only, meaning the
-HGNC protein family and whether the effect runs through a cis-regulatory
-element. The forecast is reported twice, ranked by confidence and ranked by
-confidence times the route's cost weight, side by side, so the reordering is
-visible rather than asserted.
-
-## Results
-
-Numbers that look bad are left in. 
-
-**The forecast is small and its precision is low.** Two genes at the 2017 slice,
-six at 2020. P@5 is 0.20 everywhere, which here means one correct gene in a
-five-slot window. The system refuses far more often than it forecasts, and that
-is the refusal rule working as specified rather than a result to be proud of: on
-this evidence base most genes genuinely cannot be called.
-
-**The two headline post-2017 findings were not recovered.** EIF2AK1 and ZNF410
-are both refused. Their pre-2018 record, after the title rule is applied, is two
-HbF publications and zero. Neither has a measurement in any ingested source.
-The refusal is correct given what the system can see, and it is simultaneously a
-missed forecast, so both appear as a passed contamination check and as an absent
-answer. The scorecard reports both rather than choosing the flattering one.
-
-**Two correct answers sit just under the refusal threshold.** LIN28B and HDAC2
-both reach confidence 0.240 against a frozen threshold of 0.25, on exactly five
-HbF publications each. A threshold of 0.24 would have forecast both and roughly
-tripled P@5. The threshold was committed and tagged before this run and has not
-been moved. That is the whole point of the tag, and it is the clearest example
-in the repository of what freezing a policy costs.
-
-**Two of the five ablations change nothing.** Removing the method signature and
-removing ontology normalization leave the forecast, the ranking and the traps
-identical, to three decimal places on ECE. They earn nothing measurable here,
-because the pre-2018 slice contains no functional HbF measurement for them to
-weight: all thirty HbF-family measurements are genetic associations. Belief
-revision does carry the result, and the no-graph row is the one that separates
-the system from a literature count.
-
-**The composition route never fires at the primary slice.** ACTS_THROUGH is
-derived and present, 180 edges over 90 shared-complex gene pairs, but it
-produces zero axioms at 2017 because no measurement-backed partner sits in any
-curated complex. Five of the thirteen ground-truth genes at that slice are NuRD
-subunits that a looser partner rule would have reached. The rule was not
-loosened, because it would have been loosened after seeing the answer key.
-
-**Held-out recovery is close to vacuous.** It reports 1 of 1 at two slices,
-because only BCL11A clears reportability on measurement evidence alone in the
-early windows. A rate of 1.00 over one gene is not evidence of anything.
-
-**Data Limitation.** BioGRID ORCS curates no
-fetal hemoglobin screen. The screens behind the field's key HbF results are not
-in any open, dated, redistributable form, so the pre-T evidence base here is
-human genetic association data, essentiality data, and dated bibliographic
-metadata, not the screen record. Nearly every weakness above follows from that.
-The lever that would move these numbers is more evidence, not a more expressive
-model: the two headline misses have no pre-cutoff measurement at all, and no
-learned model can rank a gene whose features are empty.
-
-**Why not convKANs?** I distinctively explored convolutional Kolmogorov-Arnold networks as a
-way to get more out of scarce data, since they are parameter-efficient on small
-datasets. I dropped the idea for three reasons. 
-1. Model capacity: The missed genes have no pre-cutoff features at all, so model capacity is not the bottleneck. 
-2. Structural features: The evidence for each gene is a row of tabular features with no spatial or sequence
-structure for a convolution to exploit. 
-3. A learned model would need labels: the only ones that respect the time split are the 25 genes already established
-before the 2017 cutoff, and fitting weights at all would break the rule that every
-coefficient is stated and frozen before the answer key is seen.
-
-The expected calibration error is measured over tens of claims across five bins,
-several nearly empty. The language-model rows that have no committed response
-are reported as not run and are not estimated; the flat literature baseline is
-the comparison that is always present, and is labelled as such.
-LIMITATIONS.md sets out what all of this means for every number in the
-scorecard.
-
-
-## Licensing
-
-The code in this repository is MIT licensed, with the copyright in the author's
-own name. That license covers the code only.
-
-Each dataset keeps its original license, and every node and edge in the graph
-carries the license of the source it came from as a non-nullable field.
-DATA_SOURCES.md records each source with its institution, license, access date,
-snapshot hash, and the attribution it requires written out in full. BioGRID ORCS
-is MIT. DepMap is CC BY 4.0 and its required citation is reproduced there.
-Open Targets is CC0. HGNC is CC0. Cellosaurus is CC BY 4.0. ClinicalTrials.gov
-is public domain. The GWAS Catalog is open under EMBL-EBI's terms with
-attribution. Europe PMC contributes bibliographic metadata only.
-
-Only identifiers, structured metadata, numeric measurements and extracted facts
-are committed. No article text and no abstracts, because per-article licenses
-vary and many do not permit redistribution. `tests/test_redistribution.py` scans
-the committed snapshot and fails the build if it finds a field that would mean
-article text is present. Project Score is excluded entirely, because its data
-usage policy grants a non-transferable right of internal use that does not
-permit redistribution here; the reason is quoted in full in DATA_SOURCES.md.
-
-
-## Repository
-
-| Path | What it holds |
-| --- | --- |
-| `SCHEMA.md` | Node and edge types, with the reason for each, and the two storage decisions |
-| `METHODOLOGY.md` | Every weighting coefficient and update rule, with its justification |
-| `DATA_SOURCES.md` | Sources, licenses, attributions, hashes, and the exclusions with reasons |
-| `LIMITATIONS.md` | What this does not measure, in plain language |
-| `eval/rulebook/` | The frozen answer key and policy, git-tagged before the first run |
-| `eval/results/` | One JSON scorecard per slice and ablation |
-| `trajectories/` | Full agent logs for every run: inputs, tool calls, timings, outputs |
-| `data/snapshot/` | The committed data snapshot the offline demo reads |
-| `web/` | The Next.js app: reads the files above and drives the `hindcast` CLI |
-| `ARCHITECTURE.md`, `diagrams/` | System, evaluation and scoring diagrams, with Mermaid sources |
+Product and company names are used only to identify them and belong to their
+owners. This is research software and not medical advice.
