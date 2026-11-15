@@ -12,7 +12,9 @@ import { EASE, ms, useInView } from "./core";
 export function CountUp({ value, digits = 0 }: { value: number; digits?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref);
-  const format = d3.format(digits ? `,.${digits}f` : ",");
+  // A fixed precision even for whole numbers: a bare "," prints every digit of
+  // the in-between values the tween passes through.
+  const format = d3.format(`,.${digits}f`);
 
   useEffect(() => {
     const el = ref.current;
