@@ -59,6 +59,13 @@ move a lot when one gene moves. Precision at 5 changes by 0.2 for a single
 position change. Nothing here should be read as an estimate of how a system
 would do on a different disease, a different phenotype, or a different decade.
 
+The scorecard gives a bootstrap interval over genes for the ranking metrics and
+the grounded-claim rate ([METHODOLOGY.md](METHODOLOGY.md#bootstrap-intervals)).
+The intervals are wide. A difference between a model row and the rule-based row that
+lies inside the intervals is not evidence that one is better. The grounded-claim
+rate has the same problem at a smaller size: its denominator is the claims of
+one run.
+
 ## Temporal holdout reduces contamination without eliminating it
 
 The slice is enforced at the data layer and the leak tests attempt each route,
@@ -133,26 +140,43 @@ in four ways.
   rule over titles, described above. A gene the rule dates too late moves its
   claims into the post-cutoff set, and one it dates too early removes them.
 
+The grounding check shares the first gap. It asks whether a cited row names the
+gene and was shown to the model, which is a lower bar than whether the row
+supports the claim, and it reads only the IDs the model chose to cite. Evidence
+the model used and did not cite, and knowledge it brought from training, are
+invisible to it.
+
 In the other direction, a recalled claim is not proof of memorization. A model
 can reason to a correct gene from general biology and cite nothing. The `none`
 condition cannot separate that from recall, and neither can this signal.
 
-## The model comparison row was not run
+## A model row is reported only once its response is committed
 
-The ablation table's last row, a general model given the same prompt and no
-graph, is the row that answers whether the structure earns its place against a
-model's own knowledge. It is reported as not run.
+The language-model rows answer whether the structure earns its place against a
+model's own knowledge. Hard rule 4 requires a clone to reproduce the scorecard
+offline with no API keys, so the pipeline makes no live call by default and a
+row with no response in `eval/model_cache/` is reported as not run. The
+scorecard states how many rows that is. A row is never estimated.
 
-The reason is hard rule 4: a clone must reproduce the scorecard offline with no
-API keys, so the pipeline makes no live model calls and there are no cached
-responses committed. The prompt is committed, the cache format is documented in
-`eval/model_cache/README.md`, and anyone with a key can populate it and have the
-row replay offline afterwards.
+A live run is one sample. The API is not deterministic, so a second live run of
+the same request could return a different answer, and the committed response is
+the result that is reported. The bootstrap intervals describe variation over
+genes, not over repeated runs of the model.
 
-What is reported instead is a no-graph baseline that ranks genes by pre-cutoff
-publication count. That answers a narrower question, whether the structure beats
-counting papers, and it does not answer whether the structure beats a model that
-has read the literature.
+The flat literature baseline, which ranks genes by pre-cutoff publication
+count, is always present. It answers a narrower question, whether the structure
+beats counting papers, and not whether it beats a model that has read the
+literature.
+
+## One model from one provider
+
+Every model row uses one pinned model
+([METHODOLOGY.md](METHODOLOGY.md#fixed-parameters)). Nothing here says how
+another model, another provider or a later version of the same model would
+answer. The training cutoff of the pinned model is later than all three
+evaluation cutoffs, so every model row is exposed to recall, and no row comes
+from a model trained before its cutoff. The prompts and the tool definitions
+were written for this model and were not tested on another.
 
 ## The cost lens is a stated policy, not a measurement
 

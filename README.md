@@ -36,6 +36,8 @@ a gene's evidence becomes a prediction or a refusal.
   * [Cost lens, full system](#cost-lens-full-system)
   * [Held-out recovery](#held-out-recovery)
 * [Temporal holdout as a complementary contamination control](#temporal-holdout-as-a-complementary-contamination-control)
+* [Language-model track](#language-model-track)
+  * [Design decisions](#design-decisions)
 * [What the system does](#what-the-system-does)
 * [The cost lens](#the-cost-lens)
 * [Results](#results)
@@ -326,6 +328,47 @@ This is an independent project that builds on a problem Cortex Bio named and
 on the controls they described. It is not a reimplementation of their product
 and makes no claim about it.
 
+## Language-model track
+
+A language model is asked the same question as the rule-based system, at the
+same cutoffs, and its answer is scored by the same grader. It runs in three
+retrieval conditions, so a result can be read against what the model was given:
+
+| Condition | What the model is given |
+| --- | --- |
+| Model alone | The question and the candidate genes, and no evidence. |
+| Model with text retrieval | Pre-cutoff publication titles retrieved for each gene. |
+| Model with graph tools | Read-only tools that query the pre-cutoff graph. |
+
+Results are in the scorecard table
+[Rule-based system and language model](#rule-based-system-and-language-model),
+and in the app's Model page claim by claim. A row with no committed response
+reads `not run`; the line under the table gives the count. A live run needs a
+key and is opt-in (`hindcast llm --live`). Its responses are written to
+`eval/model_cache/`, and once committed the row replays offline like every
+other result.
+
+Beside the ranking metrics, each model row reports whether its claims cite
+evidence the model was shown (the grounded-claim rate), the IDs it cited that
+do not exist, and the correct claims the given evidence does not account for
+(recalled claims). [METHODOLOGY.md](METHODOLOGY.md#language-model-track) defines
+each, and [LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound)
+states what they cannot detect.
+
+### Design decisions
+
+Each choice follows from the hard rules in
+[CONTRIBUTING.md](CONTRIBUTING.md): the slice database enforces the cutoff,
+every number traces to a source row, and a clone reproduces every result
+offline.
+
+| Decision | Alternative | Why the alternative was not chosen |
+| --- | --- | --- |
+| Exact vector search: the query is compared with every title vector in the slice. | An approximate nearest-neighbour index. | A slice holds few enough titles that exact search is fast. An approximate index would add a recall parameter to tune and report, and results that can vary with how the index was built. |
+| The title index and the vectors live inside the slice database. | One index over all titles, filtered by date at query time. | A date filter is calling code, and a missing or wrong filter returns post-cutoff rows. Inside the slice a post-cutoff title has no index entry and no vector, so there is nothing to filter, and the leak tests cover retrieval like any other read. |
+| A small open embedding model that runs locally. | A hosted embedding API. | Computing retrieval sends no data to a third party and needs no key. The ranked IDs are committed, so a clone replays retrieval without the model at all. The cost is a smaller model than the hosted ones. |
+| Tools that query the existing evidence graph. | GraphRAG, in which a language model extracts entities and relations from text to build the graph. | The graph here is built from curated sources, and every node carries its source and date. Extracted nodes would have no source row, and a model trained after the cutoff could write later knowledge into a graph that is supposed to predate it. The repository also commits titles only, so there is no article text to extract from. |
+
 ## What the system does
 
 Six agents (without language models) with narrow contracts, every judgement a
@@ -435,10 +478,9 @@ before the 2017 cutoff, and fitting weights at all would break the rule that eve
 coefficient is stated and frozen before the answer key is seen.
 
 The expected calibration error is measured over tens of claims across five bins,
-several nearly empty. The ablation row comparing against a general model with no
-graph is reported as not run, because this repository contains no API keys and
-makes no live calls, and the row is not estimated in their absence; the flat
-literature baseline stands in its place and is labelled as such.
+several nearly empty. The language-model rows that have no committed response
+are reported as not run and are not estimated; the flat literature baseline is
+the comparison that is always present, and is labelled as such.
 LIMITATIONS.md sets out what all of this means for every number in the
 scorecard.
 
