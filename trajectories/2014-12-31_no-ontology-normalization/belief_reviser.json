@@ -1,6 +1,6 @@
 {
   "agent": "belief_reviser",
-  "duration_ms": 715.57,
+  "duration_ms": 889.747,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:09:59.799333+00:00",
+  "finished_at": "2026-11-15T11:15:18.649553+00:00",
   "inputs": {
     "axioms": 190,
     "cutoff": "2014-12-31"
@@ -65,13 +65,13 @@
     ]
   },
   "run_id": "2014-12-31_no-ontology-normalization",
-  "started_at": "2026-11-15T05:09:59.083760+00:00",
+  "started_at": "2026-11-15T11:15:17.759806+00:00",
   "tool_calls": [
     {
       "args": {
         "axioms": 190
       },
-      "duration_ms": 0.974,
+      "duration_ms": 0.955,
       "name": "build_claims",
       "records_in": 0,
       "records_out": 68,
@@ -79,7 +79,7 @@
     },
     {
       "args": {},
-      "duration_ms": 250.73,
+      "duration_ms": 255.218,
       "name": "collect_evidence",
       "records_in": 0,
       "records_out": 1801,
@@ -90,7 +90,7 @@
         "rule": "log-odds accumulation",
         "strength": 0.85
       },
-      "duration_ms": 461.223,
+      "duration_ms": 631.014,
       "name": "revise",
       "records_in": 0,
       "records_out": 1801,

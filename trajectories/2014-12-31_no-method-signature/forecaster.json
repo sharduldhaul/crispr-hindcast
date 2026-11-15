@@ -1,6 +1,6 @@
 {
   "agent": "forecaster",
-  "duration_ms": 0.135,
+  "duration_ms": 0.131,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:09:30.324054+00:00",
+  "finished_at": "2026-11-15T11:14:50.290015+00:00",
   "inputs": {},
   "notes": [],
   "output_summary": {
@@ -26,7 +26,7 @@
     ]
   },
   "run_id": "2014-12-31_no-method-signature",
-  "started_at": "2026-11-15T05:09:30.323911+00:00",
+  "started_at": "2026-11-15T11:14:50.289877+00:00",
   "tool_calls": [
     {
       "args": {
@@ -48,7 +48,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.02,
+      "duration_ms": 0.019,
       "name": "rank_two_ways",
       "records_in": 0,
       "records_out": 2,

@@ -16,7 +16,7 @@
   },
   // Optional. Only `hindcast llm --live` reads it; everything else replays.
   "secrets": {
-    "ANTHROPIC_API_KEY": {
+    "GEMINI_API_KEY": {
       "description": "Optional. Needed only for a live model run (hindcast llm --live). Results replay without it.",
       "documentationUrl": "https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces"
     }

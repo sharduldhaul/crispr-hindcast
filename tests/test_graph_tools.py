@@ -17,7 +17,7 @@ from tests.conftest import dated_prov
 from tests.retrieval_fakes import publication
 
 CUTOFF = date(2018, 1, 1)
-MODEL = "claude-opus-5-5"
+MODEL = "gemini-3.8-flash"
 CANDIDATES = ["EIF2AK1", "NFIX"]
 
 ANSWER = {
@@ -62,8 +62,12 @@ def add_graph_rows(store: Store) -> None:
     )
 
 
-def tool_use(call_id: str, name: str, **tool_input: str) -> dict:
-    return {"type": "tool_use", "id": call_id, "name": name, "input": tool_input}
+def function_call(call_id: str, name: str, **arguments: str) -> dict:
+    return {"type": "function_call", "id": call_id, "name": name, "arguments": arguments}
+
+
+def model_output(text: str) -> dict:
+    return {"type": "model_output", "content": [{"type": "text", "text": text}]}
 
 
 class ScriptedTransport:
@@ -80,8 +84,8 @@ class ScriptedTransport:
         answered = isinstance(turn, str)
         return ModelResponse(
             served_model_id=request.model_id,
-            content=[{"type": "text", "text": turn}] if answered else turn,
-            stop_reason="end_turn" if answered else "tool_use",
+            steps=[model_output(turn)] if answered else turn,
+            status="completed" if answered else "requires_action",
             input_tokens=100,
             output_tokens=10,
         )
@@ -100,11 +104,11 @@ def _run(store: Store, tmp_path: Path, transport: ScriptedTransport | None):
     )
 
 
-def test_every_tool_is_defined_strict_and_closed():
+def test_every_tool_is_defined_as_a_function_with_an_object_schema():
     assert [d["name"] for d in TOOL_DEFINITIONS] == [str(t) for t in GraphTool]
     for definition in TOOL_DEFINITIONS:
-        assert definition["strict"] is True
-        assert definition["input_schema"]["additionalProperties"] is False
+        assert definition["type"] == "function"
+        assert definition["parameters"]["type"] == "object"
 
 
 def test_each_tool_returns_the_ids_of_the_rows_it_names(toy_store: Store):
@@ -154,9 +158,9 @@ def test_the_tool_loop_records_each_call_and_replays_offline(toy_store: Store, t
     add_graph_rows(toy_store)
     transport = ScriptedTransport(
         [
-            {"type": "text", "text": "Looking."},
-            tool_use("toolu_1", "gene_publications", gene_symbol="EIF2AK1"),
-            tool_use("toolu_2", "gene_measurements", gene_symbol="NOT_A_GENE"),
+            {"type": "thought", "signature": "c2ln"},
+            function_call("call_1", "gene_publications", gene_symbol="EIF2AK1"),
+            function_call("call_2", "gene_measurements", gene_symbol="NOT_A_GENE"),
         ],
         json.dumps(ANSWER),
     )
@@ -176,11 +180,16 @@ def test_the_tool_loop_records_each_call_and_replays_offline(toy_store: Store, t
 
     # The second request carries the first response verbatim and one result per call.
     first, second = transport.requests
-    assert first.tools == TOOL_DEFINITIONS and len(first.messages) == 1
-    assert second.messages[1] == {"role": "assistant", "content": transport.turns[0]}
-    results = second.messages[2]["content"]
-    assert [r["tool_use_id"] for r in results] == ["toolu_1", "toolu_2"]
-    assert "pub:100" in results[0]["content"] and "is_error" not in results[0]
+    assert first.tools == TOOL_DEFINITIONS and len(first.input) == 1
+    assert second.input[0] == first.input[0]
+    assert second.input[1:4] == transport.turns[0]
+    results = second.input[4:]
+    assert [(r["type"], r["call_id"]) for r in results] == [
+        ("function_result", "call_1"),
+        ("function_result", "call_2"),
+    ]
+    assert [r["name"] for r in results] == ["gene_publications", "gene_measurements"]
+    assert "pub:100" in results[0]["result"][0]["text"] and "is_error" not in results[0]
     assert results[1]["is_error"] is True
 
     trajectory = json.loads(
@@ -198,8 +207,8 @@ def test_calls_past_the_budget_are_not_run_and_the_model_is_told(
     monkeypatch.setattr(forecaster_module, "TOOL_CALL_BUDGET", 1)
     transport = ScriptedTransport(
         [
-            tool_use("toolu_1", "gene_publications", gene_symbol="EIF2AK1"),
-            tool_use("toolu_2", "gene_publications", gene_symbol="BCL11A"),
+            function_call("call_1", "gene_publications", gene_symbol="EIF2AK1"),
+            function_call("call_2", "gene_publications", gene_symbol="BCL11A"),
         ],
         json.dumps(ANSWER),
     )
@@ -210,13 +219,14 @@ def test_calls_past_the_budget_are_not_run_and_the_model_is_told(
         ToolOutcome.OVER_BUDGET,
     ]
     assert result.run.tool_calls[1].node_ids == []
-    refused = transport.requests[1].messages[2]["content"][1]
-    assert refused["is_error"] is True and refused["content"] == forecaster_module.BUDGET_SPENT
+    refused = transport.requests[1].input[-1]
+    assert refused["is_error"] is True
+    assert refused["result"] == [{"type": "text", "text": forecaster_module.BUDGET_SPENT}]
 
 
 def test_a_model_that_never_answers_is_a_failure(toy_store: Store, tmp_path: Path, monkeypatch):
     monkeypatch.setattr(forecaster_module, "MAX_MODEL_TURNS", 3)
-    transport = ScriptedTransport([tool_use("toolu_1", "genes_by_publication_count")])
+    transport = ScriptedTransport([function_call("call_1", "genes_by_publication_count")])
     result = _run(toy_store, tmp_path, transport)
 
     assert result.run.status is RunStatus.FAILED
@@ -229,7 +239,7 @@ def test_a_loop_cut_short_by_a_cache_miss_is_not_run_and_reports_no_context(
 ):
     add_graph_rows(toy_store)
     transport = ScriptedTransport(
-        [tool_use("toolu_1", "gene_publications", gene_symbol="EIF2AK1")], json.dumps(ANSWER)
+        [function_call("call_1", "gene_publications", gene_symbol="EIF2AK1")], json.dumps(ANSWER)
     )
     _run(toy_store, tmp_path, transport)
     second_key = transport.requests[1].cache_key()

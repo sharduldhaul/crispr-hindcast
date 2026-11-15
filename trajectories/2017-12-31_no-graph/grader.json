@@ -1,6 +1,6 @@
 {
   "agent": "grader",
-  "duration_ms": 111.715,
+  "duration_ms": 101.036,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:12:00.616194+00:00",
+  "finished_at": "2026-11-15T11:17:15.738805+00:00",
   "inputs": {
     "cutoff": "2017-12-31"
   },
@@ -323,13 +323,13 @@
     "traps_total": 15
   },
   "run_id": "2017-12-31_no-graph",
-  "started_at": "2026-11-15T05:12:00.504427+00:00",
+  "started_at": "2026-11-15T11:17:15.637758+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2017-12-31"
       },
-      "duration_ms": 0.065,
+      "duration_ms": 0.019,
       "name": "build_ground_truth",
       "records_in": 0,
       "records_out": 13,
@@ -337,7 +337,7 @@
     },
     {
       "args": {},
-      "duration_ms": 111.208,
+      "duration_ms": 100.741,
       "name": "score_rankings",
       "records_in": 0,
       "records_out": 2,
@@ -347,7 +347,7 @@
       "args": {
         "traps": 15
       },
-      "duration_ms": 0.196,
+      "duration_ms": 0.163,
       "name": "score_traps",
       "records_in": 0,
       "records_out": 15,
@@ -355,7 +355,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.007,
+      "duration_ms": 0.006,
       "name": "score_refusals",
       "records_in": 0,
       "records_out": 8,
@@ -363,7 +363,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.024,
+      "duration_ms": 0.025,
       "name": "score_calibration",
       "records_in": 0,
       "records_out": 5,

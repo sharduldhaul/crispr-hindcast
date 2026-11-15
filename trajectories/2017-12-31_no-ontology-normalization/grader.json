@@ -1,6 +1,6 @@
 {
   "agent": "grader",
-  "duration_ms": 56.672,
+  "duration_ms": 57.494,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:11:46.393698+00:00",
+  "finished_at": "2026-11-15T11:17:02.094643+00:00",
   "inputs": {
     "cutoff": "2017-12-31"
   },
@@ -310,13 +310,13 @@
     "traps_total": 15
   },
   "run_id": "2017-12-31_no-ontology-normalization",
-  "started_at": "2026-11-15T05:11:46.337012+00:00",
+  "started_at": "2026-11-15T11:17:02.037138+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2017-12-31"
       },
-      "duration_ms": 0.019,
+      "duration_ms": 0.027,
       "name": "build_ground_truth",
       "records_in": 0,
       "records_out": 13,
@@ -324,7 +324,7 @@
     },
     {
       "args": {},
-      "duration_ms": 56.511,
+      "duration_ms": 57.291,
       "name": "score_rankings",
       "records_in": 0,
       "records_out": 2,
@@ -334,7 +334,7 @@
       "args": {
         "traps": 15
       },
-      "duration_ms": 0.05,
+      "duration_ms": 0.064,
       "name": "score_traps",
       "records_in": 0,
       "records_out": 15,
@@ -342,7 +342,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.007,
+      "duration_ms": 0.008,
       "name": "score_refusals",
       "records_in": 0,
       "records_out": 8,

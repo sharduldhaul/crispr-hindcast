@@ -21,7 +21,7 @@ from hindcast.pipeline import load_rulebook
 from hindcast.store import Store
 
 CUTOFF = date(2018, 1, 1)
-MODEL = "claude-opus-5-5"
+MODEL = "gemini-3.8-flash"
 
 GOOD_ANSWER = {
     "claims": [
@@ -35,17 +35,17 @@ GOOD_ANSWER = {
 class FakeTransport:
     """Returns one fixed response and records every request it is given."""
 
-    def __init__(self, text: str, *, stop_reason: str = "end_turn") -> None:
+    def __init__(self, text: str, *, status: str = "completed") -> None:
         self.text = text
-        self.stop_reason = stop_reason
+        self.status = status
         self.requests: list[ModelRequest] = []
 
     def __call__(self, request: ModelRequest) -> ModelResponse:
         self.requests.append(request)
         return ModelResponse(
             served_model_id=request.model_id,
-            content=[{"type": "text", "text": self.text}],
-            stop_reason=self.stop_reason,
+            steps=[{"type": "model_output", "content": [{"type": "text", "text": self.text}]}],
+            status=self.status,
             input_tokens=1000,
             output_tokens=500,
         )
@@ -144,15 +144,15 @@ def test_a_malformed_response_is_recorded_as_a_failure_and_never_repaired(
     assert len(transport.requests) == 1
 
 
-@pytest.mark.parametrize("stop_reason", ["refusal", "max_tokens"])
+@pytest.mark.parametrize("status", ["incomplete", "failed"])
 def test_a_refused_or_truncated_response_is_a_failure(
-    toy_store: Store, tmp_path: Path, stop_reason: str
+    toy_store: Store, tmp_path: Path, status: str
 ):
-    transport = FakeTransport(json.dumps(GOOD_ANSWER), stop_reason=stop_reason)
+    transport = FakeTransport(json.dumps(GOOD_ANSWER), status=status)
     result = _run(toy_store, tmp_path, transport)
 
     assert result.run.status is RunStatus.FAILED
-    assert stop_reason in result.run.status_reason
+    assert status in result.run.status_reason
 
 
 def test_an_alias_and_its_approved_symbol_answered_twice_is_a_failure(
@@ -202,7 +202,7 @@ def test_tokens_and_cost_are_recorded_for_the_run(toy_store: Store, tmp_path: Pa
     result = _run(toy_store, tmp_path, FakeTransport(json.dumps(GOOD_ANSWER)))
 
     assert (result.run.input_tokens, result.run.output_tokens) == (1000, 500)
-    assert result.run.cost_usd == cost_usd(MODEL, 1000, 500) == 0.014
+    assert result.run.cost_usd == cost_usd(MODEL, 1000, 500) == 0.002625
 
 
 def test_a_model_with_no_recorded_price_cannot_be_costed():
@@ -232,7 +232,7 @@ def test_the_model_is_sent_the_task_and_candidates_and_nothing_from_the_answer_k
 def test_the_api_key_never_reaches_the_cache_the_result_or_the_trajectory(
     toy_store: Store, tmp_path: Path, monkeypatch
 ):
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test-sentinel-value")
+    monkeypatch.setenv("GEMINI_API_KEY", "test-sentinel-key-value")
     _run(toy_store, tmp_path, FakeTransport(json.dumps(GOOD_ANSWER)))
 
     written = list(tmp_path.rglob("*.json"))
@@ -246,7 +246,7 @@ def test_the_cli_reports_not_run_and_exits_zero_with_no_key_and_no_cache(
 ):
     from hindcast.cli import app
 
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     outcome = CliRunner().invoke(
         app, ["llm", "--cutoff", "2018-01-01", "--live", "--db", str(toy_store.path)]
     )

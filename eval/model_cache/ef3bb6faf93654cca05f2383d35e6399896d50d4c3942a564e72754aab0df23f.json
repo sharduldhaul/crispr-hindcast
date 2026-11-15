@@ -1,0 +1,971 @@
+{
+  "cache_key": "ef3bb6faf93654cca05f2383d35e6399896d50d4c3942a564e72754aab0df23f",
+  "request": {
+    "input": [
+      {
+        "content": [
+          {
+            "text": "Cutoff date: 2020-12-31\n\nQuestion: which of the candidate genes below will be established, in work published on or after the cutoff date, as regulators of fetal hemoglobin (HbF) in human erythroid cells? \"Established\" means published functional evidence that perturbing the gene changes HbF.\n\nFor each candidate gene, do exactly one of two things.\n\n1. Claim it. Give a confidence between 0 and 1 that the gene's role is established after the cutoff, the IDs of the evidence rows that support the claim, and a one-sentence rationale.\n2. Refuse it. If what was known before the cutoff does not support a claim, list the gene under refusals with a one-sentence reason. Refusing is a correct answer when the evidence is not there.\n\nOrder claims from most to least confident. Cite only IDs that appear in the evidence given to you below. Never invent an ID.\n\nCandidate genes:\nASH1L\nCHD3\nDNMT1\nDNMT3A\nDNMT3B\nEIF2AK2\nEIF2AK3\nEIF2AK4\nEIF2S1\nEPAS1\nGATAD2B\nHIC2\nIGF2BP1\nKMT5A\nMAP3K7\nMAPK1\nMBD3\nMTA1\nMTA3\nNFE2\nNFIX\nNR2C1\nNR2C2\nPGRMC1\nRBBP7\nSMAD1\nSMAD5\nTET2\nVHL\nZBTB33\nZNF143\n\nEvidence:\nNo evidence rows are provided up front. Use the tools to query a graph that holds only records dated before the cutoff. You may make at most 40 tool calls in total, so spend them on the genes where a closer look could change your answer. Every tool result names its rows by ID. Cite only IDs that a tool returned to you. When you have finished, reply with the answer and nothing else.\n",
+            "type": "text"
+          }
+        ],
+        "type": "user_input"
+      },
+      {
+        "signature": "ErwGCrkGAWkUfRPNSi4xX9zmDU1B3RHCB4szWrViS8L6wB9EFrwcn0JcWC46Oea7lwMF09jDYrVSvU86FIrI3bj7NxnrA6LaVG1Mbr3afhSCvMHvqfkIB16MMLebZV6QPGZFqFM/6lKPIYcaL8a+eFTSvCaLDdWdXrtW7nN/HFaf5sEvQBAIu9OuQZjg4r/uoFNOYvUgvtdt2SwQVcy1tJqqRYeWVnGccq8PtB7xIdpvySsAKpBbarALRhqqxHbeCPdtUqjBtwPgx/KdZBpOeSwbRrkwwa4rMe+2eVACon/7SehJ5WQseot98akMo65wj3lJsoDVr8+F4Sc+P+7pxKUYZ/LYptP8q3Jt9kBS6wcaiC0JpI1i8c3xtie6Hg4uzISMr9gOjsmsR1jR9XbjBB4TnBogPeULxmLfQc4XaFznkH357yWoCJ7fF01BgyVghKCbAhAl0ceyBrIo26RhbfT+Eu1KTk7wsI1QM3/6Btcc0j5ybAbBMCYZo/3wfeMmTIkyFOyn2QwNgtX2hTo7jmnEaVbM/p1SE+lWqIh1XX4DTuOUj0c1pKT8AmdmqD5miIHUesNiFgFWzUuP9qXkFweeAOC8SEucTI20+RE0aZa7HFxuk+5n3StZ3H5POQW12y/8//jFls1dguqhPIIZfEVmqYKSjWzFjH1u+lR0VRMDdBo2QNf57ftvfnp4nchLJGqGKU+GJSoMMM6SXUxzUeDRyermubdu/K7ii84+gqsDFlVXwalBwx+/QSpljgutGSQIzH/4pHSHsuzEJYJvrZNVyO2hxOZ0Ie4xK+A2d5Ai99f2MFDhLHkLK/bAG9nEb8xUrSUT5Dqip/Td0HOJfixHqcoVyjSpQEr2ytMreal++esZQp1nLFwT/Xtkh1a2sINXEw8yq5EgT/jxWsG+Wa3Ahpl5HE23+NUao5sLE6ief/YntiefgfMbmeKal05jRzzjDHezXPUmeo50eFbTtx1un1KTEAczfM/deryB4HDnRguombNC4J7RN4AuohpjXlbctaNEqgZWGqv00E+dsSEvJIx+LNfAVyGOAZNsp7AHKvLKdK9nG2JnlnL+Z3xj050sO7Cba07LDRQxBY4e",
+        "type": "thought"
+      },
+      {
+        "arguments": {},
+        "id": "call_12678326961861063271",
+        "name": "genes_by_publication_count",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_12678326961861063271",
+        "name": "genes_by_publication_count",
+        "result": [
+          {
+            "text": "{\"rows\": [{\"gene_symbol\": \"NFE2\", \"node_id\": \"gene:HGNC:7780\", \"publications_naming_gene\": 170}, {\"gene_symbol\": \"TET2\", \"node_id\": \"gene:HGNC:25941\", \"publications_naming_gene\": 113}, {\"gene_symbol\": \"DNMT3A\", \"node_id\": \"gene:HGNC:2978\", \"publications_naming_gene\": 102}, {\"gene_symbol\": \"EIF2S1\", \"node_id\": \"gene:HGNC:3265\", \"publications_naming_gene\": 82}, {\"gene_symbol\": \"EIF2AK3\", \"node_id\": \"gene:HGNC:3255\", \"publications_naming_gene\": 61}, {\"gene_symbol\": \"VHL\", \"node_id\": \"gene:HGNC:12687\", \"publications_naming_gene\": 56}, {\"gene_symbol\": \"DNMT1\", \"node_id\": \"gene:HGNC:2976\", \"publications_naming_gene\": 36}, {\"gene_symbol\": \"EPAS1\", \"node_id\": \"gene:HGNC:3374\", \"publications_naming_gene\": 36}, {\"gene_symbol\": \"NR2C2\", \"node_id\": \"gene:HGNC:7972\", \"publications_naming_gene\": 26}, {\"gene_symbol\": \"MAP3K7\", \"node_id\": \"gene:HGNC:6859\", \"publications_naming_gene\": 25}, {\"gene_symbol\": \"EIF2AK4\", \"node_id\": \"gene:HGNC:19687\", \"publications_naming_gene\": 22}, {\"gene_symbol\": \"SMAD1\", \"node_id\": \"gene:HGNC:6767\", \"publications_naming_gene\": 21}, {\"gene_symbol\": \"DNMT3B\", \"node_id\": \"gene:HGNC:2979\", \"publications_naming_gene\": 20}, {\"gene_symbol\": \"SMAD5\", \"node_id\": \"gene:HGNC:6771\", \"publications_naming_gene\": 19}, {\"gene_symbol\": \"MAPK1\", \"node_id\": \"gene:HGNC:6871\", \"publications_naming_gene\": 16}, {\"gene_symbol\": \"ASH1L\", \"node_id\": \"gene:HGNC:19088\", \"publications_naming_gene\": 12}, {\"gene_symbol\": \"KMT5A\", \"node_id\": \"gene:HGNC:29489\", \"publications_naming_gene\": 8}, {\"gene_symbol\": \"ZNF143\", \"node_id\": \"gene:HGNC:12928\", \"publications_naming_gene\": 8}, {\"gene_symbol\": \"IGF2BP1\", \"node_id\": \"gene:HGNC:28866\", \"publications_naming_gene\": 7}, {\"gene_symbol\": \"NFIX\", \"node_id\": \"gene:HGNC:7788\", \"publications_naming_gene\": 6}, {\"gene_symbol\": \"MBD3\", \"node_id\": \"gene:HGNC:6918\", \"publications_naming_gene\": 5}, {\"gene_symbol\": \"MTA1\", \"node_id\": \"gene:HGNC:7410\", \"publications_naming_gene\": 5}, {\"gene_symbol\": \"ZBTB33\", \"node_id\": \"gene:HGNC:16682\", \"publications_naming_gene\": 5}, {\"gene_symbol\": \"CHD3\", \"node_id\": \"gene:HGNC:1918\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"HIC2\", \"node_id\": \"gene:HGNC:18595\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"MTA3\", \"node_id\": \"gene:HGNC:23784\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"PGRMC1\", \"node_id\": \"gene:HGNC:16090\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"EIF2AK2\", \"node_id\": \"gene:HGNC:9437\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"GATAD2B\", \"node_id\": \"gene:HGNC:30778\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"NR2C1\", \"node_id\": \"gene:HGNC:7971\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"RBBP7\", \"node_id\": \"gene:HGNC:9890\", \"publications_naming_gene\": 0}], \"total\": 31}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EsIKCr8KAWkUfROgLusz8uF81a3vYacaHofEwv+HFtiz2JjiG68cfOUCWk/L12gMIAlze2kFu7pbqHuc9Hrvxj9B7czufY8LPa9FP76fCndmDaAq92ChXpXIn7Hrw6VQk91Spq7nL2D7r69ca3aDBG2Ei0DQd+NpKBG6Ef8QZFWOjQHHsqVOCHpz4zYGolHnprjKeH7K28jm9F96NJC3O0P+gVYYT69wxuMayqM/voHdg90iDv8Tvy7Xk+znv/g35t5KsVfr51Z3riSCBN7FjsGEyEyqCDknzUcsnOedCLSSQinqZtQuN0J9dHn8di1OCVsis3y0fFAVp214oNUJ/mocl91yNd/9ZwavZms9awsMoGfj9x1rsPqTVACX/k1MWHy0belcFVrCZTRIW0Ts4tx/hRMQmx8UV2A3KsNVPZhndV8ihK2Mwc9dLagTE9KqhWXdMcPEidmEkLBE/XIPZ+w5g3+GZtLKeNP70P/bCWgQNyRm5XBH6mjdYCKtmX+k9q5CSURGjR2JnXlXHCorGw9Z/E/SIGgNQeUEqgVQp1GTMh6XuVpv483yQPu/eeiWmksn4bW3YOA0NaCz8nNY1kLO3syLN78ZAQ9uezE1sbn2VmKjRrAKfNKzezE7TzTnrV2dXpIkgyZ+kYr1mYeoYDVg/DGWXvnr6r2od1z4cWeqI/nZGT2DmOr29IK2vFRRrkZlx4rVRjvJHhu4KSuT/LdvZERYdbTCutxEJrAGw8vxTRJc9g1NxAzscMnz52pcMqOl72fDvWYN518f7Z2mEWLu5geZkWedxh2xLyl3j/O3JPwx9gUSgbz7bf0xAPoU66cROqVlbAN+BYdt0y+63U1vs3fJkxgsK1lZQAO/k2iINMsr8vnpsewlTgPvUngb9M5bTV2FrrmGAjZ7cP1QFA7CFN9He66cj2Klr8IiV91bAqCP/w/XP4Z0JKUw5GqCdJ35KcdC6xUiKYuvkYlH4hvCDE1iaiL6xvmzm7ADLsqrqI+Vb8d5M+JMS+CMXamzPJHfS4QWl4h7OGogLG2g5QIaEPjZw5BaJkvl+l8NV/JWYxCq0IkvnbDYtk3alR2y02py+tElV21AdFkjusPtZhZjopLI1ROjxHsg8IwnDMNqkJwJWyPBCK5WSUrII7VQYDWY2CnOVacPZ5dHFeaPZBWqGj621K8R8B43ea2/+xE+TfhA24h5JVvzJgDvk5YoLVHQ4qLE4tQlthQ76e/cU/gUsFT1yagG77XluO5TxXcXXc4nnuWZ1T49dyXvJpPB60C9hwWUW7eM/8J2V1c4bBVj4xMAxkLMfz6Uq/umtuQABEbFAcP6zutx+U1BgiDSMwKtKDy7QIpQNJs6bRL6TnQCt0Wby/NudJdKeOiRspCNVuk3UXPuB9Zd8kUVF6eoggJHV2hE8FawiIIxnJ+B+FlswWFdzVaEF9E3Mu6CAQs5JljgiJddDqXlukTMvAwKD5jQV4R4EKYI7Wq0I0RoFmwIfqFgV90prI7Yn//k9aQRVDbsIUPoOXFIDyNX68RRWb5B5C496Nq9Hp5/KZm5VSnY3nXxB6I+dY6YU1JQhxy1sSZ9t4+gsrWW3uJY54L8bxhFfjs8hHq/Kc5H+p5m6Bchx4glsxpv57elpkhhqO8fAL/5B4Tfjs7GaSCoRB3WZmPTQVvbPykkQhE49W6oyJqKeY9GqjK464tf0SxlReatVbSrviHVP+AgE5aZDG7umiIMLJf5A14VltHP3R7+PxoeqrS745NLjdDQDE61xtdnGqg7JqfwoPHC8OXLgkAqJpW8JNw=",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_9879497011018234060",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "id": "call_9879497011018234927",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "id": "call_9879497011018235794",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        },
+        "id": "call_9879497011018232565",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_9879497011018234060",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"HIC2\", \"measurements_by_assay\": {\"orcs_screen_score\": 879}, \"node_id\": \"gene:HGNC:18595\", \"publications_naming_gene\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_9879497011018234927",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"NFIX\", \"measurements_by_assay\": {\"orcs_screen_score\": 880}, \"node_id\": \"gene:HGNC:7788\", \"publications_naming_gene\": 6}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_9879497011018235794",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 12, \"gene_symbol\": \"CHD3\", \"measurements_by_assay\": {\"orcs_screen_score\": 871}, \"node_id\": \"gene:HGNC:1918\", \"publications_naming_gene\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_9879497011018232565",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 12, \"gene_symbol\": \"GATAD2B\", \"measurements_by_assay\": {\"orcs_screen_score\": 880}, \"node_id\": \"gene:HGNC:30778\", \"publications_naming_gene\": 0}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "ErkBCrYBAWkUfRPSrb79fkCqe6u/cJhibrKHclYSvjf94P83FtM48pJaQ7xT3UOavcYl2D8f+NTbiHRtpfgjTPf/GS8uA0zkEofTgTOiRs9xDrl0GGlIGOWAIj0cYyoSRcHCM9rQRXPhqYfI77N5+xnBF3CHbjg/jW9rlk2XZNjLzK2IBIrEmF6mEkklHJPloUEj/Z0JKNMOwU0XwzXflZkxWp0bCnDce8/+TgzmkL1YP2z2LYyF5ErHo/8=",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_13571215539089614027",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "id": "call_13571215539089613072",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_13571215539089616213",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "id": "call_13571215539089615258",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_13571215539089614027",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:18595\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1458:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -26.822}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1459:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -36.543}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1292:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.99616}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1293:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.70968}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1294:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.51383}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1295:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.93738}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1296:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.15306}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1297:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.71267}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1298:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.019174}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1299:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.91712}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1300:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.77012}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1301:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.78527}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1302:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.74049}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1303:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.69701}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1304:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.73907}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1305:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.84825}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1306:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.70131}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1307:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.98086}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1308:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.73617}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1309:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.99974}], \"total\": 879}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13571215539089613072",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7788\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1458:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -70.137}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1459:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -51.402}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1292:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.39117}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1293:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.39363}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1294:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.81694}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1295:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.38389}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1296:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.10798}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1297:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.89154}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1298:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.42206}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1299:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.53173}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1300:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.67122}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1301:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.47474}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1302:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.40006}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1303:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.39944}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1304:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.43058}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1305:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.72351}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1306:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.6991}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1307:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.58679}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1308:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.29361}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1309:HGNC:7788\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.74944}], \"total\": 880}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13571215539089616213",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:18595\", \"rows\": [{\"node_id\": \"pub:29061339\", \"publication_date\": \"2017-10-20\", \"title\": \"HIC2 regulates isoform switching during maturation of the cardiovascular system.\"}], \"total\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13571215539089615258",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7788\", \"rows\": [{\"node_id\": \"pub:29430853\", \"publication_date\": \"2018-02-27\", \"title\": \"Nfix Promotes Survival of Immature Hematopoietic Cells via Regulation of c-Mpl.\"}, {\"node_id\": \"pub:29184170\", \"publication_date\": \"2017-11-28\", \"title\": \"19p13 microduplications encompassing NFIX are responsible for intellectual disability, short stature and small head circumference.\"}, {\"node_id\": \"pub:25780920\", \"publication_date\": \"2015-03-17\", \"title\": \"Nfix expression critically modulates early B lymphopoiesis and myelopoiesis.\"}, {\"node_id\": \"pub:24041575\", \"publication_date\": \"2013-09-16\", \"title\": \"Nfix is a novel regulator of murine hematopoietic stem and progenitor cell survival.\"}, {\"node_id\": \"pub:22422452\", \"publication_date\": \"2012-02-01\", \"title\": \"DNA methylation shows genome-wide association of NFIX, RAPGEF2 and MSRB3 with gestational age at birth.\"}, {\"node_id\": \"pub:18477394\", \"publication_date\": \"2008-05-13\", \"title\": \"The transcription factor Nfix is essential for normal brain development.\"}], \"total\": 6}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "Eq4JCqsJAWkUfRO1mFaMnWUA9pSMka9LvDkKWqiZkYkD1wSNpXJp5I+ndww99DYt05BzqYCAUvOr5nvsH+XttRZ0/uU9u1PBB78Nk8Y/y4sAA6QJ6b31+H+0FyLXHtfwkl5dqAUiK7wTnzdqZKsVX6PTi8CI4+crLHjxJCNfSOUR/UP2aWe99s3HsDeWjLmVl8yZcmrSPG2w69CCY6oVlAehGe7FoXaINq/voQWF3ex9NpUDzjWbQSpsWnlyyK0nSQOK0u4MqtUTGSV3V0obGTh6moApCQv9JaCFKinIT4fjt6HyoDI1els53BuiznlofvKQKnsDkOlwZNVBmHBGDiT4/wZxMZWcv7Ls/j6Ilx2TpWSRGvRYV1b2gANJpepbHEzNmT+zL4/QDIopcgGrOVgcXnvzNN/YH2D4bJHkwsvGrPVd24DYQjQMSYbizMKEj9A3EeimIu3QfWu8PUZ6dAJJ1/EsBhz6dAWZCGHpwDIIxFLOgmmv3sdSx3XBHxP5SpEvlYj0j5lZN2fslSN5L1DWj31oVcN13Q+uaE0GminRsag+bhk49Zx4e/1h2c1sPv6FkDhvglDw8b7s5QCgen8k4qXfMoGXmqHiSh8si/vcGvAsXoQf6YQ7RigwEAiLVwwvlbTg0qXVYrED/TRWS3S2APx9TSwqZ/dJO1E0adu0raT/IxQMRvu8zjwk/VA92i47D+fA45zgKnFr1bUweCRjhdygG+iVM4MJ4SkDj9mMIsLkqP28xsZnA2AzYiAQ67TsHRVa9WoU9hChZMwKbJhC1hJzzhYLQAwfOFxFNbF4GbDPV1KKL9LCqKm89eymrAP1uT0g+qDy0rMTGLV7yAxFis2TBu4AHp8oUqwohGN/OMtPgZkUwqUMDcAAjtz/gvERYd25O+Jw19ZlhSshtBTIU1PTO6ScDkcj22csq3tOPPAMOAK8VxUoX1gIxthsT26SEQkaciqIi8fV6jgiMw8niH2kgau+O2pNGXcVhEeC/31blkSx11RlrpvPGSTIFrfrJ5m4J7geUmFZ+0LgjKCW9ef3cji9xrorsR0RtjUEeH1dkvnI9ndaL4M/kLlMgU9RasKTTT4XdL22dP8E6LxOiL4KsNqxh32iJae57xUsMU1OQucKvg/Ht9sC8moDNy65ykwR2RObpirm41211Ehda3X8rodISiINIQQQ3c7PVFxhHHYoxcUiQsRI0zY4YSFXm1C8pnggHrucYfZoXECgHUZ5SorloZMMzmEz1GQKwnwMKwyol/Ngm/oZdkIlWOrK3PtCph+VHPLWyc/b0Zd2um4cEHHfOQvtMl1jDqt1AwFEZF9AxGUjCux+lByl5d98S7Rz2fogVvsA89zAIOTjiC9ssh4ppwXTJu5GZlYlHkQEEPgzWauPyN1KvKaFXp14fS5i5upQ1qq25W4km2ybMlkZI/TTiWVqLxL3ol0JkZ6gaYNOWJAdgswSXRJR6UBdCQClMxhpI1E3ogZdy3sMktXi4iTm2m/mDY25bVBmn4JuKwWvVbeg6Jt8q8e8zQiEHLZYVb7rTUQhYW2vH2+8lz46zgwcIkvXd6X9DW3M5NCioLuosj+MirQk2brjzw==",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "id": "call_5499603572240837563",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        },
+        "id": "call_5499603572240838276",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_5499603572240837563",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:1918\", \"rows\": [{\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"CHD4\", \"node_id\": \"gene:HGNC:1919\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA3\", \"node_id\": \"gene:HGNC:23784\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"GATAD2A\", \"node_id\": \"gene:HGNC:29989\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"GATAD2B\", \"node_id\": \"gene:HGNC:30778\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC1\", \"node_id\": \"gene:HGNC:4852\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC2\", \"node_id\": \"gene:HGNC:4853\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD2\", \"node_id\": \"gene:HGNC:6917\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD3\", \"node_id\": \"gene:HGNC:6918\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA1\", \"node_id\": \"gene:HGNC:7410\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA2\", \"node_id\": \"gene:HGNC:7411\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP4\", \"node_id\": \"gene:HGNC:9887\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP7\", \"node_id\": \"gene:HGNC:9890\"}], \"total\": 12}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5499603572240838276",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:30778\", \"rows\": [{\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"CHD3\", \"node_id\": \"gene:HGNC:1918\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"CHD4\", \"node_id\": \"gene:HGNC:1919\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA3\", \"node_id\": \"gene:HGNC:23784\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"GATAD2A\", \"node_id\": \"gene:HGNC:29989\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC1\", \"node_id\": \"gene:HGNC:4852\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC2\", \"node_id\": \"gene:HGNC:4853\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD2\", \"node_id\": \"gene:HGNC:6917\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD3\", \"node_id\": \"gene:HGNC:6918\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA1\", \"node_id\": \"gene:HGNC:7410\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA2\", \"node_id\": \"gene:HGNC:7411\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP4\", \"node_id\": \"gene:HGNC:9887\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP7\", \"node_id\": \"gene:HGNC:9890\"}], \"total\": 12}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "Eu4CCusCAWkUfROIxa68c7bjaShpoPyHYHrLdDXYni8XhoKNqWFLrwe0PxFt7PFxMmMflG6dHKD5XcGPmO2PahNL2UzjzEBmPiw/TJtk0Rhkv7JMuToCkgWpjP0uJ9VXcx6s45LrLNyJwpAwdfVXclYayluKcvzf3gLVIvB9sRSxVAyY7Tn30vEZDWZjXhjjRYSY1zG+s5aahObt5JiaXa44ghKUv27l3Ajb9EyhX9/Vhruy1hDLwlnLNe9Bf7G6U/wYAnv7GCpvM3L5EkKf0bfohO2lUhVYKbfYCJXrJVyyanW2J5RsjhRq4MzruQm6gFJewR5YKi7H6JJsAMfoRiznTSP0yN7iR83NsLWfZaU6aVTT15HgpS3G6auya2DU/i7bI6MkhkkQ2s7afEJlCTbZO2uNH/5GSygvuisd1LBLASS9fFSoTw+4rOdTFS2hieh2k4ioDoVa8ko/re/ZBXabi/Ug1Wr0hfJHAi8hAm4w",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C1"
+        },
+        "id": "call_3837178767768431403",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C2"
+        },
+        "id": "call_3837178767768430102",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2S1"
+        },
+        "id": "call_3837178767768428801",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_3837178767768431403",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7971\", \"rows\": [], \"total\": 0}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_3837178767768430102",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7972\", \"rows\": [], \"total\": 0}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_3837178767768428801",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:3265\", \"rows\": [], \"total\": 0}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EqUECqIEAWkUfRPH/WHLGZxvL9h+aM8EtcUftKVdEPZoM1Yhw4xLZADQSfVw3N7x7c5EYwf1hrVLHHDR79HAvS89mL4gBBd+KXjdZmGIkxRr3yfmTaDH4BdwHdZ/ShlJclFWUCpYXHo2QXixUog9iY53gPjmP9oZEVPT9uxWxKDmegKwAP5ayf8bRMPcrvNms4CNzH+uAF/kMJNUDHAtKb2MnpLiDWsHL/7htzDkFRFHpPY2jETLwLU0GvsE1qV9gXQom/FRz7N6la/N/EgX7pzouqRVvWlJLJEtzxAOrbOYB538s6gLCsILIez3EOWdLnAoOOyEe/nAvzfIhxa5sbzsNPE9ZGDK0PR7B5itxF1JlZmPKeBQEPjMTvtZ+xisM/WRvnGMKvGGfGaVrowtbIWOyErXaYtphMiLvKecpF+zllWlyFtJQvtdT1D1sHDjFmyxKeBrFzaF/p9mO2GuKTaGdrn/Rl/IdbYjYfST987l1lz3QuUrm00e2uzIuOHIcVnpzbgNxjBTVreGgyhOP6l+uUsHKMeVTl97n1Af1b2R3JoP/rAnr0w3t/rRnOJVbZVPLeWv4Ubt981goK+dKCZvdF+4zH3Fmy7Ejk4AIdiB89cmUx6EuPTtCRPZVsRLSFfXjhTP0yA+JSeXLT4T8domPdh7pdnery7t546nkUuZKTH9eTP/pUWpFAFrnm0JeYl12ugH+a01TreOWjAAOUpDCHp6Mpog",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "id": "call_11323132868490102941",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MBD3"
+        },
+        "id": "call_11323132868490103630",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MTA1"
+        },
+        "id": "call_11323132868490104319",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MTA3"
+        },
+        "id": "call_11323132868490100912",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_11323132868490102941",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:1918\", \"rows\": [{\"node_id\": \"pub:30082317\", \"publication_date\": \"2018-08-06\", \"title\": \"The SUMO protease SENP1 and the chromatin remodeler CHD3 interact and jointly affect chromatin accessibility and gene expression.\"}], \"total\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11323132868490103630",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:6918\", \"rows\": [{\"node_id\": \"pub:32181805\", \"publication_date\": \"2020-05-01\", \"title\": \"Glioma stem-like cells evade interferon suppression through MBD3/NuRD complex-mediated STAT1 downregulation.\"}, {\"node_id\": \"pub:28899870\", \"publication_date\": \"2017-09-12\", \"title\": \"Mbd3/NuRD controls lymphoid cell fate and inhibits tumorigenesis by repressing a B cell transcriptional program.\"}, {\"node_id\": \"pub:25538734\", \"publication_date\": \"2014-12-09\", \"title\": \"MBD2 and MBD3: elusive functions and mechanisms.\"}, {\"node_id\": \"pub:18500823\", \"publication_date\": \"2008-05-24\", \"title\": \"Myeloid transforming protein Evi1 interacts with methyl-CpG binding domain protein 3 and inhibits in vitro histone deacetylation by Mbd3/Mi-2/NuRD.\"}, {\"node_id\": \"pub:17708683\", \"publication_date\": \"2007-06-29\", \"title\": \"Maintenance of paternal methylation and repression of the imprinted H19 gene requires MBD3.\"}], \"total\": 5}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11323132868490104319",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7410\", \"rows\": [{\"node_id\": \"pub:32435614\", \"publication_date\": \"2020-05-06\", \"title\": \"MTA1 Promotes Hepatocellular Carcinoma Progression by Downregulation of DNA-PK-Mediated H1.2&lt;sup&gt;T146&lt;/sup&gt; Phosphorylation.\"}, {\"node_id\": \"pub:30327463\", \"publication_date\": \"2018-10-16\", \"title\": \"PWWP2A binds distinct chromatin moieties and interacts with an MTA1-specific core NuRD complex.\"}, {\"node_id\": \"pub:28415616\", \"publication_date\": \"2017-04-01\", \"title\": \"Z-ligustilide restores tamoxifen sensitivity of ERa negative breast cancer cells by reversing MTA1/IFI16/HDACs complex mediated epigenetic repression of ERa.\"}, {\"node_id\": \"pub:27144666\", \"publication_date\": \"2016-05-18\", \"title\": \"The MTA1 subunit of the nucleosome remodeling and deacetylase complex can recruit two copies of RBBP4/7.\"}, {\"node_id\": \"pub:25705708\", \"publication_date\": \"2013-12-01\", \"title\": \"MTA1 and MTA3 Regulate HIF1a Expression in Hypoxia-Treated Human Trophoblast Cell Line HTR8/Svneo.\"}], \"total\": 5}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11323132868490100912",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:23784\", \"rows\": [{\"node_id\": \"pub:25705708\", \"publication_date\": \"2013-12-01\", \"title\": \"MTA1 and MTA3 Regulate HIF1a Expression in Hypoxia-Treated Human Trophoblast Cell Line HTR8/Svneo.\"}], \"total\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EuEBCt4BAWkUfROssEI61oRaaCKcj0+9b18dfiqGnUOt8eY45N9SVSMifxB6gRzChRBllfVGVf6Oy53C/4lLtwGt3qOdPdOhxvAOZ4gLRyzpaOzuUHEifCcxfSL4+yb1cezKR9E0011fX8aHRK5MMeDSkxHmM2BExkVjbG4jdMSvwJbWcpGMlQiWK3mHx7dDO75q0jbyLk8NZPRi7yLgQ/xVqJ8mIWmxZ+0fXXezd1/sqr/4zeTo+pyDmjFJ9sg52BkA0lzVMp0YSOb0bbt3XDzOaVU7OXnHAIy/9Mqcn52YzVw+",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "IGF2BP1"
+        },
+        "id": "call_5401726496392387924",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "id": "call_5401726496392385353",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "KMT5A"
+        },
+        "id": "call_5401726496392386878",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZNF143"
+        },
+        "id": "call_5401726496392388403",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_5401726496392387924",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:28866\", \"rows\": [{\"node_id\": \"pub:32917856\", \"publication_date\": \"2020-09-11\", \"title\": \"LIN28B-AS1-IGF2BP1 binding promotes hepatocellular carcinoma cell progression.\"}, {\"node_id\": \"pub:32154328\", \"publication_date\": \"2020-01-31\", \"title\": \"The mRNA-Binding Protein IGF2BP1 Restores Fetal Hemoglobin in Cultured Erythroid Cells from Patients with \\u03b2-Hemoglobin Disorders.\"}, {\"node_id\": \"pub:31768017\", \"publication_date\": \"2019-11-25\", \"title\": \"RNA-binding protein IGF2BP1 maintains leukemia stem cell properties by regulating HOXB4, MYB, and ALDH1A1.\"}, {\"node_id\": \"pub:28652347\", \"publication_date\": \"2017-06-26\", \"title\": \"IGF2BP1 overexpression causes fetal-like hemoglobin expression patterns in cultured human adult erythroblasts.\"}, {\"node_id\": \"pub:24192035\", \"publication_date\": \"2013-11-05\", \"title\": \"A network of heterochronic genes including Imp1 regulates temporal changes in stem cell properties.\"}, {\"node_id\": \"pub:23388827\", \"publication_date\": \"2013-02-01\", \"title\": \"mTOR complex 2 phosphorylates IMP1 cotranslationally to promote IGF2 production and the proliferation of mouse embryonic fibroblasts.\"}, {\"node_id\": \"pub:19541769\", \"publication_date\": \"2009-06-18\", \"title\": \"IGF2BP1 enhances HCV IRES-mediated translation initiation via the 3'UTR.\"}], \"total\": 7}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5401726496392385353",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:19088\", \"rows\": [{\"node_id\": \"pub:32398261\", \"publication_date\": \"2020-05-12\", \"title\": \"Novel role of ASH1L histone methyltransferase in anaplastic thyroid carcinoma.\"}, {\"node_id\": \"pub:29724719\", \"publication_date\": \"2018-05-03\", \"title\": \"<i>MIR142</i> Loss-of-Function Mutations Derepress ASH1L to Increase <i>HOXA</i> Gene Expression and Promote Leukemogenesis.\"}, {\"node_id\": \"pub:29858089\", \"publication_date\": \"2018-04-25\", \"title\": \"The ASH1-miR-375-YWHAZ Signaling Axis Regulates Tumor Properties in Hepatocellular Carcinoma.\"}, {\"node_id\": \"pub:27434206\", \"publication_date\": \"2016-07-19\", \"title\": \"ASH1L (a histone methyltransferase protein) is a novel candidate globin gene regulator revealed by genetic study of an English family with beta-thalassaemia unlinked to the beta-globin locus.\"}, {\"node_id\": \"pub:25866973\", \"publication_date\": \"2015-04-13\", \"title\": \"Ash1l controls quiescence and self-renewal potential in hematopoietic stem cells.\"}, {\"node_id\": \"pub:23889332\", \"publication_date\": \"2013-08-01\", \"title\": \"Tat-PTD-modified oncolytic adenovirus driven by the SCG3 promoter and ASH1 enhancer for neuroblastoma therapy.\"}, {\"node_id\": \"pub:23442797\", \"publication_date\": \"2013-02-25\", \"title\": \"The BET protein FSH functionally interacts with ASH1 to orchestrate global gene activity in Drosophila.\"}, {\"node_id\": \"pub:22140534\", \"publication_date\": \"2011-11-28\", \"title\": \"Dual function of histone H3 lysine 36 methyltransferase ASH1 in regulation of Hox gene expression.\"}, {\"node_id\": \"pub:19067322\", \"publication_date\": \"2009-02-01\", \"title\": \"Proneural gene ash1 promotes amacrine cell production in the chick retina.\"}, {\"node_id\": \"pub:19093008\", \"publication_date\": \"2008-12-12\", \"title\": \"Reprogramming chick RPE progeny cells to differentiate towards retinal neurons by ash1.\"}, {\"node_id\": \"pub:17923682\", \"publication_date\": \"2007-10-08\", \"title\": \"Mammalian ASH1L is a histone methyltransferase that occupies the transcribed region of active genes.\"}, {\"node_id\": \"pub:15459746\", \"publication_date\": \"2004-10-01\", \"title\": \"Daughter-specific repression of Saccharomyces cerevisiae HO: Ash1 is the commander.\"}], \"total\": 12}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5401726496392386878",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:29489\", \"rows\": [{\"node_id\": \"pub:32694555\", \"publication_date\": \"2020-07-21\", \"title\": \"The histone lysine methyltransferase SETD8 regulates angiogenesis through HES-1 in human umbilical vein endothelial cells.\"}, {\"node_id\": \"pub:32178723\", \"publication_date\": \"2020-03-16\", \"title\": \"The histone methyltransferase Setd8 alters the chromatin landscape and regulates the expression of key transcription factors during erythroid differentiation.\"}, {\"node_id\": \"pub:29186677\", \"publication_date\": \"2017-11-01\", \"title\": \"The Methyltransferase Setd8 Is Essential for Erythroblast Survival and Maturation.\"}, {\"node_id\": \"pub:27688818\", \"publication_date\": \"2016-09-22\", \"title\": \"The emerging role of lysine methyltransferase SETD8 in human diseases.\"}, {\"node_id\": \"pub:25855754\", \"publication_date\": \"2015-04-08\", \"title\": \"Epigenetic Determinants of Erythropoiesis: Role of the Histone Methyltransferase SetD8 in Promoting Erythroid Cell Maturation and Survival.\"}, {\"node_id\": \"pub:25848090\", \"publication_date\": \"2015-04-06\", \"title\": \"Histone methyltransferase Setd8 represses Gata2 expression and regulates erythroid maturation.\"}, {\"node_id\": \"pub:23152447\", \"publication_date\": \"2012-11-14\", \"title\": \"The role of PR-Set7 in replication licensing depends on Suv4-20h.\"}, {\"node_id\": \"pub:18474616\", \"publication_date\": \"2008-05-12\", \"title\": \"PR-Set7 establishes a repressive trans-tail histone code that regulates differentiation.\"}], \"total\": 8}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5401726496392388403",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:12928\", \"rows\": [{\"node_id\": \"pub:30935019\", \"publication_date\": \"2019-03-30\", \"title\": \"The Role of ZNF143 in Breast Cancer Cell Survival Through the NAD(P)H Quinone Dehydrogenase 1\\u207bp53\\u207bBeclin1 Axis Under Metabolic Stress.\"}, {\"node_id\": \"pub:28900037\", \"publication_date\": \"2017-09-12\", \"title\": \"ZNF143 protein is an important regulator of the myeloid transcription factor C/EBP\\u03b1.\"}, {\"node_id\": \"pub:25645053\", \"publication_date\": \"2015-02-03\", \"title\": \"ZNF143 provides sequence specificity to secure chromatin interactions at gene promoters.\"}, {\"node_id\": \"pub:21177654\", \"publication_date\": \"2010-12-21\", \"title\": \"Genome-wide evidence for an essential role of the human Staf/ZNF143 transcription factor in bidirectional transcription.\"}, {\"node_id\": \"pub:20860770\", \"publication_date\": \"2010-09-23\", \"title\": \"Role of ZNF143 in tumor growth through transcriptional regulation of DNA replication and cell-cycle-associated genes.\"}, {\"node_id\": \"pub:17938208\", \"publication_date\": \"2007-10-15\", \"title\": \"CHD8 associates with human Staf and contributes to efficient U6 RNA polymerase III transcription.\"}, {\"node_id\": \"pub:9009278\", \"publication_date\": \"1997-01-01\", \"title\": \"Staf, a promiscuous activator for enhanced transcription by RNA polymerases II and III.\"}, {\"node_id\": \"pub:7641696\", \"publication_date\": \"1995-08-01\", \"title\": \"Staf, a novel zinc finger protein that activates the RNA polymerase III promoter of the selenocysteine tRNA gene.\"}], \"total\": 8}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C2"
+        },
+        "id": "call_3718720993389428738",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT1"
+        },
+        "id": "call_3718720993389429875",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_3718720993389428738",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7972\", \"rows\": [{\"node_id\": \"pub:33116641\", \"publication_date\": \"2020-10-20\", \"title\": \"Long Noncoding RNA CDKN2B-AS1 Facilitates Lung Cancer Development Through Regulating miR-378b/NR2C2.\"}, {\"node_id\": \"pub:32187984\", \"publication_date\": \"2020-03-16\", \"title\": \"Anti-Inflammatory and Anti-Oxidative Effects of luteolin-7-<i>O</i>-glucuronide in LPS-Stimulated Murine Macrophages through TAK1 Inhibition and Nrf2 Activation.\"}, {\"node_id\": \"pub:31869420\", \"publication_date\": \"2020-03-01\", \"title\": \"Innate immune priming in the absence of TAK1 drives RIPK1 kinase activity-independent pyroptosis, apoptosis, necroptosis, and inflammatory disease.\"}, {\"node_id\": \"pub:31885808\", \"publication_date\": \"2019-12-06\", \"title\": \"Myricetin Alleviates Pathological Cardiac Hypertrophy via TRAF6/TAK1/MAPK and Nrf2 Signaling Pathway.\"}, {\"node_id\": \"pub:30850732\", \"publication_date\": \"2019-03-08\", \"title\": \"TAK1 suppresses RIPK1-dependent cell death and is associated with disease progression in melanoma.\"}, {\"node_id\": \"pub:30361383\", \"publication_date\": \"2018-10-25\", \"title\": \"Pathogen blockade of TAK1 triggers caspase-8-dependent cleavage of gasdermin D and cell death.\"}, {\"node_id\": \"pub:29500178\", \"publication_date\": \"2018-03-02\", \"title\": \"TAK1 restricts spontaneous NLRP3 activation and cell death to control myeloid proliferation.\"}, {\"node_id\": \"pub:29027124\", \"publication_date\": \"2017-10-12\", \"title\": \"TAK1 inhibition ameliorates survival from graft-versus-host disease in an allogeneic murine marrow transplantation model.\"}, {\"node_id\": \"pub:28182011\", \"publication_date\": \"2017-02-09\", \"title\": \"TAK1 regulates resident macrophages by protecting lysosomal integrity.\"}, {\"node_id\": \"pub:27685625\", \"publication_date\": \"2016-09-29\", \"title\": \"TAK1 regulates caspase 8 activation and necroptotic signaling via multiple cell death checkpoints.\"}, {\"node_id\": \"pub:27245349\", \"publication_date\": \"2016-06-30\", \"title\": \"TAK1 Regulates the Nrf2 Antioxidant System Through Modulating p62/SQSTM1.\"}, {\"node_id\": \"pub:27077812\", \"publication_date\": \"2016-04-14\", \"title\": \"TAK1 regulates Paneth cell integrity partly through blocking necroptosis.\"}, {\"node_id\": \"pub:26648529\", \"publication_date\": \"2015-12-09\", \"title\": \"TAK1 modulates satellite stem cell homeostasis and skeletal muscle repair.\"}, {\"node_id\": \"pub:25418008\", \"publication_date\": \"2014-11-24\", \"title\": \"Ablation of Tak1 in osteoclast progenitor leads to defects in skeletal growth and bone remodeling in mice.\"}, {\"node_id\": \"pub:24915805\", \"publication_date\": \"2014-06-12\", \"title\": \"Effects of 5,14-HEDGE, a 20-HETE mimetic, on lipopolysaccharide-induced changes in MyD88/TAK1/IKK\\u03b2/I\\u03baB-\\u03b1/NF-\\u03baB pathway and circulating miR-150, miR-223, and miR-297 levels in a rat model of septic shock.\"}, {\"node_id\": \"pub:24751651\", \"publication_date\": \"2014-04-21\", \"title\": \"Translation control of TAK1 mRNA by hnRNP K modulates LPS-induced macrophage activation.\"}, {\"node_id\": \"pub:23505428\", \"publication_date\": \"2013-03-07\", \"title\": \"In vivo knockdown of TAK1 accelerates bone marrow proliferation/differentiation and induces systemic inflammation.\"}, {\"node_id\": \"pub:22972987\", \"publication_date\": \"2012-09-12\", \"title\": \"TAK1 kinase signaling regulates embryonic angiogenesis by modulating endothelial cell survival and migration.\"}, {\"node_id\": \"pub:22226633\", \"publication_date\": \"2012-01-05\", \"title\": \"TAK1 negatively regulates NF-\\u03baB and p38 MAP kinase activation in Gr-1+CD11b+ neutrophils.\"}, {\"node_id\": \"pub:20864514\", \"publication_date\": \"2010-09-23\", \"title\": \"Nuclear orphan receptor TAK1/TR4-deficient mice are protected against obesity-linked inflammation, hepatic steatosis, and insulin resistance.\"}], \"total\": 26}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_3718720993389429875",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:2976\", \"rows\": [{\"node_id\": \"pub:33310759\", \"publication_date\": \"2020-12-11\", \"title\": \"Requirement of DNMT1 to orchestrate epigenomic reprogramming for NPM-ALK-driven lymphomagenesis.\"}, {\"node_id\": \"pub:32891059\", \"publication_date\": \"2020-08-20\", \"title\": \"The Brain Microenvironment Induces DNMT1 Suppression and Indolence of Metastatic Cancer Cells.\"}, {\"node_id\": \"pub:32597790\", \"publication_date\": \"2020-06-26\", \"title\": \"Expression and prognosis analysis of <i>DNMT</i> family in acute myeloid leukemia.\"}, {\"node_id\": \"pub:32585597\", \"publication_date\": \"2020-06-10\", \"title\": \"Epigenetic Protection of Vertebrate Lymphoid Progenitor Cells by Dnmt1.\"}, {\"node_id\": \"pub:32319058\", \"publication_date\": \"2020-04-21\", \"title\": \"PARP1-DNMT1-CTCF complex and the apoptotic-induced factor mRNA expressions in workers occupationally exposed to benzene.\"}, {\"node_id\": \"pub:32144273\", \"publication_date\": \"2020-03-06\", \"title\": \"Two distinct modes of DNMT1 recruitment ensure stable maintenance DNA methylation.\"}, {\"node_id\": \"pub:32193153\", \"publication_date\": \"2020-01-23\", \"title\": \"MCM3AP-AS1 KD Inhibits Proliferation, Invasion, and Migration of PCa Cells via DNMT1/DNMT3 (A/B) Methylation-Mediated Upregulation of NPY1R.\"}, {\"node_id\": \"pub:32582805\", \"publication_date\": \"2020-01-01\", \"title\": \"The Gene Expression Profile and DNA Methylation Pattern of CDH1 and DNMT1 Genes in Acute Promyelocytic Leukemia (APL).\"}, {\"node_id\": \"pub:31736067\", \"publication_date\": \"2019-11-17\", \"title\": \"Extended experience with a non-cytotoxic DNMT1-targeting regimen of decitabine to treat myeloid malignancies.\"}, {\"node_id\": \"pub:31105426\", \"publication_date\": \"2019-05-08\", \"title\": \"Oncogenic Roles and Inhibitors of DNMT1, DNMT3A, and DNMT3B in Acute Myeloid Leukaemia.\"}, {\"node_id\": \"pub:30863117\", \"publication_date\": \"2019-02-22\", \"title\": \"Downregulation of KLF13 through DNMT1-mediated hypermethylation promotes glioma cell proliferation and invasion.\"}, {\"node_id\": \"pub:30537986\", \"publication_date\": \"2018-12-11\", \"title\": \"A novel FLI1 exonic circular RNA promotes metastasis in breast cancer by coordinately regulating TET1 and DNMT1.\"}, {\"node_id\": \"pub:30064482\", \"publication_date\": \"2018-07-31\", \"title\": \"Osteopontin alters DNA methylation through up-regulating DNMT1 and sensitizes CD133+/CD44+ cancer stem cells to 5 azacytidine in hepatocellular carcinoma.\"}, {\"node_id\": \"pub:29642935\", \"publication_date\": \"2018-04-11\", \"title\": \"SP1-induced upregulation of lncRNA SPRY4-IT1 exerts oncogenic properties by scaffolding EZH2/LSD1/DNMT1 and sponging miR-101-3p in cholangiocarcinoma.\"}, {\"node_id\": \"pub:29295997\", \"publication_date\": \"2018-01-02\", \"title\": \"Diabetes impairs wound healing by Dnmt1-dependent dysregulation of hematopoietic stem cells differentiation towards macrophages.\"}, {\"node_id\": \"pub:29221147\", \"publication_date\": \"2017-09-18\", \"title\": \"Long noncoding RNA LINC00673 epigenetically suppresses KLF4 by interacting with EZH2 and DNMT1 in gastric cancer.\"}, {\"node_id\": \"pub:28989582\", \"publication_date\": \"2017-07-01\", \"title\": \"Patterns of DNMT1 Promoter Methylation in Patients with Acute Lymphoblastic Leukemia.\"}, {\"node_id\": \"pub:28613268\", \"publication_date\": \"2017-06-14\", \"title\": \"Vitamin E Modifies High-Fat Diet-Induced Increase of DNA Strand Breaks, and Changes in Expression and DNA Methylation of Dnmt1 and MLH1 in C57BL/6J Male Mice.\"}, {\"node_id\": \"pub:28401098\", \"publication_date\": \"2017-03-27\", \"title\": \"Elevated expression of DNMT1 is associated with increased expansion and proliferation of hematopoietic stem cells co-cultured with human MSCs.\"}, {\"node_id\": \"pub:28158319\", \"publication_date\": \"2017-02-03\", \"title\": \"DNMT 1 maintains hypermethylation of CAG promoter specific region and prevents expression of exogenous gene in fat-1 transgenic sheep.\"}], \"total\": 36}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "ErEECq4EAWkUfRNnUuWHZm3yo4YjdBLVBuTXvoWzGTvJoRkORP8wpdGNaZr/xJZB9l2gSHD6Rr2anOoBPHD5XlDMvhAg8DW1IZkP43O4DQOvC6P+FOL/XED/N+hdjnKSSjH35RyOIA+U5XINUj82Gx7PpsafOe1Sa46UIJRWMO+6hPrLn8/CCuLvqMdMi/5om61auyDGg9mdSL6B/LXAM7Yt1R6vhfqHz2Jw1iyrAd85bQEK2jjzUrteW2QW6XvHak3V4HV0lsLHeno5V3bPkqwTkbDLvZkKcras7Fs37/H9s90LSRjOKuw7tAunaiXC/NFV+XShFnrSHRU+Y9D1V+olcZadiNTAnFtBgyAlgHEDfNBPdA7UQr62RZVMS3DhICkeWOHBylHanaUo0DKE34eCJo1tEauio/6n3XTygTbrZjX8lUVFXV78nZCWiepOG1EFiUnnuKVuNx9Io8ufrCEqtkVFjvL2xi3NvaMH3h0FmhK3ljC395AWqtuSG5NBG8JeFNg0x4oMHZ7D0/8qcpsbreVRSE/KXJ4eNyUo6lLpoUrgn/Uco+lcaIRUcvJPi8WnDjvDWoj4yKVbDEbN/ygyCUxqEbJH4oIhofHIFmYWrm1AmMzwJCKz7coazDfmPQIL24NYRg1Jree9p7rf7PE5xkF78wAhfGClXmlpq4KlwEDxorTIYZLBsFO7/LwLe4k0E7PQs78xjX9h04lJGtH7ESqSH9Wy48XZPod/tJ71Lr8k",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "IGF2BP1"
+        },
+        "id": "call_5441741847930691940",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "id": "call_5441741847930695519",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZBTB33"
+        },
+        "id": "call_5441741847930695002",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFE2"
+        },
+        "id": "call_5441741847930694485",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_5441741847930691940",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"IGF2BP1\", \"measurements_by_assay\": {\"orcs_screen_score\": 862}, \"node_id\": \"gene:HGNC:28866\", \"publications_naming_gene\": 7}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5441741847930695519",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"ASH1L\", \"measurements_by_assay\": {\"opentargets_literature\": 1, \"orcs_screen_score\": 871}, \"node_id\": \"gene:HGNC:19088\", \"publications_naming_gene\": 12}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5441741847930695002",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"ZBTB33\", \"measurements_by_assay\": {\"orcs_screen_score\": 503}, \"node_id\": \"gene:HGNC:16682\", \"publications_naming_gene\": 5}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_5441741847930694485",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"NFE2\", \"measurements_by_assay\": {\"opentargets_animal_model\": 1, \"opentargets_literature\": 1, \"orcs_screen_score\": 880}, \"node_id\": \"gene:HGNC:7780\", \"publications_naming_gene\": 170}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EskBCsYBAWkUfRMQK8fzjoZY9Lm3bNPZcf645pQ0dtk/EooWjW6IERvHpA9tlgzvZoD1080dx1npyAaRJwvDxXtqLAabPe65v9f8xDq4vPhO7VfrDQDJJ7TIEsklrX0zggWC3tmM9sGa/iIVVwObiHqaUFCBY3fZSsWLX4PKnFKgojAM/x2d7MXLvemtbahXc8tPnXyKrO0pIbfJ/2hi/FUyd280lb7iPv3WagMhmggDHfzylyiZ2CuGOQJDfQHoPtaaDvEKXoKYYgCS",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "id": "call_81842193400857452",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFE2"
+        },
+        "id": "call_81842193400858417",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_81842193400857452",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:19088\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1458:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -54.696}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1459:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -58.831}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1292:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.69378}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1293:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.98163}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1294:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.86627}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1295:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.93934}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1296:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.67408}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1297:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.63143}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1298:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.39307}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1299:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.80681}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1300:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.90376}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1301:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.986}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1302:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.99868}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1303:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.91765}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1304:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.89389}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1305:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.91979}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1306:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.63447}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1307:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.35952}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1308:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.36487}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1309:HGNC:19088\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.69769}], \"total\": 872}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_81842193400858417",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7780\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1458:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -65.514}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-11-23\", \"node_id\": \"meas:orcs:1459:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -68.523}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1292:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.9375}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1293:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.56967}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1294:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.40406}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1295:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.33792}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1296:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.48879}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1297:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.29229}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1298:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.37378}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1299:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.52687}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1300:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.79944}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1301:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.54909}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1302:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.2236}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1303:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.34586}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1304:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.5912}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1305:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.3652}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1306:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.75668}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1307:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.40647}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1308:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.32124}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2020-09-29\", \"node_id\": \"meas:orcs:1309:HGNC:7780\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.35017}], \"total\": 882}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C1"
+        },
+        "id": "call_13495205083788824599",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "PGRMC1"
+        },
+        "id": "call_13495205083788827746",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK3"
+        },
+        "id": "call_13495205083788826797",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK4"
+        },
+        "id": "call_13495205083788825848",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_13495205083788824599",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7971\", \"rows\": [], \"total\": 0}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13495205083788827746",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:16090\", \"rows\": [{\"node_id\": \"pub:27599036\", \"publication_date\": \"2016-09-09\", \"title\": \"A Novel Role for Progesterone Receptor Membrane Component 1 (PGRMC1): A Partner and Regulator of Ferrochelatase.\"}], \"total\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13495205083788826797",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:3255\", \"rows\": [{\"node_id\": \"pub:33341442\", \"publication_date\": \"2020-12-17\", \"title\": \"Chromosome 22q11.2 deletion causes PERK-dependent vulnerability in dopaminergic neurons.\"}, {\"node_id\": \"pub:33390989\", \"publication_date\": \"2020-12-16\", \"title\": \"Melatonin Inhibits Glucose-Induced Apoptosis in Osteoblastic Cell Line Through PERK-eIF2\\u03b1-ATF4 Pathway.\"}, {\"node_id\": \"pub:32774686\", \"publication_date\": \"2020-07-27\", \"title\": \"Ganoderic Acid D Protects Human Amniotic Mesenchymal Stem Cells against Oxidative Stress-Induced Senescence through the PERK/NRF2 Signaling Pathway.\"}, {\"node_id\": \"pub:32695629\", \"publication_date\": \"2020-06-01\", \"title\": \"Up-regulation of PERK/Nrf2/HO-1 axis protects myocardial tissues of mice from damage triggered by ischemia-reperfusion through ameliorating endoplasmic reticulum stress.\"}, {\"node_id\": \"pub:32508655\", \"publication_date\": \"2020-05-19\", \"title\": \"CCT020312 Inhibits Triple-Negative Breast Cancer Through PERK Pathway-Mediated G1 Phase Cell Cycle Arrest and Apoptosis.\"}, {\"node_id\": \"pub:32327686\", \"publication_date\": \"2020-04-23\", \"title\": \"A novel specific PERK activator reduces toxicity and extends survival in Huntington's disease models.\"}, {\"node_id\": \"pub:32293500\", \"publication_date\": \"2020-04-15\", \"title\": \"PERK/NRF2 and autophagy form a resistance mechanism against G9a inhibition in leukemia stem cells.\"}, {\"node_id\": \"pub:32309436\", \"publication_date\": \"2020-03-26\", \"title\": \"PERK Overexpression-Mediated Nrf2/HO-1 Pathway Alleviates Hypoxia/Reoxygenation-Induced Injury in Neonatal Murine Cardiomyocytes via Improving Endoplasmic Reticulum Stress.\"}, {\"node_id\": \"pub:32204380\", \"publication_date\": \"2020-03-19\", \"title\": \"The PERK-Dependent Molecular Mechanisms as a Novel Therapeutic Target for Neurodegenerative Diseases.\"}, {\"node_id\": \"pub:32029570\", \"publication_date\": \"2020-02-06\", \"title\": \"ER-resident sensor PERK is essential for mitochondrial thermogenesis in brown adipose tissue.\"}, {\"node_id\": \"pub:32019168\", \"publication_date\": \"2020-01-30\", \"title\": \"Baicalein Alleviates Liver Oxidative Stress and Apoptosis Induced by High-Level Glucose through the Activation of the PERK/Nrf2 Signaling Pathway.\"}, {\"node_id\": \"pub:32128359\", \"publication_date\": \"2020-01-17\", \"title\": \"The PERK Inhibitor GSK2606414 Enhances Reovirus Infection in Head and Neck Squamous Cell Carcinoma via an ATF4-Dependent Mechanism.\"}, {\"node_id\": \"pub:31767864\", \"publication_date\": \"2019-11-25\", \"title\": \"Knockdown of cytokeratin 8 overcomes chemoresistance of chordoma cells by aggravating endoplasmic reticulum stress through PERK/eIF2\\u03b1 arm of unfolded protein response and blocking autophagy.\"}, {\"node_id\": \"pub:31604108\", \"publication_date\": \"2019-10-08\", \"title\": \"The PERK/Nrf2 pathway mediates endoplasmic reticulum stress-induced injury by upregulating endoplasmic reticulophagy in H9c2 cardiomyoblasts.\"}, {\"node_id\": \"pub:31519193\", \"publication_date\": \"2019-09-13\", \"title\": \"Dihydroartemisinin-induced unfolded protein response feedback attenuates ferroptosis via PERK/ATF4/HSPA5 pathway in glioma cells.\"}, {\"node_id\": \"pub:31316342\", \"publication_date\": \"2019-06-27\", \"title\": \"PERK-Mediated Unfolded Protein Response Activation and Oxidative Stress in PARK20 Fibroblasts.\"}, {\"node_id\": \"pub:31239473\", \"publication_date\": \"2019-06-25\", \"title\": \"Tolvaptan activates the Nrf2/HO-1 antioxidant pathway through PERK phosphorylation.\"}, {\"node_id\": \"pub:31360107\", \"publication_date\": \"2019-06-04\", \"title\": \"PERK/eIF-2\\u03b1/CHOP Pathway Dependent ROS Generation Mediates Butein-induced Non-small-cell Lung Cancer Apoptosis and G2/M Phase Arrest.\"}, {\"node_id\": \"pub:30977402\", \"publication_date\": \"2019-04-12\", \"title\": \"Effect of fluoride on PERK-Nrf2 signaling pathway in mouse ameloblasts.\"}, {\"node_id\": \"pub:30654386\", \"publication_date\": \"2019-01-01\", \"title\": \"Endoplasmic Reticulum Stress Response of Trabecular Meshwork Stem Cells and Trabecular Meshwork Cells and Protective Effects of Activated PERK Pathway.\"}], \"total\": 61}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_13495205083788825848",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:19687\", \"rows\": [{\"node_id\": \"pub:31937829\", \"publication_date\": \"2020-01-14\", \"title\": \"Global translational repression induced by iron deficiency in yeast depends on the Gcn2/eIF2\\u03b1 pathway.\"}, {\"node_id\": \"pub:31685988\", \"publication_date\": \"2019-11-04\", \"title\": \"A MYC-GCN2-eIF2\\u03b1 negative feedback loop limits protein synthesis to prevent MYC-dependent apoptosis in colorectal cancer.\"}, {\"node_id\": \"pub:30020994\", \"publication_date\": \"2018-07-18\", \"title\": \"Amino acid deprivation triggers a novel GCN2-independent response leading to the transcriptional reactivation of non-native DNA sequences.\"}, {\"node_id\": \"pub:27708226\", \"publication_date\": \"2016-11-01\", \"title\": \"Mitochondrial dysfunction enhances cisplatin resistance in human gastric cancer cells via the ROS-activated GCN2-eIF2\\u03b1-ATF4-xCT pathway.\"}, {\"node_id\": \"pub:27085088\", \"publication_date\": \"2016-04-16\", \"title\": \"Activation of GCN2 kinase by ribosome stalling links translation elongation with translation initiation.\"}, {\"node_id\": \"pub:26982722\", \"publication_date\": \"2016-03-16\", \"title\": \"The amino acid sensor GCN2 controls gut inflammation by inhibiting inflammasome activation.\"}, {\"node_id\": \"pub:25695491\", \"publication_date\": \"2015-02-19\", \"title\": \"Interaction between the tRNA-binding and C-terminal domains of Yeast Gcn2 regulates kinase activity in vivo.\"}, {\"node_id\": \"pub:24719324\", \"publication_date\": \"2014-04-09\", \"title\": \"Crystal structures of GCN2 protein kinase C-terminal domains suggest regulatory differences in yeast and mammals.\"}, {\"node_id\": \"pub:24126185\", \"publication_date\": \"2013-10-12\", \"title\": \"GCN2-like eIF2\\u03b1 kinase manages the amino acid starvation response in Toxoplasma gondii.\"}, {\"node_id\": \"pub:23418347\", \"publication_date\": \"2013-02-15\", \"title\": \"Coordinate regulation of eIF2\\u03b1 phosphorylation by PPP1R15 and GCN2 is required during Drosophila development.\"}, {\"node_id\": \"pub:22301437\", \"publication_date\": \"2012-02-02\", \"title\": \"Nucleofection induces transient eIF2\\u03b1 phosphorylation by GCN2 and PERK.\"}, {\"node_id\": \"pub:22114338\", \"publication_date\": \"2011-11-23\", \"title\": \"Increased susceptibility to DNA virus infection in mice with a GCN2 mutation.\"}, {\"node_id\": \"pub:19519745\", \"publication_date\": \"2009-07-01\", \"title\": \"Blocking UV-induced eIF2alpha phosphorylation with small molecule inhibitors of GCN2.\"}, {\"node_id\": \"pub:19108716\", \"publication_date\": \"2008-12-24\", \"title\": \"Arabidopsis eIF2alpha kinase GCN2 is essential for growth in stress conditions and is activated by wounding.\"}, {\"node_id\": \"pub:16176978\", \"publication_date\": \"2005-09-21\", \"title\": \"PERK and GCN2 contribute to eIF2alpha phosphorylation and cell cycle arrest after activation of the unfolded protein response pathway.\"}, {\"node_id\": \"pub:15355306\", \"publication_date\": \"2005-01-01\", \"title\": \"GCN2 phosphorylation of eIF2alpha activates NF-kappaB in response to UV irradiation.\"}, {\"node_id\": \"pub:10733573\", \"publication_date\": \"2000-04-01\", \"title\": \"Glucose limitation induces GCN4 translation by activation of Gcn2 protein kinase.\"}, {\"node_id\": \"pub:10655230\", \"publication_date\": \"2000-02-01\", \"title\": \"A mammalian homologue of GCN2 protein kinase important for translational control by phosphorylation of eukaryotic initiation factor-2alpha.\"}, {\"node_id\": \"pub:9566889\", \"publication_date\": \"1998-05-01\", \"title\": \"Dimerization by translation initiation factor 2 kinase GCN2 is mediated by interactions in the C-terminal ribosome-binding region and the protein kinase domain.\"}, {\"node_id\": \"pub:7623840\", \"publication_date\": \"1995-08-01\", \"title\": \"The histidyl-tRNA synthetase-related sequence in the eIF-2 alpha protein kinase GCN2 interacts with tRNA and is required for activation in response to starvation for different amino acids.\"}], \"total\": 22}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EtcjCtQjAWkUfROwl5FGkuxvh+XJa4SGzGcxXM/KyH1aHgCkpvc8fk41IwYGh1rXKYHgtHgHSrN8To55KxaN+ufETnlrIDH9uRluWfj+KgpKBTbboNJZqU4QYY9XxeqkQGf7lpJx7WlkYF6WKZh+1bzKNzxkouCNVfmO+84vmRoTTVR7gSH/VRJMP7jsCU+ifqe9W7GvGsCDy7sZqnGrTuiw/9FusUGRyxGpz3NWLJhZ0wRRUakPOhcys9j77LkjEXPgFsrBkflxyYBxmWthpo0IVqgJdMT0nbnfOPkhrBva/cATnZ5oFZp41r8m0Inq9607oV1M6pTOV/YAs0rOeJYQiv5PpUvb+nxlzmdVy5ZwGZ8Rqo0ZUTfm0cK66T2qiBPV8v4/Sx/oxZM/2hjWf7QFRrsG8lnp3J60f3gSabki+xaXS0w79MjuzlDquF+QCi7FmN1wzo2GOyGZzQqHH01dC6ZBL38xtqSysp8W7rZ4Z5s/OpvG365kmnuaodp+l2F8Hq/VMe0goC4XsEQ0GvATB0oO1XVxBM66gAO1kE1FMo0z8HoGsnkRoB15aqnwqu+KSLj3VbyJGIK+t2IMVqUuAgOn0lpyFN9gK1kDkDJATuvrn30K5ZwMp0/ONsLtOrl/+ycV7gLOEk5xDjEx5BUNLEZ7LREpFMsG52hijEPEJUPYkQLVsgtBoUNucCMvEE9Ow6HcgQl3DTAla6Pxpm3q4w9sXni0i7v6dxdlxXWtaeqNPJopyaY0IBHjis9U0Dhe+pt5+PTf5X95eGplwML5bCi3Vd+1Q/bzq/3dxLjd8EwocGjoVvJ0oqA9URt18l6f27SqYbyHRsVRD44GbnvUko34f5ArRoXvbhUrMf87ScQ74+rzGHpr380DPj6jv65lf00uslFs5/YW8N4od56g+jdMAm1ZCcn3fAkbawvBGBRjHAavUzP3G5iyXigiJv7991i6Mhxn7Tzjp1Njg4yRvAvqKst6t4VFAhOVrOuoMuMMY/vv995lNGbYqCr5Uc4o4eCEwg/qSgpUroTgxM+t9s+9ANM68TeTK+yZfHZDPShWq4X2ONFvUlqbNzIBkQDAUbTY9F55mgu80vsQCls1ZMRZQLz5SyV7i9MQ+jlubvEPFokOF4tqPXzmp9G4Ah+qtxd84QzbXhWKF8WVUIs1bIotIn1/XBo51L8xhG6e9ZMauNVRz2eaRbG6cROyMFGLeSoZke+dGcvvktbKRdYdSi7yowYkUDnf7pZsihxAYoBrwhwnu7woVw8830BP9YX4bPfLNM7BkCiDEXsjBPeeBnGSpZzRVV+bLbjPW2XWmhJFY9IccEy67efdTwoS+3sBTBGknByHsDsddMWiXH+lU+TTCbu2obflosHHpr+nYO7o+/hcsHM354bxIL2sdbnZBzQZ3NQKcwLw0ty5BFuF2+o3snE7aejlgMxjEGjiIgq1Pco/l3TLsdj2w32VRJoEo93bcuZI1w6UVpc/JPVuiMqSPQQGz98vymFEXItbAJnZEH7tNpqB1DiCxWvS+JkFNNgqOlunoKEwP4mwV1xHmfo7GwrYklTohQYeG5uyv1RWDI706PLAmjPKmdYL6vayFfJJ9N5azyfdr+cTyPkslxeWhcbBbos2KZa8g29btf24ZapAP1lFXLmJv2mKAAmhzNh+G+6Jlv5SKHB7ROcZMnltseh6uOSILU7vh7LziPHXgM2PZ2CXZoFrOehear9v8fVQHwuFZ9Gbnkh/FmQTLD4BNaimt+c/BHHNuyC1Yt6LnZApWHcA5Y00H/DOzwug91BTXTlFaTOpG6qzhT1Oe3hfK7HvokQz/5WAzDFgizJXSl/Ijk/8KlMNUzUaWFPnPMk8KO78tTEW+7WaaJFmirkGF+WR/JCf9wX3WfMWE83ZsQgtDJUmURanKokiJNRd8qtGYvgJSlEAYlH5/MC/hGxjOHRPxBD3IputaPqjGnrj8owfofJGNvWyPoxcMz5Txc4dgT5izusDYbrnxEzgHu10F4l2HbvKaao/9c4MumTNomq//DK4vLQ79micV6D8gPf6REeUqsSM13pPeGYUKXNu6W+OtzGzANWKPmPVHKuLhy7JPIX6W9P5wcfEZcOmbYvQ9Nt6Iz7NwVLIMzbTqkjEUzxU4D76fESyUDCkaPInaphRpjGNG/WYYPJCNfX2I/XpIya59hPAtWE3QGmF7Rp/h1+raGpKDkTONXWFL4JFn4mATnf0azKHSqpUt4xWlM2NmE4d6bziq9G5ROqQrmfe2I1RTzUJR5bOAWbcYvu1EvUyjlyDqxoRUyDG58/FTV5eVH6Iq8sYz7oOlioUO2fbjEUW73Kzf+DCAkQW5+WO0HfwXM2EQTEwqr9Hp/hLqxnsW1HgACeolSDVN3fMwkUr3W/vjKEmeJ2Dm0AT4+U9MtguUEZk10Cn5kNLqf2b1cvbSPNCv6+yxPPNc0pWJYJjFqCLTgYXgldmmlSB3vW1zToGE+71AYUJk26Kfq17RvqO2pqNy+QuPqrB5eq/28rbgz4ADhY5ho7K/IRpOGP+vizzrxQ93rJTF0VMTy/6UlryuzpzhWjWu0l2iPZXV+p8oPsuyTe720NHH2E6iXzUsBKL2gwzz1Qrjs80/6LXM6qhKiu/7BawGs5cEmiA2Oxls0wCdhwtZBd08caCvJDoCuBbUBF+sU1y0puk/wffXZpkQd+vVCrYx9ujv4t31u44qj7WDRMVZnOnSOQFCm9tneC2oLXGBCCBX6Ppv3gpPcYHmcEg4vdQgvfU5L9ZvwHpTMys3x3hdjgS0ai67jdNR3cc4M3xs5fjEBad3y2SiU6EcpB2dMeo3LwKdPo6MNn/pb4raM5xT6TzCjJ8tjkuqsO75ptM0EnOl7TmNglLv2U2dpTXXADxUqDDF2ZIpa8UGtMTkhzFw7hXIV1KsCrKHlavEuHStJS3W5IFflGsXnSRMBLIBUnjyQ3/udCHKkY9mQx58VcLaMpvs/lLb9qc0fD+pwiVvzhy0IHf7URJjrR87BXOm6LF1yz9hPtZ56CGsfAiWMG9dGd1UrQSV3zgvISgJdH4sfNxQCUOO0eCapUmMyStaI/H+6D7sgJWL2sROrkBYCUYb1evJKWiOZoAgt7+kKNjecb45sFhlmdHicYU6vlafym9RjI72YKfcpxd2hP1t+nSlGxtiUeFJHZzgWBNTY0K0AQ8gF8WztIk+A7r6FoJ5C8W1pTvbixIDQHKm4d+zvh5NRYhz3MH06EM8tWk6dfXSlOFgj6L18RTaAqX+2nXBCgxJH5dWXoIe+QLYs0wEv/n7Q3jl3cQCBIPjlhzRmb2eOMVH8WgPL0iKWas9D2Km5+wyKF0jnlMQ2xGYN2N4lXY6MYCvcQwK1kn2GiH5Yg2YtFrFKHAgO20fg/jbJkh1U9sJf3T5DyqyBrFCxWNiRyMr8hgdtnzilPRi61YPCFBsemLGrYOSGQHowUVEB1rWE1GgHCt9SYfVqbY6ZZOdPSyFotKrbbfGpHWBBKWnxteZM60H3QZ63UoDI4QFXH6Pzoy2RZ3a5vD+mb5Hiffawem25OWF4uEgK03J82kYP4+hrxzydnlzB07Hxi167KO6xaDIuNAsTVjsndvF5IqBZXuOan5czuHFG42wdLeZ/YxAj4w7im8Qy5tY135pRMQGK02rUXvbarALnUMHqFhQAxEG7ZE8eQYaibeXl8q0ke/2st8vmEWvwa0Aq+/L1NQayuUDxEIjudjKljM6cMVjIcEXp05yrzupNM02Uay9PtD5rVxXDGq25R3hRTvbQNqkDQldDSqmMRqI1ufTNdPSrG+rhK2HjTLDRMiXDH7vPC5RQLFDKByNC6nOLGcz9No0RAEDTfg5vVXBk3YNp0wHQd7gOY3yuOE0iw7lu3TrVCABeCHO8MWi0mmDfkwb05SEz48ognEbpcHOD5DUXnhyQoEANcMnkKrwLExTqb6ZdLBUrT8HkiB9LfVIscmZ0cYR7tMNZ/Xk28Op70hR5L8fy8INJejoyczSB/tlbLazoMUghAAFkI+qVQmmlqPsVdjHgR4QqS9NfnMdFIgd02FRU+on3bjGKlKULGBxRrQ4Z8M/C9DOicwmd9BN+ZiGZPfO9yRtPlUM8miUKIKFZ8gTag4btK1nnsnOCWgVd6f5fgZ9/LC+Nvw62j20DC2gpjlizQsZM7gwKqqtRyqYMm0PQ7VG8138/a/Q4xb3hWd7lY4HKSaocZ1zYfDWtbY797CHRe5UHJrxuW07R/pFW2vfBNAlJgQrDrw7Kj/m7C3nnTwo2dRI4VAIeok7r4RkM9Bq7RXsp4VcCqyQU4lZU/FYnXMpG46tu1oWr4+Yw9h8kbD/zv5dRdl0D8T9SNM8nY+R99ZlexY8AtRzlmMBOlQqTd1Co9PsYq/WPBWst3362UeylhQfXSA05bdYCtOkZSeomo58LOIjNDlSnqIDLH6eYSZsCaoF5eGe9FtQ+XKozqQlVVbOmcw297kBA0YdQ5I6N19phXu43G3qh6sbJVoKZo0jD0fR0zdsDj2POseuQZ584eI1CZOrDBFirinYQnyNzQTfGRezmadE1xrm/UWHoMsWXmcaCPACX1nSdcAmLLxoDWkzOPGUw0be4WMJONHR3xzzTdtYKV1HJ7LKUS4tZz1C8NSdeAWYmAbvpz15iHVdduCP2BZicUnzt/FCvlFJUF3unaYWqE2guctmByl1KNusLiBBo4obY85v4WBlQlZxVw6V6my2biCUIswGUa5dSyyhkO+pIYESWuQgmR3e2z0+iMWPVmKHe/W+XpbYci9bgGpisTOVBOJAax6YpxbvSjWfF1TcEAjopt1Kvk10D55mqoDOjaw3QcYHLrVArT5h74EnBuC139IwlStsmkhFi3ozYkSq/5hJI85ZB7lIapRskC84P2kzgBfFXwOTvcKt8E/oTbKH2HEFG8YgU7/2RHdKIHuG7GuVP/LvFjzirfq08XW8vEFgwRX52VqyIXEe6qlV9aFeAGQyaOQBfJNMM58kq4N0d5YaOCrkWttkuBBF3c/z+uTUSbWrpJMJ9Zn3ZXHQbBqlO3K54BQPNM46cJ4o7lBo2Gdo6/D0p6qacT09C80jEA1PUeSd+xmaIcv6FvmdjjXZ4EdbZ6B4KyHaNuF3sBe1OUrfTGukHfNCzZQ2s5fEmidt2JYAURXncTx7A0qdbR2QYipcv3cERFqQZwj4j2pS1RTWf+QZBpd7BOXyAnBr60FvcDppg3uSixbu58NVkGiyW5T5EwFU9CUEP/99J67sqA4P+RYP5YSsgiD6EyTzz8rr61zNqMyt+kWEcPQzvlw5Ho/nfYljDJ/mjOm2X2vHQEYeAoqwEMem5zFN0g9hm1X9gkDJcXA0R5Ee8+uvxpC+4HdfSh+MVPkmdF5q3+eIk11+FVVU/F6UfXdO6ODIqSfQfSJl7U/nYY8SiOi1LrLyxVg/buB9z0aKh016uwC3Qu3FVphUwo4yqHOJjub9Tpi9WzdHOFxRF0alB7ochzqOkySae3LuimWHVHhZ3/22Rn0J6OgayS5mW9ALAtdVjsrdn3M72+7Iz1JzR4y6XNu1EuIPki/2/F1DQ0JwXvzT42tI8Ub12ZvJ9y1b9Sz0vp+nZ3LsUeNhKe/AEVe3T73at4dGfAdwh2OpBpTHh2rxmeadw7IRgBQimvJNFlS9VUdGGyGMLh91slVIRRmg9ihEscggNatd9yFOiEd/B1LfevRkO92xz+Yehnu2Z41q1N8QKkJAAol+L6DY3FVTaNeFah1I3yJ/7E7CRW7fmEcD/IpL6gLKA4KZ/LsGObt9LQ6EGmT7ldw47gVZPcQIlAjHd0T+d8KaB/gyyExhwb2Oqvuwu0S7d7hecrYPoj5+PADbXaT1tZ9D9ui1qP+tQIQc1QrdSwu2aWcc+4B2TMNgNRehpmfoa8jHb/q8bC4SdefjORSNOn+1HeFwEtmHwKkKE5SHYHXhj1LWcMHIv0qa5gucTgeu7i/28UaB41bjnSA5RpflI+Ft5nFIvFrCPa5M0qSQ5rRG7btXGohQFGf5Bl9zICJdzL+fSzI07oJLm0Y7lq947/xTfTGQ/GmNXovgXJeJe7/2/njcQ==",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT3A"
+        },
+        "id": "call_7391779882881082063",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT3B"
+        },
+        "id": "call_7391779882881084232",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "TET2"
+        },
+        "id": "call_7391779882881082305",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EPAS1"
+        },
+        "id": "call_7391779882881084474",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_7391779882881082063",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:2978\", \"rows\": [{\"node_id\": \"pub:33292606\", \"publication_date\": \"2020-11-25\", \"title\": \"Leukemia cutis with IDH1, DNMT3A and NRAS mutations conferring resistance to venetoclax plus 5-azacytidine in refractory AML.\"}, {\"node_id\": \"pub:33159179\", \"publication_date\": \"2020-11-06\", \"title\": \"Bcor deficiency perturbs erythro-megakaryopoiesis and cooperates with Dnmt3a loss in acute erythroid leukemia onset in mice.\"}, {\"node_id\": \"pub:33087320\", \"publication_date\": \"2020-10-21\", \"title\": \"Alterations to <i>DNMT3A</i> in Hematologic Malignancies.\"}, {\"node_id\": \"pub:33082307\", \"publication_date\": \"2020-10-20\", \"title\": \"EVI1 phosphorylation at S436 regulates interactions with CtBP1 and DNMT3A and promotes self-renewal.\"}, {\"node_id\": \"pub:32961298\", \"publication_date\": \"2020-09-20\", \"title\": \"Dnmt3a-null hematopoietic stem and progenitor cells expand after busulfan treatment.\"}, {\"node_id\": \"pub:32856987\", \"publication_date\": \"2020-08-28\", \"title\": \"Germline DNMT3A mutation in familial acute myeloid leukaemia.\"}, {\"node_id\": \"pub:32728112\", \"publication_date\": \"2020-07-29\", \"title\": \"Survival differences and associated molecular signatures of DNMT3A-mutant acute myeloid leukemia patients.\"}, {\"node_id\": \"pub:32504054\", \"publication_date\": \"2020-06-01\", \"title\": \"DNMT3A and TET2 mutations reshape hematopoiesis in opposing ways.\"}, {\"node_id\": \"pub:32445940\", \"publication_date\": \"2020-05-13\", \"title\": \"DNMT3A alterations associated with myeloid malignancies dictate differential responses to hypomethylating agents.\"}, {\"node_id\": \"pub:32290079\", \"publication_date\": \"2020-04-10\", \"title\": \"Thrombotic Risk Detection in Patients with Polycythemia Vera: The Predictive Role of <i>DNMT3A/TET2/ASXL1</i> Mutations.\"}, {\"node_id\": \"pub:32123902\", \"publication_date\": \"2020-04-01\", \"title\": \"The acute myeloid leukemia variant DNMT3A Arg882His is a DNMT3B-like enzyme.\"}, {\"node_id\": \"pub:32269971\", \"publication_date\": \"2020-03-30\", \"title\": \"Characteristics of <i>DNMT3A</i> mutations in acute myeloid leukemia.\"}, {\"node_id\": \"pub:32220332\", \"publication_date\": \"2020-03-26\", \"title\": \"Divergent Effects of Dnmt3a and Tet2 Mutations on Hematopoietic Progenitor Cell Fitness.\"}, {\"node_id\": \"pub:32127410\", \"publication_date\": \"2020-03-03\", \"title\": \"&lt;i&gt;Dnmt3a&lt;/i&gt; and &lt;i&gt;Dnmt3b&lt;/i&gt;-Decommissioned Fetal Enhancers are Linked to Kidney Disease.\"}, {\"node_id\": \"pub:31932841\", \"publication_date\": \"2020-03-01\", \"title\": \"Dnmt3a loss and Idh2 neomorphic mutations mutually potentiate malignant hematopoiesis.\"}, {\"node_id\": \"pub:32355762\", \"publication_date\": \"2020-03-01\", \"title\": \"Epigenetic landscape analysis of lncRNAs in acute myeloid leukemia with DNMT3A mutations.\"}, {\"node_id\": \"pub:32015320\", \"publication_date\": \"2020-02-03\", \"title\": \"DNMT3A mutants provide proliferating advantage with augmentation of self-renewal activity in the pathogenesis of AML in KMT2A-PTD-positive leukemic cells.\"}, {\"node_id\": \"pub:31758527\", \"publication_date\": \"2020-02-01\", \"title\": \"DNMT3A reads and connects histone H3K36me2 to DNA methylation.\"}, {\"node_id\": \"pub:31996479\", \"publication_date\": \"2020-01-29\", \"title\": \"Remethylation of <i>Dnmt3a</i><sup>-/-</sup> hematopoietic cells is associated with partial correction of gene dysregulation and reduced myeloid skewing.\"}, {\"node_id\": \"pub:31839044\", \"publication_date\": \"2019-12-01\", \"title\": \"[Clinical Characteristics of Peripheral Hemogram and DNMT3A Gene Mutation in Patients with Primary AML Treated by FLT3-ITD-mt and FLT3-ITD-wt].\"}], \"total\": 102}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_7391779882881084232",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:2979\", \"rows\": [{\"node_id\": \"pub:32123902\", \"publication_date\": \"2020-04-01\", \"title\": \"The acute myeloid leukemia variant DNMT3A Arg882His is a DNMT3B-like enzyme.\"}, {\"node_id\": \"pub:32127410\", \"publication_date\": \"2020-03-03\", \"title\": \"&lt;i&gt;Dnmt3a&lt;/i&gt; and &lt;i&gt;Dnmt3b&lt;/i&gt;-Decommissioned Fetal Enhancers are Linked to Kidney Disease.\"}, {\"node_id\": \"pub:32051335\", \"publication_date\": \"2020-02-13\", \"title\": \"Dnmt3b ablation impairs fracture repair through upregulation of Notch pathway.\"}, {\"node_id\": \"pub:31971654\", \"publication_date\": \"2020-01-23\", \"title\": \"CCND1, NOP14 and DNMT3B are involved in miR-502-5p-mediated inhibition of cell migration and proliferation in bladder cancer.\"}, {\"node_id\": \"pub:31105426\", \"publication_date\": \"2019-05-08\", \"title\": \"Oncogenic Roles and Inhibitors of DNMT1, DNMT3A, and DNMT3B in Acute Myeloid Leukaemia.\"}, {\"node_id\": \"pub:31168296\", \"publication_date\": \"2019-04-29\", \"title\": \"Silencing long non-coding RNA HOTAIR exerts anti-oncogenic effect on human acute myeloid leukemia via demethylation of HOXA5 by inhibiting Dnmt3b.\"}, {\"node_id\": \"pub:30718452\", \"publication_date\": \"2019-01-18\", \"title\": \"miR-29c-3p regulates DNMT3B and LATS1 methylation to inhibit tumor progression in hepatocellular carcinoma.\"}, {\"node_id\": \"pub:30468428\", \"publication_date\": \"2018-11-23\", \"title\": \"Targets and genomic constraints of ectopic Dnmt3b expression.\"}, {\"node_id\": \"pub:29100357\", \"publication_date\": \"2017-08-10\", \"title\": \"DNMT3B overexpression contributes to aberrant DNA methylation and MYC-driven tumor maintenance in T-ALL and Burkitt's lymphoma.\"}, {\"node_id\": \"pub:28425913\", \"publication_date\": \"2017-04-20\", \"title\": \"Loss of Dnmt3a and Dnmt3b does not affect epidermal homeostasis but promotes squamous transformation through PPAR-\\u03b3.\"}, {\"node_id\": \"pub:26808831\", \"publication_date\": \"2016-01-25\", \"title\": \"The 'de novo' DNA methyltransferase Dnmt3b compensates the Dnmt1-deficient intestinal epithelium.\"}, {\"node_id\": \"pub:25639876\", \"publication_date\": \"2015-02-02\", \"title\": \"Methylation-independent repression of Dnmt3b contributes to oncogenic activity of Dnmt3a in mouse MYC-induced T-cell lymphomagenesis.\"}, {\"node_id\": \"pub:25204569\", \"publication_date\": \"2014-09-10\", \"title\": \"Prognostic and biologic significance of DNMT3B expression in older patients with cytogenetically normal primary acute myeloid leukemia.\"}, {\"node_id\": \"pub:25130491\", \"publication_date\": \"2014-08-14\", \"title\": \"Dnmt3a and Dnmt3b have overlapping and distinct functions in hematopoietic stem cells.\"}, {\"node_id\": \"pub:24028770\", \"publication_date\": \"2013-01-01\", \"title\": \"PU.1 target genes undergo Tet2-coupled  demethylation and DNMT3b-mediated  methylation in monocyte-to-osteoclast  differentiation.\"}, {\"node_id\": \"pub:23251566\", \"publication_date\": \"2012-12-10\", \"title\": \"High DNA methyltransferase DNMT3B levels: a poor prognostic marker in acute myeloid leukemia.\"}, {\"node_id\": \"pub:22133874\", \"publication_date\": \"2011-12-01\", \"title\": \"Loss of Dnmt3b function upregulates the tumor modifier Ment and accelerates mouse lymphomagenesis.\"}, {\"node_id\": \"pub:20507910\", \"publication_date\": \"2010-05-27\", \"title\": \"A single amino acid substitution confers enhanced methylation activity of mammalian Dnmt3b on chromatin DNA.\"}, {\"node_id\": \"pub:18676812\", \"publication_date\": \"2008-08-01\", \"title\": \"Vezf1 regulates genomic DNA methylation through its effects on expression of DNA methyltransferase Dnmt3b.\"}, {\"node_id\": \"pub:12897133\", \"publication_date\": \"2003-08-01\", \"title\": \"Establishment and maintenance of genomic methylation patterns in mouse embryonic stem cells by Dnmt3a and Dnmt3b.\"}], \"total\": 20}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_7391779882881082305",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:25941\", \"rows\": [{\"node_id\": \"pub:33681816\", \"publication_date\": \"2020-12-07\", \"title\": \"A Therapeutic Strategy for Preferential Targeting of TET2 Mutant and TET-dioxygenase Deficient Cells in Myeloid Neoplasms.\"}, {\"node_id\": \"pub:33255417\", \"publication_date\": \"2020-11-24\", \"title\": \"<i>TET2/IDH1/2/WT1</i> and <i>NPM1</i> Mutations Influence the <i>RUNX1</i> Expression Correlations in Acute Myeloid Leukemia.\"}, {\"node_id\": \"pub:33048426\", \"publication_date\": \"2020-11-18\", \"title\": \"TET2: A cornerstone in normal and malignant hematopoiesis.\"}, {\"node_id\": \"pub:33184433\", \"publication_date\": \"2020-11-12\", \"title\": \"Tet2 at the interface between cancer and immunity.\"}, {\"node_id\": \"pub:33172974\", \"publication_date\": \"2020-11-10\", \"title\": \"5-Azacytidine Transiently Restores Dysregulated Erythroid Differentiation Gene Expression in TET2-Deficient Erythroleukemia Cells.\"}, {\"node_id\": \"pub:33146288\", \"publication_date\": \"2020-10-30\", \"title\": \"miR-660-5p promotes breast cancer progression through down-regulating TET2 and activating PI3K/AKT/mTOR signaling.\"}, {\"node_id\": \"pub:35400021\", \"publication_date\": \"2020-10-23\", \"title\": \"Loss of <i>Tet2</i> affects platelet function but not coagulation in mice.\"}, {\"node_id\": \"pub:33085059\", \"publication_date\": \"2020-10-21\", \"title\": \"The function and regulation of TET2 in innate immunity and inflammation.\"}, {\"node_id\": \"pub:33029541\", \"publication_date\": \"2020-09-24\", \"title\": \"HMGB1 Recruits TET2/AID/TDG to Induce DNA Demethylation in STAT3 Promoter in CD4<sup>+</sup> T Cells from aGVHD Patients.\"}, {\"node_id\": \"pub:32948596\", \"publication_date\": \"2020-09-18\", \"title\": \"USP15 suppresses tumor immunity via deubiquitylation and inactivation of TET2.\"}, {\"node_id\": \"pub:32518946\", \"publication_date\": \"2020-08-01\", \"title\": \"Germline TET2 loss of function causes childhood immunodeficiency and lymphoma.\"}, {\"node_id\": \"pub:32726753\", \"publication_date\": \"2020-07-29\", \"title\": \"HDAC4 inhibition disrupts TET2 function in high-risk MDS and AML.\"}, {\"node_id\": \"pub:32619551\", \"publication_date\": \"2020-07-02\", \"title\": \"Loss of TET2 Affects Proliferation and Drug Sensitivity through Altered Dynamics of Cell-State Transitions.\"}, {\"node_id\": \"pub:33167720\", \"publication_date\": \"2020-06-17\", \"title\": \"Venetoclax induced complete remission in extramedullary relapse of AML co-harboring <i>NPM1</i>, <i>TET2</i>, and <i>NRAS</i> mutations after haploidentical hematopoietic stem cell transplantation.\"}, {\"node_id\": \"pub:32504054\", \"publication_date\": \"2020-06-01\", \"title\": \"DNMT3A and TET2 mutations reshape hematopoiesis in opposing ways.\"}, {\"node_id\": \"pub:32290079\", \"publication_date\": \"2020-04-10\", \"title\": \"Thrombotic Risk Detection in Patients with Polycythemia Vera: The Predictive Role of <i>DNMT3A/TET2/ASXL1</i> Mutations.\"}, {\"node_id\": \"pub:32382331\", \"publication_date\": \"2020-03-27\", \"title\": \"Characteristics of myeloid sarcoma in mice and patients with <i>TET2</i> deficiency.\"}, {\"node_id\": \"pub:32220332\", \"publication_date\": \"2020-03-26\", \"title\": \"Divergent Effects of Dnmt3a and Tet2 Mutations on Hematopoietic Progenitor Cell Fitness.\"}, {\"node_id\": \"pub:31963585\", \"publication_date\": \"2020-01-17\", \"title\": \"Age-Associated <i>TET2</i> Mutations: Common Drivers of Myeloid Dysfunction, Cancer and Cardiovascular Disease.\"}, {\"node_id\": \"pub:31859368\", \"publication_date\": \"2020-01-16\", \"title\": \"Angioimmunoblastic T-cell lymphoma contains multiple clonal T-cell populations derived from a common TET2 mutant progenitor cell.\"}], \"total\": 113}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_7391779882881084474",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:3374\", \"rows\": [{\"node_id\": \"pub:33049075\", \"publication_date\": \"2020-11-22\", \"title\": \"C-Terminal, but Not Intact, FGF23 and EPO Are Strongly Correlatively Elevated in Patients With Gain-of-Function Mutations in HIF2A: Clinical Evidence for EPO Regulating FGF23.\"}, {\"node_id\": \"pub:32718338\", \"publication_date\": \"2020-07-27\", \"title\": \"EPAS1 and VEGFA gene variants are related to the symptoms of acute mountain sickness in Chinese Han population: a cross-sectional study.\"}, {\"node_id\": \"pub:32470757\", \"publication_date\": \"2020-05-19\", \"title\": \"EPAS1 regulates proliferation of erythroblasts in chronic mountain sickness.\"}, {\"node_id\": \"pub:32235007\", \"publication_date\": \"2020-04-01\", \"title\": \"A novel germline gain-of-function HIF2A mutation in hepatocellular carcinoma with polycythemia.\"}, {\"node_id\": \"pub:32185192\", \"publication_date\": \"2020-02-24\", \"title\": \"Association of <i>EPAS1</i> and <i>PPARA</i> Gene Polymorphisms with High-Altitude Headache in Chinese Han Population.\"}, {\"node_id\": \"pub:31697676\", \"publication_date\": \"2019-11-07\", \"title\": \"Physiological and genomic evidence that selection on the transcription factor Epas1 has altered cardiovascular function in high-altitude deer mice.\"}, {\"node_id\": \"pub:31273382\", \"publication_date\": \"2019-11-01\", \"title\": \"EPAS1 Gain-of-Function Mutation Contributes to High-Altitude Adaptation in Tibetan Horses.\"}, {\"node_id\": \"pub:31681516\", \"publication_date\": \"2019-10-28\", \"title\": \"Genetic changes in the <i>EPAS1</i> gene between Tibetan and Han ethnic groups and adaptation to the plateau hypoxic environment.\"}, {\"node_id\": \"pub:31038790\", \"publication_date\": \"2019-05-16\", \"title\": \"A new exon 12 mutation in the EPAS1 gene possibly associated with erythrocytosis.\"}, {\"node_id\": \"pub:31091718\", \"publication_date\": \"2019-05-14\", \"title\": \"A Transgenic Mouse Model of Pacak\\u207bZhuang Syndrome with An <i>Epas1</i> Gain-of-Function Mutation.\"}, {\"node_id\": \"pub:30778304\", \"publication_date\": \"2019-02-04\", \"title\": \"Association Between Single Nucleotide Polymorphisms in PPARA and EPAS1 Genes and High-Altitude Appetite Loss in Chinese Young Men.\"}, {\"node_id\": \"pub:30644531\", \"publication_date\": \"2019-01-15\", \"title\": \"Nonmosaic somatic HIF2A mutations associated with late onset polycythemia-paraganglioma syndrome: Newly recognized subclass of polycythemia-paraganglioma syndrome.\"}, {\"node_id\": \"pub:29615467\", \"publication_date\": \"2018-04-25\", \"title\": \"Late neuroprogenitors contribute to normal retinal vascular development in a Hif2a-dependent manner.\"}, {\"node_id\": \"pub:29026132\", \"publication_date\": \"2017-10-12\", \"title\": \"Evidence of Early-Stage Selection on EPAS1 and GPR126 Genes in Andean High Altitude Populations.\"}, {\"node_id\": \"pub:29156832\", \"publication_date\": \"2017-09-30\", \"title\": \"Associations of high altitude polycythemia with polymorphisms in <i>EPAS1, ITGA6</i> and <i>ERBB4</i> in Chinese Han and Tibetan populations.\"}, {\"node_id\": \"pub:28928136\", \"publication_date\": \"2017-09-19\", \"title\": \"Endothelial <i>Epas1</i> Deficiency Is Sufficient To Promote Parietal Epithelial Cell Activation and FSGS in Experimental Hypertension.\"}, {\"node_id\": \"pub:28096303\", \"publication_date\": \"2017-04-01\", \"title\": \"Down-Regulation of EPAS1 Transcription and Genetic Adaptation of Tibetans to High-Altitude Hypoxia.\"}, {\"node_id\": \"pub:28233034\", \"publication_date\": \"2017-02-23\", \"title\": \"Gain-of-function EGLN1 prolyl hydroxylase (PHD2 D4E:C127S) in combination with EPAS1 (HIF-2\\u03b1) polymorphism lowers hemoglobin concentration in Tibetan highlanders.\"}, {\"node_id\": \"pub:26325097\", \"publication_date\": \"2015-09-01\", \"title\": \"HIF2a inhibitors for the treatment of VHL disease.\"}, {\"node_id\": \"pub:24884370\", \"publication_date\": \"2014-05-18\", \"title\": \"EPAS1 gene variants are associated with sprint/power athletic performance in two cohorts of European athletes.\"}], \"total\": 36}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      }
+    ],
+    "max_output_tokens": 32000,
+    "model_id": "gemini-3.8-flash",
+    "output_schema": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "cited_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "gene_symbol": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "gene_symbol",
+              "confidence",
+              "cited_ids",
+              "rationale"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "refusals": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "gene_symbol": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "gene_symbol",
+              "reason"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "claims",
+        "refusals"
+      ],
+      "type": "object"
+    },
+    "system": "You are taking part in a retrospective forecasting evaluation in human genetics.\nYou answer as a researcher standing at a stated cutoff date. Use only what was known before that date. If you recall a result published on or after the cutoff, do not use it and do not let it raise your confidence.",
+    "thinking_level": "medium",
+    "tools": [
+      {
+        "description": "Counts of what the graph holds about one gene before the cutoff: publications naming it, measurements by assay, and complex partners. Call this first to decide whether a gene is worth a closer look.",
+        "name": "gene_evidence_summary",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Measurements recorded for one gene before the cutoff, most recent first: ID, date, assay, data source, phenotype and value. Returns at most 20 rows and the total.",
+        "name": "gene_measurements",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Publications dated before the cutoff that name one gene, most recent first: ID, publication date and title. Returns at most 20 rows and the total.",
+        "name": "gene_publications",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Genes recorded as members of the same protein complex as one gene: gene ID, symbol and the complex they share.",
+        "name": "complex_partners",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "The candidate genes ranked by how many publications dated before the cutoff name them. A count measures attention, not evidence of a role.",
+        "name": "genes_by_publication_count",
+        "parameters": {
+          "properties": {},
+          "required": [],
+          "type": "object"
+        },
+        "type": "function"
+      }
+    ]
+  },
+  "response": {
+    "input_tokens": 31507,
+    "output_tokens": 114,
+    "served_model_id": "gemini-3.8-flash",
+    "status": "requires_action",
+    "steps": [
+      {
+        "signature": "ErcBCrQBAWkUfRN8Zd7GrLW8RCUYrQhIZ5lgAYpdtfeUGu2YJEyQ0FcVska4xXr0TOiIFqCBLTk4WPh9zmJIUB4B2dBbDv+tpfD1LAg5HTKlnyUI1wn7Xadh9Bdep3GGJiUlGnnbBIzcl23VgmqTHb6Eqi4dndHWvcCm6cHenHs03eBVXXcROJNXczSMa1CrmDEYWiquAGcURTR2lAOjRgxGGmxchmpZkUot6p0TPHwtIl15ToYmWMwM",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "SMAD1"
+        },
+        "id": "call_15739102554479646217",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "SMAD5"
+        },
+        "id": "call_15739102554479647074",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZBTB33"
+        },
+        "id": "call_15739102554479647931",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "VHL"
+        },
+        "id": "call_15739102554479644692",
+        "name": "gene_publications",
+        "type": "function_call"
+      }
+    ]
+  }
+}

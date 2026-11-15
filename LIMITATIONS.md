@@ -176,7 +176,8 @@ another model, another provider or a later version of the same model would
 answer. The training cutoff of the pinned model is later than all three
 evaluation cutoffs, so every model row is exposed to recall, and no row comes
 from a model trained before its cutoff. The prompts and the tool definitions
-were written for this model and were not tested on another.
+were written before this model was chosen, were not tuned to it, and were not
+tested on another.
 
 ## The cost lens is a stated policy, not a measurement
 

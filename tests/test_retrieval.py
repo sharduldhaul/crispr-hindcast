@@ -151,7 +151,7 @@ def test_the_text_condition_gives_the_model_ids_titles_and_dates(toy_store: Stor
     result = _run_text(toy_store, tmp_path, transport)
     replayed = _run_text(toy_store, tmp_path, None)
 
-    prompt = transport.requests[0].messages[0]["content"]
+    prompt = transport.requests[0].input[0]["content"][0]["text"]
     assert f"[{PRE_TITLE_ID}] 2013-03-22 | BCL11A enhancer dissection" in prompt
     assert result.run.status is RunStatus.RAN
     assert result.run.context_node_ids == [PRE_TITLE_ID]

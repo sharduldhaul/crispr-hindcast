@@ -74,66 +74,64 @@ _GENE_SCHEMA: dict[str, Any] = {
         }
     },
     "required": ["gene_symbol"],
-    "additionalProperties": False,
 }
 
 _NO_INPUT_SCHEMA: dict[str, Any] = {
     "type": "object",
     "properties": {},
     "required": [],
-    "additionalProperties": False,
 }
 
 #: The tool definitions sent to the API. Part of the request, so part of the
 #: cache key: editing a description can never replay an old response.
 TOOL_DEFINITIONS: list[dict[str, Any]] = [
     {
+        "type": "function",
         "name": str(GraphTool.GENE_EVIDENCE_SUMMARY),
         "description": (
             "Counts of what the graph holds about one gene before the cutoff: "
             "publications naming it, measurements by assay, and complex partners. "
             "Call this first to decide whether a gene is worth a closer look."
         ),
-        "strict": True,
-        "input_schema": _GENE_SCHEMA,
+        "parameters": _GENE_SCHEMA,
     },
     {
+        "type": "function",
         "name": str(GraphTool.GENE_MEASUREMENTS),
         "description": (
             "Measurements recorded for one gene before the cutoff, most recent first: "
             "ID, date, assay, data source, phenotype and value. Returns at most "
             f"{ROWS_PER_TOOL_RESULT} rows and the total."
         ),
-        "strict": True,
-        "input_schema": _GENE_SCHEMA,
+        "parameters": _GENE_SCHEMA,
     },
     {
+        "type": "function",
         "name": str(GraphTool.GENE_PUBLICATIONS),
         "description": (
             "Publications dated before the cutoff that name one gene, most recent "
             "first: ID, publication date and title. Returns at most "
             f"{ROWS_PER_TOOL_RESULT} rows and the total."
         ),
-        "strict": True,
-        "input_schema": _GENE_SCHEMA,
+        "parameters": _GENE_SCHEMA,
     },
     {
+        "type": "function",
         "name": str(GraphTool.COMPLEX_PARTNERS),
         "description": (
             "Genes recorded as members of the same protein complex as one gene: "
             "gene ID, symbol and the complex they share."
         ),
-        "strict": True,
-        "input_schema": _GENE_SCHEMA,
+        "parameters": _GENE_SCHEMA,
     },
     {
+        "type": "function",
         "name": str(GraphTool.GENES_BY_PUBLICATION_COUNT),
         "description": (
             "The candidate genes ranked by how many publications dated before the "
             "cutoff name them. A count measures attention, not evidence of a role."
         ),
-        "strict": True,
-        "input_schema": _NO_INPUT_SCHEMA,
+        "parameters": _NO_INPUT_SCHEMA,
     },
 ]
 

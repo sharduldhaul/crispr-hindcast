@@ -19,7 +19,7 @@ dependencies = [
 dev = ["pytest>=8.3", "pytest-cov>=5.0", "ruff==0.17.3", "numpy>=2,<3"]
 # Needed only for a live model call or to compute retrieval. Replaying committed
 # responses and retrieval records needs none of it.
-llm = ["anthropic>=1,<2", "numpy>=2,<3", "fastembed>=0.5,<1"]
+llm = ["google-genai>=3.3,<3.4", "numpy>=2,<3", "fastembed>=0.5,<1"]
 
 [project.scripts]
 hindcast = "hindcast.cli:app"
