@@ -131,7 +131,7 @@ def test_the_result_file_carries_the_grounding_report(toy_store: Store, tmp_path
     result = run_llm_slice(
         CUTOFF,
         RetrievalCondition.NONE,
-        model_id="claude-opus-5-5",
+        model_id="gemini-3.8-flash",
         store_path=toy_store.path,
         cache=ReplayCache(tmp_path / "model_cache"),
         transport=FakeTransport(json.dumps(answer)),

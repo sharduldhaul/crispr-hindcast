@@ -125,7 +125,7 @@ The badge at the top of this page opens the repository in a codespace. It
 installs the pipeline, builds the graph, builds the app and opens it on port
 4100, with nothing to do by hand. `hindcast verify` runs the test suite there.
 
-A live model run needs your own key. Add `ANTHROPIC_API_KEY` as a
+A live model run needs your own key. Add `GEMINI_API_KEY` as a
 [Codespaces secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
 for this repository, then in the codespace's terminal:
 

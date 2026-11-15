@@ -3,7 +3,7 @@
 Contract. A `ModelRequest` goes in and a `ModelResponse` comes out, from the
 cache when the request has been seen before and from the transport otherwise.
 The cache key is the SHA-256 of the whole request (model ID, system prompt,
-messages, tools, output schema and parameters), so a response can only ever be
+input steps, tools, output schema and parameters), so a response can only ever be
 replayed for the exact request that produced it. Editing a prompt changes the
 key and the old response is simply never found.
 
@@ -33,26 +33,39 @@ CACHE_DIR = Path(__file__).resolve().parents[3] / "eval" / "model_cache"
 
 #: The model every committed row was run with. Written into each result. A
 #: different model is a different row, never a silent replacement.
-DEFAULT_MODEL_ID = "claude-opus-5-5"
+DEFAULT_MODEL_ID = "gemini-3.8-flash"
 
-#: Output budget per call, thinking included. Large enough that a full answer
-#: over the candidate list cannot be cut off; a response that still hits the
-#: limit is recorded as a failure.
-MAX_OUTPUT_TOKENS = 16000
+#: Output budget per call, thinking included. About twice what the first live
+#: request used, so thinking cannot crowd out the answer; a response that still
+#: hits the limit is recorded as a failure. See METHODOLOGY.md.
+MAX_OUTPUT_TOKENS = 32000
 
-#: Reasoning effort, set explicitly so a change in the provider's default
+#: Thinking level, set explicitly so a change in the provider's default
 #: cannot change a result. See METHODOLOGY.md.
-EFFORT = "medium"
+THINKING_LEVEL = "medium"
 
-#: SDK retries on connection errors, 408, 409, 429 and 5xx. Transport only: an
-#: invalid answer is never retried.
-MAX_TRANSPORT_RETRIES = 2
+#: Wall-clock limit for one live call, in seconds. Transport only, so it is
+#: not part of the cache key: a call that exceeds it raises and is re-run.
+#: Without it a connection the server has dropped waits forever.
+REQUEST_TIMEOUT_SECONDS = 1800
 
-#: List price in USD per million tokens, as (input, output). A model with no
-#: entry cannot be run, so a cost is never guessed.
+#: Paid-tier list price in USD per million tokens, as (input, output), on the
+#: day the rows were run. Thinking tokens are priced as output. A run on the
+#: free tier is billed nothing; the cost recorded is what the same tokens cost
+#: at list price. A model with no entry cannot be run, so a cost is never guessed.
 PRICES_USD_PER_MILLION_TOKENS: dict[str, tuple[float, float]] = {
-    "claude-opus-5-5": (4.0, 20.0),
+    "gemini-3.8-flash": (0.75, 3.75),
 }
+
+#: Step types, as the Interactions API names them.
+STEP_USER_INPUT = "user_input"
+STEP_FUNCTION_CALL = "function_call"
+STEP_FUNCTION_RESULT = "function_result"
+STEP_MODEL_OUTPUT = "model_output"
+
+#: The status of an interaction that ended normally. Any other status on a
+#: response with no tool call left to answer is recorded as a failure.
+STATUS_COMPLETED = "completed"
 
 
 class ModelRequest(BaseModel):
@@ -62,11 +75,11 @@ class ModelRequest(BaseModel):
 
     model_id: str
     system: str
-    messages: list[dict[str, Any]]
+    input: list[dict[str, Any]]
     tools: list[dict[str, Any]] = Field(default_factory=list)
     output_schema: dict[str, Any]
     max_output_tokens: int = MAX_OUTPUT_TOKENS
-    effort: str = EFFORT
+    thinking_level: str = THINKING_LEVEL
 
     def cache_key(self) -> str:
         canonical = json.dumps(self.model_dump(), sort_keys=True, separators=(",", ":"))
@@ -74,19 +87,32 @@ class ModelRequest(BaseModel):
 
 
 class ModelResponse(BaseModel):
-    """One response as received: content blocks, stop reason and token usage."""
+    """One response as received: the model's steps, its status and token usage.
+
+    `output_tokens` includes thinking tokens, which are priced as output.
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     served_model_id: str
-    content: list[dict[str, Any]]
-    stop_reason: str
+    steps: list[dict[str, Any]]
+    status: str
     input_tokens: int
     output_tokens: int
 
+    def function_calls(self) -> list[dict[str, Any]]:
+        """The tool calls the model made in this response, in order."""
+        return [s for s in self.steps if s.get("type") == STEP_FUNCTION_CALL]
+
     def text(self) -> str:
-        """The text of the first text block, or an empty string if there is none."""
-        return next((str(b.get("text", "")) for b in self.content if b.get("type") == "text"), "")
+        """The text the model output, joined in order, or an empty string if there is none."""
+        return "".join(
+            str(block.get("text", ""))
+            for step in self.steps
+            if step.get("type") == STEP_MODEL_OUTPUT
+            for block in step.get("content") or []
+            if block.get("type") == "text"
+        )
 
 
 class CacheEntry(BaseModel):
@@ -146,38 +172,58 @@ def cost_usd(model_id: str, input_tokens: int, output_tokens: int) -> float:
     return round((input_tokens * input_price + output_tokens * output_price) / 1_000_000, 6)
 
 
-def anthropic_transport(request: ModelRequest) -> ModelResponse:
-    """One live call through the Anthropic SDK. Needs the `llm` extra and a key."""
+def gemini_transport(request: ModelRequest) -> ModelResponse:
+    """One live call through the Gemini Interactions API. Needs the `llm` extra and a key.
+
+    The call is stateless: nothing is stored by the provider, and the whole
+    history is in `request.input`. The SDK retries connection errors, 408, 409,
+    429 and 5xx with backoff, which is transport only: an invalid answer is
+    never retried.
+    """
     # Imported here so the offline path, which never calls this, does not need
     # the `llm` extra installed.
-    import anthropic
+    from google import genai
 
-    client = anthropic.Anthropic(max_retries=MAX_TRANSPORT_RETRIES)
-    kwargs: dict[str, Any] = {
+    # The SDK exports no public name for the errors its interactions client
+    # raises, so the dependency is pinned to the minor version this path is from.
+    from google.genai._gaos.lib.compat_errors import APIError
+
+    body: dict[str, Any] = {
         "model": request.model_id,
-        "max_tokens": request.max_output_tokens,
-        "system": request.system,
-        "messages": request.messages,
-        "output_config": {
-            "effort": request.effort,
-            "format": {"type": "json_schema", "schema": request.output_schema},
+        "input": request.input,
+        "system_instruction": request.system,
+        "store": False,
+        "generation_config": {
+            "thinking_level": request.thinking_level,
+            "max_output_tokens": request.max_output_tokens,
+        },
+        "response_format": {
+            "type": "text",
+            "mime_type": "application/json",
+            "schema": request.output_schema,
         },
     }
     if request.tools:
-        kwargs["tools"] = request.tools
+        body["tools"] = request.tools
+    # Held in a name for the whole call: an unreferenced client is collected,
+    # and closes its HTTP connection, before the request is sent.
+    client = genai.Client()
     try:
-        message = client.messages.create(**kwargs)
-    except anthropic.APIStatusError as exc:
+        interaction = client.interactions.create(**body, timeout=REQUEST_TIMEOUT_SECONDS)
+    except APIError as exc:
         # Class and status only. The SDK's message can echo request details,
         # and nothing from the request belongs in a log.
-        raise ModelTransportError(f"{type(exc).__name__} (HTTP {exc.status_code})") from None
-    except anthropic.APIConnectionError as exc:
-        raise ModelTransportError(type(exc).__name__) from None
+        status = getattr(exc, "status_code", None)
+        detail = f" (HTTP {status})" if status is not None else ""
+        raise ModelTransportError(f"{type(exc).__name__}{detail}") from None
 
+    usage = interaction.usage
+    if usage is None or usage.total_input_tokens is None or usage.total_output_tokens is None:
+        raise ModelTransportError("the response reported no token usage")
     return ModelResponse(
-        served_model_id=message.model,
-        content=message.to_dict()["content"],
-        stop_reason=str(message.stop_reason),
-        input_tokens=message.usage.input_tokens,
-        output_tokens=message.usage.output_tokens,
+        served_model_id=str(interaction.model),
+        steps=[step.model_dump(mode="json") for step in interaction.steps or []],
+        status=str(interaction.status),
+        input_tokens=usage.total_input_tokens,
+        output_tokens=usage.total_output_tokens + (usage.total_thought_tokens or 0),
     )

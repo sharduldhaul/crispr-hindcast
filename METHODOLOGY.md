@@ -638,10 +638,11 @@ what the signal cannot detect.
 
 | Constant | Value | Reason |
 | --- | --- | --- |
-| `DEFAULT_MODEL_ID` | `claude-opus-5-5` | One pinned model for every committed row. The ID is part of the cache key and is written into each result, with the model ID the API reports having served. |
-| `EFFORT` | `medium` | The provider's default for this model, set explicitly so a change of default cannot change a result. Sampling parameters are not accepted by this model and none are sent. |
-| `MAX_OUTPUT_TOKENS` | 16000 | Covers reasoning and a full answer over the candidate list. A response that reaches the limit is a failure. |
-| `MAX_TRANSPORT_RETRIES` | 2 | The SDK default, for connection errors and HTTP 408, 409, 429 and 5xx only. |
+| `DEFAULT_MODEL_ID` | `gemini-3.8-flash` | One pinned model for every committed row. The ID is part of the cache key and is written into each result, with the model ID the API reports having served. |
+| `THINKING_LEVEL` | `medium` | Set explicitly so a change in the provider's default cannot change a result. No sampling parameters are sent. |
+| `MAX_OUTPUT_TOKENS` | 32000 | Covers thinking and a full answer over the candidate list; the provider counts thinking against this limit. Raised from 16000 before any graded model result existed: the first live request (2014 cutoff, no retrieval) used 15,102 tokens on one attempt and reached the limit at 15,985 on the next. A response that reaches the limit is a failure. |
+| `REQUEST_TIMEOUT_SECONDS` | 1800 | Wall-clock limit for one live call. The slowest completed call in the first live runs took 26 minutes; with no limit set, a call whose connection the server had closed waited until it was stopped by hand. Transport only: not part of the cache key, and a call that exceeds it is re-run, never recorded. |
+| Transport retries | 4 | The SDK default (google-genai 3.3), left unset, for connection errors and HTTP 408, 409, 429 and 5xx only. An invalid answer is never retried. |
 | `EMBEDDING_MODEL` | `BAAI/bge-small-en-v1.5` | A small open model (MIT license, 384 dimensions) that runs locally on a CPU through fastembed, so computing retrieval sends no data to a third party and needs no key. |
 | `RRF_K` | 60 | The constant from the paper that introduced reciprocal rank fusion (Cormack, Clarke and Büttcher, SIGIR 2009). Not tuned here. |
 | `RANKER_DEPTH` | 50 | Rows each ranker contributes per gene before fusion. Ten times the rows kept, so a row needs a high rank under one ranker or a moderate rank under both. |
@@ -649,7 +650,7 @@ what the signal cannot detect.
 | `TOOL_CALL_BUDGET` | 40 | Tool calls per run. About one per candidate gene at the 2017 cutoff (41 candidates), so the model can look at every gene once or at fewer genes in depth, and the cost of a run is bounded. Set before any live run. |
 | `ROWS_PER_TOOL_RESULT` | 20 | Rows per tool result. Bounds the size of each request; the total is always stated. |
 | `MAX_MODEL_TURNS` | 42 | `TOOL_CALL_BUDGET` + 2: every turn before the budget is spent uses at least one call, one further turn is told the budget is spent, and one must answer. |
-| `PRICES_USD_PER_MILLION_TOKENS` | 4 input, 20 output | List price for the pinned model. `cost_usd` is input and output tokens at these prices. |
+| `PRICES_USD_PER_MILLION_TOKENS` | 0.75 input, 3.75 output | Paid-tier list price for the pinned model on the days the rows were run (November 2026). Thinking tokens are counted and priced as output. `cost_usd` is input and output tokens at these prices; the rows were run on the provider's free tier, which billed nothing. |
 
 ### Replay
 

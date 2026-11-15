@@ -39,8 +39,8 @@ def _renderer() -> ModuleType:
 def _answering(request: ModelRequest) -> ModelResponse:
     return ModelResponse(
         served_model_id=request.model_id,
-        content=[{"type": "text", "text": json.dumps(ANSWER)}],
-        stop_reason="end_turn",
+        steps=[{"type": "model_output", "content": [{"type": "text", "text": json.dumps(ANSWER)}]}],
+        status="completed",
         input_tokens=1000,
         output_tokens=500,
     )

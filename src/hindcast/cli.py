@@ -22,7 +22,7 @@ from rich.console import Console
 from rich.table import Table
 
 from hindcast.llm import retrieval
-from hindcast.llm.client import DEFAULT_MODEL_ID, ModelTransportError, anthropic_transport
+from hindcast.llm.client import DEFAULT_MODEL_ID, ModelTransportError, gemini_transport
 from hindcast.llm.forecaster import RetrievalCondition, RunStatus
 from hindcast.llm.run import LLMSliceResult, candidate_symbols, run_llm_slice
 from hindcast.pipeline import (
@@ -41,7 +41,9 @@ from hindcast.pipeline import (
 from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
 from hindcast.store import Store
 
-app = typer.Typer(add_completion=False, help=__doc__)
+# Locals stay out of error reports: a frame inside the HTTP client holds the
+# request headers, and the API key must never reach a log.
+app = typer.Typer(add_completion=False, help=__doc__, pretty_exceptions_show_locals=False)
 console = Console()
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -164,14 +166,14 @@ def llm(
 ) -> None:
     """Run the language-model forecaster on one slice, replaying from the cache.
 
-    Without `--live`, or without ANTHROPIC_API_KEY, a request that is not in
+    Without `--live`, or without GEMINI_API_KEY, a request that is not in
     the cache is reported as not run and the command still exits 0.
     """
     transport = None
-    if live and os.environ.get("ANTHROPIC_API_KEY"):
-        transport = anthropic_transport
+    if live and os.environ.get("GEMINI_API_KEY"):
+        transport = gemini_transport
     elif live:
-        console.print("ANTHROPIC_API_KEY is not set, so no live call will be made")
+        console.print("GEMINI_API_KEY is not set, so no live call will be made")
     try:
         result = run_llm_slice(
             date.fromisoformat(cutoff),

@@ -67,7 +67,7 @@ pipeline gets for free.
 - The model receives only what the slice connection returns. It never sees the
   rule book, the answer key or the traps.
 - Every call goes through the replay cache. A live call requires `--live` and
-  `ANTHROPIC_API_KEY`.
+  `GEMINI_API_KEY`.
 - Keys come from the environment and never appear in logs, trajectories or
   results.
 - Each run records input tokens, output tokens and cost.

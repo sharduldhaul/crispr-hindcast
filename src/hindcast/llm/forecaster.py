@@ -36,6 +36,9 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_valida
 from hindcast.agents.base import Agent
 from hindcast.agents.forecast import Forecast, ForecastItem, Refusal
 from hindcast.llm.client import (
+    STATUS_COMPLETED,
+    STEP_FUNCTION_RESULT,
+    STEP_USER_INPUT,
     ModelRequest,
     ModelResponse,
     ReplayCache,
@@ -296,7 +299,9 @@ class LLMForecaster(Agent):
             ),
         )
         graph = condition is RetrievalCondition.GRAPH
-        messages: list[dict[str, Any]] = [{"role": "user", "content": prompt}]
+        steps: list[dict[str, Any]] = [
+            {"type": STEP_USER_INPUT, "content": [{"type": "text", "text": prompt}]}
+        ]
         run = ModelRun(
             status=RunStatus.NOT_RUN,
             status_reason="",
@@ -328,7 +333,7 @@ class LLMForecaster(Agent):
             request = ModelRequest(
                 model_id=model_id,
                 system=SYSTEM_PROMPT,
-                messages=messages,
+                input=steps,
                 tools=TOOL_DEFINITIONS if graph else [],
                 output_schema=ANSWER_JSON_SCHEMA,
             )
@@ -336,7 +341,7 @@ class LLMForecaster(Agent):
             if response is None:
                 run.status_reason = (
                     "The request is not in eval/model_cache/ and no live call was made. "
-                    "Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it."
+                    "Run `hindcast llm --live` with GEMINI_API_KEY set to populate it."
                 )
                 # A loop that stopped part-way did not run: what it gathered
                 # is not reported as the context of an answer that never came.
@@ -344,15 +349,11 @@ class LLMForecaster(Agent):
                 run.tool_calls = []
                 self.finish(_summary(run), inputs=inputs)
                 return run
-            if not graph or response.stop_reason != "tool_use":
+            if not graph or not response.function_calls():
                 break
             results = self._run_tools(response, turn, run, slice_store, candidates)
-            # The assistant content goes back exactly as received.
-            messages = [
-                *messages,
-                {"role": "assistant", "content": response.content},
-                {"role": "user", "content": results},
-            ]
+            # The model's steps go back exactly as received, thoughts included.
+            steps = [*steps, *response.steps, *results]
         assert response is not None
         run.context_node_ids = sorted(
             set(run.context_node_ids) | {i for c in run.tool_calls for i in c.node_ids}
@@ -363,10 +364,10 @@ class LLMForecaster(Agent):
 
         with self.tool("parse_answer") as call:
             failure = ""
-            if response.stop_reason == "tool_use":
+            if response.function_calls():
                 failure = f"the model did not answer within {MAX_MODEL_TURNS} model turns"
-            elif response.stop_reason != "end_turn":
-                failure = f"the response stopped with stop_reason {response.stop_reason!r}"
+            elif response.status != STATUS_COMPLETED:
+                failure = f"the response ended with status {response.status!r}"
             else:
                 try:
                     run.answer = ModelAnswer.model_validate_json(response.text())
@@ -414,11 +415,9 @@ class LLMForecaster(Agent):
     ) -> list[dict[str, Any]]:
         """Answer every tool call in one response from the slice, within the budget."""
         results: list[dict[str, Any]] = []
-        for block in response.content:
-            if block.get("type") != "tool_use":
-                continue
-            name = str(block.get("name", ""))
-            arguments = block.get("input")
+        for step in response.function_calls():
+            name = str(step.get("name", ""))
+            arguments = step.get("arguments")
             with self.tool(f"graph_tool:{name}", arguments=arguments) as call:
                 used = sum(c.outcome is not ToolOutcome.OVER_BUDGET for c in run.tool_calls)
                 if used >= TOOL_CALL_BUDGET:
@@ -439,9 +438,10 @@ class LLMForecaster(Agent):
                 call.records_out = len(result.node_ids)
                 call.result_summary = f"{outcome}; IDs returned: {', '.join(result.node_ids)}"
             tool_result: dict[str, Any] = {
-                "type": "tool_result",
-                "tool_use_id": block.get("id"),
-                "content": result.content,
+                "type": STEP_FUNCTION_RESULT,
+                "name": name,
+                "call_id": step.get("id"),
+                "result": [{"type": "text", "text": result.content}],
             }
             if result.is_error:
                 tool_result["is_error"] = True
@@ -476,7 +476,7 @@ class LLMForecaster(Agent):
             call.records_out = 1
             call.result_summary = (
                 f"{source}; {response.input_tokens} input tokens, "
-                f"{response.output_tokens} output tokens, stop_reason {response.stop_reason}"
+                f"{response.output_tokens} output tokens, status {response.status}"
             )
             return response
 
