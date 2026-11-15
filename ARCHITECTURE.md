@@ -1,12 +1,14 @@
 # Architecture
 
-Three diagrams, from simple to medium detail. Each section explains the idea in
-ML terms, because the biology is the domain and not the method.
+Three diagrams, from the whole pipeline down to one score. Each section
+explains the idea in ML terms, because the biology is the domain and not the
+method.
 
 The diagrams share one colour code: blue is evidence, violet is the rule-based
 system, orange is the language model, green is grading, red is a guard or a
-refusal, and yellow is the cost lens. Each source is an `.excalidraw` scene in
-`diagrams/` that opens in [Excalidraw](https://excalidraw.com), rendered with:
+refusal, and yellow is the cost lens. Each source is the `.excalidraw` scene of
+the same name in `diagrams/`, which opens in
+[Excalidraw](https://excalidraw.com) and is rendered with:
 
 ```bash
 npx -y @excalidraw/cli@0.3.0 render diagrams/<name>.excalidraw \
@@ -36,61 +38,14 @@ date, reasoned over, and graded against what was published afterwards. Two
 forecasters read the same slice, the rule-based system and a language model,
 and one grader scores both.
 
-![System architecture](diagrams/system_architecture.png)
-
-Source: [`diagrams/system_architecture.excalidraw`](diagrams/system_architecture.excalidraw).
+![System architecture: public data becomes an evidence graph that is cut at a date T; a rule-based system and a language model forecast from the earlier part, and a grader scores them against the answer key built from the later part](diagrams/system_architecture.png)
 
 ## 2. Evaluation design: a leak-proof time split
 
-What makes the benchmark worth trusting is not the forecaster but the
-evaluation around it. Read it as a time-based train/test split where the split
-is enforced by infrastructure rather than by convention.
+A time-based train/test split, enforced by infrastructure rather than by
+convention.
 
-```mermaid
-flowchart TB
-    subgraph data["All evidence, every row timestamped"]
-        pre["Rows dated before T<br/><i>the only inputs</i>"]
-        post["Publications dated on or after T<br/><i>used only to build labels</i>"]
-    end
-
-    subgraph guard["Leak guard, enforced by the database"]
-        materialize["Copy pre-T rows into a<br/>separate slice database"]
-        lock["Open it read-only,<br/>block ATTACH to other DBs"]
-        leaktest["test_slice_leak.py<br/>tries every leak route"]
-    end
-
-    subgraph labels["Labels, fixed before any run"]
-        rule["Title rule: first paper<br/>asserting the gene regulates HbF"]
-        frozen["Answer key + all thresholds<br/>committed and git-tagged<br/><i>like a preregistration</i>"]
-    end
-
-    system["System under test<br/>no learned parameters"]
-    out["Ranked forecast + refusals"]
-
-    subgraph adv["Adversarial test cases"]
-        decoy["Decoys: near the right locus,<br/>no plausible function"]
-        essential["Essential-everywhere genes:<br/>look like hits, not therapies"]
-        canary["Post-T genes: must be refused,<br/><i>a canary for leakage</i>"]
-    end
-
-    grader["Blind grader<br/>never sees the slice<br/>or the reasoning"]
-    metrics["Metrics: P@5, P@10, MRR,<br/>trap pass rate, refusal accuracy,<br/>calibration error, untraceable numbers"]
-    ablate["Ablations: remove one component,<br/>re-run, compare"]
-    repeat["Repeat at three cutoffs:<br/>2014, 2017, 2020"]
-
-    pre --> materialize --> lock --> system
-    leaktest -.-> lock
-    post --> rule --> frozen --> grader
-    system --> out --> grader
-    decoy --> grader
-    essential --> grader
-    canary --> grader
-    grader --> metrics
-    metrics --> ablate
-    metrics --> repeat
-```
-
-The ideas that carry over to any ML evaluation:
+![Evaluation design: rows dated before the cutoff are copied into a read-only slice database for the forecaster, later publications become the frozen answer key, and a blind grader scores the forecast with trap questions mixed in](diagrams/evaluation_design.png)
 
 - **The split is physical, not logical.** A `WHERE date < T` filter can be
   forgotten in one query. Here the pre-T rows are copied into their own
@@ -111,64 +66,14 @@ The ideas that carry over to any ML evaluation:
 - **Ablations and multiple cutoffs** show which component earns its keep, and
   whether a result holds across time rather than on one lucky split.
 
-Source: [`diagrams/evaluation_design.excalidraw`](diagrams/evaluation_design.excalidraw).
-
-## 3. Scoring: from evidence to a prediction or an abstention
+## 3. Scoring: from evidence to a forecast or a refusal
 
 The forecaster is a hand-specified log-odds model, close in spirit to naive
 Bayes with fixed, documented weights instead of fitted ones. There is no
 training step, because the only labels that could be trained on are the answer
 key.
 
-```mermaid
-flowchart TB
-    rec["Evidence record about a gene<br/>genetic association, screen hit,<br/>essentiality score, paper, protein complex"]
-
-    subgraph weight["1. Quality weight: how it was measured, never what it found"]
-        terms["w = system x perturbation x readout<br/>x replication x human genetics"]
-        clamp["clamped to a fixed range"]
-    end
-
-    subgraph update["2. Belief update in log-odds"]
-        prior["start at prior 0.05<br/>log-odds -2.94"]
-        delta["measurement: +/- 0.85 x w"]
-        lit["papers: ln(1 + n), diminishing returns"]
-        ess["essential everywhere: capped penalty"]
-        sum["running log-odds<br/>sum of all updates"]
-        audit["every update written to an<br/>append-only audit table"]
-    end
-
-    conf["confidence = sigmoid(log-odds)"]
-
-    subgraph gate["3. Abstention gate"]
-        thresh{"confidence at least 0.25<br/>AND one route of substance:<br/>measurement w at least 0.3,<br/>5+ HbF papers, or a complex link"}
-    end
-
-    forecast["Forecast"]
-    refuse["Refusal, with the reason<br/><i>scored as correct when the answer<br/>was not yet knowable</i>"]
-
-    subgraph cost["4. Cost lens"]
-        route["Infer likely treatment route<br/>from protein family"]
-        rerank["score x route weight<br/>pill 10, in-body edit 4,<br/>cell therapy 1, multi-edit 0.4"]
-        two["Report both rankings side by side"]
-    end
-
-    rec --> terms --> clamp --> delta
-    rec --> lit
-    rec --> ess
-    prior --> sum
-    delta --> sum
-    lit --> sum
-    ess --> sum
-    sum -.-> audit
-    sum --> conf
-    conf --> thresh
-    thresh -- yes --> forecast
-    thresh -- no --> refuse
-    forecast --> route --> rerank --> two
-```
-
-The design choices, in ML terms:
+![Scoring pipeline: each evidence record gets a quality weight, updates a running log-odds belief, and passes a refusal gate to become a forecast or a refusal; forecasts are re-ranked by the cost lens](diagrams/scoring_pipeline.png)
 
 - **Weights judge the measurement process, not the outcome.** The quality weight
   reads how an experiment was run (which cell type, which perturbation, how
@@ -179,7 +84,7 @@ The design choices, in ML terms:
 - **Correlated evidence is dampened.** A hundred papers about one gene are not a
   hundred independent observations, so literature adds `ln(1 + n)` rather than
   `n`. Five HbF papers alone reach exactly 0.240.
-- **Abstention is a first-class output.** Below the gate the system returns a
+- **Refusal is a first-class output.** Below the gate the system returns a
   refusal naming what is missing. This is selective prediction: a refusal on a
   question whose answer did not yet exist counts as correct. The second
   condition stops a pile of weak co-mentions from carrying a claim over the
@@ -195,38 +100,19 @@ The design choices, in ML terms:
 
 Every coefficient and its justification is in [METHODOLOGY.md](METHODOLOGY.md).
 
-Source: [`diagrams/scoring_pipeline.excalidraw`](diagrams/scoring_pipeline.excalidraw).
-
 ## 4. The six agents
 
-Six agents (without language models) with narrow contracts, every judgement a
-stated rule in a documented module.
+The rule-based system is six agents with narrow contracts. None uses a language
+model; every judgement is a stated rule in a documented module.
 
-1. **Curator** normalizes raw records to the schema, resolving symbols through
-   HGNC and cell lines through Cellosaurus, and excluding anything it cannot
-   resolve rather than guessing.
-2. **Method signature** assigns each measurement a weight from how it was
-   produced and never from what it concluded. Five terms: the system, the
-   perturbation, the readout's directness, independent replication, and human
-   genetic support. Multiplicative, so a weak system discounts everything
-   measured in it. See METHODOLOGY.md for every coefficient and its reason.
-3. **Axiom extractor** turns pre-T evidence into executable rules. A validator
-   rejects any axiom that cannot name the records it came from, which is how
-   "no number without a source row" becomes structural rather than aspirational.
-4. **Belief reviser** accumulates log-odds in publication-date order, writing an
-   append-only audit row for every update. SQLite triggers enforce the
-   append-only property, so it is a property of the database rather than a habit
-   of the code.
-5. **Adversary** plants traps before grading, drawn from the data itself. The
-   geometry-failure trap is not invented: the olfactory receptor genes OR51B5
-   and OR51B6 are author-reported genes at an HbF-associated locus with a
-   p-value of 3e-08 and no plausible role in globin regulation.
-6. **Grader** scores the forecast. It takes no slice and no belief map, so it
-   cannot see the reasoning it is grading.
-
-Refusal is built before the answer path and is a scored outcome. "The evidence
-before T does not support a claim here" is a correct answer on questions whose
-answer postdates T, and it earns points.
+| Agent | What it does | What it must never do |
+| --- | --- | --- |
+| Curator | Normalizes raw records to the schema, resolving symbols through HGNC and cell lines through Cellosaurus | Guess: a record it cannot resolve is excluded with a reason |
+| Method signature | Gives each measurement the quality weight of section 3 | Read what the measurement concluded |
+| Axiom extractor | Turns pre-T evidence into executable rules | Emit a rule that cannot name the records it came from |
+| Belief reviser | Accumulates log-odds in publication-date order, one audit row per update | Rewrite an audit row; SQLite triggers make the table append-only |
+| Adversary | Plants traps before grading, drawn from the data itself | Invent a trap: the decoys OR51B5 and OR51B6 are author-reported genes at an HbF-associated locus (p = 3e-08) with no plausible role in globin regulation |
+| Grader | Scores the forecast against the answer key | See the slice or the beliefs it is grading |
 
 ## 5. Why the system is not a learned model
 
