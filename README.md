@@ -21,7 +21,7 @@ a gene's evidence becomes a prediction or a refusal.
 
 ## Table of Contents
 
-* [What this is, in plain words](#what-this-is-in-plain-words)
+* [Description](#Description)
 * [Launch the app](#launch-the-app)
 * [Scorecard](#scorecard)
   * [Ingestion](#ingestion)
@@ -38,7 +38,7 @@ a gene's evidence becomes a prediction or a refusal.
 * [Licensing](#licensing)
 * [Repository](#repository)
 
-## What this is, in plain words
+## Description
 
 Sickle cell disease is caused by faulty adult hemoglobin, the protein that
 carries oxygen in blood. Before birth we all make a different version, fetal
@@ -92,10 +92,9 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:4100**. What you can do there:
+Open **http://127.0.0.1:3000**. (If port is not 3000, check for other ports availability) What you can do there:
 
-- **Overview**: the idea in plain language, with a timeline you can drag to see
-  which discoveries each cutoff hides.
+- **Overview**: With a timeline you can drag to see which discoveries each cutoff hides.
 - **Results**: each cutoff's forecast, ranked by confidence or by how affordable
   the resulting treatment would be, plus every refusal with its reason, the
   trick questions, and a calibration chart.
@@ -225,58 +224,44 @@ Exclusions by reason:
 
 ## Using temporal holdout as an alternative for contamination control
 
-This project starts from a problem stated publicly by
-[Cortex Bio](https://cortexbiolabs.com) in their July 2026 case study,
-[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
-The post says its source "is a published 2024 paper that a frontier model has
-very likely seen in training", and describes two controls:
+This project exists because of a problem stated publicly by 
+[CortexBiolabs](https://cortexbiolabs.com) in their July 2026 case study
+"Designing molecules that have never been made". Their evaluation used name
+anonymization as the contamination control and an answer key they wrote
+themselves. 
 
-- They ran the task twice, "once with the real names, and once with every
-  compound, warhead, and ligand replaced by an anonymous token", and compared
-  the scores.
-- They "froze a rule book of the governing trends, checked against the table,
-  before any model ran".
+When going with name anonymization, it hides the label and leaves the fingerprint. A model that has
+read the literature does not need to be told a gene is called BCL11A: the
+combination of a zinc finger, an erythroid enhancer at +58 kilobases, and an
+association with fetal hemoglobin identifies it uniquely, and every one of those
+facts has to stay in the problem for the problem to be answerable. Anonymization
+also cannot be verified. There is no test you can write that proves a
+description no longer identifies its subject.
 
-The post calls the result "a first measurement, not a benchmark" and notes that
-the rule book was one "we froze and checked ourselves rather than having an
-independent expert build it".
+A temporal holdout is a different kind of control, and its two advantages are
+worth stating separately. It is verifiable: the claim "no evidence dated on or
+after T reached the reasoning" is a property of a data layer, and this
+repository enforces it by materializing a separate database holding only pre-T
+rows and serving it over a connection that cannot attach anything else.
+`tests/test_slice_leak.py` attempts the leak by every route and asserts each one
+fails. And the answer key is not self-authored: what the field published after T
+is a fact about the world, recorded in `eval/rulebook/` by a stated rule, frozen
+and git-tagged before the first evaluation run.
 
-A temporal holdout is a third control, aimed at the same problem from the data
-side. It is complementary to the two above: it constrains which evidence can
-reach the reasoning, where token replacement constrains what the model can
-recognize in that evidence.
+A temporal holdout does not solve contamination (refer LIMITATIONS.md). 
+It controls the evidence, not the reader. A language model placed in
+this pipeline would already have read the 2018 result, and no data-layer
+enforcement can remove that. What the holdout buys is that the control is
+checkable and the key is independent, which is more than anonymization can
+offer.
 
-What a temporal holdout verifies:
-
-- **No evidence dated on or after the cutoff T reached the reasoning.** This is
-  a property of the data layer. The repository materializes a separate database
-  holding only pre-T rows and serves it over a connection that cannot attach
-  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
-  asserts each one fails.
-- **The answer key was fixed before any result existed.** What the field
-  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
-  the tag
-  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
-  which predates the first commit with evaluation results.
-
-What it does not verify:
-
-- **What the reader already knows.** The holdout controls the evidence, not the
-  reader. A language model placed in this pipeline may have read the 2018 result
-  in training, and no data-layer enforcement can remove that.
-  [LIMITATIONS.md](LIMITATIONS.md) covers this.
-- **That a description no longer identifies its subject.** That is the question
-  token replacement addresses, and this project does not test it.
-
-This is an independent project on a problem Cortex Bio named. It is not a
+This is an independent benchmark for a problem CortexBiolabs named. It is not a
 reimplementation of their product and makes no claim about it.
 
 ## What the system does
 
-Six agents with narrow contracts, no language model in any of them, every
-judgement a stated rule in a documented module. The language-model forecaster is
-a separate condition in `src/hindcast/llm/`, described in
-[METHODOLOGY.md](METHODOLOGY.md#language-model-track).
+Six agents (without language models) with narrow contracts, every judgement a
+stated rule in a documented module.
 
 1. **Curator** normalizes raw records to the schema, resolving symbols through
    HGNC and cell lines through Cellosaurus, and excluding anything it cannot
@@ -371,13 +356,13 @@ The lever that would move these numbers is more evidence, not a more expressive
 model: the two headline misses have no pre-cutoff measurement at all, and no
 learned model can rank a gene whose features are empty.
 
-**Why not convKANs?** I explored convolutional Kolmogorov-Arnold networks as a
+**Why not convKANs?** I distinctively explored convolutional Kolmogorov-Arnold networks as a
 way to get more out of scarce data, since they are parameter-efficient on small
-datasets. I dropped the idea for three reasons. The missed genes have no
-pre-cutoff features at all, so model capacity is not the bottleneck. The
-evidence for each gene is a row of tabular features with no spatial or sequence
-structure for a convolution to exploit. And a learned model would need labels:
-the only ones that respect the time split are the 25 genes already established
+datasets. I dropped the idea for three reasons. 
+1. Model capacity: The missed genes have no pre-cutoff features at all, so model capacity is not the bottleneck. 
+2. Structural features: The evidence for each gene is a row of tabular features with no spatial or sequence
+structure for a convolution to exploit. 
+3. A learned model would need labels: the only ones that respect the time split are the 25 genes already established
 before the 2017 cutoff, and fitting weights at all would break the rule that every
 coefficient is stated and frozen before the answer key is seen.
 
