@@ -222,38 +222,50 @@ Exclusions by reason:
 
 ## Using temporal holdout as an alternative for contamination control
 
-This project exists because of a problem stated publicly by
-[Cortex Bio](https://cortexbiolabs.com) in their July 2026 case study
-"Designing molecules that have never been made". Their evaluation used name
-anonymization as the contamination control and an answer key they wrote
-themselves. Both choices are reasonable and both have a hole in them.
+This project starts from a problem stated publicly by
+[Cortex Bio](https://cortexbiolabs.com) in their July 2026 case study,
+[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
+The post says its source "is a published 2024 paper that a frontier model has
+very likely seen in training", and describes two controls:
 
-Name anonymization hides the label and leaves the fingerprint. A model that has
-read the literature does not need to be told a gene is called BCL11A: the
-combination of a zinc finger, an erythroid enhancer at +58 kilobases, and an
-association with fetal hemoglobin identifies it uniquely, and every one of those
-facts has to stay in the problem for the problem to be answerable. Anonymization
-also cannot be verified. There is no test you can write that proves a
-description no longer identifies its subject.
+- They ran the task twice, "once with the real names, and once with every
+  compound, warhead, and ligand replaced by an anonymous token", and compared
+  the scores.
+- They "froze a rule book of the governing trends, checked against the table,
+  before any model ran".
 
-A temporal holdout is a different kind of control, and its two advantages are
-worth stating separately. It is verifiable: the claim "no evidence dated on or
-after T reached the reasoning" is a property of a data layer, and this
-repository enforces it by materializing a separate database holding only pre-T
-rows and serving it over a connection that cannot attach anything else.
-`tests/test_slice_leak.py` attempts the leak by every route and asserts each one
-fails. And the answer key is not self-authored: what the field published after T
-is a fact about the world, recorded in `eval/rulebook/` by a stated rule, frozen
-and git-tagged before the first evaluation run.
+The post calls the result "a first measurement, not a benchmark" and notes that
+the rule book was one "we froze and checked ourselves rather than having an
+independent expert build it".
 
-A temporal holdout does not solve contamination, and LIMITATIONS.md says so
-plainly. It controls the evidence, not the reader. A language model placed in
-this pipeline would already have read the 2018 result, and no data-layer
-enforcement can remove that. What the holdout buys is that the control is
-checkable and the key is independent, which is more than anonymization can
-offer.
+A temporal holdout is a third control, aimed at the same problem from the data
+side. It is complementary to the two above: it constrains which evidence can
+reach the reasoning, where token replacement constrains what the model can
+recognize in that evidence.
 
-This is an independent benchmark for a problem Cortex Bio named. It is not a
+What a temporal holdout verifies:
+
+- **No evidence dated on or after the cutoff T reached the reasoning.** This is
+  a property of the data layer. The repository materializes a separate database
+  holding only pre-T rows and serves it over a connection that cannot attach
+  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
+  asserts each one fails.
+- **The answer key was fixed before any result existed.** What the field
+  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
+  the tag
+  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
+  which predates the first commit with evaluation results.
+
+What it does not verify:
+
+- **What the reader already knows.** The holdout controls the evidence, not the
+  reader. A language model placed in this pipeline may have read the 2018 result
+  in training, and no data-layer enforcement can remove that.
+  [LIMITATIONS.md](LIMITATIONS.md) covers this.
+- **That a description no longer identifies its subject.** That is the question
+  token replacement addresses, and this project does not test it.
+
+This is an independent project on a problem Cortex Bio named. It is not a
 reimplementation of their product and makes no claim about it.
 
 ## What the system does
@@ -289,8 +301,9 @@ answer postdates T, and it earns points.
 
 ## The cost lens
 
-Casgevy lists at about $2.2M and Lyfgenia at about $3.1M, neither figure
-including the required inpatient stay. Both need apheresis, GMP manufacturing of
+Casgevy lists at about $2.2M and Lyfgenia at about $3.1M
+([BioPharma Dive, December 2023](https://www.biopharmadive.com/news/crispr-sickle-cell-price-millions-gene-therapy-vertex-bluebird/702066/)),
+neither figure including the required inpatient stay. Both need apheresis, GMP manufacturing of
 an autologous product, and busulfan myeloablative conditioning. That pathway is
 unavailable in most of the regions carrying the disease burden.
 
