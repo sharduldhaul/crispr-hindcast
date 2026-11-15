@@ -1,6 +1,6 @@
 {
   "agent": "grader",
-  "duration_ms": 47.555,
+  "duration_ms": 46.936,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:13:13.470579+00:00",
+  "finished_at": "2026-11-15T11:18:26.092370+00:00",
   "inputs": {
     "cutoff": "2020-12-31"
   },
@@ -233,13 +233,13 @@
     "traps_total": 9
   },
   "run_id": "2020-12-31_no-belief-revision",
-  "started_at": "2026-11-15T05:13:13.423015+00:00",
+  "started_at": "2026-11-15T11:18:26.045423+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2020-12-31"
       },
-      "duration_ms": 0.027,
+      "duration_ms": 0.022,
       "name": "build_ground_truth",
       "records_in": 0,
       "records_out": 3,
@@ -247,7 +247,7 @@
     },
     {
       "args": {},
-      "duration_ms": 47.386,
+      "duration_ms": 46.782,
       "name": "score_rankings",
       "records_in": 0,
       "records_out": 2,
@@ -265,7 +265,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.005,
+      "duration_ms": 0.006,
       "name": "score_refusals",
       "records_in": 0,
       "records_out": 2,
@@ -273,7 +273,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.018,
+      "duration_ms": 0.021,
       "name": "score_calibration",
       "records_in": 0,
       "records_out": 5,
@@ -289,7 +289,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.002,
+      "duration_ms": 0.001,
       "name": "check_provenance",
       "records_in": 0,
       "records_out": 0,

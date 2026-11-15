@@ -1,46 +1,734 @@
 {
   "agent": "llm_forecaster",
-  "duration_ms": 7.761,
+  "duration_ms": 5858.537,
   "environment": {
     "hindcast_version": "0.1.0",
-    "model": "claude-opus-5-5",
+    "model": "gemini-3.8-flash",
     "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:14:00.857871+00:00",
+  "finished_at": "2026-11-15T11:20:26.488390+00:00",
   "inputs": {
     "candidates": 41,
     "condition": "graph",
     "cutoff": "2017-12-31",
-    "model_id": "claude-opus-5-5",
+    "model_id": "gemini-3.8-flash",
     "prompt_hash": "f7ae8739d03ec3b76a177d8ff4f87174b820af39d4056e9d93b1d895edb30044"
   },
   "notes": [],
   "output_summary": {
     "calls_live": 0,
-    "calls_replayed": 0,
-    "claims": 0,
-    "cost_usd": 0.0,
-    "input_tokens": 0,
-    "output_tokens": 0,
-    "refusals": 0,
-    "status": "not_run",
-    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
-    "tool_calls": 0
+    "calls_replayed": 18,
+    "claims": 3,
+    "cost_usd": 0.362849,
+    "input_tokens": 394808,
+    "output_tokens": 17798,
+    "refusals": 38,
+    "status": "ran",
+    "status_reason": "",
+    "tool_calls": 42
   },
   "run_id": "2017-12-31_llm-graph",
-  "started_at": "2026-11-15T05:14:00.850087+00:00",
+  "started_at": "2026-11-15T11:20:20.629834+00:00",
   "tool_calls": [
     {
       "args": {
-        "cache_key": "9e84abf54b72ab13d0ec8b163392e395ba4707dcbb3d990f4d655dafd553f050"
+        "cache_key": "a6626664cd88ecce4d30d75ba6385e46a4f78f965a65a6a330c6743c5f36de86"
       },
-      "duration_ms": 0.068,
+      "duration_ms": 3.621,
       "name": "model_call",
       "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 979 input tokens, 923 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {}
+      },
+      "duration_ms": 2049.357,
+      "name": "graph_tool:genes_by_publication_count",
+      "records_in": 0,
+      "records_out": 41,
+      "result_summary": "returned; IDs returned: gene:HGNC:12687, gene:HGNC:12928, gene:HGNC:16090, gene:HGNC:16682, gene:HGNC:18595, gene:HGNC:19088, gene:HGNC:1918, gene:HGNC:19687, gene:HGNC:20144, gene:HGNC:23784, gene:HGNC:24921, gene:HGNC:25941, gene:HGNC:28866, gene:HGNC:29489, gene:HGNC:2976, gene:HGNC:2978, gene:HGNC:2979, gene:HGNC:29989, gene:HGNC:30778, gene:HGNC:32207, gene:HGNC:3255, gene:HGNC:3265, gene:HGNC:3374, gene:HGNC:3821, gene:HGNC:4853, gene:HGNC:6767, gene:HGNC:6771, gene:HGNC:6859, gene:HGNC:6871, gene:HGNC:6917, gene:HGNC:6918, gene:HGNC:7410, gene:HGNC:7411, gene:HGNC:7780, gene:HGNC:7788, gene:HGNC:786, gene:HGNC:7971, gene:HGNC:7972, gene:HGNC:9437, gene:HGNC:9887, gene:HGNC:9890"
+    },
+    {
+      "args": {
+        "cache_key": "cc57c6ceb7a92bdca7318dcb640b6f8437bac6d835b2ae82295dbb8f9dc291e0"
+      },
+      "duration_ms": 0.629,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 3467 input tokens, 169 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        }
+      },
+      "duration_ms": 74.38,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:24921"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        }
+      },
+      "duration_ms": 75.195,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:786"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        }
+      },
+      "duration_ms": 75.703,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:18595"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        }
+      },
+      "duration_ms": 75.823,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:29989"
+    },
+    {
+      "args": {
+        "cache_key": "e794969983bf7aec06310ef380adb8dffe39691022b4786d374f03f741862684"
+      },
+      "duration_ms": 1.098,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 3956 input tokens, 131 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        }
+      },
+      "duration_ms": 51.202,
+      "name": "graph_tool:gene_measurements",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:24921, meas:orcs:153:HGNC:24921, meas:orcs:179:HGNC:24921, meas:orcs:180:HGNC:24921, meas:orcs:181:HGNC:24921, meas:orcs:184:HGNC:24921, meas:orcs:185:HGNC:24921, meas:orcs:186:HGNC:24921, meas:orcs:187:HGNC:24921, meas:orcs:188:HGNC:24921, meas:orcs:189:HGNC:24921, meas:orcs:190:HGNC:24921, meas:orcs:191:HGNC:24921, meas:orcs:192:HGNC:24921, meas:orcs:193:HGNC:24921, meas:orcs:194:HGNC:24921, meas:orcs:195:HGNC:24921, meas:orcs:196:HGNC:24921, meas:orcs:197:HGNC:24921, meas:orcs:198:HGNC:24921, meas:orcs:199:HGNC:24921"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        }
+      },
+      "duration_ms": 50.937,
+      "name": "graph_tool:gene_measurements",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:786, meas:orcs:153:HGNC:786, meas:orcs:179:HGNC:786, meas:orcs:180:HGNC:786, meas:orcs:181:HGNC:786, meas:orcs:184:HGNC:786, meas:orcs:185:HGNC:786, meas:orcs:186:HGNC:786, meas:orcs:187:HGNC:786, meas:orcs:188:HGNC:786, meas:orcs:189:HGNC:786, meas:orcs:190:HGNC:786, meas:orcs:191:HGNC:786, meas:orcs:192:HGNC:786, meas:orcs:193:HGNC:786, meas:orcs:194:HGNC:786, meas:orcs:195:HGNC:786, meas:orcs:196:HGNC:786, meas:orcs:197:HGNC:786, meas:orcs:198:HGNC:786, meas:orcs:199:HGNC:786"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        }
+      },
+      "duration_ms": 51.234,
+      "name": "graph_tool:gene_measurements",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:18595, meas:orcs:153:HGNC:18595, meas:orcs:179:HGNC:18595, meas:orcs:180:HGNC:18595, meas:orcs:181:HGNC:18595, meas:orcs:184:HGNC:18595, meas:orcs:185:HGNC:18595, meas:orcs:186:HGNC:18595, meas:orcs:187:HGNC:18595, meas:orcs:188:HGNC:18595, meas:orcs:189:HGNC:18595, meas:orcs:190:HGNC:18595, meas:orcs:191:HGNC:18595, meas:orcs:192:HGNC:18595, meas:orcs:193:HGNC:18595, meas:orcs:194:HGNC:18595, meas:orcs:195:HGNC:18595, meas:orcs:196:HGNC:18595, meas:orcs:197:HGNC:18595, meas:orcs:198:HGNC:18595, meas:orcs:199:HGNC:18595"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        }
+      },
+      "duration_ms": 51.106,
+      "name": "graph_tool:gene_measurements",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:29989, meas:orcs:153:HGNC:29989, meas:orcs:179:HGNC:29989, meas:orcs:180:HGNC:29989, meas:orcs:181:HGNC:29989, meas:orcs:184:HGNC:29989, meas:orcs:185:HGNC:29989, meas:orcs:186:HGNC:29989, meas:orcs:187:HGNC:29989, meas:orcs:188:HGNC:29989, meas:orcs:189:HGNC:29989, meas:orcs:190:HGNC:29989, meas:orcs:191:HGNC:29989, meas:orcs:192:HGNC:29989, meas:orcs:193:HGNC:29989, meas:orcs:194:HGNC:29989, meas:orcs:195:HGNC:29989, meas:orcs:196:HGNC:29989, meas:orcs:197:HGNC:29989, meas:orcs:198:HGNC:29989, meas:orcs:199:HGNC:29989"
+    },
+    {
+      "args": {
+        "cache_key": "22f64dd4c4302e5fb4b3d468f9b47dc8e649e2d0c6f3fe738db759899c5d6a09"
+      },
+      "duration_ms": 1.752,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 11116 input tokens, 74 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        }
+      },
+      "duration_ms": 76.622,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 18,
+      "result_summary": "returned; IDs returned: gene:HGNC:24921, pub:10632719, pub:11726526, pub:11955629, pub:12242291, pub:15931390, pub:1672093, pub:17110456, pub:17932563, pub:18290760, pub:18367482, pub:19946423, pub:20071449, pub:23874749, pub:29063813, pub:291924, pub:293657, pub:7910943"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        }
+      },
+      "duration_ms": 76.8,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "returned; IDs returned: gene:HGNC:18595, pub:29061339"
+    },
+    {
+      "args": {
+        "cache_key": "273de0eed479853a7f60b6de731f5699a47b403fdf26bc1f13e84a84b1ef1195"
+      },
+      "duration_ms": 1.243,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 12403 input tokens, 563 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        }
+      },
+      "duration_ms": 27.666,
+      "name": "graph_tool:complex_partners",
+      "records_in": 0,
+      "records_out": 13,
+      "result_summary": "returned; IDs returned: gene:HGNC:1918, gene:HGNC:1919, gene:HGNC:23784, gene:HGNC:29989, gene:HGNC:30778, gene:HGNC:4852, gene:HGNC:4853, gene:HGNC:6917, gene:HGNC:6918, gene:HGNC:7410, gene:HGNC:7411, gene:HGNC:9887, gene:HGNC:9890"
+    },
+    {
+      "args": {
+        "cache_key": "0e8235b3707fcfbd0dd08840b2de29b57626f85bad345fad6fec30fa6ce01541"
+      },
+      "duration_ms": 0.648,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 13426 input tokens, 159 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "MBD2"
+        }
+      },
+      "duration_ms": 64.563,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:6917, pub:21490301, pub:21531701, pub:21734722, pub:21989988, pub:22235346, pub:22345520, pub:23014989, pub:23071088, pub:23239876, pub:23340908, pub:25123281, pub:25190814, pub:25538734, pub:25753662, pub:25796366, pub:27161321, pub:27606067, pub:27806305, pub:28744402, pub:28899870"
+    },
+    {
+      "args": {
+        "cache_key": "819ceeecd0aec9c3274be496f84809df1086db3fbb588585ab74055c23894328"
+      },
+      "duration_ms": 0.637,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 14869 input tokens, 105 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        }
+      },
+      "duration_ms": 65.338,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:29989, pub:20439494, pub:21047798, pub:21490301, pub:21523247, pub:21734722, pub:21989988, pub:22235346, pub:22345520, pub:23014989, pub:23071088, pub:23239876, pub:23340908, pub:25123281, pub:25190814, pub:25753662, pub:25796366, pub:27161321, pub:27606067, pub:27806305, pub:28899870"
+    },
+    {
+      "args": {
+        "cache_key": "3e455bbe9362ffbd11c1c7d1ce0cf793accf8ee7e2a46439923bc479ed338b67"
+      },
+      "duration_ms": 1.288,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 16294 input tokens, 721 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "LIN28B"
+        }
+      },
+      "duration_ms": 76.754,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 14,
+      "result_summary": "returned; IDs returned: gene:HGNC:32207, pub:19495417, pub:21512136, pub:22345399, pub:22723554, pub:23798711, pub:25655194, pub:25753579, pub:26478718, pub:26481147, pub:26712910, pub:27401346, pub:27793996, pub:28693523"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        }
+      },
+      "duration_ms": 77.25,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 6,
+      "result_summary": "returned; IDs returned: gene:HGNC:7788, pub:18477394, pub:22422452, pub:24041575, pub:25780920, pub:29184170"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        }
+      },
+      "duration_ms": 78.549,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 16,
+      "result_summary": "returned; IDs returned: gene:HGNC:786, pub:15277680, pub:18697751, pub:18955481, pub:20732869, pub:22498744, pub:22556424, pub:24330582, pub:25978358, pub:26011642, pub:26384355, pub:26791102, pub:27211800, pub:27708226, pub:29213084, pub:29326555"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "KMT5A"
+        }
+      },
+      "duration_ms": 76.618,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 7,
+      "result_summary": "returned; IDs returned: gene:HGNC:29489, pub:18474616, pub:23152447, pub:25848090, pub:25855754, pub:27688818, pub:29186677"
+    },
+    {
+      "args": {
+        "cache_key": "179d82d868d3c4f02ca03c7d71252484fb1589e8548ea52acf7a8b441081c65e"
+      },
+      "duration_ms": 1.652,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 19534 input tokens, 608 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        }
+      },
+      "duration_ms": 51.925,
+      "name": "graph_tool:gene_measurements",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:24921, meas:orcs:153:HGNC:24921, meas:orcs:179:HGNC:24921, meas:orcs:180:HGNC:24921, meas:orcs:181:HGNC:24921, meas:orcs:184:HGNC:24921, meas:orcs:185:HGNC:24921, meas:orcs:186:HGNC:24921, meas:orcs:187:HGNC:24921, meas:orcs:188:HGNC:24921, meas:orcs:189:HGNC:24921, meas:orcs:190:HGNC:24921, meas:orcs:191:HGNC:24921, meas:orcs:192:HGNC:24921, meas:orcs:193:HGNC:24921, meas:orcs:194:HGNC:24921, meas:orcs:195:HGNC:24921, meas:orcs:196:HGNC:24921, meas:orcs:197:HGNC:24921, meas:orcs:198:HGNC:24921, meas:orcs:199:HGNC:24921"
+    },
+    {
+      "args": {
+        "cache_key": "70d25ef7a461e88f495df458dcf6cf2433e066f4544c1ca76beab1a0f1ac55ea"
+      },
+      "duration_ms": 0.84,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 21913 input tokens, 334 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        }
+      },
+      "duration_ms": 76.542,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:1918"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        }
+      },
+      "duration_ms": 75.118,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:30778"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ZNF410"
+        }
+      },
+      "duration_ms": 75.422,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:20144"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "HDAC2"
+        }
+      },
+      "duration_ms": 75.138,
+      "name": "graph_tool:gene_evidence_summary",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "returned; IDs returned: gene:HGNC:4853"
+    },
+    {
+      "args": {
+        "cache_key": "2ba1ca058fa352022102bc7f83734643e43703ef4f6968d4257c3e55e4c6d3fb"
+      },
+      "duration_ms": 1.287,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 22556 input tokens, 880 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "DNMT1"
+        }
+      },
+      "duration_ms": 70.192,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:2976, pub:16980612, pub:18829110, pub:19279403, pub:20071580, pub:22219193, pub:25621498, pub:25705251, pub:25732252, pub:26257392, pub:26808831, pub:26871472, pub:26983918, pub:27261509, pub:27693117, pub:28133504, pub:28158319, pub:28401098, pub:28613268, pub:28989582, pub:29221147"
+    },
+    {
+      "args": {
+        "cache_key": "6b8f0c05aa1933a51926ba4ae6a75a3c8db389c3deee8af268cab010209a461f"
+      },
+      "duration_ms": 1.491,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 24826 input tokens, 148 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "FOXO3"
+        }
+      },
+      "duration_ms": 55.13,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:3821, pub:27402759, pub:27435046, pub:27532863, pub:27685445, pub:27687729, pub:27769056, pub:27994057, pub:28202079, pub:28250026, pub:28507102, pub:28560451, pub:28575289, pub:28577647, pub:28639090, pub:28903387, pub:29099866, pub:29234056, pub:29258239, pub:29291015, pub:31966756"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "HDAC2"
+        }
+      },
+      "duration_ms": 63.119,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:4853, pub:22345520, pub:22953000, pub:23014989, pub:23071088, pub:23340908, pub:24763403, pub:25123281, pub:25190814, pub:25473896, pub:25753662, pub:25796366, pub:25808664, pub:27161321, pub:27606067, pub:27806305, pub:27982079, pub:28028031, pub:28202389, pub:28526090, pub:28899870"
+    },
+    {
+      "args": {
+        "cache_key": "3043ead6e83b20d87b70bf221aacb5cc7bf887b878b75573f5fbeb365b5f481c"
+      },
+      "duration_ms": 1.534,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 27549 input tokens, 1301 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "NFE2"
+        }
+      },
+      "duration_ms": 59.968,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:7780, pub:24383889, pub:24608802, pub:24926991, pub:24951464, pub:25273386, pub:25441422, pub:25721735, pub:25763150, pub:26204833, pub:26593436, pub:26648289, pub:27026582, pub:27323826, pub:27457419, pub:27716579, pub:28006954, pub:28224478, pub:28383551, pub:29201224, pub:29745556"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "NR2C2"
+        }
+      },
+      "duration_ms": 77.422,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 20,
+      "result_summary": "returned; IDs returned: gene:HGNC:7972, pub:15302918, pub:18573910, pub:18794297, pub:20062539, pub:20864514, pub:22226633, pub:22972987, pub:23505428, pub:24751651, pub:24915805, pub:25418008, pub:26648529, pub:27077812, pub:27245349, pub:27685625, pub:28182011, pub:29027124, pub:9463380, pub:9878061"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ZBTB33"
+        }
+      },
+      "duration_ms": 76.577,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 6,
+      "result_summary": "returned; IDs returned: gene:HGNC:16682, pub:12087177, pub:16230345, pub:22709531, pub:25713299, pub:27152123"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ZNF143"
+        }
+      },
+      "duration_ms": 77.736,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 8,
+      "result_summary": "returned; IDs returned: gene:HGNC:12928, pub:17938208, pub:20860770, pub:21177654, pub:25645053, pub:28900037, pub:7641696, pub:9009278"
+    },
+    {
+      "args": {
+        "cache_key": "a06f39c01e0407a3c43899cceb916e702420d9d03cf6b69d27a37611e1dd6342"
+      },
+      "duration_ms": 1.183,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 32268 input tokens, 2475 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "MTA1"
+        }
+      },
+      "duration_ms": 79.977,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 4,
+      "result_summary": "returned; IDs returned: gene:HGNC:7410, pub:25705708, pub:27144666, pub:28415616"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "MTA2"
+        }
+      },
+      "duration_ms": 66.072,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:7411, pub:20065294, pub:20439494, pub:21047798, pub:21490301, pub:21523247, pub:21734722, pub:21989988, pub:22235346, pub:22345520, pub:23014989, pub:23071088, pub:23340908, pub:25123281, pub:25190814, pub:25753662, pub:25796366, pub:27161321, pub:27606067, pub:27806305, pub:28899870"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "MTA3"
+        }
+      },
+      "duration_ms": 78.555,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 2,
+      "result_summary": "returned; IDs returned: gene:HGNC:23784, pub:25705708"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "RBBP4"
+        }
+      },
+      "duration_ms": 64.969,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:9887, pub:21490301, pub:21523247, pub:21734722, pub:21989988, pub:22235346, pub:22345520, pub:23014989, pub:23071088, pub:23340908, pub:24932233, pub:25123281, pub:25190814, pub:25753662, pub:25796366, pub:27144666, pub:27161321, pub:27606067, pub:27806305, pub:28899870, pub:29263092"
+    },
+    {
+      "args": {
+        "cache_key": "8de919b3f6b2a4b6ceeb3abb396b731ef21e4b7a85733c04d2967d8a993f30e4"
+      },
+      "duration_ms": 1.765,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 37657 input tokens, 451 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2S1"
+        }
+      },
+      "duration_ms": 61.323,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:3265, pub:23354059, pub:23418347, pub:24161693, pub:24334569, pub:24714526, pub:24795560, pub:25246524, pub:25541374, pub:25590801, pub:26216977, pub:26472187, pub:27211800, pub:27708226, pub:28240315, pub:28300830, pub:28374749, pub:28781602, pub:28951826, pub:29063813, pub:29065505"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "EIF2AK3"
+        }
+      },
+      "duration_ms": 57.421,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:3255, pub:25945494, pub:26028033, pub:26049013, pub:26078722, pub:26138676, pub:26472187, pub:26595781, pub:26679859, pub:26864318, pub:27094326, pub:27211800, pub:27435272, pub:27588705, pub:28148553, pub:28347799, pub:28440222, pub:28499449, pub:28643372, pub:28796255, pub:29213084"
+    },
+    {
+      "args": {
+        "cache_key": "77ead294b24bc84cb53e58f0b1a778e6c70bc6414e618e6b7a56358bd856c40e"
+      },
+      "duration_ms": 1.762,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 40726 input tokens, 2066 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "DNMT3A"
+        }
+      },
+      "duration_ms": 55.226,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 21,
+      "result_summary": "returned; IDs returned: gene:HGNC:2978, pub:27208809, pub:27344947, pub:27359055, pub:27428748, pub:27435003, pub:27476855, pub:27597933, pub:27626217, pub:27636998, pub:27690235, pub:27724883, pub:27841873, pub:28003281, pub:28102729, pub:28425913, pub:28461508, pub:28616699, pub:28767575, pub:29172276, pub:29464054"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "DNMT3B"
+        }
+      },
+      "duration_ms": 76.112,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 13,
+      "result_summary": "returned; IDs returned: gene:HGNC:2979, pub:12897133, pub:18676812, pub:20507910, pub:22133874, pub:23251566, pub:24028770, pub:25130491, pub:25204569, pub:25639876, pub:26808831, pub:28425913, pub:29100357"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "IGF2BP1"
+        }
+      },
+      "duration_ms": 77.038,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 5,
+      "result_summary": "returned; IDs returned: gene:HGNC:28866, pub:19541769, pub:23388827, pub:24192035, pub:28652347"
+    },
+    {
+      "args": {
+        "cache_key": "6a6de1a5cea90ada21cccf2e72d7d55ec0d45bac67daab0a06ac2877304062e6"
+      },
+      "duration_ms": 1.812,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 45195 input tokens, 256 output tokens, status requires_action"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        }
+      },
+      "duration_ms": 76.749,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 10,
+      "result_summary": "returned; IDs returned: gene:HGNC:19088, pub:15459746, pub:17923682, pub:19067322, pub:19093008, pub:22140534, pub:23442797, pub:23889332, pub:25866973, pub:27434206"
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "NR2C1"
+        }
+      },
+      "duration_ms": 0.015,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
       "records_out": 0,
-      "result_summary": "not in cache, no live transport: not run"
+      "result_summary": "over_budget; IDs returned: "
+    },
+    {
+      "args": {
+        "arguments": {
+          "gene_symbol": "PGRMC1"
+        }
+      },
+      "duration_ms": 0.004,
+      "name": "graph_tool:gene_publications",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "over_budget; IDs returned: "
+    },
+    {
+      "args": {
+        "cache_key": "fc1141a00b838267a8a908936c6fa1ab92b7c0b9bd8614d340b2b96439180468"
+      },
+      "duration_ms": 2.234,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 1,
+      "result_summary": "replayed from cache; 46074 input tokens, 6434 output tokens, status completed"
+    },
+    {
+      "args": {},
+      "duration_ms": 0.051,
+      "name": "parse_answer",
+      "records_in": 0,
+      "records_out": 41,
+      "result_summary": "3 claims, 38 refusals"
+    },
+    {
+      "args": {},
+      "duration_ms": 1117.083,
+      "name": "build_forecast",
+      "records_in": 0,
+      "records_out": 41,
+      "result_summary": "3 items, 38 refusals"
     }
   ]
 }

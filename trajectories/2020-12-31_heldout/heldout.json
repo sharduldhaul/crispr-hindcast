@@ -1,14 +1,14 @@
 {
   "agent": "heldout",
-  "duration_ms": 138338.192,
+  "duration_ms": 135302.834,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
-    "platform": "macOS-27.0-arm64-arm-64bit",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T07:58:13.673990+00:00",
+  "finished_at": "2026-10-29T02:43:22.833180+00:00",
   "inputs": {},
   "notes": [],
   "output_summary": {
@@ -20,13 +20,13 @@
     "recovery_rate": 1.0
   },
   "run_id": "2020-12-31_heldout",
-  "started_at": "2026-09-18T07:55:55.325772+00:00",
+  "started_at": "2026-10-29T02:41:07.516115+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2020-12-31"
       },
-      "duration_ms": 3329.651,
+      "duration_ms": 4156.177,
       "name": "find_eligible_genes",
       "records_in": 0,
       "records_out": 12,
@@ -34,7 +34,7 @@
     },
     {
       "args": {},
-      "duration_ms": 9747.416,
+      "duration_ms": 9432.044,
       "name": "baseline_run",
       "records_in": 0,
       "records_out": 69,
@@ -44,7 +44,7 @@
       "args": {
         "gene": "ASH1L"
       },
-      "duration_ms": 10435.624,
+      "duration_ms": 10055.469,
       "name": "holdout_run",
       "records_in": 872,
       "records_out": 0,
@@ -54,7 +54,7 @@
       "args": {
         "gene": "ATF2"
       },
-      "duration_ms": 10363.958,
+      "duration_ms": 10073.428,
       "name": "holdout_run",
       "records_in": 899,
       "records_out": 0,
@@ -64,7 +64,7 @@
       "args": {
         "gene": "ATF4"
       },
-      "duration_ms": 10526.601,
+      "duration_ms": 10089.303,
       "name": "holdout_run",
       "records_in": 867,
       "records_out": 0,
@@ -74,7 +74,7 @@
       "args": {
         "gene": "BCL11A"
       },
-      "duration_ms": 10393.596,
+      "duration_ms": 10185.087,
       "name": "holdout_run",
       "records_in": 896,
       "records_out": 0,
@@ -84,7 +84,7 @@
       "args": {
         "gene": "CHD3"
       },
-      "duration_ms": 10521.982,
+      "duration_ms": 10065.734,
       "name": "holdout_run",
       "records_in": 871,
       "records_out": 0,
@@ -94,7 +94,7 @@
       "args": {
         "gene": "CHD4"
       },
-      "duration_ms": 10399.608,
+      "duration_ms": 10092.765,
       "name": "holdout_run",
       "records_in": 883,
       "records_out": 0,
@@ -104,7 +104,7 @@
       "args": {
         "gene": "CTCF"
       },
-      "duration_ms": 10682.937,
+      "duration_ms": 10379.613,
       "name": "holdout_run",
       "records_in": 893,
       "records_out": 0,
@@ -114,7 +114,7 @@
       "args": {
         "gene": "DNMT1"
       },
-      "duration_ms": 10527.256,
+      "duration_ms": 10141.064,
       "name": "holdout_run",
       "records_in": 869,
       "records_out": 0,
@@ -124,7 +124,7 @@
       "args": {
         "gene": "DNMT3A"
       },
-      "duration_ms": 10435.427,
+      "duration_ms": 10241.653,
       "name": "holdout_run",
       "records_in": 862,
       "records_out": 0,
@@ -134,7 +134,7 @@
       "args": {
         "gene": "DNMT3B"
       },
-      "duration_ms": 10199.216,
+      "duration_ms": 10046.942,
       "name": "holdout_run",
       "records_in": 862,
       "records_out": 0,
@@ -144,7 +144,7 @@
       "args": {
         "gene": "EHMT1"
       },
-      "duration_ms": 10490.545,
+      "duration_ms": 10182.473,
       "name": "holdout_run",
       "records_in": 873,
       "records_out": 0,
@@ -154,7 +154,7 @@
       "args": {
         "gene": "EHMT2"
       },
-      "duration_ms": 10281.782,
+      "duration_ms": 10158.609,
       "name": "holdout_run",
       "records_in": 881,
       "records_out": 0,

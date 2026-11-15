@@ -32,22 +32,21 @@ Exclusions by reason:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2014-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 22/22 | 16/16 (1.00) | 0.302 | n/a | n/a | n/a |
 | 2014-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.071 [0.042, 0.111] | 8/22 | 0/16 (0.00) | 0.325 | n/a | n/a | n/a |
-| 2014-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2014-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2014-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2014-12-31 | model alone | 1.00 [0.40, 1.00] | 1.000 [1.000, 1.000] | 16/22 | 10/16 (0.62) | 0.312 | 0.00 (0 of 6) [0.00, 0.00] | 0 | 6 of 6 |
+| 2014-12-31 | model with text retrieval | 0.20 [0.00, 0.60] | 1.000 [0.000, 1.000] | 21/22 | 15/16 (0.94) | 0.388 | 1.00 (1 of 1) [1.00, 1.00] | 0 | 0 of 1 |
+| 2014-12-31 | model with graph tools | 0.80 [0.20, 1.00] | 1.000 [1.000, 1.000] | 18/22 | 12/16 (0.75) | 0.340 | 1.00 (4 of 4) [1.00, 1.00] | 0 | 0 of 4 |
 | 2017-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 15/15 | 8/8 (1.00) | 0.199 | n/a | n/a | n/a |
 | 2017-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.062 [0.036, 0.100] | 8/15 | 0/8 (0.00) | 0.225 | n/a | n/a | n/a |
-| 2017-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2017-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2017-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | model alone | 0.80 [0.20, 1.00] | 1.000 [1.000, 1.000] | 11/15 | 4/8 (0.50) | 0.241 | 0.00 (0 of 4) [0.00, 0.00] | 0 | 4 of 4 |
+| 2017-12-31 | model with text retrieval | 0.60 [0.00, 1.00] | 0.500 [0.000, 1.000] | 11/15 | 5/8 (0.62) | 0.287 | 0.75 (3 of 4) [0.25, 1.00] | 0 | 1 of 3 |
+| 2017-12-31 | model with graph tools | 0.60 [0.00, 1.00] | 1.000 [0.000, 1.000] | 12/15 | 5/8 (0.62) | 0.260 | 1.00 (3 of 3) [1.00, 1.00] | 0 | 0 of 3 |
 | 2020-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.333 [0.000, 1.000] | 9/9 | 2/2 (1.00) | 0.066 | n/a | n/a | n/a |
 | 2020-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.034 [0.000, 0.045] | 7/9 | 0/2 (0.00) | 0.079 | n/a | n/a | n/a |
-| 2020-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2020-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
-| 2020-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | model alone | 0.20 [0.00, 0.60] | 1.000 [0.000, 1.000] | 8/9 | 1/2 (0.50) | 0.069 | 0.00 (0 of 1) [0.00, 0.00] | 0 | 1 of 1 |
+| 2020-12-31 | model with text retrieval | 0.00 [0.00, 0.00] | 0.000 [0.000, 0.000] | 9/9 | 2/2 (1.00) | 0.124 | 1.00 (1 of 1) [1.00, 1.00] | 0 | 0 of 0 |
+| 2020-12-31 | model with graph tools | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 8/9 | 1/2 (0.50) | 0.102 | 1.00 (2 of 2) [1.00, 1.00] | 0 | 0 of 1 |
 
-Model: `claude-opus-5-5`.
-Not run: 9 of 9 model rows have no response in `eval/model_cache/`. They are reported as not run, never estimated.
+Model: `gemini-3.8-flash`.
 
 | Column | Definition |
 | --- | --- |

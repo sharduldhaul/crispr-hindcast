@@ -1,6 +1,6 @@
 {
   "agent": "adversary",
-  "duration_ms": 3197.9,
+  "duration_ms": 3156.722,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:11:51.682738+00:00",
+  "finished_at": "2026-11-15T11:17:07.227423+00:00",
   "inputs": {},
   "notes": [],
   "output_summary": {
@@ -39,11 +39,11 @@
     "traps": 15
   },
   "run_id": "2017-12-31_no-graph",
-  "started_at": "2026-11-15T05:11:48.484837+00:00",
+  "started_at": "2026-11-15T11:17:04.070706+00:00",
   "tool_calls": [
     {
       "args": {},
-      "duration_ms": 20.369,
+      "duration_ms": 19.919,
       "name": "find_association_without_function",
       "records_in": 0,
       "records_out": 3,
@@ -51,7 +51,7 @@
     },
     {
       "args": {},
-      "duration_ms": 315.913,
+      "duration_ms": 361.778,
       "name": "find_pan_essential",
       "records_in": 0,
       "records_out": 4,
@@ -61,7 +61,7 @@
       "args": {
         "cutoff": "2017-12-31"
       },
-      "duration_ms": 970.208,
+      "duration_ms": 958.481,
       "name": "find_postdates_cutoff",
       "records_in": 0,
       "records_out": 8,
@@ -69,7 +69,7 @@
     },
     {
       "args": {},
-      "duration_ms": 1891.328,
+      "duration_ms": 1816.466,
       "name": "build_alias_attacks",
       "records_in": 0,
       "records_out": 161,

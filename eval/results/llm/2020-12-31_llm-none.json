@@ -1,13 +1,213 @@
 {
   "cutoff": "2020-12-31",
-  "grounding": null,
-  "memorization": null,
-  "provenance_report": null,
+  "grounding": {
+    "citation_validity": {
+      "denominator": 0,
+      "numerator": 0
+    },
+    "citations_in_context": {
+      "denominator": 0,
+      "numerator": 0
+    },
+    "claims": [
+      {
+        "citations": [],
+        "gene_id": "gene:HGNC:18595",
+        "gene_symbol": "HIC2",
+        "grounded": false
+      }
+    ],
+    "fabricated_ids": [],
+    "grounded_claim_rate": {
+      "denominator": 1,
+      "numerator": 0
+    },
+    "grounded_claim_rate_interval": {
+      "level": 0.95,
+      "lower": 0.0,
+      "resamples": 2000,
+      "seed": 20171231,
+      "units": 1,
+      "upper": 0.0
+    },
+    "post_cutoff_ids": []
+  },
+  "memorization": {
+    "post_cutoff_claims": [
+      "HIC2"
+    ],
+    "postdates_cutoff_traps_failed": [
+      "HIC2"
+    ],
+    "recalled_claims": [
+      "HIC2"
+    ],
+    "recalled_rate": {
+      "denominator": 1,
+      "numerator": 1
+    }
+  },
+  "provenance_report": {
+    "checked_objects": 31,
+    "checked_record_ids": 0,
+    "exempt_fields": {
+      "confidence": "computed by the belief reviser from weighted records, which are checked",
+      "cost_impact": "confidence times a frozen policy coefficient",
+      "cost_weight": "a frozen policy coefficient from hindcast.cost, not a measurement",
+      "evidence_count": "a count of the records named on the same object",
+      "forecast_size": "a count of the system's own output",
+      "max_supporting_weight": "a method signature weight over records named on the same object",
+      "rank_by_confidence": "a rank over the system's own output, not a measurement",
+      "rank_by_cost_impact": "a rank over the system's own output, not a measurement",
+      "refusal_count": "a count of the system's own output"
+    },
+    "findings": [
+      {
+        "detail": "carries confidence 0.85 but names no record ID, so the number cannot be traced",
+        "location": "forecast item HIC2"
+      }
+    ],
+    "missing_license": 0,
+    "untraceable": 1
+  },
   "run": {
-    "answer": null,
-    "cache_keys": [],
+    "answer": {
+      "claims": [
+        {
+          "cited_ids": [],
+          "confidence": 0.85,
+          "gene_symbol": "HIC2",
+          "rationale": "Prior to 2020, human genetic studies of the 22q11.2 deletion syndrome associated with elevated fetal hemoglobin strongly nominated HIC2 as the causative candidate transcriptional regulator awaiting direct functional confirmation in erythroid models."
+        }
+      ],
+      "refusals": [
+        {
+          "gene_symbol": "ASH1L",
+          "reason": "There was no pre-2020 genetic or functional evidence implicating ASH1L in the regulation of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "CHD3",
+          "reason": "Prior to 2020, CHD4 was identified as the relevant NuRD ATPase in HbF repression, with no evidence that perturbing its paralog CHD3 alters HbF."
+        },
+        {
+          "gene_symbol": "DNMT1",
+          "reason": "The role of DNMT1 in repressing fetal hemoglobin was firmly established decades prior to the 2020 cutoff date."
+        },
+        {
+          "gene_symbol": "DNMT3A",
+          "reason": "Pre-2020 studies established that DNMT1, but not the de novo methyltransferase DNMT3A, specifically maintains gamma-globin silencing in erythroid cells."
+        },
+        {
+          "gene_symbol": "DNMT3B",
+          "reason": "Pre-2020 functional studies showed that DNMT1 rather than DNMT3B is the primary DNA methyltransferase repressing fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "EIF2AK2",
+          "reason": "Pre-2020 work identified EIF2AK1 (HRI) as the specific eIF2alpha kinase controlling HbF, showing other family members including EIF2AK2 lack this specific regulatory role."
+        },
+        {
+          "gene_symbol": "EIF2AK3",
+          "reason": "Evidence before 2020 indicated that the HbF-repressive eIF2alpha kinase activity is specific to EIF2AK1 rather than EIF2AK3."
+        },
+        {
+          "gene_symbol": "EIF2AK4",
+          "reason": "Pre-2020 studies on stress erythropoiesis and HbF specifically established EIF2AK1 without supporting a direct HbF-regulatory role for EIF2AK4."
+        },
+        {
+          "gene_symbol": "EIF2S1",
+          "reason": "While phosphorylation of EIF2S1 is a downstream target of HRI, pre-2020 evidence did not support direct independent perturbation of EIF2S1 as a specific regulator of HbF switching."
+        },
+        {
+          "gene_symbol": "EPAS1",
+          "reason": "Pre-2020 evidence connected EPAS1 to erythropoietin regulation and hypoxia sensing rather than specific transcriptional control of gamma-globin."
+        },
+        {
+          "gene_symbol": "GATAD2B",
+          "reason": "Pre-2020 NuRD perturbation studies identified GATAD2A, not its paralog GATAD2B, as the primary subunit required for gamma-globin repression."
+        },
+        {
+          "gene_symbol": "IGF2BP1",
+          "reason": "Although LIN28B was known before 2020 to influence HbF, evidence that direct perturbation of IGF2BP1 alters fetal hemoglobin in erythroid cells was lacking."
+        },
+        {
+          "gene_symbol": "KMT5A",
+          "reason": "There was no pre-2020 functional or genetic evidence demonstrating that KMT5A regulates fetal hemoglobin expression."
+        },
+        {
+          "gene_symbol": "MAP3K7",
+          "reason": "Pre-2020 literature on MAP3K7 does not provide functional evidence indicating a specific role in regulating fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "MAPK1",
+          "reason": "MAPK1 is a general signaling kinase with no pre-2020 evidence showing that its specific perturbation regulates HbF expression in human erythroid cells."
+        },
+        {
+          "gene_symbol": "MBD3",
+          "reason": "Pre-2020 investigations of the NuRD complex established MBD2 rather than MBD3 as the critical methyl-CpG-binding repressor of gamma-globin."
+        },
+        {
+          "gene_symbol": "MTA1",
+          "reason": "Pre-2020 NuRD studies indicated MTA2 is the predominant MTA family member mediating HbF repression, with no functional evidence supporting MTA1."
+        },
+        {
+          "gene_symbol": "MTA3",
+          "reason": "Functional studies of NuRD subunits prior to 2020 did not support an essential role for MTA3 in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "NFE2",
+          "reason": "NFE2 was established long before 2020 as a core erythroid transcription factor for beta-globin synthesis without evidence of being an HbF-specific regulator."
+        },
+        {
+          "gene_symbol": "NFIX",
+          "reason": "There was insufficient pre-2020 evidence demonstrating that direct perturbation of NFIX regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "gene_symbol": "NR2C1",
+          "reason": "NR2C1 (TR2) was already well established as a direct repressor of fetal hemoglobin prior to the 2020 cutoff date."
+        },
+        {
+          "gene_symbol": "NR2C2",
+          "reason": "NR2C2 (TR4) was already well established as a direct repressor of fetal hemoglobin prior to the 2020 cutoff date."
+        },
+        {
+          "gene_symbol": "PGRMC1",
+          "reason": "Pre-2020 literature provides no functional or genetic evidence implicating PGRMC1 in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "RBBP7",
+          "reason": "Pre-2020 NuRD complex studies in erythroid cells did not establish RBBP7 perturbation as an independent regulator of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "SMAD1",
+          "reason": "No pre-2020 evidence supports a specific role for SMAD1 perturbation in controlling fetal hemoglobin expression in human erythroid cells."
+        },
+        {
+          "gene_symbol": "SMAD5",
+          "reason": "No pre-2020 evidence demonstrates that specific genetic perturbation of SMAD5 alters fetal hemoglobin levels."
+        },
+        {
+          "gene_symbol": "TET2",
+          "reason": "Pre-2020 studies on TET enzymes in hematopoiesis did not provide evidence that TET2 perturbation specifically regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "VHL",
+          "reason": "VHL regulates hypoxia-inducible factors and general erythropoiesis, but pre-2020 evidence does not support a specific role in regulating fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "ZBTB33",
+          "reason": "Pre-2020 studies provided no evidence that ZBTB33 (Kaiso) is a functional regulator of fetal hemoglobin in erythroid cells."
+        },
+        {
+          "gene_symbol": "ZNF143",
+          "reason": "There was no pre-2020 functional or genetic evidence connecting ZNF143 to the regulation of fetal hemoglobin expression."
+        }
+      ]
+    },
+    "cache_keys": [
+      "29d70ceb8a362f3c550d61d91555587bf08cd1687db40e34ed8ddbad9b06062d"
+    ],
     "calls_live": 0,
-    "calls_replayed": 0,
+    "calls_replayed": 1,
     "candidate_symbols": [
       "ASH1L",
       "CHD3",
@@ -43,20 +243,543 @@
     ],
     "condition": "none",
     "context_node_ids": [],
-    "cost_usd": 0.0,
-    "forecast": null,
-    "input_tokens": 0,
-    "model_id": "claude-opus-5-5",
-    "output_tokens": 0,
+    "cost_usd": 0.025692,
+    "forecast": {
+      "already_established": [],
+      "cutoff": "2020-12-31",
+      "items": [
+        {
+          "claim_id": "llm:claim:HIC2",
+          "confidence": 0.85,
+          "contradicting_record_ids": [],
+          "cost_impact": 0.85,
+          "cost_weight": 1.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:18595",
+          "gene_symbol": "HIC2",
+          "implied_modality": "EX_VIVO_SINGLE_EDIT",
+          "max_supporting_weight": 0.0,
+          "modality_rationale": "the model is not asked for a therapeutic route",
+          "rank_by_confidence": 1,
+          "rank_by_cost_impact": 1,
+          "statement": "Prior to 2020, human genetic studies of the 22q11.2 deletion syndrome associated with elevated fetal hemoglobin strongly nominated HIC2 as the causative candidate transcriptional regulator awaiting direct functional confirmation in erythroid models.",
+          "supporting_record_ids": []
+        }
+      ],
+      "ranking_note": "Language-model forecast, retrieval condition none. Ranked by the model's stated confidence. Both rankings are identical because the model is not asked for a therapeutic route.",
+      "refusals": [
+        {
+          "claim_id": "llm:claim:ASH1L",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19088",
+          "gene_symbol": "ASH1L",
+          "max_supporting_weight": 0.0,
+          "reason": "There was no pre-2020 genetic or functional evidence implicating ASH1L in the regulation of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:CHD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:1918",
+          "gene_symbol": "CHD3",
+          "max_supporting_weight": 0.0,
+          "reason": "Prior to 2020, CHD4 was identified as the relevant NuRD ATPase in HbF repression, with no evidence that perturbing its paralog CHD3 alters HbF."
+        },
+        {
+          "claim_id": "llm:claim:DNMT1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2976",
+          "gene_symbol": "DNMT1",
+          "max_supporting_weight": 0.0,
+          "reason": "The role of DNMT1 in repressing fetal hemoglobin was firmly established decades prior to the 2020 cutoff date."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2978",
+          "gene_symbol": "DNMT3A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 studies established that DNMT1, but not the de novo methyltransferase DNMT3A, specifically maintains gamma-globin silencing in erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2979",
+          "gene_symbol": "DNMT3B",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 functional studies showed that DNMT1 rather than DNMT3B is the primary DNA methyltransferase repressing fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9437",
+          "gene_symbol": "EIF2AK2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 work identified EIF2AK1 (HRI) as the specific eIF2alpha kinase controlling HbF, showing other family members including EIF2AK2 lack this specific regulatory role."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3255",
+          "gene_symbol": "EIF2AK3",
+          "max_supporting_weight": 0.0,
+          "reason": "Evidence before 2020 indicated that the HbF-repressive eIF2alpha kinase activity is specific to EIF2AK1 rather than EIF2AK3."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK4",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19687",
+          "gene_symbol": "EIF2AK4",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 studies on stress erythropoiesis and HbF specifically established EIF2AK1 without supporting a direct HbF-regulatory role for EIF2AK4."
+        },
+        {
+          "claim_id": "llm:claim:EIF2S1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3265",
+          "gene_symbol": "EIF2S1",
+          "max_supporting_weight": 0.0,
+          "reason": "While phosphorylation of EIF2S1 is a downstream target of HRI, pre-2020 evidence did not support direct independent perturbation of EIF2S1 as a specific regulator of HbF switching."
+        },
+        {
+          "claim_id": "llm:claim:EPAS1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3374",
+          "gene_symbol": "EPAS1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 evidence connected EPAS1 to erythropoietin regulation and hypoxia sensing rather than specific transcriptional control of gamma-globin."
+        },
+        {
+          "claim_id": "llm:claim:GATAD2B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:30778",
+          "gene_symbol": "GATAD2B",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 NuRD perturbation studies identified GATAD2A, not its paralog GATAD2B, as the primary subunit required for gamma-globin repression."
+        },
+        {
+          "claim_id": "llm:claim:IGF2BP1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:28866",
+          "gene_symbol": "IGF2BP1",
+          "max_supporting_weight": 0.0,
+          "reason": "Although LIN28B was known before 2020 to influence HbF, evidence that direct perturbation of IGF2BP1 alters fetal hemoglobin in erythroid cells was lacking."
+        },
+        {
+          "claim_id": "llm:claim:KMT5A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:29489",
+          "gene_symbol": "KMT5A",
+          "max_supporting_weight": 0.0,
+          "reason": "There was no pre-2020 functional or genetic evidence demonstrating that KMT5A regulates fetal hemoglobin expression."
+        },
+        {
+          "claim_id": "llm:claim:MAP3K7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6859",
+          "gene_symbol": "MAP3K7",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 literature on MAP3K7 does not provide functional evidence indicating a specific role in regulating fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:MAPK1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6871",
+          "gene_symbol": "MAPK1",
+          "max_supporting_weight": 0.0,
+          "reason": "MAPK1 is a general signaling kinase with no pre-2020 evidence showing that its specific perturbation regulates HbF expression in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:MBD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6918",
+          "gene_symbol": "MBD3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 investigations of the NuRD complex established MBD2 rather than MBD3 as the critical methyl-CpG-binding repressor of gamma-globin."
+        },
+        {
+          "claim_id": "llm:claim:MTA1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7410",
+          "gene_symbol": "MTA1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 NuRD studies indicated MTA2 is the predominant MTA family member mediating HbF repression, with no functional evidence supporting MTA1."
+        },
+        {
+          "claim_id": "llm:claim:MTA3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:23784",
+          "gene_symbol": "MTA3",
+          "max_supporting_weight": 0.0,
+          "reason": "Functional studies of NuRD subunits prior to 2020 did not support an essential role for MTA3 in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:NFE2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7780",
+          "gene_symbol": "NFE2",
+          "max_supporting_weight": 0.0,
+          "reason": "NFE2 was established long before 2020 as a core erythroid transcription factor for beta-globin synthesis without evidence of being an HbF-specific regulator."
+        },
+        {
+          "claim_id": "llm:claim:NFIX",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7788",
+          "gene_symbol": "NFIX",
+          "max_supporting_weight": 0.0,
+          "reason": "There was insufficient pre-2020 evidence demonstrating that direct perturbation of NFIX regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:NR2C1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7971",
+          "gene_symbol": "NR2C1",
+          "max_supporting_weight": 0.0,
+          "reason": "NR2C1 (TR2) was already well established as a direct repressor of fetal hemoglobin prior to the 2020 cutoff date."
+        },
+        {
+          "claim_id": "llm:claim:NR2C2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7972",
+          "gene_symbol": "NR2C2",
+          "max_supporting_weight": 0.0,
+          "reason": "NR2C2 (TR4) was already well established as a direct repressor of fetal hemoglobin prior to the 2020 cutoff date."
+        },
+        {
+          "claim_id": "llm:claim:PGRMC1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16090",
+          "gene_symbol": "PGRMC1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 literature provides no functional or genetic evidence implicating PGRMC1 in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:RBBP7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9890",
+          "gene_symbol": "RBBP7",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 NuRD complex studies in erythroid cells did not establish RBBP7 perturbation as an independent regulator of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:SMAD1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6767",
+          "gene_symbol": "SMAD1",
+          "max_supporting_weight": 0.0,
+          "reason": "No pre-2020 evidence supports a specific role for SMAD1 perturbation in controlling fetal hemoglobin expression in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:SMAD5",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6771",
+          "gene_symbol": "SMAD5",
+          "max_supporting_weight": 0.0,
+          "reason": "No pre-2020 evidence demonstrates that specific genetic perturbation of SMAD5 alters fetal hemoglobin levels."
+        },
+        {
+          "claim_id": "llm:claim:TET2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:25941",
+          "gene_symbol": "TET2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 studies on TET enzymes in hematopoiesis did not provide evidence that TET2 perturbation specifically regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:VHL",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12687",
+          "gene_symbol": "VHL",
+          "max_supporting_weight": 0.0,
+          "reason": "VHL regulates hypoxia-inducible factors and general erythropoiesis, but pre-2020 evidence does not support a specific role in regulating fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:ZBTB33",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16682",
+          "gene_symbol": "ZBTB33",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-2020 studies provided no evidence that ZBTB33 (Kaiso) is a functional regulator of fetal hemoglobin in erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:ZNF143",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12928",
+          "gene_symbol": "ZNF143",
+          "max_supporting_weight": 0.0,
+          "reason": "There was no pre-2020 functional or genetic evidence connecting ZNF143 to the regulation of fetal hemoglobin expression."
+        }
+      ]
+    },
+    "input_tokens": 441,
+    "model_id": "gemini-3.8-flash",
+    "output_tokens": 6763,
     "prompt_hash": "5ece928ff32e9188309053dacf9239b23e7c8509030aabc79925afd94a3d21b0",
-    "served_model_id": "",
-    "status": "not_run",
-    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
+    "served_model_id": "gemini-3.8-flash",
+    "status": "ran",
+    "status_reason": "",
     "tool_call_budget": 0,
     "tool_calls": []
   },
   "run_id": "2020-12-31_llm-none",
-  "scorecard": null,
+  "scorecard": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.0,
+        "n": 30,
+        "observed_frequency": 0.066667,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.85,
+        "n": 1,
+        "observed_frequency": 1.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 1,
+    "contamination_traps_total": 2,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "EX_VIVO_SINGLE_EDIT",
+    "cutoff": "2020-12-31",
+    "expected_calibration_error": 0.069355,
+    "fabricated_detail": [
+      "forecast item HIC2: carries confidence 0.85 but names no record ID, so the number cannot be traced"
+    ],
+    "fabricated_numbers": 1,
+    "forecast_size": 1,
+    "ground_truth_symbols": [
+      "DNMT1",
+      "HIC2",
+      "NFIX"
+    ],
+    "judgement_traps_passed": 7,
+    "judgement_traps_total": 7,
+    "notes": [
+      "1 of 2 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: HIC2, NFIX. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway.",
+      "Language-model row. A refusal carries no confidence from the model and is entered at 0 for the calibration error. The cost lens does not apply: the model is not asked for a therapeutic route."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 1,
+      "hits_at_10": [
+        "HIC2"
+      ],
+      "hits_at_5": [
+        "HIC2"
+      ],
+      "mean_reciprocal_rank": 1.0,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 1.0
+      },
+      "n_ground_truth": 3,
+      "n_ranked": 1,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 0.6
+      },
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 1,
+      "hits_at_10": [
+        "HIC2"
+      ],
+      "hits_at_5": [
+        "HIC2"
+      ],
+      "mean_reciprocal_rank": 1.0,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 1.0
+      },
+      "n_ground_truth": 3,
+      "n_ranked": 1,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 0.6
+      },
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 0.5,
+    "refusal_correct": 1,
+    "refusal_count": 30,
+    "refusal_total": 2,
+    "run_id": "2020-12-31_llm-none",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "HBBP1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "HBBP1",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:HBBP1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was forecast although its role postdates the cutoff",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 8,
+    "traps_passed_meaningfully": 8,
+    "traps_passed_vacuously": 0,
+    "traps_total": 9
+  },
   "slice_manifest": {
     "cutoff": "2020-12-31",
     "dropped_dangling_edges": "0",
@@ -64,5 +787,5 @@
     "nodes": "150839",
     "source_db": "graph.db"
   },
-  "trap_count": 0
+  "trap_count": 9
 }

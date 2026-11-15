@@ -1,13 +1,284 @@
 {
   "cutoff": "2014-12-31",
-  "grounding": null,
-  "memorization": null,
-  "provenance_report": null,
+  "grounding": {
+    "citation_validity": {
+      "denominator": 2,
+      "numerator": 2
+    },
+    "citations_in_context": {
+      "denominator": 2,
+      "numerator": 2
+    },
+    "claims": [
+      {
+        "citations": [
+          {
+            "cited_id": "pub:16778143",
+            "names_gene": true,
+            "status": "in_context"
+          },
+          {
+            "cited_id": "pub:21296012",
+            "names_gene": true,
+            "status": "in_context"
+          }
+        ],
+        "gene_id": "gene:HGNC:6917",
+        "gene_symbol": "MBD2",
+        "grounded": true
+      }
+    ],
+    "fabricated_ids": [],
+    "grounded_claim_rate": {
+      "denominator": 1,
+      "numerator": 1
+    },
+    "grounded_claim_rate_interval": {
+      "level": 0.95,
+      "lower": 1.0,
+      "resamples": 2000,
+      "seed": 20171231,
+      "units": 1,
+      "upper": 1.0
+    },
+    "post_cutoff_ids": []
+  },
+  "memorization": {
+    "post_cutoff_claims": [
+      "MBD2"
+    ],
+    "postdates_cutoff_traps_failed": [
+      "MBD2"
+    ],
+    "recalled_claims": [],
+    "recalled_rate": {
+      "denominator": 1,
+      "numerator": 0
+    }
+  },
+  "provenance_report": {
+    "checked_objects": 47,
+    "checked_record_ids": 2,
+    "exempt_fields": {
+      "confidence": "computed by the belief reviser from weighted records, which are checked",
+      "cost_impact": "confidence times a frozen policy coefficient",
+      "cost_weight": "a frozen policy coefficient from hindcast.cost, not a measurement",
+      "evidence_count": "a count of the records named on the same object",
+      "forecast_size": "a count of the system's own output",
+      "max_supporting_weight": "a method signature weight over records named on the same object",
+      "rank_by_confidence": "a rank over the system's own output, not a measurement",
+      "rank_by_cost_impact": "a rank over the system's own output, not a measurement",
+      "refusal_count": "a count of the system's own output"
+    },
+    "findings": [],
+    "missing_license": 0,
+    "untraceable": 0
+  },
   "run": {
-    "answer": null,
-    "cache_keys": [],
+    "answer": {
+      "claims": [
+        {
+          "cited_ids": [
+            "pub:16778143",
+            "pub:21296012"
+          ],
+          "confidence": 0.75,
+          "gene_symbol": "MBD2",
+          "rationale": "MBD2 was identified as a core component of a methyl-CpG-binding repressor complex in primary erythroid cells and demonstrated to functionally mediate developmental globin gene silencing in humans."
+        }
+      ],
+      "refusals": [
+        {
+          "gene_symbol": "ASH1L",
+          "reason": "The available pre-cutoff evidence characterizes ASH1L as an active gene histone methyltransferase without any functional link to erythroid globin regulation."
+        },
+        {
+          "gene_symbol": "ATF4",
+          "reason": "Pre-cutoff evidence links ATF4 to stress erythropoiesis downstream of HRI but does not demonstrate a specific regulatory role in fetal hemoglobin expression."
+        },
+        {
+          "gene_symbol": "CHD3",
+          "reason": "None of the provided pre-cutoff evidence mentions CHD3 or connects it functionally to fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "DNMT1",
+          "reason": "The role of DNA methyltransferase inhibition involving DNMT1 in reactivating fetal hemoglobin was established decades prior to the cutoff date rather than post-cutoff."
+        },
+        {
+          "gene_symbol": "DNMT3A",
+          "reason": "Pre-cutoff studies connect DNMT3A to hematopoietic stem cell differentiation and self-renewal but provide no evidence for fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "DNMT3B",
+          "reason": "Pre-cutoff literature focuses on DNMT3B in hematopoietic stem cells and leukemia without linking it to globin gene regulation."
+        },
+        {
+          "gene_symbol": "EHMT1",
+          "reason": "The retrieved pre-cutoff studies examine EHMT1 in NF-kappa-B signaling without any evidence implicating it in fetal hemoglobin expression."
+        },
+        {
+          "gene_symbol": "EHMT2",
+          "reason": "The provided pre-cutoff records do not show that perturbing EHMT2 regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "gene_symbol": "EIF2AK1",
+          "reason": "Pre-cutoff evidence documents EIF2AK1 function in translational control and total hemoglobin synthesis during erythropoiesis but does not establish a specific role in fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "EIF2AK2",
+          "reason": "The evidence rows for EIF2AK2 consist of general eIF2-alpha kinase erythropoiesis papers that do not evaluate fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "EIF2AK3",
+          "reason": "The provided pre-cutoff evidence does not contain functional studies linking EIF2AK3 to fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "EIF2AK4",
+          "reason": "There is no pre-cutoff functional evidence in the provided citations demonstrating that EIF2AK4 regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "EIF2S1",
+          "reason": "The pre-cutoff records address general eIF2-alpha phosphorylation in erythropoiesis rather than specific regulation of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "EPAS1",
+          "reason": "Pre-cutoff publications on EPAS1 focus on hypoxia adaptation and polycythemia without functional evidence of fetal globin regulation."
+        },
+        {
+          "gene_symbol": "FOXO3",
+          "reason": "Pre-cutoff work establishes FOXO3 as a regulator of oxidative stress and maturation in erythropoiesis but lacks functional evidence linking it to fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "GATAD2A",
+          "reason": "Although pre-cutoff evidence shows physical interaction between GATAD2A and MBD2, it provides no direct functional evidence that perturbing GATAD2A regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "GATAD2B",
+          "reason": "The provided pre-cutoff citations do not evaluate GATAD2B functionally in the context of fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "HDAC2",
+          "reason": "Pre-cutoff evidence demonstrates HDAC2 functions in hematopoiesis and stem cell homeostasis but does not establish that perturbing it regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "HIC2",
+          "reason": "None of the provided pre-cutoff evidence evaluates or mentions HIC2 in connection with fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "IGF2BP1",
+          "reason": "The provided pre-cutoff citations do not demonstrate a functional role for IGF2BP1 in regulating human fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "KDM1A",
+          "reason": "Pre-cutoff citations provided for KDM1A focus on KLF transcription factors and AML without demonstrating functional regulation of fetal hemoglobin by KDM1A perturbation."
+        },
+        {
+          "gene_symbol": "KMT5A",
+          "reason": "None of the provided pre-cutoff citations mention or functionally assess KMT5A in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "LIN28B",
+          "reason": "LIN28B was already established as a regulator of fetal hemoglobin in human erythroblasts prior to the cutoff date in 2013."
+        },
+        {
+          "gene_symbol": "MAP3K7",
+          "reason": "The provided pre-cutoff records consist of generic globin literature that does not evaluate MAP3K7 functionally."
+        },
+        {
+          "gene_symbol": "MAPK1",
+          "reason": "Pre-cutoff evidence links MAPK1 to general erythropoiesis and neoplastic signaling without showing a specific role in fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "MBD3",
+          "reason": "Pre-cutoff evidence addresses MBD3 in epigenetic complexes and leukemogenesis without demonstrating a functional role in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "MTA1",
+          "reason": "The provided pre-cutoff records do not provide functional evidence that perturbing MTA1 regulates fetal hemoglobin expression."
+        },
+        {
+          "gene_symbol": "MTA2",
+          "reason": "None of the provided pre-cutoff records evaluate MTA2 functionally in human erythroid fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "MTA3",
+          "reason": "The provided pre-cutoff evidence focuses on hypoxia and FOXO3 without functional demonstration of MTA3 regulating fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "NFE2",
+          "reason": "Pre-cutoff evidence characterizes NFE2 as an activator of heme synthesis and adult globin transcription without establishing a regulatory role in fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "NFIX",
+          "reason": "Pre-cutoff studies examine NFIX in neural development and hematopoietic progenitor survival without linking it functionally to fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "NR2C1",
+          "reason": "The provided pre-cutoff citations do not functionally link NR2C1 perturbation to fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "NR2C2",
+          "reason": "The pre-cutoff records provided do not contain functional evidence establishing NR2C2 as a regulator of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "PGRMC1",
+          "reason": "The provided pre-cutoff citations do not demonstrate that PGRMC1 regulates fetal hemoglobin in erythroid cells."
+        },
+        {
+          "gene_symbol": "RBBP4",
+          "reason": "None of the provided pre-cutoff evidence functionally links RBBP4 perturbation to fetal hemoglobin expression changes."
+        },
+        {
+          "gene_symbol": "RBBP7",
+          "reason": "The provided pre-cutoff evidence contains generic globin reviews without functional evidence for RBBP7 regulating fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "SIRT1",
+          "reason": "Pre-cutoff citations on SIRT1 examine hematopoietic stem cell function and differentiation without showing regulation of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "SMAD1",
+          "reason": "Pre-cutoff literature implicates SMAD1 in early hemangioblast specification rather than fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "SMAD5",
+          "reason": "Pre-cutoff evidence connects SMAD5 to BMP4-mediated erythroid progenitor expansion but does not establish a role in fetal hemoglobin switching."
+        },
+        {
+          "gene_symbol": "TAL1",
+          "reason": "Pre-cutoff studies characterize TAL1 as a master transcription factor for general erythropoiesis without evidence that perturbing it specifically regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "TET2",
+          "reason": "Pre-cutoff records focus on TET2 in hematopoietic stem cell homeostasis and myeloid malignancies rather than fetal hemoglobin control."
+        },
+        {
+          "gene_symbol": "VHL",
+          "reason": "Pre-cutoff literature on VHL focuses on congenital polycythemia and hypoxia signaling without functional evidence linking it to fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "ZBTB33",
+          "reason": "None of the provided pre-cutoff records evaluate or demonstrate a functional role for ZBTB33 in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "ZBTB7A",
+          "reason": "Pre-cutoff publications for ZBTB7A focus on its proto-oncogenic role in Rb repression without functional evidence linking it to erythroid fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "ZNF143",
+          "reason": "Pre-cutoff studies describe ZNF143 in cell-cycle transcription and bidirectional promoters without demonstrating a role in fetal hemoglobin expression."
+        },
+        {
+          "gene_symbol": "ZNF410",
+          "reason": "None of the provided pre-cutoff citations mention or functionally assess ZNF410 in connection with fetal hemoglobin regulation."
+        }
+      ]
+    },
+    "cache_keys": [
+      "9935ffdd1350891c0185e82fda23d989125a3d124f9f3b16c8cc11be710e90bd"
+    ],
     "calls_live": 0,
-    "calls_replayed": 0,
+    "calls_replayed": 1,
     "candidate_symbols": [
       "ASH1L",
       "ATF4",
@@ -58,21 +329,946 @@
       "ZNF410"
     ],
     "condition": "text",
-    "context_node_ids": [],
-    "cost_usd": 0.0,
-    "forecast": null,
-    "input_tokens": 0,
-    "model_id": "claude-opus-5-5",
-    "output_tokens": 0,
+    "context_node_ids": [
+      "pub:11003662",
+      "pub:11050009",
+      "pub:11113182",
+      "pub:11167015",
+      "pub:11884600",
+      "pub:12064918",
+      "pub:12388799",
+      "pub:12393546",
+      "pub:12393578",
+      "pub:12588985",
+      "pub:12897133",
+      "pub:12920035",
+      "pub:14592835",
+      "pub:14715640",
+      "pub:15277680",
+      "pub:16109777",
+      "pub:16778143",
+      "pub:16980612",
+      "pub:16990609",
+      "pub:1701019",
+      "pub:17353275",
+      "pub:17671650",
+      "pub:17708683",
+      "pub:17761518",
+      "pub:17923682",
+      "pub:18374325",
+      "pub:18424439",
+      "pub:18477394",
+      "pub:18500823",
+      "pub:1878596",
+      "pub:18801742",
+      "pub:19336746",
+      "pub:19340311",
+      "pub:19375646",
+      "pub:19495417",
+      "pub:19541769",
+      "pub:19736520",
+      "pub:19808799",
+      "pub:20028976",
+      "pub:20181618",
+      "pub:20223923",
+      "pub:20331458",
+      "pub:20571512",
+      "pub:20634564",
+      "pub:20676099",
+      "pub:20716118",
+      "pub:20860770",
+      "pub:20966168",
+      "pub:21094147",
+      "pub:21157349",
+      "pub:21177654",
+      "pub:21179004",
+      "pub:21279818",
+      "pub:21296012",
+      "pub:21436582",
+      "pub:21464371",
+      "pub:21512136",
+      "pub:21515822",
+      "pub:21609963",
+      "pub:21741591",
+      "pub:21873190",
+      "pub:22102705",
+      "pub:22133874",
+      "pub:22138693",
+      "pub:22200773",
+      "pub:22219225",
+      "pub:22233091",
+      "pub:22345399",
+      "pub:22355785",
+      "pub:22383741",
+      "pub:2239920",
+      "pub:22422452",
+      "pub:22469782",
+      "pub:22491213",
+      "pub:22498744",
+      "pub:22516254",
+      "pub:22580996",
+      "pub:22673568",
+      "pub:22705548",
+      "pub:22714992",
+      "pub:22801426",
+      "pub:23090011",
+      "pub:23227185",
+      "pub:23239876",
+      "pub:23251566",
+      "pub:23519155",
+      "pub:23701125",
+      "pub:23798711",
+      "pub:24041575",
+      "pub:24330582",
+      "pub:24614941",
+      "pub:2461566",
+      "pub:24662048",
+      "pub:24714526",
+      "pub:24763403",
+      "pub:24880147",
+      "pub:24951464",
+      "pub:24966026",
+      "pub:25040794",
+      "pub:25130491",
+      "pub:25204569",
+      "pub:25538734",
+      "pub:25705708",
+      "pub:2735651",
+      "pub:293729",
+      "pub:3211133",
+      "pub:3223401",
+      "pub:7517214",
+      "pub:7910943",
+      "pub:8424101"
+    ],
+    "cost_usd": 0.073826,
+    "forecast": {
+      "already_established": [],
+      "cutoff": "2014-12-31",
+      "items": [
+        {
+          "claim_id": "llm:claim:MBD2",
+          "confidence": 0.75,
+          "contradicting_record_ids": [],
+          "cost_impact": 0.75,
+          "cost_weight": 1.0,
+          "evidence_count": 2,
+          "gene_id": "gene:HGNC:6917",
+          "gene_symbol": "MBD2",
+          "implied_modality": "EX_VIVO_SINGLE_EDIT",
+          "max_supporting_weight": 0.0,
+          "modality_rationale": "the model is not asked for a therapeutic route",
+          "rank_by_confidence": 1,
+          "rank_by_cost_impact": 1,
+          "statement": "MBD2 was identified as a core component of a methyl-CpG-binding repressor complex in primary erythroid cells and demonstrated to functionally mediate developmental globin gene silencing in humans.",
+          "supporting_record_ids": [
+            "pub:16778143",
+            "pub:21296012"
+          ]
+        }
+      ],
+      "ranking_note": "Language-model forecast, retrieval condition text. Ranked by the model's stated confidence. Both rankings are identical because the model is not asked for a therapeutic route.",
+      "refusals": [
+        {
+          "claim_id": "llm:claim:ASH1L",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19088",
+          "gene_symbol": "ASH1L",
+          "max_supporting_weight": 0.0,
+          "reason": "The available pre-cutoff evidence characterizes ASH1L as an active gene histone methyltransferase without any functional link to erythroid globin regulation."
+        },
+        {
+          "claim_id": "llm:claim:ATF4",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:786",
+          "gene_symbol": "ATF4",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links ATF4 to stress erythropoiesis downstream of HRI but does not demonstrate a specific regulatory role in fetal hemoglobin expression."
+        },
+        {
+          "claim_id": "llm:claim:CHD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:1918",
+          "gene_symbol": "CHD3",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff evidence mentions CHD3 or connects it functionally to fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:DNMT1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2976",
+          "gene_symbol": "DNMT1",
+          "max_supporting_weight": 0.0,
+          "reason": "The role of DNA methyltransferase inhibition involving DNMT1 in reactivating fetal hemoglobin was established decades prior to the cutoff date rather than post-cutoff."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2978",
+          "gene_symbol": "DNMT3A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies connect DNMT3A to hematopoietic stem cell differentiation and self-renewal but provide no evidence for fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2979",
+          "gene_symbol": "DNMT3B",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature focuses on DNMT3B in hematopoietic stem cells and leukemia without linking it to globin gene regulation."
+        },
+        {
+          "claim_id": "llm:claim:EHMT1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:24650",
+          "gene_symbol": "EHMT1",
+          "max_supporting_weight": 0.0,
+          "reason": "The retrieved pre-cutoff studies examine EHMT1 in NF-kappa-B signaling without any evidence implicating it in fetal hemoglobin expression."
+        },
+        {
+          "claim_id": "llm:claim:EHMT2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:14129",
+          "gene_symbol": "EHMT2",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff records do not show that perturbing EHMT2 regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:24921",
+          "gene_symbol": "EIF2AK1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence documents EIF2AK1 function in translational control and total hemoglobin synthesis during erythropoiesis but does not establish a specific role in fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9437",
+          "gene_symbol": "EIF2AK2",
+          "max_supporting_weight": 0.0,
+          "reason": "The evidence rows for EIF2AK2 consist of general eIF2-alpha kinase erythropoiesis papers that do not evaluate fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3255",
+          "gene_symbol": "EIF2AK3",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff evidence does not contain functional studies linking EIF2AK3 to fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK4",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19687",
+          "gene_symbol": "EIF2AK4",
+          "max_supporting_weight": 0.0,
+          "reason": "There is no pre-cutoff functional evidence in the provided citations demonstrating that EIF2AK4 regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:EIF2S1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3265",
+          "gene_symbol": "EIF2S1",
+          "max_supporting_weight": 0.0,
+          "reason": "The pre-cutoff records address general eIF2-alpha phosphorylation in erythropoiesis rather than specific regulation of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:EPAS1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3374",
+          "gene_symbol": "EPAS1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff publications on EPAS1 focus on hypoxia adaptation and polycythemia without functional evidence of fetal globin regulation."
+        },
+        {
+          "claim_id": "llm:claim:FOXO3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3821",
+          "gene_symbol": "FOXO3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff work establishes FOXO3 as a regulator of oxidative stress and maturation in erythropoiesis but lacks functional evidence linking it to fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:GATAD2A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:29989",
+          "gene_symbol": "GATAD2A",
+          "max_supporting_weight": 0.0,
+          "reason": "Although pre-cutoff evidence shows physical interaction between GATAD2A and MBD2, it provides no direct functional evidence that perturbing GATAD2A regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:GATAD2B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:30778",
+          "gene_symbol": "GATAD2B",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff citations do not evaluate GATAD2B functionally in the context of fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:HDAC2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:4853",
+          "gene_symbol": "HDAC2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence demonstrates HDAC2 functions in hematopoiesis and stem cell homeostasis but does not establish that perturbing it regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:HIC2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:18595",
+          "gene_symbol": "HIC2",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff evidence evaluates or mentions HIC2 in connection with fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:IGF2BP1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:28866",
+          "gene_symbol": "IGF2BP1",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff citations do not demonstrate a functional role for IGF2BP1 in regulating human fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:KDM1A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:29079",
+          "gene_symbol": "KDM1A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff citations provided for KDM1A focus on KLF transcription factors and AML without demonstrating functional regulation of fetal hemoglobin by KDM1A perturbation."
+        },
+        {
+          "claim_id": "llm:claim:KMT5A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:29489",
+          "gene_symbol": "KMT5A",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff citations mention or functionally assess KMT5A in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:LIN28B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:32207",
+          "gene_symbol": "LIN28B",
+          "max_supporting_weight": 0.0,
+          "reason": "LIN28B was already established as a regulator of fetal hemoglobin in human erythroblasts prior to the cutoff date in 2013."
+        },
+        {
+          "claim_id": "llm:claim:MAP3K7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6859",
+          "gene_symbol": "MAP3K7",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff records consist of generic globin literature that does not evaluate MAP3K7 functionally."
+        },
+        {
+          "claim_id": "llm:claim:MAPK1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6871",
+          "gene_symbol": "MAPK1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links MAPK1 to general erythropoiesis and neoplastic signaling without showing a specific role in fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:MBD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6918",
+          "gene_symbol": "MBD3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence addresses MBD3 in epigenetic complexes and leukemogenesis without demonstrating a functional role in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:MTA1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7410",
+          "gene_symbol": "MTA1",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff records do not provide functional evidence that perturbing MTA1 regulates fetal hemoglobin expression."
+        },
+        {
+          "claim_id": "llm:claim:MTA2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7411",
+          "gene_symbol": "MTA2",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff records evaluate MTA2 functionally in human erythroid fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:MTA3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:23784",
+          "gene_symbol": "MTA3",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff evidence focuses on hypoxia and FOXO3 without functional demonstration of MTA3 regulating fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:NFE2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7780",
+          "gene_symbol": "NFE2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence characterizes NFE2 as an activator of heme synthesis and adult globin transcription without establishing a regulatory role in fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:NFIX",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7788",
+          "gene_symbol": "NFIX",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies examine NFIX in neural development and hematopoietic progenitor survival without linking it functionally to fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:NR2C1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7971",
+          "gene_symbol": "NR2C1",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff citations do not functionally link NR2C1 perturbation to fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:NR2C2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7972",
+          "gene_symbol": "NR2C2",
+          "max_supporting_weight": 0.0,
+          "reason": "The pre-cutoff records provided do not contain functional evidence establishing NR2C2 as a regulator of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:PGRMC1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16090",
+          "gene_symbol": "PGRMC1",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff citations do not demonstrate that PGRMC1 regulates fetal hemoglobin in erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:RBBP4",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9887",
+          "gene_symbol": "RBBP4",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff evidence functionally links RBBP4 perturbation to fetal hemoglobin expression changes."
+        },
+        {
+          "claim_id": "llm:claim:RBBP7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9890",
+          "gene_symbol": "RBBP7",
+          "max_supporting_weight": 0.0,
+          "reason": "The provided pre-cutoff evidence contains generic globin reviews without functional evidence for RBBP7 regulating fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:SIRT1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:14929",
+          "gene_symbol": "SIRT1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff citations on SIRT1 examine hematopoietic stem cell function and differentiation without showing regulation of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:SMAD1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6767",
+          "gene_symbol": "SMAD1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature implicates SMAD1 in early hemangioblast specification rather than fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:SMAD5",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6771",
+          "gene_symbol": "SMAD5",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence connects SMAD5 to BMP4-mediated erythroid progenitor expansion but does not establish a role in fetal hemoglobin switching."
+        },
+        {
+          "claim_id": "llm:claim:TAL1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:11556",
+          "gene_symbol": "TAL1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies characterize TAL1 as a master transcription factor for general erythropoiesis without evidence that perturbing it specifically regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:TET2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:25941",
+          "gene_symbol": "TET2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff records focus on TET2 in hematopoietic stem cell homeostasis and myeloid malignancies rather than fetal hemoglobin control."
+        },
+        {
+          "claim_id": "llm:claim:VHL",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12687",
+          "gene_symbol": "VHL",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature on VHL focuses on congenital polycythemia and hypoxia signaling without functional evidence linking it to fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:ZBTB33",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16682",
+          "gene_symbol": "ZBTB33",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff records evaluate or demonstrate a functional role for ZBTB33 in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:ZBTB7A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:18078",
+          "gene_symbol": "ZBTB7A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff publications for ZBTB7A focus on its proto-oncogenic role in Rb repression without functional evidence linking it to erythroid fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:ZNF143",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12928",
+          "gene_symbol": "ZNF143",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies describe ZNF143 in cell-cycle transcription and bidirectional promoters without demonstrating a role in fetal hemoglobin expression."
+        },
+        {
+          "claim_id": "llm:claim:ZNF410",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:20144",
+          "gene_symbol": "ZNF410",
+          "max_supporting_weight": 0.0,
+          "reason": "None of the provided pre-cutoff citations mention or functionally assess ZNF410 in connection with fetal hemoglobin regulation."
+        }
+      ]
+    },
+    "input_tokens": 10579,
+    "model_id": "gemini-3.8-flash",
+    "output_tokens": 17571,
     "prompt_hash": "c1451f9a28523a073d2646ab6bf65647de886fd4af569fc75bae34bc1fcfcbd0",
-    "served_model_id": "",
-    "status": "not_run",
-    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
+    "served_model_id": "gemini-3.8-flash",
+    "status": "ran",
+    "status_reason": "",
     "tool_call_budget": 0,
     "tool_calls": []
   },
   "run_id": "2014-12-31_llm-text",
-  "scorecard": null,
+  "scorecard": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.0,
+        "n": 46,
+        "observed_frequency": 0.391304,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.75,
+        "n": 1,
+        "observed_frequency": 1.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 15,
+    "contamination_traps_total": 16,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "EX_VIVO_SINGLE_EDIT",
+    "cutoff": "2014-12-31",
+    "expected_calibration_error": 0.388298,
+    "fabricated_detail": [],
+    "fabricated_numbers": 0,
+    "forecast_size": 1,
+    "ground_truth_symbols": [
+      "ATF4",
+      "DNMT1",
+      "EHMT1",
+      "EHMT2",
+      "EIF2AK1",
+      "FOXO3",
+      "GATAD2A",
+      "HDAC2",
+      "HIC2",
+      "KDM1A",
+      "LIN28B",
+      "MBD2",
+      "MTA2",
+      "NFIX",
+      "RBBP4",
+      "SIRT1",
+      "TAL1",
+      "ZBTB7A",
+      "ZNF410"
+    ],
+    "judgement_traps_passed": 6,
+    "judgement_traps_total": 6,
+    "notes": [
+      "15 of 16 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: ATF4, DNMT1, EHMT1, EHMT2, EIF2AK1, GATAD2A, HDAC2, HIC2, LIN28B, MBD2, MTA2, NFIX, RBBP4, TAL1, ZBTB7A, ZNF410. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway.",
+      "Language-model row. A refusal carries no confidence from the model and is entered at 0 for the calibration error. The cost lens does not apply: the model is not asked for a therapeutic route."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 1,
+      "hits_at_10": [
+        "MBD2"
+      ],
+      "hits_at_5": [
+        "MBD2"
+      ],
+      "mean_reciprocal_rank": 1.0,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 47,
+        "upper": 1.0
+      },
+      "n_ground_truth": 19,
+      "n_ranked": 1,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 47,
+        "upper": 0.6
+      },
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 1,
+      "hits_at_10": [
+        "MBD2"
+      ],
+      "hits_at_5": [
+        "MBD2"
+      ],
+      "mean_reciprocal_rank": 1.0,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 47,
+        "upper": 1.0
+      },
+      "n_ground_truth": 19,
+      "n_ranked": 1,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 47,
+        "upper": 0.6
+      },
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 0.9375,
+    "refusal_correct": 15,
+    "refusal_count": 46,
+    "refusal_total": 16,
+    "run_id": "2014-12-31_llm-text",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ATF4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ATF4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ATF4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "DNMT1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "DNMT1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:DNMT1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EHMT1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EHMT1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EHMT1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EHMT2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EHMT2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EHMT2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "EIF2AK1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "EIF2AK1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:EIF2AK1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "GATAD2A was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "GATAD2A",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:GATAD2A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HDAC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HDAC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HDAC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "LIN28B was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "LIN28B",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:LIN28B",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MBD2 was forecast although its role postdates the cutoff",
+        "gene_symbol": "MBD2",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:MBD2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "MTA2 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "MTA2",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:MTA2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "RBBP4 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "RBBP4",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "TAL1 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "TAL1",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:TAL1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZBTB7A was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZBTB7A",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ZBTB7A",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "ZNF410 was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "ZNF410",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:ZNF410",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 21,
+    "traps_passed_meaningfully": 21,
+    "traps_passed_vacuously": 0,
+    "traps_total": 22
+  },
   "slice_manifest": {
     "cutoff": "2014-12-31",
     "dropped_dangling_edges": "0",
@@ -80,5 +1276,5 @@
     "nodes": "65432",
     "source_db": "graph.db"
   },
-  "trap_count": 0
+  "trap_count": 22
 }

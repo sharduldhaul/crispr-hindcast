@@ -1,6 +1,6 @@
 {
   "agent": "grader",
-  "duration_ms": 98.764,
+  "duration_ms": 99.171,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
@@ -8,7 +8,7 @@
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-11-15T05:10:23.025359+00:00",
+  "finished_at": "2026-11-15T11:15:43.096661+00:00",
   "inputs": {
     "cutoff": "2014-12-31"
   },
@@ -399,13 +399,13 @@
     "traps_total": 22
   },
   "run_id": "2014-12-31_no-graph",
-  "started_at": "2026-11-15T05:10:22.926587+00:00",
+  "started_at": "2026-11-15T11:15:42.997430+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2014-12-31"
       },
-      "duration_ms": 0.019,
+      "duration_ms": 0.034,
       "name": "build_ground_truth",
       "records_in": 0,
       "records_out": 19,
@@ -413,7 +413,7 @@
     },
     {
       "args": {},
-      "duration_ms": 98.467,
+      "duration_ms": 98.731,
       "name": "score_rankings",
       "records_in": 0,
       "records_out": 2,
@@ -423,7 +423,7 @@
       "args": {
         "traps": 22
       },
-      "duration_ms": 0.158,
+      "duration_ms": 0.177,
       "name": "score_traps",
       "records_in": 0,
       "records_out": 22,
@@ -431,7 +431,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.008,
+      "duration_ms": 0.007,
       "name": "score_refusals",
       "records_in": 0,
       "records_out": 16,
@@ -439,7 +439,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.025,
+      "duration_ms": 0.029,
       "name": "score_calibration",
       "records_in": 0,
       "records_out": 5,
@@ -447,7 +447,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.006,
+      "duration_ms": 0.007,
       "name": "check_cost_lens",
       "records_in": 0,
       "records_out": 0,
@@ -455,7 +455,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.002,
+      "duration_ms": 0.001,
       "name": "check_provenance",
       "records_in": 0,
       "records_out": 0,

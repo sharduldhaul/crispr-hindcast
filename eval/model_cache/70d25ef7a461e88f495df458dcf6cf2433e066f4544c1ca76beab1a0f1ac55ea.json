@@ -1,0 +1,598 @@
+{
+  "cache_key": "70d25ef7a461e88f495df458dcf6cf2433e066f4544c1ca76beab1a0f1ac55ea",
+  "request": {
+    "input": [
+      {
+        "content": [
+          {
+            "text": "Cutoff date: 2017-12-31\n\nQuestion: which of the candidate genes below will be established, in work published on or after the cutoff date, as regulators of fetal hemoglobin (HbF) in human erythroid cells? \"Established\" means published functional evidence that perturbing the gene changes HbF.\n\nFor each candidate gene, do exactly one of two things.\n\n1. Claim it. Give a confidence between 0 and 1 that the gene's role is established after the cutoff, the IDs of the evidence rows that support the claim, and a one-sentence rationale.\n2. Refuse it. If what was known before the cutoff does not support a claim, list the gene under refusals with a one-sentence reason. Refusing is a correct answer when the evidence is not there.\n\nOrder claims from most to least confident. Cite only IDs that appear in the evidence given to you below. Never invent an ID.\n\nCandidate genes:\nASH1L\nATF4\nCHD3\nDNMT1\nDNMT3A\nDNMT3B\nEIF2AK1\nEIF2AK2\nEIF2AK3\nEIF2AK4\nEIF2S1\nEPAS1\nFOXO3\nGATAD2A\nGATAD2B\nHDAC2\nHIC2\nIGF2BP1\nKMT5A\nLIN28B\nMAP3K7\nMAPK1\nMBD2\nMBD3\nMTA1\nMTA2\nMTA3\nNFE2\nNFIX\nNR2C1\nNR2C2\nPGRMC1\nRBBP4\nRBBP7\nSMAD1\nSMAD5\nTET2\nVHL\nZBTB33\nZNF143\nZNF410\n\nEvidence:\nNo evidence rows are provided up front. Use the tools to query a graph that holds only records dated before the cutoff. You may make at most 40 tool calls in total, so spend them on the genes where a closer look could change your answer. Every tool result names its rows by ID. Cite only IDs that a tool returned to you. When you have finished, reply with the answer and nothing else.\n",
+            "type": "text"
+          }
+        ],
+        "type": "user_input"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {},
+        "id": "call_14548070986502523063",
+        "name": "genes_by_publication_count",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_14548070986502523063",
+        "name": "genes_by_publication_count",
+        "result": [
+          {
+            "text": "{\"rows\": [{\"gene_symbol\": \"NFE2\", \"node_id\": \"gene:HGNC:7780\", \"publications_naming_gene\": 154}, {\"gene_symbol\": \"FOXO3\", \"node_id\": \"gene:HGNC:3821\", \"publications_naming_gene\": 79}, {\"gene_symbol\": \"TET2\", \"node_id\": \"gene:HGNC:25941\", \"publications_naming_gene\": 67}, {\"gene_symbol\": \"EIF2S1\", \"node_id\": \"gene:HGNC:3265\", \"publications_naming_gene\": 65}, {\"gene_symbol\": \"DNMT3A\", \"node_id\": \"gene:HGNC:2978\", \"publications_naming_gene\": 59}, {\"gene_symbol\": \"VHL\", \"node_id\": \"gene:HGNC:12687\", \"publications_naming_gene\": 46}, {\"gene_symbol\": \"HDAC2\", \"node_id\": \"gene:HGNC:4853\", \"publications_naming_gene\": 41}, {\"gene_symbol\": \"EIF2AK3\", \"node_id\": \"gene:HGNC:3255\", \"publications_naming_gene\": 36}, {\"gene_symbol\": \"MBD2\", \"node_id\": \"gene:HGNC:6917\", \"publications_naming_gene\": 34}, {\"gene_symbol\": \"RBBP4\", \"node_id\": \"gene:HGNC:9887\", \"publications_naming_gene\": 29}, {\"gene_symbol\": \"GATAD2A\", \"node_id\": \"gene:HGNC:29989\", \"publications_naming_gene\": 27}, {\"gene_symbol\": \"MTA2\", \"node_id\": \"gene:HGNC:7411\", \"publications_naming_gene\": 26}, {\"gene_symbol\": \"EPAS1\", \"node_id\": \"gene:HGNC:3374\", \"publications_naming_gene\": 23}, {\"gene_symbol\": \"DNMT1\", \"node_id\": \"gene:HGNC:2976\", \"publications_naming_gene\": 21}, {\"gene_symbol\": \"EIF2AK4\", \"node_id\": \"gene:HGNC:19687\", \"publications_naming_gene\": 19}, {\"gene_symbol\": \"MAP3K7\", \"node_id\": \"gene:HGNC:6859\", \"publications_naming_gene\": 19}, {\"gene_symbol\": \"NR2C2\", \"node_id\": \"gene:HGNC:7972\", \"publications_naming_gene\": 19}, {\"gene_symbol\": \"EIF2AK1\", \"node_id\": \"gene:HGNC:24921\", \"publications_naming_gene\": 17}, {\"gene_symbol\": \"ATF4\", \"node_id\": \"gene:HGNC:786\", \"publications_naming_gene\": 15}, {\"gene_symbol\": \"MAPK1\", \"node_id\": \"gene:HGNC:6871\", \"publications_naming_gene\": 15}, {\"gene_symbol\": \"SMAD1\", \"node_id\": \"gene:HGNC:6767\", \"publications_naming_gene\": 15}, {\"gene_symbol\": \"SMAD5\", \"node_id\": \"gene:HGNC:6771\", \"publications_naming_gene\": 15}, {\"gene_symbol\": \"LIN28B\", \"node_id\": \"gene:HGNC:32207\", \"publications_naming_gene\": 13}, {\"gene_symbol\": \"DNMT3B\", \"node_id\": \"gene:HGNC:2979\", \"publications_naming_gene\": 12}, {\"gene_symbol\": \"ASH1L\", \"node_id\": \"gene:HGNC:19088\", \"publications_naming_gene\": 9}, {\"gene_symbol\": \"ZNF143\", \"node_id\": \"gene:HGNC:12928\", \"publications_naming_gene\": 7}, {\"gene_symbol\": \"KMT5A\", \"node_id\": \"gene:HGNC:29489\", \"publications_naming_gene\": 6}, {\"gene_symbol\": \"NFIX\", \"node_id\": \"gene:HGNC:7788\", \"publications_naming_gene\": 5}, {\"gene_symbol\": \"ZBTB33\", \"node_id\": \"gene:HGNC:16682\", \"publications_naming_gene\": 5}, {\"gene_symbol\": \"IGF2BP1\", \"node_id\": \"gene:HGNC:28866\", \"publications_naming_gene\": 4}, {\"gene_symbol\": \"MBD3\", \"node_id\": \"gene:HGNC:6918\", \"publications_naming_gene\": 4}, {\"gene_symbol\": \"MTA1\", \"node_id\": \"gene:HGNC:7410\", \"publications_naming_gene\": 3}, {\"gene_symbol\": \"HIC2\", \"node_id\": \"gene:HGNC:18595\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"MTA3\", \"node_id\": \"gene:HGNC:23784\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"PGRMC1\", \"node_id\": \"gene:HGNC:16090\", \"publications_naming_gene\": 1}, {\"gene_symbol\": \"CHD3\", \"node_id\": \"gene:HGNC:1918\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"EIF2AK2\", \"node_id\": \"gene:HGNC:9437\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"GATAD2B\", \"node_id\": \"gene:HGNC:30778\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"NR2C1\", \"node_id\": \"gene:HGNC:7971\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"RBBP7\", \"node_id\": \"gene:HGNC:9890\", \"publications_naming_gene\": 0}, {\"gene_symbol\": \"ZNF410\", \"node_id\": \"gene:HGNC:20144\", \"publications_naming_gene\": 0}], \"total\": 41}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "Er4CCrsCAWkUfROpsv35W/0Z4HsvhoBR+F+2hLHwuEDeJO7dRWTYKD9LV9em4H2neMiKqWCUO+OliX0B5P9hwKIIN/G9nSsOhwD+dFaUai8i6KhQFNkJTUhtJZ0Y2x42VYxYkdoluP1bqs+GuM8nvWv5RvY4cAXJ2hpF0bnxvWEyN9Tu3jXU0n54SIBQUadcUybeMIi/ss4WowaWVZr6E4ZEkxJJ5WiPG3a5jblAxD9Ql6HWD5wu1wn2V4N3Ga3fHoSo4NB09RwXEErC92okv/Tkltv9v9K5+TwGlFGjOxnBVd4fXBcA/R0DR4kpmxWe8sxLNw6SVVh6Tk21xntmW7LmpW1fzHKmjoaZ9h+qkrIMSE7yx4el9FMxwJpm69NLawJHcBxdxpEwpwPWpRojx0k1ubA3oBOyXTFjvSHjZh2S",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        },
+        "id": "call_11324470151000893696",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        },
+        "id": "call_11324470151000893383",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_11324470151000893070",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        },
+        "id": "call_11324470151000892757",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_11324470151000893696",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"EIF2AK1\", \"measurements_by_assay\": {\"opentargets_literature\": 3, \"orcs_screen_score\": 432}, \"node_id\": \"gene:HGNC:24921\", \"publications_naming_gene\": 17}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11324470151000893383",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"ATF4\", \"measurements_by_assay\": {\"orcs_screen_score\": 427}, \"node_id\": \"gene:HGNC:786\", \"publications_naming_gene\": 15}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11324470151000893070",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 0, \"gene_symbol\": \"HIC2\", \"measurements_by_assay\": {\"orcs_screen_score\": 432}, \"node_id\": \"gene:HGNC:18595\", \"publications_naming_gene\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11324470151000892757",
+        "name": "gene_evidence_summary",
+        "result": [
+          {
+            "text": "{\"complex_partners\": 12, \"gene_symbol\": \"GATAD2A\", \"measurements_by_assay\": {\"orcs_screen_score\": 434}, \"node_id\": \"gene:HGNC:29989\", \"publications_naming_gene\": 27}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EusBCugBAWkUfRMu5FVePdQzqDVOwkbXZTffSpTtLdujsHnSd+sgIx/A5EMfTaAmA3xzcO3ICYZqGEv/jsuvBQfHCTTobhm0I91M+6p5H0NCv6RdCEsS7yDCabVtDyEcwYnK7GgHJGB57s8PdzrjbPQPHUjfQC/Pqu43kp+UW/1l7CGJeaKxYK2P7bHcZDAZJ5+s4MrywD47yBG3bUcuKiF91wSvL6oTmPNrC1hk51F9swBfZZC7JdLvwkSVgX9IS9aKrFuKinhLxmr1CyhV74CBbEQ0lEq3mCsGY+cxMhnV6BYD3dcvhIPcAZOFoA==",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        },
+        "id": "call_11429156791566762740",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        },
+        "id": "call_11429156791566763241",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_11429156791566763742",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        },
+        "id": "call_11429156791566764243",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_11429156791566762740",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:24921\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-12-13\", \"node_id\": \"meas:orcs:153:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -3.47}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:179:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.110283117}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:180:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.041198187}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:181:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.028036892}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:184:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.017413548}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:185:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.003250081}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:186:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.072611099}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:187:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.054540596}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:188:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.169693676}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:189:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.01862634}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:190:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.272275176}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:191:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.037026617}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:192:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.015228173}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:193:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.054298402}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:194:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.004822048}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:195:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.067639849}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:196:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.141304351}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:197:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.024532109}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:198:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.047183521}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:199:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.021732568}], \"total\": 435}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11429156791566763241",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:786\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-12-13\", \"node_id\": \"meas:orcs:153:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -1.82}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:179:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.925439411}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:180:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.629147766}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:181:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.430215199}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:184:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.846696986}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:185:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.716689561}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:186:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.864893536}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:187:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -1.03170021}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:188:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.675465568}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:189:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.647250289}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:190:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.896768747}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:191:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.657020489}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:192:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.692030472}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:193:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.859625722}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:194:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.55792873}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:195:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.574756963}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:196:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.897180033}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:197:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.72469599}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:198:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.544643471}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:199:HGNC:786\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.749288184}], \"total\": 427}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11429156791566763742",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:18595\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-12-13\", \"node_id\": \"meas:orcs:153:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -1.38}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:179:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.051667964}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:180:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.095940503}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:181:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.061500112}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:184:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.030121222}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:185:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.114566972}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:186:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.083845172}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:187:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.02454364}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:188:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.017246816}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:189:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.061044319}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:190:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.094484628}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:191:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.004285889}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:192:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.023120541}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:193:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.092428905}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:194:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.007496978}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:195:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.137763621}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:196:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.159927141}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:197:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.190655779}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:198:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.157462}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:199:HGNC:18595\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.1067758}], \"total\": 432}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_11429156791566764243",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:29989\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-12-13\", \"node_id\": \"meas:orcs:153:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -1.22}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:179:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.178086997}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:180:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.334154842}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:181:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.368373334}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:184:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.24050234}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:185:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.334306084}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:186:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.513980266}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:187:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.187002936}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:188:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.282114679}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:189:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.360108}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:190:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.468496147}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:191:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.460098093}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:192:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.206571985}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:193:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.235469909}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:194:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.408991906}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:195:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.400031434}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:196:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.257923654}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:197:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.475362}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:198:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.035469732}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:199:HGNC:29989\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.185575216}], \"total\": 434}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "ErMBCrABAWkUfRM7TjP6B2VkhMc22p9Nkbd7oSYch3OSsulw9LGPia52KGx+1xnTQEkSyMs1foSF+JoOdVaMD3Z0mNf0e4OLUvoMFzURGfI2o8TFo3uTXFYc1xOtUFq0U0rEz3ftWfgFm7g8NzIXCxsgSX8FZZL7Q9rm0/IRwWqVFX9I9+CQuweNfVrPzSBu+Ny0ZYv3Rf7bdW2LXnhlz5iH1p5RWw9R6FAUfl6I6x+kexVI8qI=",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        },
+        "id": "call_7216999629032625999",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "id": "call_7216999629032628204",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_7216999629032625999",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:24921\", \"rows\": [{\"node_id\": \"pub:29063813\", \"publication_date\": \"2017-10-30\", \"title\": \"The eIF2-alpha kinase HRI: a potential target beyond the red blood cell.\"}, {\"node_id\": \"pub:23874749\", \"publication_date\": \"2013-07-10\", \"title\": \"The host-encoded Heme Regulated Inhibitor (HRI) facilitates virulence-associated activities of bacterial pathogens.\"}, {\"node_id\": \"pub:20071449\", \"publication_date\": \"2010-01-13\", \"title\": \"Hepatic heme-regulated inhibitor (HRI) eukaryotic initiation factor 2alpha kinase: a protagonist of heme-mediated translational control of CYP2B enzymes and a modulator of basal endoplasmic reticulum stress tone.\"}, {\"node_id\": \"pub:19946423\", \"publication_date\": \"2009-06-22\", \"title\": \"Functional Characterization of the Canine Heme-Regulated eIF2alpha Kinase: Regulation of Protein Synthesis.\"}, {\"node_id\": \"pub:18290760\", \"publication_date\": \"2008-06-01\", \"title\": \"Phosphorylation of eIF2alpha in response to 26S proteasome inhibition is mediated by the haem-regulated inhibitor (HRI) kinase.\"}, {\"node_id\": \"pub:18367482\", \"publication_date\": \"2008-03-26\", \"title\": \"Deficiency of heme-regulated eIF2alpha kinase decreases hepcidin expression and splenic iron in HFE-/- mice.\"}, {\"node_id\": \"pub:17932563\", \"publication_date\": \"2007-11-01\", \"title\": \"The function of heme-regulated eIF2alpha kinase in murine iron homeostasis and macrophage maturation.\"}, {\"node_id\": \"pub:17110456\", \"publication_date\": \"2007-04-01\", \"title\": \"Regulation of protein synthesis by the heme-regulated eIF2alpha kinase: relevance to anemias.\"}, {\"node_id\": \"pub:15931390\", \"publication_date\": \"2005-06-01\", \"title\": \"Heme-regulated eIF2alpha kinase modifies the phenotypic severity of murine models of erythropoietic protoporphyria and beta-thalassemia.\"}, {\"node_id\": \"pub:12242291\", \"publication_date\": \"2002-10-01\", \"title\": \"Phosphorylation of eukaryotic initiation factor 2 by heme-regulated inhibitor kinase-related protein kinases in Schizosaccharomyces pombe is important for fesistance to environmental stresses.\"}, {\"node_id\": \"pub:11955629\", \"publication_date\": \"2002-03-01\", \"title\": \"Molecular cloning and characterization of the promoter of mouse heme-regulated eIF2alpha kinase.\"}, {\"node_id\": \"pub:11726526\", \"publication_date\": \"2001-12-01\", \"title\": \"Heme-regulated eIF2alpha kinase (HRI) is required for translational regulation and survival of erythroid precursors in iron deficiency.\"}, {\"node_id\": \"pub:10632719\", \"publication_date\": \"2000-01-01\", \"title\": \"The N-terminal region of the heme-regulated eIF2alpha kinase is an autonomous heme binding domain.\"}, {\"node_id\": \"pub:7910943\", \"publication_date\": \"1994-06-01\", \"title\": \"Erythroid expression of the heme-regulated eIF-2 alpha kinase.\"}, {\"node_id\": \"pub:1672093\", \"publication_date\": \"1991-03-01\", \"title\": \"Tissue distribution and immunoreactivity of heme-regulated eIF-2 alpha kinase determined by monoclonal antibodies.\"}, {\"node_id\": \"pub:293657\", \"publication_date\": \"1979-11-01\", \"title\": \"Protein synthesis in rabbit reticulocytes: characteristics of a postribosomal supernatant factor that reverses inhibition of protein synthesis in heme-deficient lysates and inhibition of ternary complex (Met-tRNAfMet.eIF-2.GTP) formation by heme-regulated inhibitor.\"}, {\"node_id\": \"pub:291924\", \"publication_date\": \"1979-10-01\", \"title\": \"Protein synthesis in rabbit reticulocytes: mechanism of protein synthesis inhibition by heme-regulated inhibitor.\"}], \"total\": 17}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_7216999629032628204",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:18595\", \"rows\": [{\"node_id\": \"pub:29061339\", \"publication_date\": \"2017-10-20\", \"title\": \"HIC2 regulates isoform switching during maturation of the cardiovascular system.\"}], \"total\": 1}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        },
+        "id": "call_14224001445361679283",
+        "name": "complex_partners",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_14224001445361679283",
+        "name": "complex_partners",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:29989\", \"rows\": [{\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"CHD3\", \"node_id\": \"gene:HGNC:1918\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"CHD4\", \"node_id\": \"gene:HGNC:1919\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA3\", \"node_id\": \"gene:HGNC:23784\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"GATAD2B\", \"node_id\": \"gene:HGNC:30778\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC1\", \"node_id\": \"gene:HGNC:4852\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"HDAC2\", \"node_id\": \"gene:HGNC:4853\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD2\", \"node_id\": \"gene:HGNC:6917\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MBD3\", \"node_id\": \"gene:HGNC:6918\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA1\", \"node_id\": \"gene:HGNC:7410\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"MTA2\", \"node_id\": \"gene:HGNC:7411\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP4\", \"node_id\": \"gene:HGNC:9887\"}, {\"complex\": \"NuRD complex subunits\", \"gene_symbol\": \"RBBP7\", \"node_id\": \"gene:HGNC:9890\"}], \"total\": 12}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EoYECoMEAWkUfRNeDb8DxdDhs6rfmW7fWcpOO2B91bFH2SUXWVIWY6frY5Jg7DQJTru9+/qdDGLLX4hg+ZYv7tVZDNLOyHA/wB+UM7RkXHCNg7yStxyJnKXV78hBV7FfSnByjfrr6C/96RjpmOQ8+G8oai5mhGUpPCocWleXake41sbDheQDu9zEGPypJTUH/UdkxiQaGlFqRCsM4G4Yxdh6XzPexMpdtZs08i07RWEaOeABMF9Z0AaPfm9LG8Oy91RbgVVEAp2+T97a2mD0dDJCcxJl1/5EA3qTwY+TXLO6nuh6rejHYNCnFXsJ/qShiBebQB8NUTSx7E7f0cf+/mj2khYyVh6q7vhXDVPYbAcdMU1LakOCS8QA80ATDEVRcfS2T7s53/ZqeCXDYY44p1th+d74sLgk6MJ1k0gbL2nw84gYnL1wqdy5KiZqnks0iXUNEyCXy6S7azSwDo2dNPzVGQ8evDd52dNHCWAHnU3ORP3DqU7Xd4g9VN8rHPvYOxCfwm+9CeXOt+TYeIy8DiVfaZe4Kr6GPyA0ogQIzpABPvkeL39tZ0LrW6qDBMDTsoImKIGr4zPGHG0JdmKPsi6Ol73MmWMbuU8/e1gf5thQLZCt5Yrjoe+xE92t+KbZ39UU1kiik5zSYm46bWznTm16edR2Gm2LCDfpea6Oa4vJQOlad8EgKeQ=",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MBD2"
+        },
+        "id": "call_16432189252086622961",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_16432189252086622961",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:6917\", \"rows\": [{\"node_id\": \"pub:28899870\", \"publication_date\": \"2017-09-12\", \"title\": \"Mbd3/NuRD controls lymphoid cell fate and inhibits tumorigenesis by repressing a B cell transcriptional program.\"}, {\"node_id\": \"pub:28744402\", \"publication_date\": \"2017-07-01\", \"title\": \"MiR-520b inhibits the development of glioma by directly targeting MBD2.\"}, {\"node_id\": \"pub:27806305\", \"publication_date\": \"2016-11-01\", \"title\": \"A Functional Switch of NuRD Chromatin Remodeling Complex Subunits Regulates Mouse Cortical Development.\"}, {\"node_id\": \"pub:27161321\", \"publication_date\": \"2016-06-15\", \"title\": \"Protein Kinase C-Mediated Phosphorylation of BCL11B at Serine 2 Negatively Regulates Its Interaction with NuRD Complexes during CD4+ T-Cell Activation.\"}, {\"node_id\": \"pub:27606067\", \"publication_date\": \"2016-06-01\", \"title\": \"The NuRD complex component p66 suppresses photoreceptor neuron regeneration in planarians.\"}, {\"node_id\": \"pub:25796366\", \"publication_date\": \"2015-03-22\", \"title\": \"Structure and function insights into the NuRD chromatin remodeling complex.\"}, {\"node_id\": \"pub:25753662\", \"publication_date\": \"2015-03-09\", \"title\": \"An intrinsically disordered region of methyl-CpG binding domain protein 2 (MBD2) recruits the histone deacetylase core of the NuRD complex.\"}, {\"node_id\": \"pub:25538734\", \"publication_date\": \"2014-12-09\", \"title\": \"MBD2 and MBD3: elusive functions and mechanisms.\"}, {\"node_id\": \"pub:25190814\", \"publication_date\": \"2014-09-04\", \"title\": \"Physical and functional interactions between the histone H3K4 demethylase KDM5A and the nucleosome remodeling and deacetylase (NuRD) complex.\"}, {\"node_id\": \"pub:25123281\", \"publication_date\": \"2014-09-01\", \"title\": \"Mi-2/NuRD chromatin remodeling complexes regulate B and T-lymphocyte development and function.\"}, {\"node_id\": \"pub:23340908\", \"publication_date\": \"2013-01-23\", \"title\": \"The NuRD architecture.\"}, {\"node_id\": \"pub:23239876\", \"publication_date\": \"2012-12-13\", \"title\": \"Unique features of the anti-parallel, heterodimeric coiled-coil interaction between methyl-cytosine binding domain 2 (MBD2) homologues and GATA zinc finger domain containing 2A (GATAD2A/p66\\u03b1).\"}, {\"node_id\": \"pub:23071088\", \"publication_date\": \"2012-10-15\", \"title\": \"MBD2 and multiple domains of CHD4 are required for transcriptional repression by Mi-2/NuRD complexes.\"}, {\"node_id\": \"pub:23014989\", \"publication_date\": \"2012-09-25\", \"title\": \"Acetylation of histone deacetylase 1 regulates NuRD corepressor complex activity.\"}, {\"node_id\": \"pub:22345520\", \"publication_date\": \"2012-02-01\", \"title\": \"MT1-MMP regulates the PI3K\\u03b4\\u00b7Mi-2/NuRD-dependent control of macrophage immune function.\"}, {\"node_id\": \"pub:22235346\", \"publication_date\": \"2012-01-03\", \"title\": \"Friend of GATA (FOG) interacts with the nucleosome remodeling and deacetylase complex (NuRD) to support primitive erythropoiesis in Xenopus laevis.\"}, {\"node_id\": \"pub:21989988\", \"publication_date\": \"2011-10-11\", \"title\": \"Pleiotropic platelet defects in mice with disrupted FOG1-NuRD interaction.\"}, {\"node_id\": \"pub:21734722\", \"publication_date\": \"2011-07-07\", \"title\": \"Cancer biology and NuRD: a multifaceted chromatin remodelling complex.\"}, {\"node_id\": \"pub:21531701\", \"publication_date\": \"2011-04-29\", \"title\": \"Solution structure and dynamic analysis of chicken MBD2 methyl binding domain bound to a target-methylated DNA sequence.\"}, {\"node_id\": \"pub:21490301\", \"publication_date\": \"2011-04-13\", \"title\": \"p66Alpha-MBD2 coiled-coil interaction and recruitment of Mi-2 are critical for globin gene silencing by the MBD2-NuRD complex.\"}], \"total\": 34}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "EtMCCtACAWkUfRNgb4cOzXZXIPSWVKYEKAKBseV7XF3o+u9fiC1iln507UuZLgnq9E+Am331KbbGOrahK89CA1IB1n7FiOIQwnoqDa4jztj3XEmwtKPZiPHFSds1EwWMIvAWMNOUlZC0ptmr+yGBwqZzHbw3vXaVlJ59nL4Vw/8Ivhev8amVXL2zG4k6hqp6QUZE7Tl/4DcAkZvLYktYmqZOqm/r/FwahBX/i0IbAnvNkDwmxVBP4mayLPVz/2xEgzQipZfkAJqCOCY7kV5JDYCh7mI8iHRZM5Ds7451aLeXzcxyv76VFdXs7EtuyL8RM920SEzZWhv/SqPtTQ42/ZOSs3gjccs0TkwbTrEUalcOXVDmOSO/PqD/0eE+fufKJLUc2eiVxlsA+nfBdd9mwDuNW++Vnlge79wrwsr4vqvDZ6m9uqC6vCltyCk9KZJxg7I+xb6f",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2A"
+        },
+        "id": "call_8888876376831736854",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_8888876376831736854",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:29989\", \"rows\": [{\"node_id\": \"pub:28899870\", \"publication_date\": \"2017-09-12\", \"title\": \"Mbd3/NuRD controls lymphoid cell fate and inhibits tumorigenesis by repressing a B cell transcriptional program.\"}, {\"node_id\": \"pub:27806305\", \"publication_date\": \"2016-11-01\", \"title\": \"A Functional Switch of NuRD Chromatin Remodeling Complex Subunits Regulates Mouse Cortical Development.\"}, {\"node_id\": \"pub:27161321\", \"publication_date\": \"2016-06-15\", \"title\": \"Protein Kinase C-Mediated Phosphorylation of BCL11B at Serine 2 Negatively Regulates Its Interaction with NuRD Complexes during CD4+ T-Cell Activation.\"}, {\"node_id\": \"pub:27606067\", \"publication_date\": \"2016-06-01\", \"title\": \"The NuRD complex component p66 suppresses photoreceptor neuron regeneration in planarians.\"}, {\"node_id\": \"pub:25796366\", \"publication_date\": \"2015-03-22\", \"title\": \"Structure and function insights into the NuRD chromatin remodeling complex.\"}, {\"node_id\": \"pub:25753662\", \"publication_date\": \"2015-03-09\", \"title\": \"An intrinsically disordered region of methyl-CpG binding domain protein 2 (MBD2) recruits the histone deacetylase core of the NuRD complex.\"}, {\"node_id\": \"pub:25190814\", \"publication_date\": \"2014-09-04\", \"title\": \"Physical and functional interactions between the histone H3K4 demethylase KDM5A and the nucleosome remodeling and deacetylase (NuRD) complex.\"}, {\"node_id\": \"pub:25123281\", \"publication_date\": \"2014-09-01\", \"title\": \"Mi-2/NuRD chromatin remodeling complexes regulate B and T-lymphocyte development and function.\"}, {\"node_id\": \"pub:23340908\", \"publication_date\": \"2013-01-23\", \"title\": \"The NuRD architecture.\"}, {\"node_id\": \"pub:23239876\", \"publication_date\": \"2012-12-13\", \"title\": \"Unique features of the anti-parallel, heterodimeric coiled-coil interaction between methyl-cytosine binding domain 2 (MBD2) homologues and GATA zinc finger domain containing 2A (GATAD2A/p66\\u03b1).\"}, {\"node_id\": \"pub:23071088\", \"publication_date\": \"2012-10-15\", \"title\": \"MBD2 and multiple domains of CHD4 are required for transcriptional repression by Mi-2/NuRD complexes.\"}, {\"node_id\": \"pub:23014989\", \"publication_date\": \"2012-09-25\", \"title\": \"Acetylation of histone deacetylase 1 regulates NuRD corepressor complex activity.\"}, {\"node_id\": \"pub:22345520\", \"publication_date\": \"2012-02-01\", \"title\": \"MT1-MMP regulates the PI3K\\u03b4\\u00b7Mi-2/NuRD-dependent control of macrophage immune function.\"}, {\"node_id\": \"pub:22235346\", \"publication_date\": \"2012-01-03\", \"title\": \"Friend of GATA (FOG) interacts with the nucleosome remodeling and deacetylase complex (NuRD) to support primitive erythropoiesis in Xenopus laevis.\"}, {\"node_id\": \"pub:21989988\", \"publication_date\": \"2011-10-11\", \"title\": \"Pleiotropic platelet defects in mice with disrupted FOG1-NuRD interaction.\"}, {\"node_id\": \"pub:21734722\", \"publication_date\": \"2011-07-07\", \"title\": \"Cancer biology and NuRD: a multifaceted chromatin remodelling complex.\"}, {\"node_id\": \"pub:21490301\", \"publication_date\": \"2011-04-13\", \"title\": \"p66Alpha-MBD2 coiled-coil interaction and recruitment of Mi-2 are critical for globin gene silencing by the MBD2-NuRD complex.\"}, {\"node_id\": \"pub:21523247\", \"publication_date\": \"2011-02-27\", \"title\": \"Biology of the Mi-2/NuRD Complex in SLAC (Stemness, Longevity/Ageing, and Cancer).\"}, {\"node_id\": \"pub:21047798\", \"publication_date\": \"2010-11-02\", \"title\": \"Insights into association of the NuRD complex with FOG-1 from the crystal structure of an RbAp48\\u00b7FOG-1 complex.\"}, {\"node_id\": \"pub:20439494\", \"publication_date\": \"2010-05-03\", \"title\": \"Role of the GATA-1/FOG-1/NuRD pathway in the expression of human beta-like globin genes.\"}], \"total\": 27}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "LIN28B"
+        },
+        "id": "call_14265498622522133853",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "id": "call_14265498622522131040",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ATF4"
+        },
+        "id": "call_14265498622522132323",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "KMT5A"
+        },
+        "id": "call_14265498622522133606",
+        "name": "gene_publications",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_14265498622522133853",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:32207\", \"rows\": [{\"node_id\": \"pub:28693523\", \"publication_date\": \"2017-07-11\", \"title\": \"Inhibition of LIN28B impairs leukemia cell growth and metabolism in acute myeloid leukemia.\"}, {\"node_id\": \"pub:27793996\", \"publication_date\": \"2016-10-28\", \"title\": \"Lin28b Regulates Fetal Regulatory T Cell Differentiation through Modulation of TGF-\\u03b2 Signaling.\"}, {\"node_id\": \"pub:27401346\", \"publication_date\": \"2016-07-11\", \"title\": \"Developmental regulation of myeloerythroid progenitor function by the Lin28b-let-7-Hmga2 axis.\"}, {\"node_id\": \"pub:26712910\", \"publication_date\": \"2015-12-28\", \"title\": \"LIN28B overexpression defines a novel fetal-like subgroup of juvenile myelomonocytic leukemia.\"}, {\"node_id\": \"pub:26481147\", \"publication_date\": \"2015-10-17\", \"title\": \"A LIN28B-RAN-AURKA Signaling Network Promotes Neuroblastoma Tumorigenesis.\"}, {\"node_id\": \"pub:26478718\", \"publication_date\": \"2015-10-15\", \"title\": \"The pluripotency factor LIN28B is involved in oral carcinogenesis and associates with tumor aggressiveness and unfavorable prognosis.\"}, {\"node_id\": \"pub:25753579\", \"publication_date\": \"2015-03-09\", \"title\": \"Lin28b promotes fetal B lymphopoiesis through the transcription factor Arid3a.\"}, {\"node_id\": \"pub:25655194\", \"publication_date\": \"2015-02-06\", \"title\": \"The role of Lin28b in myeloid and mast cell differentiation and mast cell malignancy.\"}, {\"node_id\": \"pub:23798711\", \"publication_date\": \"2013-06-24\", \"title\": \"LIN28B-mediated expression of fetal hemoglobin and production of fetal-like erythrocytes from adult human erythroblasts ex vivo.\"}, {\"node_id\": \"pub:22723554\", \"publication_date\": \"2012-06-21\", \"title\": \"Enforced expression of Lin28b leads to impaired T-cell development, release of inflammatory cytokines, and peripheral T-cell lymphoma.\"}, {\"node_id\": \"pub:22345399\", \"publication_date\": \"2012-02-16\", \"title\": \"Lin28b reprograms adult bone marrow hematopoietic progenitors to mediate fetal-like lymphopoiesis.\"}, {\"node_id\": \"pub:21512136\", \"publication_date\": \"2011-04-21\", \"title\": \"LIN28B promotes colon cancer progression and metastasis.\"}, {\"node_id\": \"pub:19495417\", \"publication_date\": \"2009-06-04\", \"title\": \"N-Myc regulates expression of pluripotency genes in neuroblastoma including lif, klf2, klf4, and lin28b.\"}], \"total\": 13}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_14265498622522131040",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:7788\", \"rows\": [{\"node_id\": \"pub:29184170\", \"publication_date\": \"2017-11-28\", \"title\": \"19p13 microduplications encompassing NFIX are responsible for intellectual disability, short stature and small head circumference.\"}, {\"node_id\": \"pub:25780920\", \"publication_date\": \"2015-03-17\", \"title\": \"Nfix expression critically modulates early B lymphopoiesis and myelopoiesis.\"}, {\"node_id\": \"pub:24041575\", \"publication_date\": \"2013-09-16\", \"title\": \"Nfix is a novel regulator of murine hematopoietic stem and progenitor cell survival.\"}, {\"node_id\": \"pub:22422452\", \"publication_date\": \"2012-02-01\", \"title\": \"DNA methylation shows genome-wide association of NFIX, RAPGEF2 and MSRB3 with gestational age at birth.\"}, {\"node_id\": \"pub:18477394\", \"publication_date\": \"2008-05-13\", \"title\": \"The transcription factor Nfix is essential for normal brain development.\"}], \"total\": 5}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_14265498622522132323",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:786\", \"rows\": [{\"node_id\": \"pub:29326555\", \"publication_date\": \"2017-12-15\", \"title\": \"Neurodegeneration: Keeping ATF4 on a Tight Leash.\"}, {\"node_id\": \"pub:29213084\", \"publication_date\": \"2017-12-06\", \"title\": \"Emerging Role for the PERK/eIF2\\u03b1/ATF4 in Human Cutaneous Leishmaniasis.\"}, {\"node_id\": \"pub:27708226\", \"publication_date\": \"2016-11-01\", \"title\": \"Mitochondrial dysfunction enhances cisplatin resistance in human gastric cancer cells via the ROS-activated GCN2-eIF2\\u03b1-ATF4-xCT pathway.\"}, {\"node_id\": \"pub:26791102\", \"publication_date\": \"2016-01-12\", \"title\": \"miR-214 protects erythroid cells against oxidative stress by targeting ATF4 and EZH2.\"}, {\"node_id\": \"pub:27211800\", \"publication_date\": \"2016-01-01\", \"title\": \"The Role of the PERK/eIF2\\u03b1/ATF4/CHOP Signaling Pathway in Tumor Progression During Endoplasmic Reticulum Stress.\"}, {\"node_id\": \"pub:26384355\", \"publication_date\": \"2015-09-17\", \"title\": \"ATF4 plays a pivotal role in the development of functional hematopoietic stem cells in mouse fetal liver.\"}, {\"node_id\": \"pub:26011642\", \"publication_date\": \"2015-05-26\", \"title\": \"ATF4-dependent induction of heme oxygenase 1 prevents anoikis and promotes metastasis.\"}, {\"node_id\": \"pub:25978358\", \"publication_date\": \"2015-05-15\", \"title\": \"A Drosophila Reporter for the Translational Activation of ATF4 Marks Stressed Cells during Development.\"}, {\"node_id\": \"pub:24330582\", \"publication_date\": \"2013-12-12\", \"title\": \"An aryl hydrocarbon receptor induces VEGF expression through ATF4 under glucose deprivation in HepG2.\"}, {\"node_id\": \"pub:22556424\", \"publication_date\": \"2012-05-03\", \"title\": \"Transcriptional repression of ATF4 gene by CCAAT/enhancer-binding protein \\u03b2 (C/EBP\\u03b2) differentially regulates integrated stress response.\"}, {\"node_id\": \"pub:22498744\", \"publication_date\": \"2012-04-12\", \"title\": \"Heme-regulated eIF2\\u03b1 kinase activated Atf4 signaling pathway in oxidative stress and erythropoiesis.\"}, {\"node_id\": \"pub:20732869\", \"publication_date\": \"2010-08-23\", \"title\": \"Both transcriptional regulation and translational control of ATF4 are central to the integrated stress response.\"}, {\"node_id\": \"pub:18955481\", \"publication_date\": \"2008-10-27\", \"title\": \"Inactivation of G-protein-coupled receptor 48 (Gpr48/Lgr4) impairs definitive erythropoiesis at midgestation through down-regulation of the ATF4 signaling pathway.\"}, {\"node_id\": \"pub:18697751\", \"publication_date\": \"2008-08-12\", \"title\": \"Despite increased ATF4 binding at the C/EBP-ATF composite site following activation of the unfolded protein response, system A transporter 2 (SNAT2) transcription activity is repressed in HepG2 cells.\"}, {\"node_id\": \"pub:15277680\", \"publication_date\": \"2004-07-26\", \"title\": \"Reinitiation involving upstream ORFs regulates ATF4 mRNA translation in mammalian cells.\"}], \"total\": 15}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "call_id": "call_14265498622522133606",
+        "name": "gene_publications",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:29489\", \"rows\": [{\"node_id\": \"pub:29186677\", \"publication_date\": \"2017-11-01\", \"title\": \"The Methyltransferase Setd8 Is Essential for Erythroblast Survival and Maturation.\"}, {\"node_id\": \"pub:27688818\", \"publication_date\": \"2016-09-22\", \"title\": \"The emerging role of lysine methyltransferase SETD8 in human diseases.\"}, {\"node_id\": \"pub:25855754\", \"publication_date\": \"2015-04-08\", \"title\": \"Epigenetic Determinants of Erythropoiesis: Role of the Histone Methyltransferase SetD8 in Promoting Erythroid Cell Maturation and Survival.\"}, {\"node_id\": \"pub:25848090\", \"publication_date\": \"2015-04-06\", \"title\": \"Histone methyltransferase Setd8 represses Gata2 expression and regulates erythroid maturation.\"}, {\"node_id\": \"pub:23152447\", \"publication_date\": \"2012-11-14\", \"title\": \"The role of PR-Set7 in replication licensing depends on Suv4-20h.\"}, {\"node_id\": \"pub:18474616\", \"publication_date\": \"2008-05-12\", \"title\": \"PR-Set7 establishes a repressive trans-tail histone code that regulates differentiation.\"}], \"total\": 6}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      },
+      {
+        "signature": "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",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK1"
+        },
+        "id": "call_13991719723279646333",
+        "name": "gene_measurements",
+        "type": "function_call"
+      },
+      {
+        "call_id": "call_13991719723279646333",
+        "name": "gene_measurements",
+        "result": [
+          {
+            "text": "{\"gene_node_id\": \"gene:HGNC:24921\", \"rows\": [{\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-12-13\", \"node_id\": \"meas:orcs:153:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -3.47}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:179:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.110283117}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:180:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.041198187}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:181:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.028036892}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:184:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.017413548}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:185:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.003250081}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:186:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.072611099}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:187:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.054540596}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:188:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.169693676}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:189:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.01862634}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:190:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.272275176}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:191:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.037026617}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:192:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.015228173}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:193:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.054298402}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:194:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.004822048}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:195:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.067639849}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:196:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": -0.141304351}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:197:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.024532109}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:198:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.047183521}, {\"assay\": \"orcs_screen_score\", \"data_source\": null, \"date\": \"2017-10-30\", \"node_id\": \"meas:orcs:199:HGNC:24921\", \"phenotype_id\": \"pheno:cell_fitness\", \"value\": 0.021732568}], \"total\": 435}",
+            "type": "text"
+          }
+        ],
+        "type": "function_result"
+      }
+    ],
+    "max_output_tokens": 32000,
+    "model_id": "gemini-3.8-flash",
+    "output_schema": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "cited_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "gene_symbol": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "gene_symbol",
+              "confidence",
+              "cited_ids",
+              "rationale"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "refusals": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "gene_symbol": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "gene_symbol",
+              "reason"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "claims",
+        "refusals"
+      ],
+      "type": "object"
+    },
+    "system": "You are taking part in a retrospective forecasting evaluation in human genetics.\nYou answer as a researcher standing at a stated cutoff date. Use only what was known before that date. If you recall a result published on or after the cutoff, do not use it and do not let it raise your confidence.",
+    "thinking_level": "medium",
+    "tools": [
+      {
+        "description": "Counts of what the graph holds about one gene before the cutoff: publications naming it, measurements by assay, and complex partners. Call this first to decide whether a gene is worth a closer look.",
+        "name": "gene_evidence_summary",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Measurements recorded for one gene before the cutoff, most recent first: ID, date, assay, data source, phenotype and value. Returns at most 20 rows and the total.",
+        "name": "gene_measurements",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Publications dated before the cutoff that name one gene, most recent first: ID, publication date and title. Returns at most 20 rows and the total.",
+        "name": "gene_publications",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "Genes recorded as members of the same protein complex as one gene: gene ID, symbol and the complex they share.",
+        "name": "complex_partners",
+        "parameters": {
+          "properties": {
+            "gene_symbol": {
+              "description": "An HGNC gene symbol or alias, for example BCL11A.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_symbol"
+          ],
+          "type": "object"
+        },
+        "type": "function"
+      },
+      {
+        "description": "The candidate genes ranked by how many publications dated before the cutoff name them. A count measures attention, not evidence of a role.",
+        "name": "genes_by_publication_count",
+        "parameters": {
+          "properties": {},
+          "required": [],
+          "type": "object"
+        },
+        "type": "function"
+      }
+    ]
+  },
+  "response": {
+    "input_tokens": 21913,
+    "output_tokens": 334,
+    "served_model_id": "gemini-3.8-flash",
+    "status": "requires_action",
+    "steps": [
+      {
+        "signature": "EtoFCtcFAWkUfRPqvoBFbcllATqfnZl9BwFa9EAhKiZSbMM6BnzGcF8fz7Oq5ZeWZ6DAI8rx+AtWqWeecIxRhGUztybOIBlM2hGwm7IbsN0s38SAHCY2X0S8RX8hsTSfgIvjuOV/1G4MfJikuTSQePTEpDdeeAviH11O8XAKBvc8Gk3zL3c/z+TL+4I7MtxxcBRanZbzZSlD+VY+9uozhETY+VYxt3C0O28+ZMJGfGbgxxEMK17sDwX5IGTomv7/PawxJX5hz/nZEjuOPsQrz2QtBIyqp/FTqGMRUIZ3nXlb8DSi9P/f3nOYtUQk2s4ANhXnrdB5sHLnyCJ47xT1yJvMxKhcizXw3JBCoMkUL7vbr9SnB7K5Zd11h/a1auCLmZ9rt2m99AUNzX+ZSyc9gx/h2FRkmcgrDCvHy2XERcDjJ7zeCTeim6FrOuYGIP7cXk9AVLhTBnQpn6QPiMjS8ZdrAUG51W9HsExbpqlMYzoA26j3pMp88lUOYx3Ve7dNCvGaGUxmXjdZtnrVnCeZ5n2tlDhqCnHsbmI8vYDeLTbd5bQ3lcWqOCJjSuM2Dr3aMG455ntSlV/Og7P6DbngaEuzXG59u5KEaseDLhx1+3xCxswDriH0Vsf3eYVElX0/Bq8Ht/Zuz1avCOUFvUgoLcoGxxyZfdkBT+0gFJV0wV3X2xghyKJNlD+iUGec+tRLm+NwpcYw944mi+v0Sv0EIF7vp2mMBcmA6qEVKf7Q8hCWFo1A9IV2XQxzM3KB8OfUmcO+mz9MCJzBj5p/rWpOoNmYDQEC0Gy9sjHPp9Sq6PhfQgmT5Cb2ffhl4hRvsszJH2HngB2+emEbcB/5d0JKAFJNUMf0LOSXXlUVOl4pVH4Gt02DbDn4NqK46zdYV81u4NfWRQjo+IdSwcTs8S6mf9hCmORxvZM7q8lPrPCqbfpdnp3CswT/9y6DCm2B4UOsLncNAzUwGKXWUGEeDA==",
+        "type": "thought"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "id": "call_4998078968880912202",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        },
+        "id": "call_4998078968880911165",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZNF410"
+        },
+        "id": "call_4998078968880914224",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HDAC2"
+        },
+        "id": "call_4998078968880913187",
+        "name": "gene_evidence_summary",
+        "type": "function_call"
+      }
+    ]
+  }
+}

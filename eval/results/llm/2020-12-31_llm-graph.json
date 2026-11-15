@@ -1,13 +1,249 @@
 {
   "cutoff": "2020-12-31",
-  "grounding": null,
-  "memorization": null,
-  "provenance_report": null,
+  "grounding": {
+    "citation_validity": {
+      "denominator": 3,
+      "numerator": 3
+    },
+    "citations_in_context": {
+      "denominator": 3,
+      "numerator": 3
+    },
+    "claims": [
+      {
+        "citations": [
+          {
+            "cited_id": "pub:32154328",
+            "names_gene": true,
+            "status": "in_context"
+          },
+          {
+            "cited_id": "pub:28652347",
+            "names_gene": true,
+            "status": "in_context"
+          }
+        ],
+        "gene_id": "gene:HGNC:28866",
+        "gene_symbol": "IGF2BP1",
+        "grounded": true
+      },
+      {
+        "citations": [
+          {
+            "cited_id": "pub:29061339",
+            "names_gene": true,
+            "status": "in_context"
+          }
+        ],
+        "gene_id": "gene:HGNC:18595",
+        "gene_symbol": "HIC2",
+        "grounded": true
+      }
+    ],
+    "fabricated_ids": [],
+    "grounded_claim_rate": {
+      "denominator": 2,
+      "numerator": 2
+    },
+    "grounded_claim_rate_interval": {
+      "level": 0.95,
+      "lower": 1.0,
+      "resamples": 2000,
+      "seed": 20171231,
+      "units": 2,
+      "upper": 1.0
+    },
+    "post_cutoff_ids": []
+  },
+  "memorization": {
+    "post_cutoff_claims": [
+      "HIC2"
+    ],
+    "postdates_cutoff_traps_failed": [
+      "HIC2"
+    ],
+    "recalled_claims": [],
+    "recalled_rate": {
+      "denominator": 1,
+      "numerator": 0
+    }
+  },
+  "provenance_report": {
+    "checked_objects": 31,
+    "checked_record_ids": 3,
+    "exempt_fields": {
+      "confidence": "computed by the belief reviser from weighted records, which are checked",
+      "cost_impact": "confidence times a frozen policy coefficient",
+      "cost_weight": "a frozen policy coefficient from hindcast.cost, not a measurement",
+      "evidence_count": "a count of the records named on the same object",
+      "forecast_size": "a count of the system's own output",
+      "max_supporting_weight": "a method signature weight over records named on the same object",
+      "rank_by_confidence": "a rank over the system's own output, not a measurement",
+      "rank_by_cost_impact": "a rank over the system's own output, not a measurement",
+      "refusal_count": "a count of the system's own output"
+    },
+    "findings": [],
+    "missing_license": 0,
+    "untraceable": 0
+  },
   "run": {
-    "answer": null,
-    "cache_keys": [],
+    "answer": {
+      "claims": [
+        {
+          "cited_ids": [
+            "pub:32154328",
+            "pub:28652347"
+          ],
+          "confidence": 0.85,
+          "gene_symbol": "IGF2BP1",
+          "rationale": "Functional studies demonstrated that IGF2BP1 overexpression induces fetal hemoglobin expression in cultured human adult erythroblasts and restores HbF in erythroid cells from patients with beta-hemoglobinopathies."
+        },
+        {
+          "cited_ids": [
+            "pub:29061339"
+          ],
+          "confidence": 0.7,
+          "gene_symbol": "HIC2",
+          "rationale": "HIC2 was shown to regulate developmentally timed isoform switching during cardiovascular maturation (pub:29061339), providing strong mechanistic precedent for a conserved role in regulating developmental fetal globin switching."
+        }
+      ],
+      "refusals": [
+        {
+          "gene_symbol": "ASH1L",
+          "reason": "Although identified as a candidate globin regulator in a family genetic study (pub:27434206), pre-cutoff evidence lacked functional demonstration that perturbing ASH1L alters fetal hemoglobin in erythroid cells."
+        },
+        {
+          "gene_symbol": "CHD3",
+          "reason": "Pre-cutoff evidence implicates the NuRD complex paralog CHD4 rather than CHD3 in fetal hemoglobin repression, with no functional evidence supporting CHD3 as an HbF regulator."
+        },
+        {
+          "gene_symbol": "DNMT1",
+          "reason": "Pre-cutoff literature lacks functional evidence demonstrating that specific perturbation of DNMT1 regulates fetal hemoglobin in human erythroid cells without confounding cytotoxicity."
+        },
+        {
+          "gene_symbol": "DNMT3A",
+          "reason": "Pre-cutoff evidence links DNMT3A to hematopoietic stem cell biology and leukemia rather than specific regulation of fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "DNMT3B",
+          "reason": "Pre-cutoff studies focus on general DNA methylation and malignancy, with no functional evidence establishing a role for DNMT3B in HbF regulation."
+        },
+        {
+          "gene_symbol": "EIF2AK2",
+          "reason": "Pre-cutoff literature implicates EIF2AK1 (HRI) in fetal hemoglobin regulation, while EIF2AK2 lacks functional evidence supporting a role in HbF control."
+        },
+        {
+          "gene_symbol": "EIF2AK3",
+          "reason": "Pre-cutoff evidence connects EIF2AK3 to the unfolded protein response and endoplasmic reticulum stress, with no functional data establishing it as an HbF regulator."
+        },
+        {
+          "gene_symbol": "EIF2AK4",
+          "reason": "Pre-cutoff studies show EIF2AK4 mediates the amino acid starvation response, lacking functional evidence for a role in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "EIF2S1",
+          "reason": "Pre-cutoff evidence does not establish that perturbing EIF2S1 specifically modulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "gene_symbol": "EPAS1",
+          "reason": "Pre-cutoff literature links EPAS1 to high-altitude adaptation and erythrocytosis, but lacks functional evidence that perturbing EPAS1 regulates HbF."
+        },
+        {
+          "gene_symbol": "GATAD2B",
+          "reason": "While the NuRD subunit GATAD2A represses HbF, pre-cutoff evidence does not functionally support a role for its paralog GATAD2B in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "KMT5A",
+          "reason": "Pre-cutoff studies show KMT5A is required for general erythroid maturation and survival, but lack functional evidence demonstrating specific regulation of HbF."
+        },
+        {
+          "gene_symbol": "MAP3K7",
+          "reason": "Pre-cutoff literature implicates MAP3K7 in inflammatory and necroptotic signaling, with no functional evidence establishing a role in fetal hemoglobin regulation."
+        },
+        {
+          "gene_symbol": "MAPK1",
+          "reason": "Pre-cutoff evidence links MAPK1 to general erythroid signaling and proliferation, lacking functional evidence for specific regulation of HbF."
+        },
+        {
+          "gene_symbol": "MBD3",
+          "reason": "Unlike its NuRD partner MBD2, pre-cutoff evidence indicates MBD3 does not repress fetal hemoglobin, lacking functional evidence for an HbF regulatory role."
+        },
+        {
+          "gene_symbol": "MTA1",
+          "reason": "Pre-cutoff evidence does not establish that perturbing the NuRD complex component MTA1 specifically regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "MTA3",
+          "reason": "Pre-cutoff studies on MTA3 focus on non-erythroid tissues, with no functional evidence indicating a role in HbF regulation."
+        },
+        {
+          "gene_symbol": "NFE2",
+          "reason": "While NFE2 regulates adult beta-globin and megakaryopoiesis, pre-cutoff literature lacks functional evidence establishing that perturbing NFE2 regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "NFIX",
+          "reason": "Pre-cutoff evidence connects NFIX to neural development and hematopoietic progenitor survival, lacking functional evidence for HbF regulation."
+        },
+        {
+          "gene_symbol": "NR2C1",
+          "reason": "Pre-cutoff literature lacks published functional evidence demonstrating that perturbing NR2C1 regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "gene_symbol": "NR2C2",
+          "reason": "Pre-cutoff studies implicate NR2C2 in metabolism and inflammatory response, with no functional evidence establishing it as an HbF regulator in human erythroid cells."
+        },
+        {
+          "gene_symbol": "PGRMC1",
+          "reason": "Pre-cutoff evidence links PGRMC1 to ferrochelatase interaction and heme biosynthesis, with no functional evidence for regulating fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "RBBP7",
+          "reason": "Pre-cutoff literature lacks functional evidence demonstrating that perturbing the NuRD component RBBP7 regulates fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "SMAD1",
+          "reason": "Pre-cutoff studies connect SMAD1 to iron homeostasis and hepcidin control, but lack functional evidence for regulating fetal hemoglobin."
+        },
+        {
+          "gene_symbol": "SMAD5",
+          "reason": "Pre-cutoff evidence links SMAD5 to stress erythropoiesis and erythroid progenitor expansion, with no functional evidence for HbF regulation."
+        },
+        {
+          "gene_symbol": "TET2",
+          "reason": "Pre-cutoff literature associates TET2 mutations with clonal hematopoiesis and myeloid neoplasms, lacking functional evidence of HbF regulation in erythroid cells."
+        },
+        {
+          "gene_symbol": "VHL",
+          "reason": "Pre-cutoff studies link VHL to hypoxia signaling and erythrocytosis, but do not provide functional evidence that perturbing VHL regulates HbF."
+        },
+        {
+          "gene_symbol": "ZBTB33",
+          "reason": "Pre-cutoff evidence does not establish a functional role for ZBTB33 in regulating fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "gene_symbol": "ZNF143",
+          "reason": "Pre-cutoff literature connects ZNF143 to transcriptional initiation and chromatin looping, with no functional evidence for fetal hemoglobin regulation."
+        }
+      ]
+    },
+    "cache_keys": [
+      "b874dc76d33aca2d94efe9815da7c8daab62e099346bbee18b55517c1cfee799",
+      "a854513708aab88e457de44c03fda15112cf7cce6947c790f621eaaa2adc6181",
+      "9d517f61fb7e0ab6e059df73b48c6d7e9ec51fd3f4148ab71a64fdc4ebfd1da3",
+      "32135f53672c2a04f14d9975b70b24e980c4cc116059c3f03a1c1f72f65d9444",
+      "8bc542d121df7927e4292144350f893062f48299bb5afe1d2c6060bdc8c60d9d",
+      "4afc341bb7ef33619f721904db514960a74d8de01ec68a71c7b96e59f2bbd458",
+      "d5487a194bad2978f82c4b5b95b3f51d02ea518a1b95feb8783d2447ec065228",
+      "9b8854da6310caf84002ff31915dcee932e284172a370000508659a27b5fa432",
+      "b7613758c5ca746b08085271542b5b5556eaa32f1a26b199ef196d591982f38c",
+      "aba3ae98a74a9e454e68c208c20f699638c76b52531030d0669f8a627a86166e",
+      "ee98e25727eafaaa408f825a9779984a7f1ab158730f32ebb205bc589f8870cb",
+      "9bde61f6212eb4b603480614f6076c12314cfc202f39522fefcfd43d15b5e210",
+      "ef3bb6faf93654cca05f2383d35e6399896d50d4c3942a564e72754aab0df23f",
+      "cf58b98bbe3642e3bc852a45fb6f9185786dea63499280944e76eb7713aac16e"
+    ],
     "calls_live": 0,
-    "calls_replayed": 0,
+    "calls_replayed": 14,
     "candidate_symbols": [
       "ASH1L",
       "CHD3",
@@ -42,21 +278,1761 @@
       "ZNF143"
     ],
     "condition": "graph",
-    "context_node_ids": [],
-    "cost_usd": 0.0,
-    "forecast": null,
-    "input_tokens": 0,
-    "model_id": "claude-opus-5-5",
-    "output_tokens": 0,
+    "context_node_ids": [
+      "gene:HGNC:12687",
+      "gene:HGNC:12928",
+      "gene:HGNC:16090",
+      "gene:HGNC:16682",
+      "gene:HGNC:18595",
+      "gene:HGNC:19088",
+      "gene:HGNC:1918",
+      "gene:HGNC:1919",
+      "gene:HGNC:19687",
+      "gene:HGNC:23784",
+      "gene:HGNC:25941",
+      "gene:HGNC:28866",
+      "gene:HGNC:29489",
+      "gene:HGNC:2976",
+      "gene:HGNC:2978",
+      "gene:HGNC:2979",
+      "gene:HGNC:29989",
+      "gene:HGNC:30778",
+      "gene:HGNC:3255",
+      "gene:HGNC:3265",
+      "gene:HGNC:3374",
+      "gene:HGNC:4852",
+      "gene:HGNC:4853",
+      "gene:HGNC:6767",
+      "gene:HGNC:6771",
+      "gene:HGNC:6859",
+      "gene:HGNC:6871",
+      "gene:HGNC:6917",
+      "gene:HGNC:6918",
+      "gene:HGNC:7410",
+      "gene:HGNC:7411",
+      "gene:HGNC:7780",
+      "gene:HGNC:7788",
+      "gene:HGNC:7971",
+      "gene:HGNC:7972",
+      "gene:HGNC:9437",
+      "gene:HGNC:9887",
+      "gene:HGNC:9890",
+      "meas:orcs:1292:HGNC:18595",
+      "meas:orcs:1292:HGNC:19088",
+      "meas:orcs:1292:HGNC:7780",
+      "meas:orcs:1292:HGNC:7788",
+      "meas:orcs:1293:HGNC:18595",
+      "meas:orcs:1293:HGNC:19088",
+      "meas:orcs:1293:HGNC:7780",
+      "meas:orcs:1293:HGNC:7788",
+      "meas:orcs:1294:HGNC:18595",
+      "meas:orcs:1294:HGNC:19088",
+      "meas:orcs:1294:HGNC:7780",
+      "meas:orcs:1294:HGNC:7788",
+      "meas:orcs:1295:HGNC:18595",
+      "meas:orcs:1295:HGNC:19088",
+      "meas:orcs:1295:HGNC:7780",
+      "meas:orcs:1295:HGNC:7788",
+      "meas:orcs:1296:HGNC:18595",
+      "meas:orcs:1296:HGNC:19088",
+      "meas:orcs:1296:HGNC:7780",
+      "meas:orcs:1296:HGNC:7788",
+      "meas:orcs:1297:HGNC:18595",
+      "meas:orcs:1297:HGNC:19088",
+      "meas:orcs:1297:HGNC:7780",
+      "meas:orcs:1297:HGNC:7788",
+      "meas:orcs:1298:HGNC:18595",
+      "meas:orcs:1298:HGNC:19088",
+      "meas:orcs:1298:HGNC:7780",
+      "meas:orcs:1298:HGNC:7788",
+      "meas:orcs:1299:HGNC:18595",
+      "meas:orcs:1299:HGNC:19088",
+      "meas:orcs:1299:HGNC:7780",
+      "meas:orcs:1299:HGNC:7788",
+      "meas:orcs:1300:HGNC:18595",
+      "meas:orcs:1300:HGNC:19088",
+      "meas:orcs:1300:HGNC:7780",
+      "meas:orcs:1300:HGNC:7788",
+      "meas:orcs:1301:HGNC:18595",
+      "meas:orcs:1301:HGNC:19088",
+      "meas:orcs:1301:HGNC:7780",
+      "meas:orcs:1301:HGNC:7788",
+      "meas:orcs:1302:HGNC:18595",
+      "meas:orcs:1302:HGNC:19088",
+      "meas:orcs:1302:HGNC:7780",
+      "meas:orcs:1302:HGNC:7788",
+      "meas:orcs:1303:HGNC:18595",
+      "meas:orcs:1303:HGNC:19088",
+      "meas:orcs:1303:HGNC:7780",
+      "meas:orcs:1303:HGNC:7788",
+      "meas:orcs:1304:HGNC:18595",
+      "meas:orcs:1304:HGNC:19088",
+      "meas:orcs:1304:HGNC:7780",
+      "meas:orcs:1304:HGNC:7788",
+      "meas:orcs:1305:HGNC:18595",
+      "meas:orcs:1305:HGNC:19088",
+      "meas:orcs:1305:HGNC:7780",
+      "meas:orcs:1305:HGNC:7788",
+      "meas:orcs:1306:HGNC:18595",
+      "meas:orcs:1306:HGNC:19088",
+      "meas:orcs:1306:HGNC:7780",
+      "meas:orcs:1306:HGNC:7788",
+      "meas:orcs:1307:HGNC:18595",
+      "meas:orcs:1307:HGNC:19088",
+      "meas:orcs:1307:HGNC:7780",
+      "meas:orcs:1307:HGNC:7788",
+      "meas:orcs:1308:HGNC:18595",
+      "meas:orcs:1308:HGNC:19088",
+      "meas:orcs:1308:HGNC:7780",
+      "meas:orcs:1308:HGNC:7788",
+      "meas:orcs:1309:HGNC:18595",
+      "meas:orcs:1309:HGNC:19088",
+      "meas:orcs:1309:HGNC:7780",
+      "meas:orcs:1309:HGNC:7788",
+      "meas:orcs:1458:HGNC:18595",
+      "meas:orcs:1458:HGNC:19088",
+      "meas:orcs:1458:HGNC:7780",
+      "meas:orcs:1458:HGNC:7788",
+      "meas:orcs:1459:HGNC:18595",
+      "meas:orcs:1459:HGNC:19088",
+      "meas:orcs:1459:HGNC:7780",
+      "meas:orcs:1459:HGNC:7788",
+      "pub:10079220",
+      "pub:10655230",
+      "pub:10733573",
+      "pub:12064918",
+      "pub:12393578",
+      "pub:12897133",
+      "pub:12944489",
+      "pub:14701872",
+      "pub:15355306",
+      "pub:15459746",
+      "pub:15591122",
+      "pub:16176978",
+      "pub:16896158",
+      "pub:16973150",
+      "pub:16990609",
+      "pub:17708683",
+      "pub:17761518",
+      "pub:17923682",
+      "pub:17938208",
+      "pub:17967875",
+      "pub:18060457",
+      "pub:18374325",
+      "pub:18448565",
+      "pub:18474616",
+      "pub:18477394",
+      "pub:18500823",
+      "pub:18676812",
+      "pub:18997172",
+      "pub:19067322",
+      "pub:19093008",
+      "pub:19108716",
+      "pub:19375646",
+      "pub:19519745",
+      "pub:19541769",
+      "pub:20507910",
+      "pub:20860770",
+      "pub:20864514",
+      "pub:21177654",
+      "pub:21515822",
+      "pub:22114338",
+      "pub:22133874",
+      "pub:22140534",
+      "pub:22226633",
+      "pub:22301437",
+      "pub:22422452",
+      "pub:22972987",
+      "pub:23036813",
+      "pub:23152447",
+      "pub:23251566",
+      "pub:23388827",
+      "pub:23418347",
+      "pub:23442797",
+      "pub:23505428",
+      "pub:23889332",
+      "pub:24028770",
+      "pub:24041575",
+      "pub:24126185",
+      "pub:24192035",
+      "pub:24488494",
+      "pub:24614941",
+      "pub:24719324",
+      "pub:24751651",
+      "pub:24884370",
+      "pub:24915805",
+      "pub:25130491",
+      "pub:25204569",
+      "pub:25418008",
+      "pub:25538734",
+      "pub:25639876",
+      "pub:25645053",
+      "pub:25695491",
+      "pub:25705708",
+      "pub:25754204",
+      "pub:25780920",
+      "pub:25848090",
+      "pub:25855754",
+      "pub:25866973",
+      "pub:25870111",
+      "pub:26325097",
+      "pub:26648529",
+      "pub:26808831",
+      "pub:26982722",
+      "pub:27077812",
+      "pub:27085088",
+      "pub:27144666",
+      "pub:27245349",
+      "pub:27434206",
+      "pub:27530160",
+      "pub:27599036",
+      "pub:27685625",
+      "pub:27688818",
+      "pub:27708226",
+      "pub:28096303",
+      "pub:28158319",
+      "pub:28182011",
+      "pub:28233034",
+      "pub:28401098",
+      "pub:28415616",
+      "pub:28425913",
+      "pub:28438754",
+      "pub:28613268",
+      "pub:28652347",
+      "pub:28899870",
+      "pub:28900037",
+      "pub:28928136",
+      "pub:28989582",
+      "pub:29026132",
+      "pub:29027124",
+      "pub:29061339",
+      "pub:29100357",
+      "pub:29156832",
+      "pub:29184170",
+      "pub:29186677",
+      "pub:29221147",
+      "pub:29295997",
+      "pub:29430853",
+      "pub:29500178",
+      "pub:29615467",
+      "pub:29642935",
+      "pub:29724719",
+      "pub:29858089",
+      "pub:30020994",
+      "pub:30061699",
+      "pub:30064482",
+      "pub:30082317",
+      "pub:30327463",
+      "pub:30361383",
+      "pub:30468428",
+      "pub:30537986",
+      "pub:30644531",
+      "pub:30654386",
+      "pub:30718452",
+      "pub:30778304",
+      "pub:30850732",
+      "pub:30863117",
+      "pub:30935019",
+      "pub:30977402",
+      "pub:31038790",
+      "pub:31091718",
+      "pub:31105426",
+      "pub:31127639",
+      "pub:31149038",
+      "pub:31168296",
+      "pub:31168355",
+      "pub:31239473",
+      "pub:31273382",
+      "pub:31316342",
+      "pub:31360107",
+      "pub:31519193",
+      "pub:31557058",
+      "pub:31604108",
+      "pub:31681516",
+      "pub:31685988",
+      "pub:31689244",
+      "pub:31697676",
+      "pub:31736067",
+      "pub:31758527",
+      "pub:31767864",
+      "pub:31768017",
+      "pub:31839044",
+      "pub:31859368",
+      "pub:31869420",
+      "pub:31885808",
+      "pub:31932841",
+      "pub:31937829",
+      "pub:31963585",
+      "pub:31971654",
+      "pub:31996479",
+      "pub:32015320",
+      "pub:32019168",
+      "pub:32029570",
+      "pub:32051335",
+      "pub:32105214",
+      "pub:32123902",
+      "pub:32127410",
+      "pub:32128359",
+      "pub:32144273",
+      "pub:32154328",
+      "pub:32178723",
+      "pub:32181805",
+      "pub:32185192",
+      "pub:32187984",
+      "pub:32193153",
+      "pub:32204380",
+      "pub:32210087",
+      "pub:32220332",
+      "pub:32235007",
+      "pub:32269971",
+      "pub:32290079",
+      "pub:32293500",
+      "pub:32309436",
+      "pub:32319058",
+      "pub:32327686",
+      "pub:32355762",
+      "pub:32382331",
+      "pub:32398261",
+      "pub:32435614",
+      "pub:32445940",
+      "pub:32470757",
+      "pub:32504054",
+      "pub:32508655",
+      "pub:32518946",
+      "pub:32582805",
+      "pub:32585597",
+      "pub:32597790",
+      "pub:32619551",
+      "pub:32694555",
+      "pub:32695629",
+      "pub:32718338",
+      "pub:32726753",
+      "pub:32728112",
+      "pub:32774686",
+      "pub:32856987",
+      "pub:32891059",
+      "pub:32917856",
+      "pub:32948596",
+      "pub:32961298",
+      "pub:33020537",
+      "pub:33029541",
+      "pub:33048426",
+      "pub:33049075",
+      "pub:33082307",
+      "pub:33085059",
+      "pub:33087320",
+      "pub:33116641",
+      "pub:33146288",
+      "pub:33159179",
+      "pub:33167720",
+      "pub:33172974",
+      "pub:33184433",
+      "pub:33255417",
+      "pub:33292606",
+      "pub:33310759",
+      "pub:33341442",
+      "pub:33390989",
+      "pub:33681816",
+      "pub:35400021",
+      "pub:7623840",
+      "pub:7641696",
+      "pub:9009278",
+      "pub:9490674",
+      "pub:9566889"
+    ],
+    "cost_usd": 0.274764,
+    "forecast": {
+      "already_established": [],
+      "cutoff": "2020-12-31",
+      "items": [
+        {
+          "claim_id": "llm:claim:IGF2BP1",
+          "confidence": 0.85,
+          "contradicting_record_ids": [],
+          "cost_impact": 0.85,
+          "cost_weight": 1.0,
+          "evidence_count": 2,
+          "gene_id": "gene:HGNC:28866",
+          "gene_symbol": "IGF2BP1",
+          "implied_modality": "EX_VIVO_SINGLE_EDIT",
+          "max_supporting_weight": 0.0,
+          "modality_rationale": "the model is not asked for a therapeutic route",
+          "rank_by_confidence": 1,
+          "rank_by_cost_impact": 1,
+          "statement": "Functional studies demonstrated that IGF2BP1 overexpression induces fetal hemoglobin expression in cultured human adult erythroblasts and restores HbF in erythroid cells from patients with beta-hemoglobinopathies.",
+          "supporting_record_ids": [
+            "pub:32154328",
+            "pub:28652347"
+          ]
+        },
+        {
+          "claim_id": "llm:claim:HIC2",
+          "confidence": 0.7,
+          "contradicting_record_ids": [],
+          "cost_impact": 0.7,
+          "cost_weight": 1.0,
+          "evidence_count": 1,
+          "gene_id": "gene:HGNC:18595",
+          "gene_symbol": "HIC2",
+          "implied_modality": "EX_VIVO_SINGLE_EDIT",
+          "max_supporting_weight": 0.0,
+          "modality_rationale": "the model is not asked for a therapeutic route",
+          "rank_by_confidence": 2,
+          "rank_by_cost_impact": 2,
+          "statement": "HIC2 was shown to regulate developmentally timed isoform switching during cardiovascular maturation (pub:29061339), providing strong mechanistic precedent for a conserved role in regulating developmental fetal globin switching.",
+          "supporting_record_ids": [
+            "pub:29061339"
+          ]
+        }
+      ],
+      "ranking_note": "Language-model forecast, retrieval condition graph. Ranked by the model's stated confidence. Both rankings are identical because the model is not asked for a therapeutic route.",
+      "refusals": [
+        {
+          "claim_id": "llm:claim:ASH1L",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19088",
+          "gene_symbol": "ASH1L",
+          "max_supporting_weight": 0.0,
+          "reason": "Although identified as a candidate globin regulator in a family genetic study (pub:27434206), pre-cutoff evidence lacked functional demonstration that perturbing ASH1L alters fetal hemoglobin in erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:CHD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:1918",
+          "gene_symbol": "CHD3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence implicates the NuRD complex paralog CHD4 rather than CHD3 in fetal hemoglobin repression, with no functional evidence supporting CHD3 as an HbF regulator."
+        },
+        {
+          "claim_id": "llm:claim:DNMT1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2976",
+          "gene_symbol": "DNMT1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature lacks functional evidence demonstrating that specific perturbation of DNMT1 regulates fetal hemoglobin in human erythroid cells without confounding cytotoxicity."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2978",
+          "gene_symbol": "DNMT3A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links DNMT3A to hematopoietic stem cell biology and leukemia rather than specific regulation of fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:DNMT3B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:2979",
+          "gene_symbol": "DNMT3B",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies focus on general DNA methylation and malignancy, with no functional evidence establishing a role for DNMT3B in HbF regulation."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9437",
+          "gene_symbol": "EIF2AK2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature implicates EIF2AK1 (HRI) in fetal hemoglobin regulation, while EIF2AK2 lacks functional evidence supporting a role in HbF control."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3255",
+          "gene_symbol": "EIF2AK3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence connects EIF2AK3 to the unfolded protein response and endoplasmic reticulum stress, with no functional data establishing it as an HbF regulator."
+        },
+        {
+          "claim_id": "llm:claim:EIF2AK4",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:19687",
+          "gene_symbol": "EIF2AK4",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies show EIF2AK4 mediates the amino acid starvation response, lacking functional evidence for a role in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:EIF2S1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3265",
+          "gene_symbol": "EIF2S1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence does not establish that perturbing EIF2S1 specifically modulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:EPAS1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:3374",
+          "gene_symbol": "EPAS1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature links EPAS1 to high-altitude adaptation and erythrocytosis, but lacks functional evidence that perturbing EPAS1 regulates HbF."
+        },
+        {
+          "claim_id": "llm:claim:GATAD2B",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:30778",
+          "gene_symbol": "GATAD2B",
+          "max_supporting_weight": 0.0,
+          "reason": "While the NuRD subunit GATAD2A represses HbF, pre-cutoff evidence does not functionally support a role for its paralog GATAD2B in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:KMT5A",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:29489",
+          "gene_symbol": "KMT5A",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies show KMT5A is required for general erythroid maturation and survival, but lack functional evidence demonstrating specific regulation of HbF."
+        },
+        {
+          "claim_id": "llm:claim:MAP3K7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6859",
+          "gene_symbol": "MAP3K7",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature implicates MAP3K7 in inflammatory and necroptotic signaling, with no functional evidence establishing a role in fetal hemoglobin regulation."
+        },
+        {
+          "claim_id": "llm:claim:MAPK1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6871",
+          "gene_symbol": "MAPK1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links MAPK1 to general erythroid signaling and proliferation, lacking functional evidence for specific regulation of HbF."
+        },
+        {
+          "claim_id": "llm:claim:MBD3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6918",
+          "gene_symbol": "MBD3",
+          "max_supporting_weight": 0.0,
+          "reason": "Unlike its NuRD partner MBD2, pre-cutoff evidence indicates MBD3 does not repress fetal hemoglobin, lacking functional evidence for an HbF regulatory role."
+        },
+        {
+          "claim_id": "llm:claim:MTA1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7410",
+          "gene_symbol": "MTA1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence does not establish that perturbing the NuRD complex component MTA1 specifically regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:MTA3",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:23784",
+          "gene_symbol": "MTA3",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies on MTA3 focus on non-erythroid tissues, with no functional evidence indicating a role in HbF regulation."
+        },
+        {
+          "claim_id": "llm:claim:NFE2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7780",
+          "gene_symbol": "NFE2",
+          "max_supporting_weight": 0.0,
+          "reason": "While NFE2 regulates adult beta-globin and megakaryopoiesis, pre-cutoff literature lacks functional evidence establishing that perturbing NFE2 regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:NFIX",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7788",
+          "gene_symbol": "NFIX",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence connects NFIX to neural development and hematopoietic progenitor survival, lacking functional evidence for HbF regulation."
+        },
+        {
+          "claim_id": "llm:claim:NR2C1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7971",
+          "gene_symbol": "NR2C1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature lacks published functional evidence demonstrating that perturbing NR2C1 regulates fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:NR2C2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:7972",
+          "gene_symbol": "NR2C2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies implicate NR2C2 in metabolism and inflammatory response, with no functional evidence establishing it as an HbF regulator in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:PGRMC1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16090",
+          "gene_symbol": "PGRMC1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links PGRMC1 to ferrochelatase interaction and heme biosynthesis, with no functional evidence for regulating fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:RBBP7",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:9890",
+          "gene_symbol": "RBBP7",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature lacks functional evidence demonstrating that perturbing the NuRD component RBBP7 regulates fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:SMAD1",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6767",
+          "gene_symbol": "SMAD1",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies connect SMAD1 to iron homeostasis and hepcidin control, but lack functional evidence for regulating fetal hemoglobin."
+        },
+        {
+          "claim_id": "llm:claim:SMAD5",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:6771",
+          "gene_symbol": "SMAD5",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence links SMAD5 to stress erythropoiesis and erythroid progenitor expansion, with no functional evidence for HbF regulation."
+        },
+        {
+          "claim_id": "llm:claim:TET2",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:25941",
+          "gene_symbol": "TET2",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature associates TET2 mutations with clonal hematopoiesis and myeloid neoplasms, lacking functional evidence of HbF regulation in erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:VHL",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12687",
+          "gene_symbol": "VHL",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff studies link VHL to hypoxia signaling and erythrocytosis, but do not provide functional evidence that perturbing VHL regulates HbF."
+        },
+        {
+          "claim_id": "llm:claim:ZBTB33",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:16682",
+          "gene_symbol": "ZBTB33",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff evidence does not establish a functional role for ZBTB33 in regulating fetal hemoglobin in human erythroid cells."
+        },
+        {
+          "claim_id": "llm:claim:ZNF143",
+          "confidence": 0.0,
+          "evidence_count": 0,
+          "gene_id": "gene:HGNC:12928",
+          "gene_symbol": "ZNF143",
+          "max_supporting_weight": 0.0,
+          "reason": "Pre-cutoff literature connects ZNF143 to transcriptional initiation and chromatin looping, with no functional evidence for fetal hemoglobin regulation."
+        }
+      ]
+    },
+    "input_tokens": 194957,
+    "model_id": "gemini-3.8-flash",
+    "output_tokens": 34279,
     "prompt_hash": "dafb7e5a57e665876554b640641778dc0f84cfff54e19d636e760e609b583693",
-    "served_model_id": "",
-    "status": "not_run",
-    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
+    "served_model_id": "gemini-3.8-flash",
+    "status": "ran",
+    "status_reason": "",
     "tool_call_budget": 40,
-    "tool_calls": []
+    "tool_calls": [
+      {
+        "arguments": {},
+        "node_ids": [
+          "gene:HGNC:12687",
+          "gene:HGNC:12928",
+          "gene:HGNC:16090",
+          "gene:HGNC:16682",
+          "gene:HGNC:18595",
+          "gene:HGNC:19088",
+          "gene:HGNC:1918",
+          "gene:HGNC:19687",
+          "gene:HGNC:23784",
+          "gene:HGNC:25941",
+          "gene:HGNC:28866",
+          "gene:HGNC:29489",
+          "gene:HGNC:2976",
+          "gene:HGNC:2978",
+          "gene:HGNC:2979",
+          "gene:HGNC:30778",
+          "gene:HGNC:3255",
+          "gene:HGNC:3265",
+          "gene:HGNC:3374",
+          "gene:HGNC:6767",
+          "gene:HGNC:6771",
+          "gene:HGNC:6859",
+          "gene:HGNC:6871",
+          "gene:HGNC:6918",
+          "gene:HGNC:7410",
+          "gene:HGNC:7780",
+          "gene:HGNC:7788",
+          "gene:HGNC:7971",
+          "gene:HGNC:7972",
+          "gene:HGNC:9437",
+          "gene:HGNC:9890"
+        ],
+        "outcome": "returned",
+        "tool": "genes_by_publication_count",
+        "turn": 1
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "node_ids": [
+          "gene:HGNC:18595"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 2
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "node_ids": [
+          "gene:HGNC:7788"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 2
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "node_ids": [
+          "gene:HGNC:1918"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 2
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        },
+        "node_ids": [
+          "gene:HGNC:30778"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 2
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "node_ids": [
+          "gene:HGNC:18595",
+          "meas:orcs:1292:HGNC:18595",
+          "meas:orcs:1293:HGNC:18595",
+          "meas:orcs:1294:HGNC:18595",
+          "meas:orcs:1295:HGNC:18595",
+          "meas:orcs:1296:HGNC:18595",
+          "meas:orcs:1297:HGNC:18595",
+          "meas:orcs:1298:HGNC:18595",
+          "meas:orcs:1299:HGNC:18595",
+          "meas:orcs:1300:HGNC:18595",
+          "meas:orcs:1301:HGNC:18595",
+          "meas:orcs:1302:HGNC:18595",
+          "meas:orcs:1303:HGNC:18595",
+          "meas:orcs:1304:HGNC:18595",
+          "meas:orcs:1305:HGNC:18595",
+          "meas:orcs:1306:HGNC:18595",
+          "meas:orcs:1307:HGNC:18595",
+          "meas:orcs:1308:HGNC:18595",
+          "meas:orcs:1309:HGNC:18595",
+          "meas:orcs:1458:HGNC:18595",
+          "meas:orcs:1459:HGNC:18595"
+        ],
+        "outcome": "returned",
+        "tool": "gene_measurements",
+        "turn": 3
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "node_ids": [
+          "gene:HGNC:7788",
+          "meas:orcs:1292:HGNC:7788",
+          "meas:orcs:1293:HGNC:7788",
+          "meas:orcs:1294:HGNC:7788",
+          "meas:orcs:1295:HGNC:7788",
+          "meas:orcs:1296:HGNC:7788",
+          "meas:orcs:1297:HGNC:7788",
+          "meas:orcs:1298:HGNC:7788",
+          "meas:orcs:1299:HGNC:7788",
+          "meas:orcs:1300:HGNC:7788",
+          "meas:orcs:1301:HGNC:7788",
+          "meas:orcs:1302:HGNC:7788",
+          "meas:orcs:1303:HGNC:7788",
+          "meas:orcs:1304:HGNC:7788",
+          "meas:orcs:1305:HGNC:7788",
+          "meas:orcs:1306:HGNC:7788",
+          "meas:orcs:1307:HGNC:7788",
+          "meas:orcs:1308:HGNC:7788",
+          "meas:orcs:1309:HGNC:7788",
+          "meas:orcs:1458:HGNC:7788",
+          "meas:orcs:1459:HGNC:7788"
+        ],
+        "outcome": "returned",
+        "tool": "gene_measurements",
+        "turn": 3
+      },
+      {
+        "arguments": {
+          "gene_symbol": "HIC2"
+        },
+        "node_ids": [
+          "gene:HGNC:18595",
+          "pub:29061339"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 3
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFIX"
+        },
+        "node_ids": [
+          "gene:HGNC:7788",
+          "pub:18477394",
+          "pub:22422452",
+          "pub:24041575",
+          "pub:25780920",
+          "pub:29184170",
+          "pub:29430853"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 3
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "node_ids": [
+          "gene:HGNC:1918",
+          "gene:HGNC:1919",
+          "gene:HGNC:23784",
+          "gene:HGNC:29989",
+          "gene:HGNC:30778",
+          "gene:HGNC:4852",
+          "gene:HGNC:4853",
+          "gene:HGNC:6917",
+          "gene:HGNC:6918",
+          "gene:HGNC:7410",
+          "gene:HGNC:7411",
+          "gene:HGNC:9887",
+          "gene:HGNC:9890"
+        ],
+        "outcome": "returned",
+        "tool": "complex_partners",
+        "turn": 4
+      },
+      {
+        "arguments": {
+          "gene_symbol": "GATAD2B"
+        },
+        "node_ids": [
+          "gene:HGNC:1918",
+          "gene:HGNC:1919",
+          "gene:HGNC:23784",
+          "gene:HGNC:29989",
+          "gene:HGNC:30778",
+          "gene:HGNC:4852",
+          "gene:HGNC:4853",
+          "gene:HGNC:6917",
+          "gene:HGNC:6918",
+          "gene:HGNC:7410",
+          "gene:HGNC:7411",
+          "gene:HGNC:9887",
+          "gene:HGNC:9890"
+        ],
+        "outcome": "returned",
+        "tool": "complex_partners",
+        "turn": 4
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C1"
+        },
+        "node_ids": [
+          "gene:HGNC:7971"
+        ],
+        "outcome": "returned",
+        "tool": "complex_partners",
+        "turn": 5
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C2"
+        },
+        "node_ids": [
+          "gene:HGNC:7972"
+        ],
+        "outcome": "returned",
+        "tool": "complex_partners",
+        "turn": 5
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2S1"
+        },
+        "node_ids": [
+          "gene:HGNC:3265"
+        ],
+        "outcome": "returned",
+        "tool": "complex_partners",
+        "turn": 5
+      },
+      {
+        "arguments": {
+          "gene_symbol": "CHD3"
+        },
+        "node_ids": [
+          "gene:HGNC:1918",
+          "pub:30082317"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 6
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MBD3"
+        },
+        "node_ids": [
+          "gene:HGNC:6918",
+          "pub:17708683",
+          "pub:18500823",
+          "pub:25538734",
+          "pub:28899870",
+          "pub:32181805"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 6
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MTA1"
+        },
+        "node_ids": [
+          "gene:HGNC:7410",
+          "pub:25705708",
+          "pub:27144666",
+          "pub:28415616",
+          "pub:30327463",
+          "pub:32435614"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 6
+      },
+      {
+        "arguments": {
+          "gene_symbol": "MTA3"
+        },
+        "node_ids": [
+          "gene:HGNC:23784",
+          "pub:25705708"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 6
+      },
+      {
+        "arguments": {
+          "gene_symbol": "IGF2BP1"
+        },
+        "node_ids": [
+          "gene:HGNC:28866",
+          "pub:19541769",
+          "pub:23388827",
+          "pub:24192035",
+          "pub:28652347",
+          "pub:31768017",
+          "pub:32154328",
+          "pub:32917856"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 7
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "node_ids": [
+          "gene:HGNC:19088",
+          "pub:15459746",
+          "pub:17923682",
+          "pub:19067322",
+          "pub:19093008",
+          "pub:22140534",
+          "pub:23442797",
+          "pub:23889332",
+          "pub:25866973",
+          "pub:27434206",
+          "pub:29724719",
+          "pub:29858089",
+          "pub:32398261"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 7
+      },
+      {
+        "arguments": {
+          "gene_symbol": "KMT5A"
+        },
+        "node_ids": [
+          "gene:HGNC:29489",
+          "pub:18474616",
+          "pub:23152447",
+          "pub:25848090",
+          "pub:25855754",
+          "pub:27688818",
+          "pub:29186677",
+          "pub:32178723",
+          "pub:32694555"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 7
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZNF143"
+        },
+        "node_ids": [
+          "gene:HGNC:12928",
+          "pub:17938208",
+          "pub:20860770",
+          "pub:21177654",
+          "pub:25645053",
+          "pub:28900037",
+          "pub:30935019",
+          "pub:7641696",
+          "pub:9009278"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 7
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C2"
+        },
+        "node_ids": [
+          "gene:HGNC:7972",
+          "pub:20864514",
+          "pub:22226633",
+          "pub:22972987",
+          "pub:23505428",
+          "pub:24751651",
+          "pub:24915805",
+          "pub:25418008",
+          "pub:26648529",
+          "pub:27077812",
+          "pub:27245349",
+          "pub:27685625",
+          "pub:28182011",
+          "pub:29027124",
+          "pub:29500178",
+          "pub:30361383",
+          "pub:30850732",
+          "pub:31869420",
+          "pub:31885808",
+          "pub:32187984",
+          "pub:33116641"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 8
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT1"
+        },
+        "node_ids": [
+          "gene:HGNC:2976",
+          "pub:28158319",
+          "pub:28401098",
+          "pub:28613268",
+          "pub:28989582",
+          "pub:29221147",
+          "pub:29295997",
+          "pub:29642935",
+          "pub:30064482",
+          "pub:30537986",
+          "pub:30863117",
+          "pub:31105426",
+          "pub:31736067",
+          "pub:32144273",
+          "pub:32193153",
+          "pub:32319058",
+          "pub:32582805",
+          "pub:32585597",
+          "pub:32597790",
+          "pub:32891059",
+          "pub:33310759"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 8
+      },
+      {
+        "arguments": {
+          "gene_symbol": "IGF2BP1"
+        },
+        "node_ids": [
+          "gene:HGNC:28866"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 9
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "node_ids": [
+          "gene:HGNC:19088"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 9
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZBTB33"
+        },
+        "node_ids": [
+          "gene:HGNC:16682"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 9
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFE2"
+        },
+        "node_ids": [
+          "gene:HGNC:7780"
+        ],
+        "outcome": "returned",
+        "tool": "gene_evidence_summary",
+        "turn": 9
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ASH1L"
+        },
+        "node_ids": [
+          "gene:HGNC:19088",
+          "meas:orcs:1292:HGNC:19088",
+          "meas:orcs:1293:HGNC:19088",
+          "meas:orcs:1294:HGNC:19088",
+          "meas:orcs:1295:HGNC:19088",
+          "meas:orcs:1296:HGNC:19088",
+          "meas:orcs:1297:HGNC:19088",
+          "meas:orcs:1298:HGNC:19088",
+          "meas:orcs:1299:HGNC:19088",
+          "meas:orcs:1300:HGNC:19088",
+          "meas:orcs:1301:HGNC:19088",
+          "meas:orcs:1302:HGNC:19088",
+          "meas:orcs:1303:HGNC:19088",
+          "meas:orcs:1304:HGNC:19088",
+          "meas:orcs:1305:HGNC:19088",
+          "meas:orcs:1306:HGNC:19088",
+          "meas:orcs:1307:HGNC:19088",
+          "meas:orcs:1308:HGNC:19088",
+          "meas:orcs:1309:HGNC:19088",
+          "meas:orcs:1458:HGNC:19088",
+          "meas:orcs:1459:HGNC:19088"
+        ],
+        "outcome": "returned",
+        "tool": "gene_measurements",
+        "turn": 10
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NFE2"
+        },
+        "node_ids": [
+          "gene:HGNC:7780",
+          "meas:orcs:1292:HGNC:7780",
+          "meas:orcs:1293:HGNC:7780",
+          "meas:orcs:1294:HGNC:7780",
+          "meas:orcs:1295:HGNC:7780",
+          "meas:orcs:1296:HGNC:7780",
+          "meas:orcs:1297:HGNC:7780",
+          "meas:orcs:1298:HGNC:7780",
+          "meas:orcs:1299:HGNC:7780",
+          "meas:orcs:1300:HGNC:7780",
+          "meas:orcs:1301:HGNC:7780",
+          "meas:orcs:1302:HGNC:7780",
+          "meas:orcs:1303:HGNC:7780",
+          "meas:orcs:1304:HGNC:7780",
+          "meas:orcs:1305:HGNC:7780",
+          "meas:orcs:1306:HGNC:7780",
+          "meas:orcs:1307:HGNC:7780",
+          "meas:orcs:1308:HGNC:7780",
+          "meas:orcs:1309:HGNC:7780",
+          "meas:orcs:1458:HGNC:7780",
+          "meas:orcs:1459:HGNC:7780"
+        ],
+        "outcome": "returned",
+        "tool": "gene_measurements",
+        "turn": 10
+      },
+      {
+        "arguments": {
+          "gene_symbol": "NR2C1"
+        },
+        "node_ids": [
+          "gene:HGNC:7971"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 11
+      },
+      {
+        "arguments": {
+          "gene_symbol": "PGRMC1"
+        },
+        "node_ids": [
+          "gene:HGNC:16090",
+          "pub:27599036"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 11
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK3"
+        },
+        "node_ids": [
+          "gene:HGNC:3255",
+          "pub:30654386",
+          "pub:30977402",
+          "pub:31239473",
+          "pub:31316342",
+          "pub:31360107",
+          "pub:31519193",
+          "pub:31604108",
+          "pub:31767864",
+          "pub:32019168",
+          "pub:32029570",
+          "pub:32128359",
+          "pub:32204380",
+          "pub:32293500",
+          "pub:32309436",
+          "pub:32327686",
+          "pub:32508655",
+          "pub:32695629",
+          "pub:32774686",
+          "pub:33341442",
+          "pub:33390989"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 11
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EIF2AK4"
+        },
+        "node_ids": [
+          "gene:HGNC:19687",
+          "pub:10655230",
+          "pub:10733573",
+          "pub:15355306",
+          "pub:16176978",
+          "pub:19108716",
+          "pub:19519745",
+          "pub:22114338",
+          "pub:22301437",
+          "pub:23418347",
+          "pub:24126185",
+          "pub:24719324",
+          "pub:25695491",
+          "pub:26982722",
+          "pub:27085088",
+          "pub:27708226",
+          "pub:30020994",
+          "pub:31685988",
+          "pub:31937829",
+          "pub:7623840",
+          "pub:9566889"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 11
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT3A"
+        },
+        "node_ids": [
+          "gene:HGNC:2978",
+          "pub:31758527",
+          "pub:31839044",
+          "pub:31932841",
+          "pub:31996479",
+          "pub:32015320",
+          "pub:32123902",
+          "pub:32127410",
+          "pub:32220332",
+          "pub:32269971",
+          "pub:32290079",
+          "pub:32355762",
+          "pub:32445940",
+          "pub:32504054",
+          "pub:32728112",
+          "pub:32856987",
+          "pub:32961298",
+          "pub:33082307",
+          "pub:33087320",
+          "pub:33159179",
+          "pub:33292606"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 12
+      },
+      {
+        "arguments": {
+          "gene_symbol": "DNMT3B"
+        },
+        "node_ids": [
+          "gene:HGNC:2979",
+          "pub:12897133",
+          "pub:18676812",
+          "pub:20507910",
+          "pub:22133874",
+          "pub:23251566",
+          "pub:24028770",
+          "pub:25130491",
+          "pub:25204569",
+          "pub:25639876",
+          "pub:26808831",
+          "pub:28425913",
+          "pub:29100357",
+          "pub:30468428",
+          "pub:30718452",
+          "pub:31105426",
+          "pub:31168296",
+          "pub:31971654",
+          "pub:32051335",
+          "pub:32123902",
+          "pub:32127410"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 12
+      },
+      {
+        "arguments": {
+          "gene_symbol": "TET2"
+        },
+        "node_ids": [
+          "gene:HGNC:25941",
+          "pub:31859368",
+          "pub:31963585",
+          "pub:32220332",
+          "pub:32290079",
+          "pub:32382331",
+          "pub:32504054",
+          "pub:32518946",
+          "pub:32619551",
+          "pub:32726753",
+          "pub:32948596",
+          "pub:33029541",
+          "pub:33048426",
+          "pub:33085059",
+          "pub:33146288",
+          "pub:33167720",
+          "pub:33172974",
+          "pub:33184433",
+          "pub:33255417",
+          "pub:33681816",
+          "pub:35400021"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 12
+      },
+      {
+        "arguments": {
+          "gene_symbol": "EPAS1"
+        },
+        "node_ids": [
+          "gene:HGNC:3374",
+          "pub:24884370",
+          "pub:26325097",
+          "pub:28096303",
+          "pub:28233034",
+          "pub:28928136",
+          "pub:29026132",
+          "pub:29156832",
+          "pub:29615467",
+          "pub:30644531",
+          "pub:30778304",
+          "pub:31038790",
+          "pub:31091718",
+          "pub:31273382",
+          "pub:31681516",
+          "pub:31697676",
+          "pub:32185192",
+          "pub:32235007",
+          "pub:32470757",
+          "pub:32718338",
+          "pub:33049075"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 12
+      },
+      {
+        "arguments": {
+          "gene_symbol": "SMAD1"
+        },
+        "node_ids": [
+          "gene:HGNC:6767",
+          "pub:12944489",
+          "pub:14701872",
+          "pub:16973150",
+          "pub:16990609",
+          "pub:17761518",
+          "pub:17967875",
+          "pub:18997172",
+          "pub:21515822",
+          "pub:23036813",
+          "pub:24488494",
+          "pub:24614941",
+          "pub:25870111",
+          "pub:27530160",
+          "pub:28438754",
+          "pub:30061699",
+          "pub:31127639",
+          "pub:31689244",
+          "pub:32105214",
+          "pub:32210087",
+          "pub:33020537"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 13
+      },
+      {
+        "arguments": {
+          "gene_symbol": "SMAD5"
+        },
+        "node_ids": [
+          "gene:HGNC:6771",
+          "pub:10079220",
+          "pub:12064918",
+          "pub:12393578",
+          "pub:15591122",
+          "pub:16896158",
+          "pub:17761518",
+          "pub:17967875",
+          "pub:18060457",
+          "pub:18374325",
+          "pub:18448565",
+          "pub:19375646",
+          "pub:24488494",
+          "pub:25754204",
+          "pub:25870111",
+          "pub:31127639",
+          "pub:31149038",
+          "pub:31168355",
+          "pub:31557058",
+          "pub:9490674"
+        ],
+        "outcome": "returned",
+        "tool": "gene_publications",
+        "turn": 13
+      },
+      {
+        "arguments": {
+          "gene_symbol": "ZBTB33"
+        },
+        "node_ids": [],
+        "outcome": "over_budget",
+        "tool": "gene_publications",
+        "turn": 13
+      },
+      {
+        "arguments": {
+          "gene_symbol": "VHL"
+        },
+        "node_ids": [],
+        "outcome": "over_budget",
+        "tool": "gene_publications",
+        "turn": 13
+      }
+    ]
   },
   "run_id": "2020-12-31_llm-graph",
-  "scorecard": null,
+  "scorecard": {
+    "alias_attacks_resolved": 98,
+    "alias_attacks_total": 161,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "mean_confidence": 0.0,
+        "n": 29,
+        "observed_frequency": 0.068966,
+        "upper": 0.2
+      },
+      {
+        "lower": 0.2,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.4
+      },
+      {
+        "lower": 0.4,
+        "mean_confidence": 0.0,
+        "n": 0,
+        "observed_frequency": 0.0,
+        "upper": 0.6
+      },
+      {
+        "lower": 0.6,
+        "mean_confidence": 0.7,
+        "n": 1,
+        "observed_frequency": 1.0,
+        "upper": 0.8
+      },
+      {
+        "lower": 0.8,
+        "mean_confidence": 0.85,
+        "n": 1,
+        "observed_frequency": 0.0,
+        "upper": 1.0
+      }
+    ],
+    "contamination_traps_passed": 1,
+    "contamination_traps_total": 2,
+    "cost_lens_reordered": 0,
+    "cost_lens_surfaces_small_molecule": null,
+    "cost_lens_top_route_by_confidence": "EX_VIVO_SINGLE_EDIT",
+    "cost_lens_top_route_by_cost_impact": "EX_VIVO_SINGLE_EDIT",
+    "cutoff": "2020-12-31",
+    "expected_calibration_error": 0.101613,
+    "fabricated_detail": [],
+    "fabricated_numbers": 0,
+    "forecast_size": 2,
+    "ground_truth_symbols": [
+      "DNMT1",
+      "HIC2",
+      "NFIX"
+    ],
+    "judgement_traps_passed": 7,
+    "judgement_traps_total": 7,
+    "notes": [
+      "1 of 2 contamination traps passed. These pass by construction under the refusal rule, so a pass shows the time slice held rather than that the system reasoned well. A failure would mean post-cutoff evidence reached the forecast.",
+      "Correctly refused and also in the ground truth: HIC2, NFIX. These count as correct refusals and as missed forecasts at the same time, which is the honest description: the pre-cutoff evidence did not support the claim, and the field found it anyway.",
+      "Language-model row. A refusal carries no confidence from the model and is entered at 0 for the calibration error. The cost lens does not apply: the model is not asked for a therapeutic route."
+    ],
+    "ranking_by_confidence": {
+      "first_hit_rank": 2,
+      "hits_at_10": [
+        "HIC2"
+      ],
+      "hits_at_5": [
+        "HIC2"
+      ],
+      "mean_reciprocal_rank": 0.5,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 1.0
+      },
+      "n_ground_truth": 3,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 0.6
+      },
+      "ranking": "confidence"
+    },
+    "ranking_by_cost_impact": {
+      "first_hit_rank": 2,
+      "hits_at_10": [
+        "HIC2"
+      ],
+      "hits_at_5": [
+        "HIC2"
+      ],
+      "mean_reciprocal_rank": 0.5,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 1.0
+      },
+      "n_ground_truth": 3,
+      "n_ranked": 2,
+      "precision_at_10": 0.1,
+      "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 31,
+        "upper": 0.6
+      },
+      "ranking": "cost_impact"
+    },
+    "refusal_accuracy": 0.5,
+    "refusal_correct": 1,
+    "refusal_count": 29,
+    "refusal_total": 2,
+    "run_id": "2020-12-31_llm-graph",
+    "traps": [
+      {
+        "correct_answer": "reject",
+        "detail": "HBBP1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "HBBP1",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:HBBP1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B5",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "OR51B6 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "OR51B6",
+        "kind": "association_without_function",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:association:OR51B6",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "EIF2S1 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "EIF2S1",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:essential:EIF2S1",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "CTCF was not endorsed in the top ten of either ranking",
+        "gene_symbol": "CTCF",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:CTCF",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "RBBP4 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "RBBP4",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:RBBP4",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "reject",
+        "detail": "PRMT5 was not endorsed in the top ten of either ranking",
+        "gene_symbol": "PRMT5",
+        "kind": "pan_essential",
+        "passed": true,
+        "system_answer": "not forecast",
+        "trap_id": "trap:essential:PRMT5",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "HIC2 was forecast although its role postdates the cutoff",
+        "gene_symbol": "HIC2",
+        "kind": "postdates_cutoff",
+        "passed": false,
+        "system_answer": "forecast",
+        "trap_id": "trap:postdates:HIC2",
+        "vacuous": false
+      },
+      {
+        "correct_answer": "refuse",
+        "detail": "NFIX was correctly not claimed from pre-cutoff evidence",
+        "gene_symbol": "NFIX",
+        "kind": "postdates_cutoff",
+        "passed": true,
+        "system_answer": "refused",
+        "trap_id": "trap:postdates:NFIX",
+        "vacuous": false
+      }
+    ],
+    "traps_passed": 8,
+    "traps_passed_meaningfully": 8,
+    "traps_passed_vacuously": 0,
+    "traps_total": 9
+  },
   "slice_manifest": {
     "cutoff": "2020-12-31",
     "dropped_dangling_edges": "0",
@@ -64,5 +2040,5 @@
     "nodes": "150839",
     "source_db": "graph.db"
   },
-  "trap_count": 0
+  "trap_count": 9
 }
