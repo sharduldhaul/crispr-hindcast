@@ -20,6 +20,10 @@ export const REPO_ROOT = process.env.HINDCAST_ROOT
   ? path.resolve(process.env.HINDCAST_ROOT)
   : path.resolve(process.cwd(), "..");
 
+// A hosted deployment is read-only: it has no Python environment to run, so
+// the Run page explains how to run elsewhere and /api/run does not exist.
+export const HOSTED = process.env.HINDCAST_HOSTED === "1";
+
 const RESULTS_DIR = path.join(REPO_ROOT, "eval", "results");
 const RULEBOOK_DIR = path.join(REPO_ROOT, "eval", "rulebook");
 

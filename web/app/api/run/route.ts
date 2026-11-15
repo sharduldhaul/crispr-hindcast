@@ -1,7 +1,7 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import path from "node:path";
 
-import { ABLATIONS, REPO_ROOT, SLICES, isAblation, isSlice } from "@/lib/repo";
+import { ABLATIONS, HOSTED, REPO_ROOT, SLICES, isAblation, isSlice } from "@/lib/repo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -55,11 +55,15 @@ function plan(body: unknown): Plan | { error: string } {
   }
 }
 
+const notFound = () => new Response("Not found", { status: 404 });
+
 export function GET() {
+  if (HOSTED) return notFound();
   return Response.json({ running: state.__hindcastJob ?? null });
 }
 
 export async function POST(request: Request) {
+  if (HOSTED) return notFound();
   // The server binds to localhost, but a page on another origin could still
   // post to it from the reader's browser. Refuse anything cross-origin.
   const origin = request.headers.get("origin");
