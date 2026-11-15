@@ -1,4 +1,8 @@
-"""Render the scorecard from eval/results/ as the markdown the README leads with.
+"""Render the scorecard from eval/results/.
+
+Writes every table to eval/scorecard.md, headline first, and copies the
+headline alone into the README between its markers, so a number in the README
+cannot drift from the result files.
 
 Reads only committed result files. Prints bad numbers with the same prominence
 as good ones, because a middling figure left in place is worth more than a clean
@@ -13,6 +17,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "eval" / "results"
+
+#: The README holds the headline between these two lines.
+README_START = "<!-- SCORECARD:START -->"
+README_END = "<!-- SCORECARD:END -->"
 
 
 def fmt(value: object, places: int = 3) -> str:
@@ -95,8 +103,72 @@ RULE_BASED_ROWS = {
 }
 
 
+def headline(results: list[dict], llm: list[dict]) -> list[str]:
+    """The four forecasters at each cutoff, on the four columns that carry the result."""
+    lines = [
+        "### Headline\n",
+        "| Cutoff | Forecaster | P@5 [95% interval] | Traps passed | Grounded claims | Recalled claims |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    by_ablation = {(r["cutoff"], r["ablation"]): r for r in results}
+    by_condition = {(r["cutoff"], r["run"]["condition"]): r for r in llm}
+    for cutoff in sorted({r["cutoff"] for r in llm}):
+        card = by_ablation[cutoff, "full system"]["scorecard"]
+        cells = comparison_cells(card)
+        lines.append(f"| {cutoff} | rule-based system | {cells[0]} | {cells[2]} | n/a | n/a |")
+        for condition, label in LLM_CONDITIONS.items():
+            row = by_condition[cutoff, condition]
+            status = row["run"]["status"]
+            if status != "ran":
+                rest = " | ".join([status.replace("_", " ")] * 4)
+            else:
+                cells = comparison_cells(row["scorecard"])
+                grounded = row["grounding"]["grounded_claim_rate"]
+                recalled = row["memorization"]["recalled_rate"]
+                rest = " | ".join(
+                    [
+                        cells[0],
+                        cells[2],
+                        f"{grounded['numerator']} of {grounded['denominator']}",
+                        f"{recalled['numerator']} of {recalled['denominator']}",
+                    ]
+                )
+            lines.append(f"| {cutoff} | {label} | {rest} |")
+    lines.append("")
+    for term, definition in HEADLINE_DEFINITIONS:
+        lines.append(f"- **{term}**: {definition}")
+    return lines
+
+
+#: The headline's columns in one line each. The comparison table defines the rest.
+HEADLINE_DEFINITIONS = (
+    ("P@5", "of the 5 highest-confidence claims, the share the field later established."),
+    ("Traps passed", "trap questions answered correctly, over all traps at that cutoff."),
+    ("Grounded claims", "claims that cite a row the model was given that names the gene."),
+    (
+        "Recalled claims",
+        (
+            "claims for a gene established after the cutoff that cite no such row: "
+            "the answer came from training, not from the evidence."
+        ),
+    ),
+)
+
+
+def write_readme_headline(lines: list[str]) -> None:
+    """Replace what the README holds between its markers with the headline."""
+    path = ROOT / "README.md"
+    readme = path.read_text()
+    if README_START not in readme or README_END not in readme:
+        raise SystemExit(f"README is missing the {README_START} / {README_END} markers")
+    head, rest = readme.split(README_START, 1)
+    _, tail = rest.split(README_END, 1)
+    body = "\n".join(lines).strip()
+    path.write_text(f"{head}{README_START}\n\n{body}\n\n{README_END}{tail}")
+
+
 def comparison(results: list[dict], llm: list[dict]) -> list[str]:
-    lines = ["\n### Rule-based system and language model\n"]
+    lines = ["\n### Rule-based system and language model, every metric\n"]
     header = [
         "Slice",
         "System",
@@ -201,27 +273,14 @@ def main() -> None:
 
     lines: list[str] = []
 
-    ingestion_path = RESULTS / "ingestion.json"
-    if ingestion_path.exists():
-        ing = json.loads(ingestion_path.read_text())
-        considered = sum(ing["available_by_source"].values())
-        lines.append("### Ingestion\n")
-        lines.append("| Measure | Value |")
-        lines.append("| --- | --- |")
-        lines.append(f"| Source records considered | {considered:,} |")
-        lines.append(f"| Nodes loaded | {ing['nodes_loaded']:,} |")
-        lines.append(f"| Edges loaded | {ing['edges_loaded']:,} |")
-        lines.append(f"| Excluded, with a recorded reason | {ing['excluded']:,} |")
-        lines.append(f"| Spurious records created | {ing['spurious']} |")
-        lines.append("")
-        lines.append("Exclusions by reason:\n")
-        lines.append("| Reason | Records |")
-        lines.append("| --- | --- |")
-        for reason, n in sorted(ing["exclusions_by_reason"].items(), key=lambda kv: -kv[1]):
-            lines.append(f"| {reason} | {n:,} |")
+    llm = load_llm()
+    if llm:
+        top = headline(results, llm)
+        write_readme_headline(top)
+        lines.extend(top)
         lines.append("")
 
-    lines.append("### Scorecard, full system\n")
+    lines.append("### Rule-based system, every metric\n")
     lines.append(
         "| Slice | Ground truth | Forecast | Refusals | P@5 conf [95% interval] | P@5 cost | P@10 conf | MRR [95% interval] | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
     )
@@ -243,7 +302,6 @@ def main() -> None:
             + f" | {fmt(c.get('expected_calibration_error'))} | {c['fabricated_numbers']} |"
         )
 
-    llm = load_llm()
     if llm:
         lines.extend(comparison(results, llm))
 
@@ -323,6 +381,25 @@ def main() -> None:
                 f"{h.get('recovered', 0)} | {fmt(h.get('recovery_rate'), 2)} | "
                 f"{fmt(h.get('mean_confidence_drop'))} |"
             )
+
+    ingestion_path = RESULTS / "ingestion.json"
+    if ingestion_path.exists():
+        ing = json.loads(ingestion_path.read_text())
+        considered = sum(ing["available_by_source"].values())
+        lines.append("\n### Ingestion\n")
+        lines.append("| Measure | Value |")
+        lines.append("| --- | --- |")
+        lines.append(f"| Source records considered | {considered:,} |")
+        lines.append(f"| Nodes loaded | {ing['nodes_loaded']:,} |")
+        lines.append(f"| Edges loaded | {ing['edges_loaded']:,} |")
+        lines.append(f"| Excluded, with a recorded reason | {ing['excluded']:,} |")
+        lines.append(f"| Spurious records created | {ing['spurious']} |")
+        lines.append("")
+        lines.append("Exclusions by reason:\n")
+        lines.append("| Reason | Records |")
+        lines.append("| --- | --- |")
+        for reason, n in sorted(ing["exclusions_by_reason"].items(), key=lambda kv: -kv[1]):
+            lines.append(f"| {reason} | {n:,} |")
 
     text = "\n".join(lines)
     out = ROOT / "eval" / "scorecard.md"

@@ -13,6 +13,10 @@ npx -y @excalidraw/cli@0.3.0 render diagrams/<name>.excalidraw \
   --out diagrams/<name>.png --theme dark --scale 2 --padding 24
 ```
 
+The results chart in the README is the one scene that is generated:
+`scripts/render_results_chart.py` writes `diagrams/results.excalidraw` from
+`eval/results/`.
+
 ## The biology in five lines
 
 You need very little of it to follow the system.
