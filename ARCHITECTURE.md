@@ -1,9 +1,17 @@
 # Architecture
 
-Three diagrams, from simple to medium detail. The Mermaid sources live in
-`diagrams/` and import directly into Excalidraw (More tools, Mermaid to
-Excalidraw). Each section explains the idea in ML terms, because the biology is
-the domain and not the method.
+Three diagrams, from simple to medium detail. Each section explains the idea in
+ML terms, because the biology is the domain and not the method.
+
+The diagrams share one colour code: blue is evidence, violet is the rule-based
+system, orange is the language model, green is grading, red is a guard or a
+refusal, and yellow is the cost lens. Each source is an `.excalidraw` scene in
+`diagrams/` that opens in [Excalidraw](https://excalidraw.com), rendered with:
+
+```bash
+npx -y @excalidraw/cli@0.3.0 render diagrams/<name>.excalidraw \
+  --out diagrams/<name>.png --theme dark --scale 2 --padding 24
+```
 
 ## The biology in five lines
 
@@ -26,9 +34,7 @@ and one grader scores both.
 
 ![System architecture](diagrams/system_architecture.png)
 
-Rendered with the Excalidraw CLI from the Mermaid source in
-[`diagrams/system_architecture.mmd`](diagrams/system_architecture.mmd); the
-command is in that file's header.
+Source: [`diagrams/system_architecture.excalidraw`](diagrams/system_architecture.excalidraw).
 
 ## 2. Evaluation design: a leak-proof time split
 
@@ -101,7 +107,7 @@ The ideas that carry over to any ML evaluation:
 - **Ablations and multiple cutoffs** show which component earns its keep, and
   whether a result holds across time rather than on one lucky split.
 
-Source: [`diagrams/evaluation_design.mmd`](diagrams/evaluation_design.mmd).
+Source: [`diagrams/evaluation_design.excalidraw`](diagrams/evaluation_design.excalidraw).
 
 ## 3. Scoring: from evidence to a prediction or an abstention
 
@@ -185,7 +191,7 @@ The design choices, in ML terms:
 
 Every coefficient and its justification is in [METHODOLOGY.md](METHODOLOGY.md).
 
-Source: [`diagrams/scoring_pipeline.mmd`](diagrams/scoring_pipeline.mmd).
+Source: [`diagrams/scoring_pipeline.excalidraw`](diagrams/scoring_pipeline.excalidraw).
 
 ## 4. The six agents
 
