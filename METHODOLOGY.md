@@ -427,7 +427,8 @@ confident small-molecule claim outranks a highly confident multi-edit claim,
 which is the reordering the lens exists to produce. The anchors are the
 approved products: Casgevy at about $2.2M and Lyfgenia at about $3.1M, neither
 including the required inpatient stay, both requiring apheresis, GMP
-manufacturing and myeloablative conditioning.
+manufacturing and myeloablative conditioning
+([BioPharma Dive, December 2023](https://www.biopharmadive.com/news/crispr-sickle-cell-price-millions-gene-therapy-vertex-bluebird/702066/)).
 
 One ordering decision inside that module was made with a known case in view,
 and it should be stated plainly. The cis-element check runs before the complex
@@ -660,6 +661,67 @@ of the whole request. [eval/model_cache/README.md](eval/model_cache/README.md)
 gives the format. Responses are not deterministic at the API, so the committed
 response is the result: a second live run could differ, and the cache is what
 makes the reported row reproducible.
+
+### Design decisions
+
+Each choice follows from the hard rules in
+[CONTRIBUTING.md](CONTRIBUTING.md): the slice database enforces the cutoff,
+every number traces to a source row, and a clone reproduces every result
+offline.
+
+| Decision | Alternative | Why the alternative was not chosen |
+| --- | --- | --- |
+| Exact vector search: the query is compared with every title vector in the slice. | An approximate nearest-neighbour index. | A slice holds few enough titles that exact search is fast. An approximate index would add a recall parameter to tune and report, and results that can vary with how the index was built. |
+| The title index and the vectors live inside the slice database. | One index over all titles, filtered by date at query time. | A date filter is calling code, and a missing or wrong filter returns post-cutoff rows. Inside the slice a post-cutoff title has no index entry and no vector, so there is nothing to filter, and the leak tests cover retrieval like any other read. |
+| A small open embedding model that runs locally. | A hosted embedding API. | Computing retrieval sends no data to a third party and needs no key. The ranked IDs are committed, so a clone replays retrieval without the model at all. The cost is a smaller model than the hosted ones. |
+| Tools that query the existing evidence graph. | GraphRAG, in which a language model extracts entities and relations from text to build the graph. | The graph here is built from curated sources, and every node carries its source and date. Extracted nodes would have no source row, and a model trained after the cutoff could write later knowledge into a graph that is supposed to predate it. The repository also commits titles only, so there is no article text to extract from. |
+
+## Temporal holdout as a complementary contamination control
+
+The idea for this project came from
+[Cortex Bio](https://cortexbiolabs.com) and their July 2026 case study,
+[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
+The post says its source "is a published 2024 paper that a frontier model has
+very likely seen in training", and describes two controls:
+
+- They ran the task twice, "once with the real names, and once with every
+  compound, warhead, and ligand replaced by an anonymous token", and compared
+  the scores.
+- They "froze a rule book of the governing trends, checked against the table,
+  before any model ran".
+
+This project follows that design. Its answer key is a rule book frozen before
+the first evaluation run, as in the second control, and it adds a temporal
+holdout as a third control aimed at the same problem from the data side. The
+controls are complementary: a temporal holdout constrains which evidence can
+reach the reasoning, and token replacement constrains what the model can
+recognize in that evidence. Neither replaces the other.
+
+What a temporal holdout verifies:
+
+- **No evidence dated on or after the cutoff T reached the reasoning.** This is
+  a property of the data layer. The repository materializes a separate database
+  holding only pre-T rows and serves it over a connection that cannot attach
+  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
+  asserts each one fails.
+- **The answer key was fixed before any result existed.** What the field
+  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
+  the tag
+  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
+  which predates the first commit with evaluation results.
+
+What it does not verify:
+
+- **What the reader already knows.** The holdout controls the evidence, not the
+  reader. A language model placed in this pipeline may have read the 2018 result
+  in training, and no data-layer enforcement can remove that.
+  [LIMITATIONS.md](LIMITATIONS.md) covers this.
+- **That a description no longer identifies its subject.** That is the question
+  token replacement addresses, and this project does not test it.
+
+This is an independent project that builds on a problem Cortex Bio named and
+on the controls they described. It is not a reimplementation of their product
+and makes no claim about it.
 
 ## Disclosure: what changed after the answer key was visible
 

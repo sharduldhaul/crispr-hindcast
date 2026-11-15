@@ -20,12 +20,15 @@ You need very little of it to follow the system.
 ## 1. System architecture
 
 The whole pipeline in one line: public data is cleaned into a graph, cut at a
-date, reasoned over, and graded against what was published afterwards.
+date, reasoned over, and graded against what was published afterwards. Two
+forecasters read the same slice, the rule-based system and a language model,
+and one grader scores both.
 
 ![System architecture](diagrams/system_architecture.png)
 
-Drawn in Excalidraw from the Mermaid source in
-[`diagrams/system_architecture.mmd`](diagrams/system_architecture.mmd).
+Rendered with the Excalidraw CLI from the Mermaid source in
+[`diagrams/system_architecture.mmd`](diagrams/system_architecture.mmd); the
+command is in that file's header.
 
 ## 2. Evaluation design: a leak-proof time split
 
@@ -183,3 +186,49 @@ The design choices, in ML terms:
 Every coefficient and its justification is in [METHODOLOGY.md](METHODOLOGY.md).
 
 Source: [`diagrams/scoring_pipeline.mmd`](diagrams/scoring_pipeline.mmd).
+
+## 4. The six agents
+
+Six agents (without language models) with narrow contracts, every judgement a
+stated rule in a documented module.
+
+1. **Curator** normalizes raw records to the schema, resolving symbols through
+   HGNC and cell lines through Cellosaurus, and excluding anything it cannot
+   resolve rather than guessing.
+2. **Method signature** assigns each measurement a weight from how it was
+   produced and never from what it concluded. Five terms: the system, the
+   perturbation, the readout's directness, independent replication, and human
+   genetic support. Multiplicative, so a weak system discounts everything
+   measured in it. See METHODOLOGY.md for every coefficient and its reason.
+3. **Axiom extractor** turns pre-T evidence into executable rules. A validator
+   rejects any axiom that cannot name the records it came from, which is how
+   "no number without a source row" becomes structural rather than aspirational.
+4. **Belief reviser** accumulates log-odds in publication-date order, writing an
+   append-only audit row for every update. SQLite triggers enforce the
+   append-only property, so it is a property of the database rather than a habit
+   of the code.
+5. **Adversary** plants traps before grading, drawn from the data itself. The
+   geometry-failure trap is not invented: the olfactory receptor genes OR51B5
+   and OR51B6 are author-reported genes at an HbF-associated locus with a
+   p-value of 3e-08 and no plausible role in globin regulation.
+6. **Grader** scores the forecast. It takes no slice and no belief map, so it
+   cannot see the reasoning it is grading.
+
+Refusal is built before the answer path and is a scored outcome. "The evidence
+before T does not support a claim here" is a correct answer on questions whose
+answer postdates T, and it earns points.
+
+## 5. Why the system is not a learned model
+
+I explored convolutional Kolmogorov-Arnold networks as a way to get more out of
+scarce data, since they are parameter-efficient on small datasets. I dropped
+the idea for three reasons.
+
+1. **Capacity is not the bottleneck.** The missed genes have no pre-cutoff
+   features at all.
+2. **No structure to exploit.** The evidence for each gene is a row of tabular
+   features with no spatial or sequence structure for a convolution.
+3. **No labels that respect the time split.** The only ones are the 25 genes
+   already established before the 2017 cutoff, and fitting weights at all would
+   break the rule that every coefficient is stated and frozen before the answer
+   key is seen.
