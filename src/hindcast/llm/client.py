@@ -46,8 +46,12 @@ THINKING_LEVEL = "medium"
 
 #: Wall-clock limit for one live call, in seconds. Transport only, so it is
 #: not part of the cache key: a call that exceeds it raises and is re-run.
-#: Without it a connection the server has dropped waits forever.
 REQUEST_TIMEOUT_SECONDS = 1800
+
+#: HTTP statuses the SDK retries. Its default list without 429: on a quota
+#: error the SDK sleeps for as long as the provider asks, which on the free
+#: tier's daily limit is up to a day. A 429 is raised at once instead.
+RETRIED_HTTP_STATUSES = [408, 409, 500, 502, 503, 504]
 
 #: Paid-tier list price in USD per million tokens, as (input, output), on the
 #: day the rows were run. Thinking tokens are priced as output. A run on the
@@ -176,13 +180,14 @@ def gemini_transport(request: ModelRequest) -> ModelResponse:
     """One live call through the Gemini Interactions API. Needs the `llm` extra and a key.
 
     The call is stateless: nothing is stored by the provider, and the whole
-    history is in `request.input`. The SDK retries connection errors, 408, 409,
-    429 and 5xx with backoff, which is transport only: an invalid answer is
+    history is in `request.input`. The SDK retries connection errors, 408, 409
+    and 5xx with backoff, which is transport only: an invalid answer is
     never retried.
     """
     # Imported here so the offline path, which never calls this, does not need
     # the `llm` extra installed.
     from google import genai
+    from google.genai import types
 
     # The SDK exports no public name for the errors its interactions client
     # raises, so the dependency is pinned to the minor version this path is from.
@@ -207,7 +212,11 @@ def gemini_transport(request: ModelRequest) -> ModelResponse:
         body["tools"] = request.tools
     # Held in a name for the whole call: an unreferenced client is collected,
     # and closes its HTTP connection, before the request is sent.
-    client = genai.Client()
+    client = genai.Client(
+        http_options=types.HttpOptions(
+            retry_options=types.HttpRetryOptions(http_status_codes=RETRIED_HTTP_STATUSES)
+        )
+    )
     try:
         interaction = client.interactions.create(**body, timeout=REQUEST_TIMEOUT_SECONDS)
     except APIError as exc:
