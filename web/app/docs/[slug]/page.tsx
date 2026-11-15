@@ -53,6 +53,14 @@ export default async function DocPage({ params }: { params: Params }) {
                 <Link href={r.href}>{children}</Link>
               );
             },
+            // The diagrams are not served by this app, and loading them from
+            // GitHub would be a third-party request, so an image is a link.
+            img: ({ src, alt }) =>
+              typeof src === "string" ? (
+                <a href={rewrite(src).href} target="_blank" rel="noreferrer">
+                  Diagram: {alt}
+                </a>
+              ) : null,
           }}
         >
           {doc.body}

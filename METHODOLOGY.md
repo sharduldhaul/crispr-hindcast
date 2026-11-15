@@ -8,8 +8,21 @@ coefficient.
 
 Both were frozen before the first evaluation run and committed under a git tag.
 The commit timestamp is the evidence that they were not tuned against the
-answers. Where a choice was made for a reason that involved looking at a known
-case, that is said so explicitly below rather than hidden.
+answers. Where a choice was made with a known case in view, the text says so.
+
+| Section | Answers |
+| --- | --- |
+| [Method signature](#method-signature) | How much is one measurement worth? |
+| [Belief revision](#belief-revision) | How far does it move a claim? |
+| [Refusal](#refusal) | When is a claim reported? |
+| [Traps](#traps-and-what-each-family-actually-measures) | What does each trap family measure? |
+| [Cost lens](#cost-lens) | How does treatment route change the ranking? |
+| [Bootstrap intervals](#bootstrap-intervals) | How wide is each metric's uncertainty? |
+| [Language-model track](#language-model-track) | How is the model asked, grounded and replayed? |
+| [Temporal holdout](#temporal-holdout-as-a-complementary-contamination-control) | What does the time split verify? |
+| [Disclosure](#disclosure-what-changed-after-the-answer-key-was-visible) | What changed after the answer key was visible? |
+
+![Scoring pipeline: each evidence record gets a quality weight, updates a running log-odds belief, and passes a refusal gate to become a forecast or a refusal; forecasts are re-ranked by the cost lens](diagrams/scoring_pipeline.png)
 
 ## Method signature
 
@@ -19,6 +32,8 @@ measurement concluded. Two screens run identically in the same system, one
 finding a strong effect and one finding nothing, receive the same weight.
 
 Five terms, combined multiplicatively and then clamped.
+
+![Quality weight: five terms for system, perturbation, readout, replication and human genetics are multiplied and clamped to between 0.01 and 2.00; the strongest case reaches the ceiling of 2.00 and a weak case 0.02](diagrams/quality_weight.png)
 
 ### Why multiplicative
 
@@ -42,9 +57,6 @@ this term exists to prevent.
 | Mouse cell line | 0.20 |
 | Non-human other | 0.10 |
 | Cell-free, or the source does not say | 0.10 |
-
-This is the largest term and the one most often glossed over when screen
-results are compared across papers.
 
 Primary human CD34+ cells differentiated down the erythroid pathway perform the
 fetal-to-adult switch that the disease is about. HUDEP-2 is an immortalized
@@ -366,12 +378,6 @@ Below the threshold the system returns a refusal naming what is missing, not a
 low-confidence guess. The refusal is graded: on questions whose answer genuinely
 postdates the cutoff, a refusal is correct and scores.
 
-One consequence is worth stating because it affects how the trap row should be
-read. If the forecast is empty, every trap whose correct answer is "reject"
-passes for free. The grader detects that case, marks those passes vacuous, and
-reports `traps_passed_meaningfully` separately, so a system that refuses
-everything cannot appear to have avoided every trap.
-
 ## Traps, and what each family actually measures
 
 The adversary plants four families and they do not all measure the same thing.
@@ -499,10 +505,7 @@ search the titles of the publications in the slice, and their results are fused.
   so this ranker returns titles that name the gene.
 - **Dense.** Cosine similarity between a query sentence (`DENSE_QUERY`, which
   names the gene and the phenotype) and a vector for each title. The search is
-  exact: the query is compared with every vector in the slice. At this size, a
-  few tens of thousands of titles per slice, exact search takes well under a
-  second per slice, so an approximate index would add a recall parameter and
-  save nothing.
+  exact; [Design decisions](#design-decisions) gives the reason.
 - **Fusion.** Reciprocal rank fusion: a title scores 1 / (`RRF_K` + rank) under
   each ranker that returns it, and the scores are summed. Ties are broken by ID.
 
@@ -726,10 +729,9 @@ and makes no claim about it.
 ## Disclosure: what changed after the answer key was visible
 
 The rule book was frozen and tagged `rulebook-frozen-v1` before the scored runs,
-and the commit timestamp is the evidence. But an honest account needs more than
-a timestamp, because the code was still being fixed while the ground-truth gene
-list was on screen. What follows is every change made in that window and why
-none of it is tuning.
+and the commit timestamp is the evidence. A timestamp is not enough, because
+the code was still being fixed while the ground-truth gene list was on screen.
+What follows is every change made in that window and why none of it is tuning.
 
 Four defects were found by rebuilding the graph on the complete literature
 corpus, after the answer key existed. All four were wrong on their own terms,
