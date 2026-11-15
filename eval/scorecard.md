@@ -1,24 +1,26 @@
-### Ingestion
+### Headline
 
-| Measure | Value |
-| --- | --- |
-| Source records considered | 295,986 |
-| Nodes loaded | 287,026 |
-| Edges loaded | 231,751 |
-| Excluded, with a recorded reason | 10,269 |
-| Spurious records created | 0 |
+| Cutoff | Forecaster | P@5 [95% interval] | Traps passed | Grounded claims | Recalled claims |
+| --- | --- | --- | --- | --- | --- |
+| 2014-12-31 | rule-based system | 0.20 [0.00, 0.60] | 22/22 | n/a | n/a |
+| 2014-12-31 | model alone | 1.00 [0.40, 1.00] | 16/22 | 0 of 6 | 6 of 6 |
+| 2014-12-31 | model with text retrieval | 0.20 [0.00, 0.60] | 21/22 | 1 of 1 | 0 of 1 |
+| 2014-12-31 | model with graph tools | 0.80 [0.20, 1.00] | 18/22 | 4 of 4 | 0 of 4 |
+| 2017-12-31 | rule-based system | 0.20 [0.00, 0.60] | 15/15 | n/a | n/a |
+| 2017-12-31 | model alone | 0.80 [0.20, 1.00] | 11/15 | 0 of 4 | 4 of 4 |
+| 2017-12-31 | model with text retrieval | 0.60 [0.00, 1.00] | 11/15 | 3 of 4 | 1 of 3 |
+| 2017-12-31 | model with graph tools | 0.60 [0.00, 1.00] | 12/15 | 3 of 3 | 0 of 3 |
+| 2020-12-31 | rule-based system | 0.20 [0.00, 0.60] | 9/9 | n/a | n/a |
+| 2020-12-31 | model alone | 0.20 [0.00, 0.60] | 8/9 | 0 of 1 | 1 of 1 |
+| 2020-12-31 | model with text retrieval | 0.00 [0.00, 0.00] | 9/9 | 1 of 1 | 0 of 0 |
+| 2020-12-31 | model with graph tools | 0.20 [0.00, 0.60] | 8/9 | 2 of 2 | 0 of 1 |
 
-Exclusions by reason:
+- **P@5**: of the 5 highest-confidence claims, the share the field later established.
+- **Traps passed**: trap questions answered correctly, over all traps at that cutoff.
+- **Grounded claims**: claims that cite a row the model was given that names the gene.
+- **Recalled claims**: claims for a gene established after the cutoff that cite no such row: the answer came from training, not from the evidence.
 
-| Reason | Records |
-| --- | --- |
-| out_of_scope | 6,341 |
-| malformed_record | 3,345 |
-| unresolved_symbol | 371 |
-| unresolvable_date | 117 |
-| unresolved_cell_line | 95 |
-
-### Scorecard, full system
+### Rule-based system, every metric
 
 | Slice | Ground truth | Forecast | Refusals | P@5 conf [95% interval] | P@5 cost | P@10 conf | MRR [95% interval] | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -26,7 +28,7 @@ Exclusions by reason:
 | 2017-12-31 | 13 | 2 | 42 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.500 [0.000, 1.000] | 7/7 | 8/8 | 8/8 (1.00) | 0.199 | 0 |
 | 2020-12-31 | 3 | 6 | 28 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.333 [0.000, 1.000] | 7/7 | 2/2 | 2/2 (1.00) | 0.066 | 0 |
 
-### Rule-based system and language model
+### Rule-based system and language model, every metric
 
 | Slice | System | P@5 [95% interval] | MRR [95% interval] | Traps passed | Refusal acc | ECE | Grounded-claim rate [95% interval] | Fabricated IDs | Recalled claims |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -115,3 +117,23 @@ Model: `gemini-3.8-flash`.
 | 2014-12-31 | 1 | 1 | 1.00 | 0.309 |
 | 2017-12-31 | 1 | 1 | 1.00 | 0.192 |
 | 2020-12-31 | 5 | 5 | 1.00 | 0.029 |
+
+### Ingestion
+
+| Measure | Value |
+| --- | --- |
+| Source records considered | 295,986 |
+| Nodes loaded | 287,026 |
+| Edges loaded | 231,751 |
+| Excluded, with a recorded reason | 10,269 |
+| Spurious records created | 0 |
+
+Exclusions by reason:
+
+| Reason | Records |
+| --- | --- |
+| out_of_scope | 6,341 |
+| malformed_record | 3,345 |
+| unresolved_symbol | 371 |
+| unresolvable_date | 117 |
+| unresolved_cell_line | 95 |

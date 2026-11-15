@@ -121,7 +121,7 @@ export const DOCS = [
   { slug: "methodology", file: "METHODOLOGY.md", title: "Methodology", blurb: "Every weight and update rule, with its reason." },
   { slug: "data-sources", file: "DATA_SOURCES.md", title: "Data sources", blurb: "Where each record came from and its license." },
   { slug: "schema", file: "SCHEMA.md", title: "Schema", blurb: "The graph: node types, edge types, provenance." },
-  { slug: "scorecard", file: "eval/scorecard.md", title: "Scorecard", blurb: "The raw rendered scorecard tables." },
+  { slug: "scorecard", file: "eval/scorecard.md", title: "Scorecard", blurb: "The headline, then every metric, ablation and trap." },
 ] as const;
 
 export function loadDoc(slug: string): { title: string; body: string } | null {

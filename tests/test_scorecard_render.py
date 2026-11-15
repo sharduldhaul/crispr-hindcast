@@ -12,6 +12,8 @@ from datetime import date
 from pathlib import Path
 from types import ModuleType
 
+import pytest
+
 from hindcast.llm.client import ModelRequest, ModelResponse, ReplayCache
 from hindcast.llm.forecaster import RetrievalCondition
 from hindcast.llm.run import run_llm_slice
@@ -102,3 +104,33 @@ def test_a_model_row_that_ran_reports_its_rates_with_their_counts(toy_store: Sto
     assert cells[-3].startswith("0.00 (0 of 1) [")
     assert cells[-2] == "0"
     assert cells[-1] == "1 of 1 |"
+
+
+def test_the_headline_has_one_row_per_forecaster_and_marks_rows_that_did_not_run(
+    toy_store: Store, tmp_path: Path
+):
+    rule_based, llm = _rows(toy_store, tmp_path)
+    lines = _renderer().headline(rule_based, llm)
+    rows = {line.split(" | ")[1]: line for line in lines if line.startswith("| 2018-01-01")}
+
+    assert list(rows) == [
+        "rule-based system",
+        "model alone",
+        "model with text retrieval",
+        "model with graph tools",
+    ]
+    assert rows["rule-based system"].count("n/a") == 2
+    assert rows["model alone"].endswith("| 0 of 1 | 1 of 1 |")
+    assert rows["model with graph tools"].count("not run") == 4
+
+
+def test_the_results_chart_is_refused_when_a_model_row_did_not_run(
+    toy_store: Store, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    scripts = Path(__file__).resolve().parents[1] / "scripts"
+    monkeypatch.syspath_prepend(str(scripts))
+    chart = importlib.import_module("render_results_chart")
+    rule_based, llm = _rows(toy_store, tmp_path)
+
+    with pytest.raises(SystemExit, match="not run"):
+        chart.cards_by_cutoff(rule_based, llm)
