@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/", label: "Overview" },
   { href: "/slices/2017-12-31", label: "Results", match: "/slices" },
   { href: "/compare", label: "Ablations" },
+  { href: "/models", label: "Model" },
   { href: "/genes", label: "Genes" },
   { href: "/docs", label: "Docs" },
   { href: "/run", label: "Run", className: "run-link" },

@@ -62,6 +62,30 @@ export const ABLATION_PLAIN: Record<string, string> = {
   "no ontology normalization": "Gene names are taken as written, without resolving aliases.",
 };
 
+export const LLM_CONDITION: Record<string, { label: string; plain: string }> = {
+  none: { label: "Model alone", plain: "Given the question and the candidate genes, and no evidence." },
+  text: { label: "Model with text retrieval", plain: "Given the five best-matching pre-cutoff paper titles for each gene." },
+  graph: { label: "Model with graph tools", plain: "Can query the pre-cutoff graph through a fixed set of read-only tools." },
+};
+
+export const CITATION_STATUS: Record<string, { label: string; plain: string }> = {
+  in_context: { label: "given", plain: "A row the model was given." },
+  out_of_context: { label: "not given", plain: "A real pre-cutoff row the model was not given." },
+  post_cutoff: { label: "after cutoff", plain: "A real row dated on or after the cutoff." },
+  fabricated: { label: "fabricated", plain: "No row has this ID." },
+};
+
+/** A rate with its counts, "0.20 (1 of 5)". `empty` stands in when nothing was counted. */
+export function rate(value: { numerator: number; denominator: number }, empty: string): string {
+  if (value.denominator === 0) return empty;
+  return `${(value.numerator / value.denominator).toFixed(2)} (${value.numerator} of ${value.denominator})`;
+}
+
+/** A metric with its bootstrap interval, "0.20 [0.00, 0.60]". */
+export function withInterval(value: number, interval: { lower: number; upper: number }, digits = 2): string {
+  return `${value.toFixed(digits)} [${interval.lower.toFixed(digits)}, ${interval.upper.toFixed(digits)}]`;
+}
+
 export function year(cutoff: string): string {
   return cutoff.slice(0, 4);
 }

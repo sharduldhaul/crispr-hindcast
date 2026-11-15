@@ -8,6 +8,7 @@ import type {
   Establishment,
   HeldoutReport,
   Ingestion,
+  LlmResult,
   Policy,
   SliceResult,
   VerdictKind,
@@ -55,6 +56,13 @@ export function runId(cutoff: string, ablation: string): string {
 
 export function loadSlice(cutoff: string, ablation = "full system"): SliceResult | null {
   return readJson<SliceResult>(path.join(RESULTS_DIR, `${runId(cutoff, ablation)}.json`));
+}
+
+// Mirrors hindcast.llm.forecaster.RetrievalCondition, in scorecard order.
+export const LLM_CONDITIONS = ["none", "text", "graph"] as const;
+
+export function loadLlm(cutoff: string, condition: (typeof LLM_CONDITIONS)[number]): LlmResult | null {
+  return readJson<LlmResult>(path.join(RESULTS_DIR, "llm", `${cutoff}_llm-${condition}.json`));
 }
 
 export function loadHeldout(cutoff: string): HeldoutReport | null {

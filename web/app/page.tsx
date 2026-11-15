@@ -115,7 +115,7 @@ export default function Home() {
           <h3>Locked before the first run</h3>
           <p className="muted" style={{ marginTop: 10 }}>
             The database enforces the seal and tests try to break it. The answer key is the published record. Every threshold was frozen
-            in git first. No language model; every decision is a written rule.
+            in git first. The system uses no language model; every decision is a written rule.
           </p>
         </div>
       </section>

@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <footer className="footer">
           <div className="wrap">
-            <span>No language model anywhere. Every judgement is a stated rule, every number traces to a source row.</span>
+            <span>The rule-based system uses no language model. Every judgement is a stated rule, every number traces to a source row.</span>
             <span>Code MIT · each dataset keeps its own license</span>
           </div>
         </footer>
