@@ -91,9 +91,10 @@ def test_reference_nodes_are_filtered_by_approval_date(toy_store: Store):
 
 def test_earlier_slice_is_a_subset_of_a_later_one(toy_store: Store):
     """Monotonicity. Evidence only ever accumulates as T moves forward."""
-    with toy_store.open_slice(date(2014, 1, 1)) as early, toy_store.open_slice(
-        date(2019, 1, 1)
-    ) as late:
+    with (
+        toy_store.open_slice(date(2014, 1, 1)) as early,
+        toy_store.open_slice(date(2019, 1, 1)) as late,
+    ):
         early_ids = {n.id for n in early.nodes()}
         late_ids = {n.id for n in late.nodes()}
         assert early_ids < late_ids

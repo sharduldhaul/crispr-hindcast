@@ -71,9 +71,7 @@ class DateIndex:
             resolved, rule = issue, "europepmc.printPublicationDate"
         if resolved is None:
             return
-        self._by_pmid[pmid] = ResolvedDate(
-            resolved=resolved, online=online, issue=issue, rule=rule
-        )
+        self._by_pmid[pmid] = ResolvedDate(resolved=resolved, online=online, issue=issue, rule=rule)
         self._meta[pmid] = rec
 
     def get(self, pmid: str | None) -> ResolvedDate | None:

@@ -140,9 +140,7 @@ def run_slice(
                 axioms = AxiomSet(cutoff=slice_store.cutoff)
                 belief = BeliefMap(cutoff=slice_store.cutoff)
             else:
-                signature = (
-                    UniformSignature() if spec.uniform_weights else MethodSignature()
-                )
+                signature = UniformSignature() if spec.uniform_weights else MethodSignature()
                 extractor = AxiomExtractor(
                     run_id, signature=signature, trajectory_dir=trajectory_dir
                 )
@@ -164,14 +162,10 @@ def run_slice(
                     and date.fromisoformat(entry["establishing_record"]["date"][:10]) < cutoff
                 }
                 forecaster = Forecaster(run_id, trajectory_dir=trajectory_dir)
-                forecast = forecaster.run(
-                    belief, established_before_cutoff=established_before
-                )
+                forecast = forecaster.run(belief, established_before_cutoff=established_before)
 
             adversary = Adversary(run_id, trajectory_dir=trajectory_dir)
-            traps = adversary.run(
-                store, slice_store, establishment=establishment, cutoff=cutoff
-            )
+            traps = adversary.run(store, slice_store, establishment=establishment, cutoff=cutoff)
 
             alias_check = _check_alias_resolution(slice_store, traps)
             prov = provenance.merge(
@@ -258,9 +252,7 @@ def build_graph(
         # Written out so the scorecard's ingestion row is read from the run that
         # produced the graph, rather than retyped from a terminal.
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        (RESULTS_DIR / "ingestion.json").write_text(
-            report.model_dump_json(indent=2) + "\n"
-        )
+        (RESULTS_DIR / "ingestion.json").write_text(report.model_dump_json(indent=2) + "\n")
         return report
     finally:
         store.close()

@@ -148,9 +148,7 @@ def check_traps(trap_set: Any, store: Store) -> ProvenanceReport:
             report.findings.append(
                 ProvenanceFinding(
                     location=f"trap {trap.id}",
-                    detail=(
-                        f"quotes {sorted(trap.supporting_numbers)} but names no record ID"
-                    ),
+                    detail=(f"quotes {sorted(trap.supporting_numbers)} but names no record ID"),
                 )
             )
         for record_id in trap.evidence_record_ids:

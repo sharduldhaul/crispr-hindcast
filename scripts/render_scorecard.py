@@ -74,9 +74,7 @@ def main() -> None:
         lines.append("Exclusions by reason:\n")
         lines.append("| Reason | Records |")
         lines.append("| --- | --- |")
-        for reason, n in sorted(
-            ing["exclusions_by_reason"].items(), key=lambda kv: -kv[1]
-        ):
+        for reason, n in sorted(ing["exclusions_by_reason"].items(), key=lambda kv: -kv[1]):
             lines.append(f"| {reason} | {n:,} |")
         lines.append("")
 
@@ -84,9 +82,7 @@ def main() -> None:
     lines.append(
         "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
     )
-    lines.append(
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
-    )
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for r in full:
         c = r["scorecard"]
         conf = c.get("ranking_by_confidence") or {}
@@ -172,9 +168,7 @@ def main() -> None:
     heldout = load_heldout()
     if heldout:
         lines.append("\n### Held-out recovery\n")
-        lines.append(
-            "| Slice | Genes tested | Recovered | Rate | Mean confidence drop |"
-        )
+        lines.append("| Slice | Genes tested | Recovered | Rate | Mean confidence drop |")
         lines.append("| --- | --- | --- | --- | --- |")
         for h in sorted(heldout, key=lambda x: x["cutoff"]):
             lines.append(

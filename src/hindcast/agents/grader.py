@@ -194,9 +194,7 @@ class Grader(Agent):
                 )
 
         with self.tool("score_refusals") as call:
-            should_refuse = {
-                t.gene_symbol for t in traps.traps if t.correct_answer == "refuse"
-            }
+            should_refuse = {t.gene_symbol for t in traps.traps if t.correct_answer == "refuse"}
             refused = forecast.refused_symbols()
             card.refusal_total = len(should_refuse)
             card.refusal_correct = len(should_refuse & refused)
@@ -231,22 +229,14 @@ class Grader(Agent):
             card.cost_lens_reordered = sum(
                 1 for i in forecast.items if i.rank_by_confidence != i.rank_by_cost_impact
             )
-            top_conf = next(
-                (i for i in forecast.items if i.rank_by_confidence == 1), None
-            )
-            top_cost = next(
-                (i for i in forecast.items if i.rank_by_cost_impact == 1), None
-            )
-            card.cost_lens_top_route_by_confidence = (
-                top_conf.implied_modality if top_conf else None
-            )
+            top_conf = next((i for i in forecast.items if i.rank_by_confidence == 1), None)
+            top_cost = next((i for i in forecast.items if i.rank_by_cost_impact == 1), None)
+            card.cost_lens_top_route_by_confidence = top_conf.implied_modality if top_conf else None
             card.cost_lens_top_route_by_cost_impact = (
                 top_cost.implied_modality if top_cost else None
             )
             if top_cost is not None:
-                has_small = any(
-                    i.implied_modality == "SMALL_MOLECULE" for i in forecast.items
-                )
+                has_small = any(i.implied_modality == "SMALL_MOLECULE" for i in forecast.items)
                 card.cost_lens_surfaces_small_molecule = (
                     top_cost.implied_modality == "SMALL_MOLECULE" if has_small else None
                 )
@@ -262,9 +252,7 @@ class Grader(Agent):
             else:
                 # Fall back to what the forecast itself carries: an item with a
                 # confidence but no supporting record is a number with no source.
-                missing = [
-                    i.gene_symbol for i in forecast.items if not i.supporting_record_ids
-                ]
+                missing = [i.gene_symbol for i in forecast.items if not i.supporting_record_ids]
                 card.fabricated_numbers = len(missing)
                 card.fabricated_detail = [
                     f"{s}: forecast item carries a confidence but no supporting record ID"
@@ -283,6 +271,7 @@ class Grader(Agent):
 # --------------------------------------------------------------------------
 # metric implementations
 # --------------------------------------------------------------------------
+
 
 def _ground_truth(establishment: dict[str, dict], cutoff: date) -> set[str]:
     """Genes whose HbF role was established on or after the cutoff.
@@ -381,9 +370,7 @@ def _score_trap(trap, forecast: Forecast) -> TrapResult:
     )
 
 
-def _calibration(
-    forecast: Forecast, truth: set[str]
-) -> tuple[list[CalibrationBin], float | None]:
+def _calibration(forecast: Forecast, truth: set[str]) -> tuple[list[CalibrationBin], float | None]:
     """Reliability bins and the expected calibration error.
 
     Computed over every claim the system put a confidence on, forecast and

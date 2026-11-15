@@ -235,9 +235,7 @@ class OntologyIndex:
                 category=rec.get("category"),
                 system_class=self._class_from_cellosaurus(acc, rec),
                 species=tuple(s for s in rec.get("species") or [] if s),
-                diseases=tuple(
-                    d.get("term") for d in rec.get("diseases") or [] if d.get("term")
-                ),
+                diseases=tuple(d.get("term") for d in rec.get("diseases") or [] if d.get("term")),
             )
         return out
 

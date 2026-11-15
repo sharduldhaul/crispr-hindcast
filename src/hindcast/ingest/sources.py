@@ -85,6 +85,7 @@ class IngestResult:
 # identifiers
 # --------------------------------------------------------------------------
 
+
 def gene_id(hgnc_id: str) -> str:
     return f"gene:{hgnc_id}"
 
@@ -187,6 +188,7 @@ def vocabulary_nodes() -> IngestResult:
 # --------------------------------------------------------------------------
 # HGNC: the gene universe
 # --------------------------------------------------------------------------
+
 
 def ingest_hgnc(idx: OntologyIndex) -> IngestResult:
     """Every approved HGNC gene becomes a reference node, dated by approval.
@@ -316,9 +318,7 @@ def complex_membership_edges(idx: OntologyIndex) -> IngestResult:
                                 license=lic,
                                 time_scope=TimeScope.REFERENCE,
                                 effective_date=max(a.approved, b.approved),
-                                ingest_hash=content_hash(
-                                    [src.hgnc_id, dst.hgnc_id, group]
-                                ),
+                                ingest_hash=content_hash([src.hgnc_id, dst.hgnc_id, group]),
                             ),
                         )
                     )
@@ -328,6 +328,7 @@ def complex_membership_edges(idx: OntologyIndex) -> IngestResult:
 # --------------------------------------------------------------------------
 # Europe PMC: publications
 # --------------------------------------------------------------------------
+
 
 def _query_terms_by_gene(raw_dir: Path) -> dict[str, list[str]]:
     """The gene name lists the literature fetch actually searched with.
@@ -393,9 +394,7 @@ def ingest_publications(raw_dir: Path, dates: DateIndex) -> IngestResult:
                 )
                 continue
             seen.add(pmid)
-            query_genes = sorted(
-                g for g in (rec.get("matched_genes") or []) if g in terms_by_gene
-            )
+            query_genes = sorted(g for g in (rec.get("matched_genes") or []) if g in terms_by_gene)
             title_genes = title_named_genes(
                 rec.get("title") or "",
                 {g: terms_by_gene[g] for g in query_genes},
@@ -693,9 +692,10 @@ def ingest_orcs(
                 continue
             res.avail("biogrid_orcs.scope_gene_rows")
             gene = ontology.resolve_gene(
-                symbol, entrez=row.get("IDENTIFIER_ID") if row.get(
-                    "IDENTIFIER_TYPE"
-                ) == "ENTREZ_GENE" else None
+                symbol,
+                entrez=row.get("IDENTIFIER_ID")
+                if row.get("IDENTIFIER_TYPE") == "ENTREZ_GENE"
+                else None,
             )
             if gene is None:
                 res.exclusions.append(
@@ -761,7 +761,9 @@ def ingest_orcs(
                         "screen_id": sid,
                         "significance_rule": rec.get("significance"),
                     },
-                    prov=prov(f"biogrid_orcs:measurement:{sid}:{gene.hgnc_id}", [sid, symbol, value]),
+                    prov=prov(
+                        f"biogrid_orcs:measurement:{sid}:{gene.hgnc_id}", [sid, symbol, value]
+                    ),
                 )
             )
             res.edges.append(
@@ -770,7 +772,9 @@ def ingest_orcs(
                     type=EdgeType.MEASURED_IN,
                     src=mid,
                     dst=cell_id(cell.accession),
-                    prov=prov(f"biogrid_orcs:measured_in:{sid}:{gene.hgnc_id}", [mid, cell.accession]),
+                    prov=prov(
+                        f"biogrid_orcs:measured_in:{sid}:{gene.hgnc_id}", [mid, cell.accession]
+                    ),
                 )
             )
             res.edges.append(
@@ -814,9 +818,8 @@ def _read_hits(path: Path) -> list[dict[str, str]]:
 # cell contexts
 # --------------------------------------------------------------------------
 
-def ingest_cell_contexts(
-    ontology: OntologyIndex, first_use: dict[str, date]
-) -> IngestResult:
+
+def ingest_cell_contexts(ontology: OntologyIndex, first_use: dict[str, date]) -> IngestResult:
     """Cell context nodes, dated by the earliest evidence in the corpus that uses them.
 
     Cellosaurus does not carry a usable establishment date, so a cell line has no
@@ -1092,9 +1095,8 @@ def ingest_gwas(raw_dir: Path, ontology: OntologyIndex, dates: DateIndex) -> Ing
 # Open Targets: DepMap essentiality and target-disease evidence
 # --------------------------------------------------------------------------
 
-def ingest_depmap(
-    raw_dir: Path, ontology: OntologyIndex, *, release_date: date
-) -> IngestResult:
+
+def ingest_depmap(raw_dir: Path, ontology: OntologyIndex, *, release_date: date) -> IngestResult:
     """DepMap gene-effect values, one measurement per gene per cell line.
 
     These carry the DepMap release date, not a per-experiment date, because that

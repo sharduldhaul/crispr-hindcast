@@ -190,9 +190,7 @@ class Curator(Agent):
             cells = src.ingest_cell_contexts(self.ontology, first_use)
             cells.nodes.append(src.human_population_context())
             cells.nodes.append(src.unspecified_cell_context())
-            cells.extend(
-                src.depmap_cell_contexts(result.nodes, release_date=DEPMAP_RELEASE_DATE)
-            )
+            cells.extend(src.depmap_cell_contexts(result.nodes, release_date=DEPMAP_RELEASE_DATE))
             call.records_in = len(first_use)
             call.records_out = len(cells.nodes)
             call.result_summary = f"{len(cells.nodes)} cell context nodes"

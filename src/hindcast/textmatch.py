@@ -35,10 +35,20 @@ import re
 #: and the Greek-letter forms interchangeably, and a matcher that does not fold
 #: them is matching typography rather than content.
 GREEK: dict[str, str] = {
-    "α": "alpha", "β": "beta", "γ": "gamma", "δ": "delta",
-    "ε": "epsilon", "ζ": "zeta", "θ": "theta", "κ": "kappa",
-    "λ": "lambda", "μ": "mu",
-    "Α": "alpha", "Β": "beta", "Γ": "gamma", "Δ": "delta",
+    "α": "alpha",
+    "β": "beta",
+    "γ": "gamma",
+    "δ": "delta",
+    "ε": "epsilon",
+    "ζ": "zeta",
+    "θ": "theta",
+    "κ": "kappa",
+    "λ": "lambda",
+    "μ": "mu",
+    "Α": "alpha",
+    "Β": "beta",
+    "Γ": "gamma",
+    "Δ": "delta",
     "Ε": "epsilon",
 }
 

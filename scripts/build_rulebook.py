@@ -119,8 +119,8 @@ def main() -> None:
             terms = usable_terms(symbol, query_terms)
             clause = "(" + " OR ".join(f'"{t}"' for t in query_terms) + ")"
             query = (
-                f"{clause} AND (\"fetal hemoglobin\" OR \"fetal haemoglobin\" OR \"HbF\" OR "
-                f"\"gamma-globin\" OR \"gamma globin\" OR \"globin switching\")"
+                f'{clause} AND ("fetal hemoglobin" OR "fetal haemoglobin" OR "HbF" OR '
+                f'"gamma-globin" OR "gamma globin" OR "globin switching")'
             )
             cursor, records = "*", []
             while True:

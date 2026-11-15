@@ -61,7 +61,7 @@ def test_genuine_records_are_kept() -> None:
 
 
 def test_hyphenation_and_spacing_are_folded() -> None:
-    """"eIF-2 alpha" and "eIF2alpha" are the same name."""
+    """ "eIF-2 alpha" and "eIF2alpha" are the same name."""
     assert names_gene(
         "Erythroid expression of the heme-regulated eIF-2 alpha kinase.",
         ["heme-regulated eIF2alpha kinase"],
@@ -72,18 +72,13 @@ def test_hyphenation_and_spacing_are_folded() -> None:
 
 def test_greek_letters_are_folded() -> None:
     """Without this the rule missed both CHD4 papers and dated it to 2019."""
-    assert names_gene(
-        "Mi2β (CHD4) represses fetal hemoglobin", ["Mi-2beta"]
-    )
+    assert names_gene("Mi2β (CHD4) represses fetal hemoglobin", ["Mi-2beta"])
     assert names_gene("γ-globin silencing", ["gamma-globin"])
 
 
 def test_negation_excludes_the_gene_it_denies() -> None:
     """The MBD2 paper asserts a role for MBD2 and rules one out for MBD3."""
-    title = (
-        "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces "
-        "high fetal hemoglobin"
-    )
+    title = "Disruption of the MBD2-NuRD complex but not MBD3-NuRD induces high fetal hemoglobin"
     assert names_gene(title, ["MBD2"])
     assert not names_gene(title, ["MBD3"])
 

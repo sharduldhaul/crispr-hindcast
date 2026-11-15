@@ -447,7 +447,9 @@ class Store(_Readable):
         return [dict(r) for r in self.conn.execute(sql, args)]
 
     def exclusions(self) -> list[dict]:
-        return [dict(r) for r in self.conn.execute("SELECT * FROM exclusion ORDER BY source, source_id")]
+        return [
+            dict(r) for r in self.conn.execute("SELECT * FROM exclusion ORDER BY source, source_id")
+        ]
 
     # -- slicing ----------------------------------------------------------
 
@@ -584,9 +586,7 @@ class SliceStore(_Readable):
         """Self-check: nothing in this slice is dated at or after the cutoff."""
         latest = self.max_effective_date()
         if latest is not None and latest >= self.cutoff:
-            raise SliceLeakError(
-                f"slice cutoff {self.cutoff} contains a row dated {latest}"
-            )
+            raise SliceLeakError(f"slice cutoff {self.cutoff} contains a row dated {latest}")
 
     def close(self) -> None:
         self.conn.close()

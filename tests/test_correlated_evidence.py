@@ -30,9 +30,7 @@ def test_literature_total_is_logarithmic() -> None:
 
 
 def test_literature_increments_decrease() -> None:
-    increments = [
-        LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 12)
-    ]
+    increments = [LITERATURE_SCALE * (math.log1p(k) - math.log(k)) for k in range(1, 12)]
     assert increments == sorted(increments, reverse=True)
 
 

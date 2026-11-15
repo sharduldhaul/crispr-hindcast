@@ -106,8 +106,7 @@ class Forecaster(Agent):
             refused = [c for c in candidates if not c.reportable]
             call.records_out = len(reportable)
             call.result_summary = (
-                f"{len(reportable)} claims clear the refusal thresholds, "
-                f"{len(refused)} are refused"
+                f"{len(reportable)} claims clear the refusal thresholds, {len(refused)} are refused"
             )
 
         with self.tool("rank_two_ways") as call:

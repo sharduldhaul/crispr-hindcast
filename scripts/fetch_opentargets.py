@@ -145,9 +145,9 @@ def main() -> None:
             per_disease = {}
             for efo in efos:
                 got = (
-                    post_json(c, API, {"query": EVIDENCE, "variables": {"id": eid, "efo": efo}}).get(
-                        "data"
-                    )
+                    post_json(
+                        c, API, {"query": EVIDENCE, "variables": {"id": eid, "efo": efo}}
+                    ).get("data")
                     or {}
                 ).get("disease")
                 if got and (got.get("evidences") or {}).get("count"):

@@ -159,7 +159,8 @@ def write_jsonl_gz(path: Path, rows: Iterable[BaseModel]) -> int:
     if violations:
         raise RedistributionViolation(
             "snapshot build refused, "
-            + f"{len(violations)} violation(s):\n  " + "\n  ".join(violations[:20])
+            + f"{len(violations)} violation(s):\n  "
+            + "\n  ".join(violations[:20])
         )
     return n
 

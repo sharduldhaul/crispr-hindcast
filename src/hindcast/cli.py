@@ -1,10 +1,10 @@
 """Command line interface.
 
-    hindcast build                  build the graph from the committed snapshot
-    hindcast slice --cutoff DATE    run one evaluation slice
-    hindcast run-all                run every slice and every ablation
-    hindcast scorecard              render the scorecard table from results
-    hindcast verify                 run the checks that must pass to ship
+hindcast build                  build the graph from the committed snapshot
+hindcast slice --cutoff DATE    run one evaluation slice
+hindcast run-all                run every slice and every ablation
+hindcast scorecard              render the scorecard table from results
+hindcast verify                 run the checks that must pass to ship
 """
 
 from __future__ import annotations
@@ -40,9 +40,7 @@ ROOT = Path(__file__).resolve().parents[2]
 @app.command()
 def build(
     raw_dir: Path = typer.Option(ROOT / "data" / "raw", help="Raw payload directory."),
-    snapshot: Path = typer.Option(
-        ROOT / "data" / "snapshot", help="Committed snapshot directory."
-    ),
+    snapshot: Path = typer.Option(ROOT / "data" / "snapshot", help="Committed snapshot directory."),
     db: Path = typer.Option(DEFAULT_DB, help="Graph database to write."),
     from_snapshot: bool = typer.Option(
         True, help="Build from the committed snapshot rather than raw payloads."
@@ -61,8 +59,12 @@ def build(
     else:
         report = build_graph(raw_dir, db)
         console.print(f"built by re-normalizing the raw payloads at {raw_dir}")
-    console.print(f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}")
-    console.print(f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}")
+    console.print(
+        f"[bold]nodes[/bold] {report.nodes_loaded}  [bold]edges[/bold] {report.edges_loaded}"
+    )
+    console.print(
+        f"[bold]excluded[/bold] {report.excluded}  [bold]spurious[/bold] {report.spurious}"
+    )
     # Two tables, not one joined table. Source records are counted per payload
     # bucket ("hgnc.genes") and nodes are counted per provenance prefix
     # ("hgnc"), and those are different keys: one source bucket can produce
@@ -95,7 +97,9 @@ def slice(
     """Run one evaluation slice."""
     spec = next((a for a in ABLATIONS if a.name == ablation), None)
     if spec is None:
-        raise typer.BadParameter(f"unknown ablation {ablation!r}; one of {[a.name for a in ABLATIONS]}")
+        raise typer.BadParameter(
+            f"unknown ablation {ablation!r}; one of {[a.name for a in ABLATIONS]}"
+        )
     result = run_slice(date.fromisoformat(cutoff), store_path=db, ablation=spec)
     card = result.scorecard
     console.print(f"\n[bold]slice {result.cutoff}[/bold]  ablation: {result.ablation}")
@@ -116,8 +120,12 @@ def slice(
             f"by cost impact: P@5 {r.precision_at_5:.2f}  P@10 {r.precision_at_10:.2f}  "
             f"MRR {r.mean_reciprocal_rank:.3f}  hits {r.hits_at_10}"
         )
-    console.print(f"traps {card.traps_passed}/{card.traps_total}  refusals correct {card.refusal_correct}/{card.refusal_total}")
-    console.print(f"ECE {card.expected_calibration_error}  untraceable numbers {card.fabricated_numbers}")
+    console.print(
+        f"traps {card.traps_passed}/{card.traps_total}  refusals correct {card.refusal_correct}/{card.refusal_total}"
+    )
+    console.print(
+        f"ECE {card.expected_calibration_error}  untraceable numbers {card.fabricated_numbers}"
+    )
 
 
 @app.command("run-all")
@@ -135,7 +143,9 @@ def scorecard() -> None:
     if not files:
         console.print("no results; run `hindcast run-all` first")
         raise typer.Exit(1)
-    table = Table("slice", "ablation", "P@5 conf", "P@5 cost", "MRR", "traps", "refusals", "ECE", "fabricated")
+    table = Table(
+        "slice", "ablation", "P@5 conf", "P@5 cost", "MRR", "traps", "refusals", "ECE", "fabricated"
+    )
     for path in files:
         data = json.loads(path.read_text())
         # heldout_*.json and ingestion.json share the directory but are not slice runs.
@@ -203,9 +213,7 @@ def verify(db: Path = typer.Option(DEFAULT_DB)) -> None:
     import subprocess
 
     console.print("[bold]running the test suite[/bold]")
-    proc = subprocess.run(
-        [str(ROOT / ".venv" / "bin" / "python"), "-m", "pytest", "-q"], cwd=ROOT
-    )
+    proc = subprocess.run([str(ROOT / ".venv" / "bin" / "python"), "-m", "pytest", "-q"], cwd=ROOT)
     raise typer.Exit(proc.returncode)
 
 

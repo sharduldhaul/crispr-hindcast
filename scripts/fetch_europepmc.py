@@ -79,8 +79,21 @@ ERYTHROID_QUERY = (
 #: Aliases that are too short or too common to search on without drowning the
 #: result set in unrelated records. Excluded from query expansion by name.
 UNSEARCHABLE_ALIASES = {
-    "hri", "lrf", "tr2", "tr4", "hel", "mi2b", "apa-1", "p66", "dnmt",
-    "kmt5a", "set8", "pr-set7", "cll", "bcl", "hbf",
+    "hri",
+    "lrf",
+    "tr2",
+    "tr4",
+    "hel",
+    "mi2b",
+    "apa-1",
+    "p66",
+    "dnmt",
+    "kmt5a",
+    "set8",
+    "pr-set7",
+    "cll",
+    "bcl",
+    "hbf",
 }
 
 

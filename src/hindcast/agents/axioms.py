@@ -214,9 +214,7 @@ class AxiomExtractor(Agent):
                     and float(m.attrs.get("p_value") or 1.0) < GWAS_SIGNIFICANCE
                 ):
                     genetic_support.add(gid)
-            self.signature.replication_counts = {
-                g: len(p) for g, p in labs_by_gene.items()
-            }
+            self.signature.replication_counts = {g: len(p) for g, p in labs_by_gene.items()}
             self.signature.human_genetic_support = genetic_support
             call.records_out = len(genetic_support)
             call.result_summary = (
@@ -296,9 +294,7 @@ class AxiomExtractor(Agent):
                 "cutoff": cutoff,
                 "axioms": len(kept),
                 "rejected": len(rejected),
-                "by_kind": {
-                    k: len(result.of_kind(k)) for k in sorted({a.kind for a in kept})
-                },
+                "by_kind": {k: len(result.of_kind(k)) for k in sorted({a.kind for a in kept})},
             },
             inputs={"cutoff": cutoff, "measurements": len(measurements)},
         )
@@ -351,9 +347,9 @@ class AxiomExtractor(Agent):
                         "system_classes": ["human_population"],
                         "significance_threshold": GWAS_SIGNIFICANCE,
                         "best_weight": max(w.weight for _, w in significant),
-                        "best_record_id": max(
-                            significant, key=lambda r: (r[1].weight, r[0].id)
-                        )[0].id,
+                        "best_record_id": max(significant, key=lambda r: (r[1].weight, r[0].id))[
+                            0
+                        ].id,
                         "gene_assignment": "author_reported" if author_reported else "mixed",
                         "caveat": (
                             "The association identifies a locus. The gene named is the "
@@ -422,9 +418,7 @@ class AxiomExtractor(Agent):
                     supporting_record_ids=sorted(m.id for m, _ in rows),
                     confidence=0.0,
                     evidence_weight_total=round(sum(w.weight for _, w in rows), 6),
-                    derivation=(
-                        "fitness hit fraction over dated screens that tested the gene"
-                    ),
+                    derivation=("fitness hit fraction over dated screens that tested the gene"),
                 )
             )
         return out
@@ -472,9 +466,7 @@ class AxiomExtractor(Agent):
             )
         return out
 
-    def _composition_axioms(
-        self, slice_store: SliceStore, existing: list[Axiom]
-    ) -> list[Axiom]:
+    def _composition_axioms(self, slice_store: SliceStore, existing: list[Axiom]) -> list[Axiom]:
         """A gene may act through a partner in the same curated protein complex.
 
         This is the only axiom family that reaches a gene the pre-cutoff record
@@ -566,9 +558,9 @@ class AxiomExtractor(Agent):
         for axiom in out:
             gene_id = axiom.subject_gene_ids[0]
             current = by_gene.get(gene_id)
-            if current is None or float(
-                axiom.scope_conditions["transferred_weight"]
-            ) > float(current.scope_conditions["transferred_weight"]):
+            if current is None or float(axiom.scope_conditions["transferred_weight"]) > float(
+                current.scope_conditions["transferred_weight"]
+            ):
                 by_gene[gene_id] = axiom
         return [by_gene[k] for k in sorted(by_gene)]
 
@@ -681,9 +673,7 @@ class AxiomExtractor(Agent):
             # A gene whose HbF association is genetic and whose reported locus is
             # non-coding is the cis-element case: the evidence points at a
             # regulatory region rather than at the protein.
-            cis = gene_id in genetic and any(
-                a.kind == "genetic_support" for a in axiom_list
-            )
+            cis = gene_id in genetic and any(a.kind == "genetic_support" for a in axiom_list)
             call: ModalityCall = infer_modality(
                 symbol=str(gene.attrs.get("symbol") or gene.label),
                 gene_family=str(gene.attrs.get("gene_family") or ""),
@@ -691,9 +681,7 @@ class AxiomExtractor(Agent):
                 acts_via_cis_element=cis,
                 is_pan_essential=gene_id in essential,
             )
-            support = sorted(
-                {rid for a in axiom_list for rid in a.supporting_record_ids}
-            )[:50]
+            support = sorted({rid for a in axiom_list for rid in a.supporting_record_ids})[:50]
             if not support:
                 continue
             out.append(

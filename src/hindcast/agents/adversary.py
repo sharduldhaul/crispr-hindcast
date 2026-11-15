@@ -140,10 +140,7 @@ class Adversary(Agent):
             {
                 "cutoff": slice_store.cutoff,
                 "traps": len(traps),
-                "by_kind": {
-                    k: len(trap_set.by_kind(k))
-                    for k in sorted({t.kind for t in traps})
-                },
+                "by_kind": {k: len(trap_set.by_kind(k)) for k in sorted({t.kind for t in traps})},
                 "alias_attacks": len(attacks),
                 "named_traps": [t.gene_symbol for t in traps],
             }
@@ -250,8 +247,7 @@ class Adversary(Agent):
                     kind="pan_essential",
                     gene_symbol=symbol,
                     question=(
-                        f"Should {symbol} be ranked as a therapeutic target for HbF "
-                        f"induction?"
+                        f"Should {symbol} be ranked as a therapeutic target for HbF induction?"
                     ),
                     correct_answer="reject",
                     rationale=(

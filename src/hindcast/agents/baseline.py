@@ -88,9 +88,7 @@ class FlatLiteratureBaseline(Agent):
             # about a gene alongside fetal hemoglobin. Confidence is the share of
             # the maximum count, which is the crudest possible calibration and
             # is meant to be.
-            ordered = sorted(
-                counts.items(), key=lambda kv: (-hbf_counts[kv[0]], -kv[1], kv[0])
-            )
+            ordered = sorted(counts.items(), key=lambda kv: (-hbf_counts[kv[0]], -kv[1], kv[0]))
             top = hbf_counts.most_common(1)
             denominator = top[0][1] if top and top[0][1] else 1
             items: list[ForecastItem] = []
@@ -217,6 +215,4 @@ class CachedModelBaseline(Agent):
             ranking_note=f"Cached response from {payload.get('model', model)}, no graph.",
         )
         self.finish({"ran": True, "genes_ranked": len(items), "prompt_hash": prompt_hash})
-        return BaselineResult(
-            name=self.name, ran=True, forecast=forecast, prompt_hash=prompt_hash
-        )
+        return BaselineResult(name=self.name, ran=True, forecast=forecast, prompt_hash=prompt_hash)

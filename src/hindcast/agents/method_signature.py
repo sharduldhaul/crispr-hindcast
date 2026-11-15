@@ -214,9 +214,7 @@ class MethodSignature:
         gene_assignment: str | None = None,
     ) -> Weighting:
         sysw = SYSTEM_WEIGHTS.get(system_class, SYSTEM_WEIGHTS["cell_free_or_unspecified"])
-        pertw = PERTURBATION_WEIGHTS.get(
-            perturbation_class, PERTURBATION_WEIGHTS["unspecified"]
-        )
+        pertw = PERTURBATION_WEIGHTS.get(perturbation_class, PERTURBATION_WEIGHTS["unspecified"])
         dirw = DIRECTNESS_WEIGHTS.get(directness, DIRECTNESS_WEIGHTS["proxy"])
         reps = self.replication_counts.get(gene_id, 0)
         repm = REPLICATION_MULTIPLIER.get(reps, REPLICATION_CAP)
@@ -259,9 +257,7 @@ class MethodSignature:
             measurement_id=measurement_id,
             assay=str(measurement_attrs.get("assay") or "unknown"),
             system_class=str(measurement_attrs.get("system_class") or "cell_free_or_unspecified"),
-            perturbation_class=str(
-                measurement_attrs.get("perturbation_class") or "unspecified"
-            ),
+            perturbation_class=str(measurement_attrs.get("perturbation_class") or "unspecified"),
             directness=directness,
             gene_id=str(measurement_attrs.get("gene_id") or ""),
             gene_assignment=measurement_attrs.get("gene_assignment"),
