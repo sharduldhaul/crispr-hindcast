@@ -40,7 +40,7 @@ export function PriceBars({ prices }: { prices: Price[] }) {
     const { W, H, x } = layout;
     const entering = !entered.current;
     entered.current = true;
-    const color = (d: Price) => (d.price > 100000 ? C.fail : C.hit);
+    const color = C.gold;
     const money = d3.format("$,.0f");
 
     const svg = d3.select(svgRef.current).attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
@@ -122,7 +122,7 @@ export function PriceBars({ prices }: { prices: Price[] }) {
         y: prices.indexOf(d) * ROW + 49,
         value: money(d.price),
         label: d.name,
-        rows: [{ color: color(d), label: "route", value: d.route }],
+        rows: [{ color, label: "route", value: d.route }],
         note: `${d.note} Source: ${d.source}.`,
       });
     };

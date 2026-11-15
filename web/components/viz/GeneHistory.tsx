@@ -503,7 +503,7 @@ export function GeneHistory({
         onPick={(k) => moveTo.current?.(k as Exclude<View, "custom">)}
         status={
           view === "custom" || !span
-            ? "Drag or resize the gold window on the strip below; click the strip to reset."
+            ? "Drag or resize the window on the strip below; click the strip to reset."
             : `${Math.round(span[0])} to ${Math.round(span[1])}. Drag across the strip below to zoom into any span.`
         }
       />

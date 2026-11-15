@@ -154,10 +154,9 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
 
   return (
     <div className="wrap page">
-      <div className="eyebrow">Language model</div>
-      <h1>The same question, put to a language model</h1>
+      <h1>Language model</h1>
       <p className="lede" style={{ marginTop: 18 }}>
-        Three conditions: no evidence, retrieved paper titles, and tools over the sealed graph. One grader scores all of them.
+        The same question, in three conditions: no evidence, retrieved paper titles, and tools over the sealed graph. One grader scores all of them.
       </p>
 
       <nav className="segmented lg" aria-label="Cutoff" style={{ marginTop: 24 }}>
@@ -205,7 +204,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
                 const cells = [...scoreCells(card), "n/a", "n/a", "n/a"];
                 return (
                   <tr key={ablation}>
-                    <td>{label}</td>
+                    <td className="nowrap">{label}</td>
                     {cells.map((cell, i) => (
                       <td key={COLUMNS[i].head} className="num">
                         {cell}
@@ -216,7 +215,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
               })}
               {models.map(({ condition, row }) => (
                 <tr key={condition}>
-                  <td title={LLM_CONDITION[condition].plain}>{LLM_CONDITION[condition].label}</td>
+                  <td className="nowrap" title={LLM_CONDITION[condition].plain}>{LLM_CONDITION[condition].label}</td>
                   {modelCells(row).map((cell, i) => (
                     <td key={COLUMNS[i].head} className="num">
                       {cell}

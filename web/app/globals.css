@@ -1,7 +1,8 @@
 /* crispr-hindcast: a dashboard of tiles on charcoal.
    Neutral dark surfaces, bone ink, and two filled tiles (slate blue, bone)
    for the figures a page leads with. The cutoff and the threshold, the frozen
-   lines the system respects, are drawn in the bone accent.
+   lines the system respects, are drawn in the bone accent. Chrome is flat and
+   square: no glow, no pills, so colour on a page always means data.
 
    Data colours were validated as a set with the dataviz palette validator,
    all pairs: claim gold, came-true green and sealed blue clear CVD dE 8.6 and
@@ -43,9 +44,6 @@
   --trap-soft: rgba(169, 147, 224, 0.14);
   --warn: #e0a050;
   --warn-soft: rgba(224, 160, 80, 0.14);
-  /* atmosphere */
-  --glow-past: rgba(132, 112, 150, 0.34);
-  --glow-future: rgba(222, 158, 96, 0.3);
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 40px -20px rgba(0, 0, 0, 0.9);
   --radius: 4px;
   --gutter: clamp(16px, 4vw, 40px);
@@ -74,28 +72,11 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Ambient light behind the masthead: dusk plum on the left, amber at the top
-   right, falling to the page colour. */
-.ambient {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 620px;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(60% 90% at 0% 0%, var(--glow-past), transparent 72%),
-    radial-gradient(55% 80% at 100% 0%, var(--glow-future), transparent 70%);
-  -webkit-mask-image: linear-gradient(#000 30%, transparent);
-  mask-image: linear-gradient(#000 30%, transparent);
-  animation: breathe 14s ease-in-out infinite alternate;
-}
-
-@keyframes breathe {
-  from { opacity: 0.75; }
-  to { opacity: 1; }
-}
+main { flex: 1; }
 
 main,
 header,
@@ -137,10 +118,12 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2rem, 4.4vw, 3.3rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
   font-weight: 300;
   letter-spacing: -0.03em;
 }
+
+.tile.hero h1 { font-size: clamp(2rem, 4.4vw, 3.3rem); }
 
 h1 em {
   font-style: normal;
@@ -600,7 +583,7 @@ a.tile:hover .arrow {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid transparent;
   white-space: nowrap;
   line-height: 1.6;
@@ -631,7 +614,7 @@ a.tag:hover { border-color: currentColor; }
   align-items: center;
   gap: 8px;
   padding: 6px 12px 6px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid color-mix(in srgb, var(--v, var(--rule)) 45%, transparent);
   background: color-mix(in srgb, var(--v-soft, transparent) 70%, transparent);
   text-decoration: none;
@@ -735,7 +718,7 @@ tr.highlight:hover td {
   display: inline-flex;
   padding: 3px;
   gap: 2px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--paper-2);
   border: 1px solid var(--rule);
   flex-wrap: wrap;
@@ -750,7 +733,7 @@ tr.highlight:hover td {
   background: transparent;
   color: var(--ink-2);
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius);
   cursor: pointer;
   white-space: nowrap;
   transition: background 160ms ease, color 160ms ease;
@@ -780,7 +763,7 @@ tr.highlight:hover td {
   position: relative;
   height: 6px;
   background: var(--paper-3);
-  border-radius: 999px;
+  border-radius: var(--radius);
   min-width: 96px;
   flex: 1;
 }
@@ -789,7 +772,7 @@ tr.highlight:hover td {
   position: absolute;
   inset: 0 auto 0 0;
   background: var(--muted);
-  border-radius: 999px;
+  border-radius: var(--radius);
   transform-origin: left center;
   animation: meter-grow 1100ms var(--ease) both;
 }
@@ -1013,7 +996,7 @@ select {
   background: var(--paper);
   color: var(--ink);
   border: 1px solid var(--rule);
-  border-radius: 999px;
+  border-radius: var(--radius);
   padding: 9px 16px;
   transition: border-color 160ms ease;
 }
@@ -1047,7 +1030,7 @@ select {
   justify-content: center;
   gap: 8px;
   padding: 10px 20px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--paper);
@@ -1390,7 +1373,7 @@ select {
   padding: 4px 12px;
 }
 
-/* d3-brush: a quiet gold selection, so the gesture reads as zooming */
+/* d3-brush: a quiet bone selection, so the gesture reads as zooming */
 .viz .selection {
   fill: var(--accent);
   fill-opacity: 0.1;
@@ -1492,7 +1475,7 @@ tr.row-link td:first-child a::after {
   flex-wrap: wrap;
   padding: 12px 18px;
   border: 1px solid var(--rule);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--paper-2);
   font-size: 0.86rem;
 }
@@ -1582,3 +1565,50 @@ tr.row-link td:first-child a::after {
     padding: 20px;
   }
 }
+
+/* A figure and its interval stay on one line; the table scrolls instead. */
+td.num,
+th.num,
+td.nowrap {
+  white-space: nowrap;
+}
+
+/* ---------- reproduce page ---------- */
+
+.steps {
+  display: grid;
+  gap: 12px;
+}
+
+.step-n {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid var(--axis);
+  border-radius: var(--radius);
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+.tile dl.actions-list {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.tile dl.actions-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.tile dl.actions-list > div:first-child { padding-top: 0; border-top: 0; }
+.tile dl.actions-list dt { font-size: 0.9rem; }
+.tile dl.actions-list dt span { display: block; color: var(--muted); font-size: 0.8rem; }
+.tile dl.actions-list dd { margin: 0; }

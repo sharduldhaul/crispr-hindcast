@@ -38,8 +38,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Sear
 
   return (
     <div className="wrap page">
-      <div className="eyebrow">Ablations</div>
-      <h1>Switch a part off. Watch what breaks.</h1>
+      <h1>Ablations</h1>
       <p className="lede" style={{ marginTop: 18 }}>
         Each row removes one component and re-runs the whole test.
       </p>

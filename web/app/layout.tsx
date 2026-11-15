@@ -30,7 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${body.variable} ${mono.variable}`}>
       <body>
-        <div className="ambient" aria-hidden />
         <header className="masthead">
           <div className="wrap">
             <Link href="/" className="wordmark" aria-label="crispr-hindcast home">
@@ -44,7 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="footer">
           <div className="wrap">
             <span>Every number traces to a source row.</span>
-            <span>Code MIT · each dataset keeps its own license</span>
+            <span>
+              <a href="https://github.com/sharduldhaul/crispr-hindcast">GitHub</a> · Code MIT · each dataset keeps its own license
+            </span>
           </div>
         </footer>
       </body>

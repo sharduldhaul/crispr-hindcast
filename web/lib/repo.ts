@@ -100,7 +100,6 @@ export function resultsModifiedAt(): Date | null {
 }
 
 export interface EnvironmentStatus {
-  repoRoot: string;
   hasVenv: boolean;
   hasGraph: boolean;
   hasResults: boolean;
@@ -108,7 +107,6 @@ export interface EnvironmentStatus {
 
 export function environmentStatus(): EnvironmentStatus {
   return {
-    repoRoot: REPO_ROOT,
     hasVenv: fs.existsSync(path.join(REPO_ROOT, ".venv", "bin", "hindcast")),
     hasGraph: fs.existsSync(path.join(REPO_ROOT, "data", "work", "graph.db")),
     hasResults: fs.existsSync(path.join(RESULTS_DIR, `${runId(PRIMARY_SLICE, "full system")}.json`)),

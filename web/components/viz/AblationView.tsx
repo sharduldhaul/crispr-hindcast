@@ -107,7 +107,7 @@ export function AblationView({
       <section style={{ marginTop: 28 }}>
         <AblationDots rows={rows} domains={domains} />
         <p className="viz-hint" style={{ marginTop: 12 }}>
-          The gold line in each column is the full system. Every other variant is joined to it:{" "}
+          The vertical line in each column is the full system. Every other variant is joined to it:{" "}
           <span style={{ color: "var(--ok)" }}>green</span> where removing the part helped, <span style={{ color: "var(--bad)" }}>red</span>{" "}
           where it hurt, no line where nothing changed. Switch the cutoff and watch them move; click a column to open it.
         </p>
