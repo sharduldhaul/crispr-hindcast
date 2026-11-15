@@ -22,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from hindcast.agents.adversary import TrapSet
 from hindcast.agents.base import Agent
 from hindcast.agents.forecast import Forecast
+from hindcast.bootstrap import Interval, ranking_intervals
 
 #: Reliability-diagram bins for the calibration figure and the ECE.
 CALIBRATION_BINS = ((0.0, 0.2), (0.2, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0))
@@ -34,6 +35,9 @@ class RankingScore(BaseModel):
     precision_at_5: float
     precision_at_10: float
     mean_reciprocal_rank: float
+    #: Bootstrap intervals over genes. See hindcast.bootstrap.
+    precision_at_5_interval: Interval
+    mean_reciprocal_rank_interval: Interval
     hits_at_5: list[str] = Field(default_factory=list)
     hits_at_10: list[str] = Field(default_factory=list)
     first_hit_rank: int | None = None
@@ -146,11 +150,12 @@ class Grader(Agent):
         card.refusal_count = len(forecast.refusals)
 
         with self.tool("score_rankings") as call:
+            asked = forecast.refused_symbols() | set(forecast.symbols_by_confidence())
             card.ranking_by_confidence = _score_ranking(
-                "confidence", forecast.symbols_by_confidence(), truth
+                "confidence", forecast.symbols_by_confidence(), truth, asked
             )
             card.ranking_by_cost_impact = _score_ranking(
-                "cost_impact", forecast.symbols_by_cost_impact(), truth
+                "cost_impact", forecast.symbols_by_cost_impact(), truth, asked
             )
             call.records_out = 2
             call.result_summary = (
@@ -289,7 +294,8 @@ def _ground_truth(establishment: dict[str, dict], cutoff: date) -> set[str]:
     return out
 
 
-def _score_ranking(name: str, ranked: list[str], truth: set[str]) -> RankingScore:
+def _score_ranking(name: str, ranked: list[str], truth: set[str], asked: set[str]) -> RankingScore:
+    p5_interval, mrr_interval = ranking_intervals(ranked, truth, asked)
     hits5 = [s for s in ranked[:5] if s in truth]
     hits10 = [s for s in ranked[:10] if s in truth]
     first = next((i + 1 for i, s in enumerate(ranked) if s in truth), None)
@@ -298,6 +304,8 @@ def _score_ranking(name: str, ranked: list[str], truth: set[str]) -> RankingScor
         precision_at_5=round(len(hits5) / 5, 6) if ranked else 0.0,
         precision_at_10=round(len(hits10) / 10, 6) if ranked else 0.0,
         mean_reciprocal_rank=round(1 / first, 6) if first else 0.0,
+        precision_at_5_interval=p5_interval,
+        mean_reciprocal_rank_interval=mrr_interval,
         hits_at_5=hits5,
         hits_at_10=hits10,
         first_hit_rank=first,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from hindcast.agents.grader import Scorecard, TrapResult
+from hindcast.bootstrap import rate_interval
 from hindcast.llm.grounding import ClaimGrounding, GroundingReport, Rate
 from hindcast.llm.memorization import check_memorization
 
@@ -19,6 +20,7 @@ def grounding(**grounded_by_symbol: bool) -> GroundingReport:
         grounded_claim_rate=Rate(
             numerator=sum(grounded_by_symbol.values()), denominator=len(claims)
         ),
+        grounded_claim_rate_interval=rate_interval(list(grounded_by_symbol.values())),
         claims=claims,
     )
 

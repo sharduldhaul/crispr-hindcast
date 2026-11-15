@@ -31,6 +31,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from hindcast.bootstrap import Interval, rate_interval
 from hindcast.llm.forecaster import ModelRun
 from hindcast.models import Node, NodeType
 from hindcast.store import SliceStore, Store
@@ -78,6 +79,8 @@ class GroundingReport(BaseModel):
     citations_in_context: Rate
     #: Grounded claims over all claims.
     grounded_claim_rate: Rate
+    #: Bootstrap interval over the claimed genes. See hindcast.bootstrap.
+    grounded_claim_rate_interval: Interval
     post_cutoff_ids: list[str] = Field(default_factory=list)
     fabricated_ids: list[str] = Field(default_factory=list)
     claims: list[ClaimGrounding] = Field(default_factory=list)
@@ -153,6 +156,7 @@ def check_grounding(run: ModelRun, slice_store: SliceStore, store: Store) -> Gro
         grounded_claim_rate=Rate(
             numerator=sum(c.grounded for c in claims), denominator=len(claims)
         ),
+        grounded_claim_rate_interval=rate_interval([c.grounded for c in claims]),
         post_cutoff_ids=ids(CitationStatus.POST_CUTOFF),
         fabricated_ids=ids(CitationStatus.FABRICATED),
         claims=claims,

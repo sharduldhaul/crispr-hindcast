@@ -23,6 +23,17 @@ def fmt(value: object, places: int = 3) -> str:
     return str(value)
 
 
+def with_interval(score: dict, field: str, places: int) -> str:
+    """A metric with its bootstrap interval: `0.20 [0.00, 0.60]`."""
+    if field not in score:
+        return "not run"
+    interval = score[f"{field}_interval"]
+    return (
+        f"{score[field]:.{places}f} "
+        f"[{interval['lower']:.{places}f}, {interval['upper']:.{places}f}]"
+    )
+
+
 def load() -> list[dict]:
     """Slice results only.
 
@@ -80,7 +91,7 @@ def main() -> None:
 
     lines.append("### Scorecard, full system\n")
     lines.append(
-        "| Slice | Ground truth | Forecast | Refusals | P@5 conf | P@5 cost | P@10 conf | MRR | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
+        "| Slice | Ground truth | Forecast | Refusals | P@5 conf [95% interval] | P@5 cost | P@10 conf | MRR [95% interval] | Judgement traps | Contamination traps | Refusal acc | ECE | Fabricated |"
     )
     lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for r in full:
@@ -90,9 +101,9 @@ def main() -> None:
         acc = c.get("refusal_accuracy")
         lines.append(
             f"| {c['cutoff']} | {len(c['ground_truth_symbols'])} | {c['forecast_size']} | "
-            f"{c['refusal_count']} | {fmt(conf.get('precision_at_5'), 2)} | "
+            f"{c['refusal_count']} | {with_interval(conf, 'precision_at_5', 2)} | "
             f"{fmt(cost.get('precision_at_5'), 2)} | {fmt(conf.get('precision_at_10'), 2)} | "
-            f"{fmt(conf.get('mean_reciprocal_rank'))} | "
+            f"{with_interval(conf, 'mean_reciprocal_rank', 3)} | "
             f"{c.get('judgement_traps_passed', 0)}/{c.get('judgement_traps_total', 0)} | "
             f"{c.get('contamination_traps_passed', 0)}/{c.get('contamination_traps_total', 0)} | "
             f"{c['refusal_correct']}/{c['refusal_total']}"

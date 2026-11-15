@@ -438,6 +438,34 @@ than the complex annotation. That is a judgement informed by knowing what was
 approved, it is not derived from the pre-T record, and a reader should weigh it
 as such.
 
+## Bootstrap intervals
+
+Each slice has between 3 and 19 ground-truth genes, so a precision of 0.20 is
+one gene. Precision at 5, the reciprocal rank of the first hit (reported as
+MRR) and, for language-model rows, the grounded-claim rate each carry a 95%
+percentile bootstrap interval, computed by `src/hindcast/bootstrap.py`.
+
+The resampled unit is the gene. For a ranking the units are the genes the
+question covered: those ranked, those refused and those in the ground truth.
+Each resample draws as many genes as there are units, with replacement, keeps
+the drawn genes in their ranked order (a gene drawn twice takes two adjacent
+places) and scores the result as the ranking was scored. For the grounded-claim
+rate the units are the claimed genes. The interval runs from the 2.5th to the
+97.5th percentile of the resampled values by nearest rank, so each bound is a
+value some resample produced.
+
+| Constant | Value | Reason |
+| --- | --- | --- |
+| `RESAMPLES` | 2000 | Enough that the percentile bounds are stable to the second decimal for metrics that take a handful of distinct values. |
+| `LEVEL` | 0.95 | The conventional level. |
+| `SEED` | 20171231 | The project's fixed seed. Each interval starts its own generator from it, so intervals replay exactly. |
+
+The interval describes how much the metric depends on which genes happened to
+be in the question. It does not cover error in the answer key, and with 3
+ground-truth genes it is wide because 3 genes say little. No model is called
+again: a language-model row's interval is over the genes of its one committed
+answer and says nothing about how a second response would differ.
+
 ## Language-model track
 
 A language model is asked the same question as the rule-based system, on the
