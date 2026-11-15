@@ -1,5 +1,7 @@
 # CRISPR HINDCAST
 
+[![CI](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml)
+
 
 Given only the evidence available on date T,
 can a system recover the governing rules of a field and correctly forecast what
