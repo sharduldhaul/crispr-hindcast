@@ -26,6 +26,7 @@ from hindcast.agents.grader import Grader, Scorecard
 from hindcast.llm.client import DEFAULT_MODEL_ID, ReplayCache, Transport
 from hindcast.llm.forecaster import LLMForecaster, ModelRun, RetrievalCondition, RunStatus
 from hindcast.llm.grounding import GroundingReport, check_grounding
+from hindcast.llm.memorization import MemorizationReport, check_memorization
 from hindcast.pipeline import DEFAULT_DB, RESULTS_DIR, _check_alias_resolution, load_rulebook
 from hindcast.provenance import ProvenanceReport
 from hindcast.scope import ALL_SCOPE_GENES
@@ -37,7 +38,7 @@ LLM_RESULTS_DIR = RESULTS_DIR / "llm"
 class LLMSliceResult(BaseModel):
     """One language-model row: what was asked, what came back and how it scored.
 
-    `scorecard` and `grounding` are present exactly when `run.status` is `ran`.
+    `scorecard`, `grounding` and `memorization` are present exactly when `run.status` is `ran`.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -47,6 +48,7 @@ class LLMSliceResult(BaseModel):
     run: ModelRun
     scorecard: Scorecard | None = None
     grounding: GroundingReport | None = None
+    memorization: MemorizationReport | None = None
     trap_count: int = 0
     provenance_report: ProvenanceReport | None = None
     slice_manifest: dict[str, str] = Field(default_factory=dict)
@@ -126,6 +128,7 @@ def run_llm_slice(
                 # After the grader, and never passed to it: the grader scores
                 # the forecast and stays blind to how it was supported.
                 result.grounding = check_grounding(run, slice_store, store)
+                result.memorization = check_memorization(card, result.grounding)
                 result.trap_count = len(traps.traps)
                 result.provenance_report = prov
 

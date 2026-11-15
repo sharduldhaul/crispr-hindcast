@@ -577,6 +577,24 @@ title reports. The rate is a lower bar than entailment, chosen because it can
 be checked without a judge model. In the `none` condition the model is shown
 nothing, so no claim can be grounded and the rate is 0 by construction.
 
+### Memorization signal
+
+A claim is *recalled* when its gene's role was established on or after the
+cutoff, by the frozen rule book, and the claim is not grounded. The claim is
+correct and cites nothing the model was shown that names the gene, so the
+evidence given does not account for it. `llm/memorization.py` lists the recalled
+claims of each run and reports them over the run's post-cutoff claims. It also
+lists the postdates-cutoff traps the forecast failed: genes it claimed although
+the slice holds no evidence for them.
+
+The `none` condition is the reference. The model is shown nothing there, so
+every post-cutoff gene it claims is recalled. A retrieval condition is read
+against it: the same gene claimed in `text` or `graph` with a grounded citation
+is no longer counted as recalled, which shows that pre-cutoff evidence naming
+the gene was available and cited, and does not show that the model relied on it.
+[LIMITATIONS.md](LIMITATIONS.md#the-memorization-signal-is-a-lower-bound) states
+what the signal cannot detect.
+
 ### Conventions that differ from the rule-based rows
 
 - **Refusals enter calibration at 0.** The model gives a reason for a refusal

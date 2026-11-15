@@ -111,6 +111,32 @@ does not measure what a system could conclude from all the evidence that existed
 before the cutoff, because much of that evidence is in supplementary tables that
 cannot be committed here.
 
+## The memorization signal is a lower bound
+
+The language-model track counts a claim as recalled when its gene was
+established on or after the cutoff and the claim is not grounded
+([METHODOLOGY.md](METHODOLOGY.md#memorization-signal)). The count misses recall
+in four ways.
+
+- **Recall backed by weak pre-cutoff evidence.** A model that remembers a later
+  result can cite a pre-cutoff title that names the gene. The claim is grounded
+  and is not counted, although the title may say nothing about fetal hemoglobin.
+  Grounding checks that a cited row names the gene, not that it supports the
+  claim.
+- **Recall that sets the confidence.** A grounded claim can carry a confidence
+  the cited rows do not justify. The signal is per claim and does not look at
+  the number.
+- **Recall behind a refusal or a wrong answer.** Only claims for genes in the
+  answer key are examined. What the model recalled and chose not to claim, or
+  recalled about a gene the rule book does not list as established, is not seen.
+- **Recall the answer key cannot date.** The establishment dates come from a
+  rule over titles, described above. A gene the rule dates too late moves its
+  claims into the post-cutoff set, and one it dates too early removes them.
+
+In the other direction, a recalled claim is not proof of memorization. A model
+can reason to a correct gene from general biology and cite nothing. The `none`
+condition cannot separate that from recall, and neither can this signal.
+
 ## The model comparison row was not run
 
 The ablation table's last row, a general model given the same prompt and no
