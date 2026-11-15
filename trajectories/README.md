@@ -9,8 +9,9 @@ These are committed because a scorecard whose reasoning cannot be inspected is a
 claim rather than a result. If a number in the scorecard looks wrong, the
 trajectory shows which tool call produced it and over how many records.
 
-There are no prompts and no token counts, because there is no language model in
-this system. Every judgement is a stated rule in a documented module, so the
-trajectories record tool calls and record counts where an LLM-backed pipeline
-would record prompts and tokens. `hindcast.agents.base` explains that choice and
-`eval/model_cache/` holds the one comparison that would need a model.
+The rule-based runs have no prompts and no token counts, because that system
+contains no language model: every judgement is a stated rule in a documented
+module, and `hindcast.agents.base` explains the choice. The `llm-*` runs record
+the model ID, the prompt hash, each replayed or live call by its cache key, and
+the tokens and cost of the run. The responses themselves are in
+`eval/model_cache/`.
