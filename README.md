@@ -25,7 +25,7 @@ which genes controlling it would the field establish next? Two forecasters
 answer at three cutoffs (2014, 2017, 2020): a rule-based system with no
 language model, and a language model (`gemini-3.8-flash`) as the comparison.
 
-![System architecture: public data is cleaned into an evidence graph and cut at a date T; a rule-based system and a language model each forecast or refuse; a grader scores both against the answer key and trap questions](diagrams/system_architecture.png)
+![System architecture: public data becomes an evidence graph that is cut at a date T; a rule-based system and a language model forecast from the earlier part, and a grader scores them against the answer key built from the later part, with trap questions mixed in](diagrams/system_architecture.png)
 
 ### How it solves the problem
 
