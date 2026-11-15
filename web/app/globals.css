@@ -1,8 +1,10 @@
-/* crispr-hindcast: a dashboard of tiles on charcoal.
-   Neutral dark surfaces, bone ink, and two filled tiles (slate blue, bone)
-   for the figures a page leads with. The cutoff and the threshold, the frozen
-   lines the system respects, are drawn in the bone accent. Chrome is flat and
-   square: no glow, no pills, so colour on a page always means data.
+/* crispr-hindcast: a dashboard of tiles on warm near-black.
+   One dusk gradient, copper at the top of the viewport fading into the page,
+   sits behind everything. Surfaces and ink are tinted to it, and two filled
+   tiles (copper, bone) carry the figures a page leads with. The cutoff and the threshold, the frozen
+   lines the system respects, are drawn in the bone accent. Chrome is
+   square and takes its only hue from the gradient, so any other colour on a
+   page means data.
 
    Data colours were validated as a set with the dataviz palette validator,
    all pairs: claim gold, came-true green and sealed blue clear CVD dE 8.6 and
@@ -12,25 +14,28 @@
 
 :root {
   /* surfaces */
-  --paper: #111113;
-  --paper-2: #1b1b1f;
-  --paper-3: #26262b;
+  --paper: #141110;
+  --paper-2: #1e1917;
+  --paper-3: #2b2421;
   /* ink */
-  --ink: #ecebe4;
-  --ink-2: #c5c4bc;
-  --muted: #96958d;
-  --rule: #2c2c32;
-  --grid: #232328;
-  --axis: #3c3c44;
+  --ink: #efe9e3;
+  --ink-2: #cfc6be;
+  --muted: #a0958d;
+  --rule: #342c29;
+  --grid: #272120;
+  --axis: #473d39;
   /* chrome: bone */
-  --accent: #d9d6c7;
-  --accent-soft: rgba(217, 214, 199, 0.12);
+  --accent: #dcd3c6;
+  --accent-soft: rgba(220, 211, 198, 0.12);
+  /* the dusk gradient behind the page */
+  --dusk-top: #6f5248;
+  --dusk-mid: #382a27;
   /* filled tiles */
-  --tile-blue: #4f6299;
-  --tile-blue-ink: #f4f3ee;
-  --tile-bone: #d6d3c5;
-  --tile-bone-ink: #17171a;
-  --tile-bone-ink-2: #4a4942;
+  --tile-copper: #7f5c50;
+  --tile-copper-ink: #f6f1ec;
+  --tile-bone: #d9d0c3;
+  --tile-bone-ink: #1a1514;
+  --tile-bone-ink-2: #4d443e;
   /* data */
   --claim: #c28623;
   --claim-soft: rgba(194, 134, 35, 0.16);
@@ -60,6 +65,16 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+/* Fixed to the viewport, so the copper stays at the top while content scrolls. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, var(--dusk-top) 0%, var(--dusk-mid) 40%, var(--paper) 82%);
+  pointer-events: none;
 }
 
 body {
@@ -448,14 +463,14 @@ a.card:hover .go::after {
 .tile .foot { margin-top: auto; }
 
 /* Filled tiles re-point the ink tokens, so everything inside stays readable. */
-.tile.blue {
-  --ink: var(--tile-blue-ink);
-  --ink-2: var(--tile-blue-ink);
-  --muted: var(--tile-blue-ink);
-  --accent: var(--tile-blue-ink);
-  --rule: color-mix(in srgb, var(--tile-blue-ink) 30%, transparent);
-  background: var(--tile-blue);
-  border-color: var(--tile-blue);
+.tile.copper {
+  --ink: var(--tile-copper-ink);
+  --ink-2: var(--tile-copper-ink);
+  --muted: var(--tile-copper-ink);
+  --accent: var(--tile-copper-ink);
+  --rule: color-mix(in srgb, var(--tile-copper-ink) 30%, transparent);
+  background: var(--tile-copper);
+  border-color: var(--tile-copper);
 }
 
 .tile.bone {
@@ -518,7 +533,7 @@ a.tile:hover .arrow {
   color: var(--paper-2);
 }
 
-.tile.blue a.arrow:hover, a.tile.blue:hover .arrow { color: var(--tile-blue); }
+.tile.copper a.arrow:hover, a.tile.copper:hover .arrow { color: var(--tile-copper); }
 .tile.bone a.arrow:hover, a.tile.bone:hover .arrow { color: var(--tile-bone); }
 
 /* Tile figures stay in the UI sans with proportional digits, and count up

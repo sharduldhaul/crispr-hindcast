@@ -102,7 +102,7 @@ export default function Home() {
         </section>
 
         {/* ---------- headline figures ---------- */}
-        <Link href={`/slices/${PRIMARY_SLICE}#traps`} className="tile blue half rise rise-1">
+        <Link href={`/slices/${PRIMARY_SLICE}#traps`} className="tile copper half rise rise-1">
           <div className="tile-label">
             Traps avoided
             <span className="arrow" aria-hidden>

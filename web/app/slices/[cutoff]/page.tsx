@@ -137,7 +137,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             <CountUp value={card.forecast_size} />
           </div>
         </div>
-        <div className="tile blue half rise rise-2" style={{ "--span": 3 } as React.CSSProperties}>
+        <div className="tile copper half rise rise-2" style={{ "--span": 3 } as React.CSSProperties}>
           <div className="tile-label">Came true</div>
           <div className="kpi foot">
             <CountUp value={hits} />
