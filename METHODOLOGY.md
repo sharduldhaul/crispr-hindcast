@@ -546,6 +546,37 @@ scorecard.
 Gene names in the answer are resolved through the slice exactly as ingested
 records are, so an alias is graded as the gene it names.
 
+### Grounding
+
+Grounding asks whether a claim rests on evidence the model was given. It is
+computed by `llm/grounding.py` from the run record, after grading, with no
+model involved. The grader does not read it.
+
+| Term | Definition |
+| --- | --- |
+| Valid citation | A cited ID the slice holds. |
+| In-context citation | A valid citation that was also among the rows or tool results the model received. |
+| Out-of-context citation | A valid citation the model was not shown. |
+| Post-cutoff citation | A cited ID the slice lacks and the full store holds: a row dated on or after the cutoff. |
+| Fabricated ID | A cited ID that no store holds. |
+| Grounded claim | A claim that cites at least one in-context evidence row that names its gene. |
+
+An evidence row is a measurement or a publication. A measurement names the
+gene it was recorded for. A publication names a gene that ingest matched to it,
+or whose approved symbol stands as a word in its title. A gene's reference
+node carries no evidence, so citing it alone grounds nothing.
+
+Three rates are reported per run, each as a numerator and a denominator:
+citation validity (valid citations over all citations), in-context citations
+over all citations, and the grounded-claim rate (grounded claims over all
+claims). Post-cutoff and fabricated IDs are listed.
+
+What the grounded-claim rate does not say: that the cited row supports the
+claim. A title that names a gene grounds a claim about that gene whatever the
+title reports. The rate is a lower bar than entailment, chosen because it can
+be checked without a judge model. In the `none` condition the model is shown
+nothing, so no claim can be grounded and the rate is 0 by construction.
+
 ### Conventions that differ from the rule-based rows
 
 - **Refusals enter calibration at 0.** The model gives a reason for a refusal

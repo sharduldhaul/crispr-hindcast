@@ -8,7 +8,8 @@ The separation that matters here: the forecaster is handed the slice and the
 candidate symbols and nothing else. The rule book is read in this module for
 two purposes only, to drop candidates whose role was already established
 before the cutoff (the rule-based forecaster is told the same) and to grade
-the finished forecast. The traps are built after the model has answered.
+the finished forecast. The traps are built after the model has answered, and
+grounding is checked last, as a separate step the grader never sees.
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ from hindcast.agents.adversary import Adversary
 from hindcast.agents.grader import Grader, Scorecard
 from hindcast.llm.client import DEFAULT_MODEL_ID, ReplayCache, Transport
 from hindcast.llm.forecaster import LLMForecaster, ModelRun, RetrievalCondition, RunStatus
+from hindcast.llm.grounding import GroundingReport, check_grounding
 from hindcast.pipeline import DEFAULT_DB, RESULTS_DIR, _check_alias_resolution, load_rulebook
 from hindcast.provenance import ProvenanceReport
 from hindcast.scope import ALL_SCOPE_GENES
@@ -35,7 +37,7 @@ LLM_RESULTS_DIR = RESULTS_DIR / "llm"
 class LLMSliceResult(BaseModel):
     """One language-model row: what was asked, what came back and how it scored.
 
-    `scorecard` is present exactly when `run.status` is `ran`.
+    `scorecard` and `grounding` are present exactly when `run.status` is `ran`.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -44,6 +46,7 @@ class LLMSliceResult(BaseModel):
     run_id: str
     run: ModelRun
     scorecard: Scorecard | None = None
+    grounding: GroundingReport | None = None
     trap_count: int = 0
     provenance_report: ProvenanceReport | None = None
     slice_manifest: dict[str, str] = Field(default_factory=dict)
@@ -120,6 +123,9 @@ def run_llm_slice(
                     "not apply: the model is not asked for a therapeutic route."
                 )
                 result.scorecard = card
+                # After the grader, and never passed to it: the grader scores
+                # the forecast and stays blind to how it was supported.
+                result.grounding = check_grounding(run, slice_store, store)
                 result.trap_count = len(traps.traps)
                 result.provenance_report = prov
 
