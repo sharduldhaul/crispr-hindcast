@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Link from "next/link";
 
 import { Nav } from "@/components/Nav";
 
 import "./globals.css";
 
-const display = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display",
-  axes: ["SOFT", "WONK", "opsz"],
-  display: "swap",
-});
-
 const body = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-body",
   display: "swap",
 });
@@ -35,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${body.variable} ${mono.variable}`}>
       <body>
         <div className="ambient" aria-hidden />
         <header className="masthead">
@@ -50,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <footer className="footer">
           <div className="wrap">
-            <span>The rule-based system uses no language model. Every judgement is a stated rule, every number traces to a source row.</span>
+            <span>Every number traces to a source row.</span>
             <span>Code MIT · each dataset keeps its own license</span>
           </div>
         </footer>

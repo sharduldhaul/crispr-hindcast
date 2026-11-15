@@ -14,8 +14,7 @@ function Hosted() {
       <div className="eyebrow">Run the pipeline</div>
       <h1>Reproduce every number yourself.</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 32 }}>
-        This site is read-only: it shows the committed results and runs nothing. The pipeline runs from a clone, offline and with
-        no API keys.
+        This site shows the committed results and runs nothing. The pipeline runs from a clone, offline, with no API keys.
       </p>
       <div className="callout neutral" style={{ marginBottom: 32 }}>
         <p>
@@ -48,8 +47,7 @@ export default function RunPage() {
       <div className="eyebrow">Run the pipeline</div>
       <h1>Reproduce every number yourself.</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 44 }}>
-        Each action runs the project’s own command-line tool on this machine and streams its output. Nothing is sent anywhere: the
-        data is the committed snapshot, and there are no API keys.
+        Each action runs the command-line tool on this machine, on the committed snapshot, with no API keys.
       </p>
       <RunConsole slices={SLICES} ablations={ABLATIONS} primary={PRIMARY_SLICE} status={environmentStatus()} />
     </div>

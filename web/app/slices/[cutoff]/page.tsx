@@ -130,42 +130,47 @@ export default async function SlicePage({ params, searchParams }: { params: Para
       {header}
 
       {/* ---------- headline ---------- */}
-      <section className="stats" style={{ marginTop: 48 }}>
-        <div className="stat accent rise rise-1">
-          <div className="value">
+      <section className="bento" style={{ marginTop: 32 }}>
+        <div className="tile half rise rise-1" style={{ "--span": 3 } as React.CSSProperties}>
+          <div className="tile-label">Genes named</div>
+          <div className="kpi foot">
             <CountUp value={card.forecast_size} />
           </div>
-          <div className="label">genes named as the next discoveries</div>
         </div>
-        <div className="stat ok rise rise-2">
-          <div className="value">
+        <div className="tile blue half rise rise-2" style={{ "--span": 3 } as React.CSSProperties}>
+          <div className="tile-label">Came true</div>
+          <div className="kpi foot">
             <CountUp value={hits} />
-            <small>of {card.forecast_size}</small>
+            <small>/ {card.forecast_size}</small>
           </div>
-          <div className="label">
-            came true <span className="muted mono small">· P@5 {num(ranking?.precision_at_5)} · MRR {num(ranking?.mean_reciprocal_rank)}</span>
-          </div>
+          <p className="sub mono">
+            P@5 {num(ranking?.precision_at_5)} · MRR {num(ranking?.mean_reciprocal_rank)}
+          </p>
         </div>
-        <div className="stat future rise rise-3">
-          <div className="value">
+        <div className="tile half rise rise-3" style={{ "--span": 3 } as React.CSSProperties}>
+          <div className="tile-label">Found after {year(cutoff)}</div>
+          <div className="kpi foot">
             <CountUp value={card.ground_truth_symbols.length} />
           </div>
-          <div className="label">found by the field after {year(cutoff)}</div>
         </div>
-        <div className="stat rise rise-4">
-          <div className="value">
-            <CountUp value={card.traps_passed} />
-            <small>/{card.traps_total}</small>
+        <a href="#traps" className="tile bone half rise rise-4" style={{ "--span": 3 } as React.CSSProperties}>
+          <div className="tile-label">
+            Traps avoided
+            <span className="arrow" aria-hidden>
+              ↓
+            </span>
           </div>
-          <div className="label">trick questions avoided</div>
-        </div>
+          <div className="kpi foot">
+            <CountUp value={card.traps_passed} />
+            <small>/ {card.traps_total}</small>
+          </div>
+        </a>
       </section>
 
       {/* ---------- answer key ---------- */}
       <section className="section">
         <div className="section-head">
-          <h2>The envelope, opened</h2>
-          <p>Every gene the field established after {longDate(cutoff)}, and what the system said about it beforehand.</p>
+          <h2>Answer key</h2>
         </div>
         <div className="chips unseal">
           {card.ground_truth_symbols.map((s, i) => {
@@ -183,14 +188,14 @@ export default async function SlicePage({ params, searchParams }: { params: Para
         </div>
         <div className="legend">
           <span className="v-hit">
-            <span className="dot" /> Predicted, with its rank
+            <span className="dot" /> predicted, rank
           </span>
           <span className="v-missed">
-            <span className="dot ring" /> Refused, with its confidence
+            <span className="dot ring" /> refused, confidence
           </span>
           {card.ground_truth_symbols.some((s) => !forecastBySymbol.has(s) && !refusalBySymbol.has(s)) && (
             <span className="v-none">
-              <span className="dot ring" /> Never weighed: no pre-cutoff evidence at all
+              <span className="dot ring" /> no evidence before the cutoff
             </span>
           )}
         </div>
@@ -209,14 +214,6 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             </Link>
           </nav>
         </div>
-        <p className="muted small" style={{ maxWidth: "72ch", marginTop: -8 }}>
-          {rank === "cost"
-            ? "Confidence times the cost weight of the likely treatment route, so a cheap pill outranks a multi-million-dollar cell therapy at similar confidence."
-            : "Ranked by how strongly the pre-cutoff evidence supports each claim."}{" "}
-          {card.cost_lens_reordered === 0
-            ? "At this cutoff the two rankings are identical."
-            : `The cost weighting moves ${card.cost_lens_reordered} of ${card.forecast_size}.`}
-        </p>
         {showSlope && (
           <div className="card" style={{ marginBottom: 28, padding: "18px 22px" }}>
             <RankSlope
@@ -316,8 +313,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
       {/* ---------- decision line ---------- */}
       <section className="section">
         <div className="section-head">
-          <h2>Where the line fell</h2>
-          <p>Every gene the system weighed, by confidence. The threshold was frozen in git before the first run and never moved.</p>
+          <h2>Decision threshold</h2>
         </div>
         <DecisionSwarm points={decision} threshold={threshold} />
         <div className="legend">
@@ -343,7 +339,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             {threshold - closest[0].confidence > 0
               ? `${(threshold - closest[0].confidence).toFixed(3)} under the line`
               : "on the line"}
-            . The field found {closest.length > 1 ? "both" : "it"} anyway.
+            .
           </p>
         )}
         {result.forecast.refusals.length > 0 && (
@@ -365,10 +361,9 @@ export default async function SlicePage({ params, searchParams }: { params: Para
       </section>
 
       {/* ---------- traps ---------- */}
-      <section className="section">
+      <section className="section" id="traps">
         <div className="section-head">
-          <h2>Trick questions</h2>
-          <p>Planted before grading, drawn from the data itself. The system never knows which genes are traps.</p>
+          <h2>Traps</h2>
         </div>
         <div className="grid grid-3">
           {trapKinds.map(({ kind, meta, traps }) => {
@@ -381,8 +376,9 @@ export default async function SlicePage({ params, searchParams }: { params: Para
                     {passed}/{traps.length} passed
                   </span>
                 </div>
-                <h3 style={{ marginTop: 6 }}>{meta.label}</h3>
-                <p className="small muted">{meta.plain}</p>
+                <h3 style={{ marginTop: 6, marginBottom: 14 }} title={meta.plain}>
+                  {meta.label}
+                </h3>
                 <div className="chips" style={{ gap: 6 }}>
                   {traps.map((t) => (
                     <Link
@@ -406,24 +402,20 @@ export default async function SlicePage({ params, searchParams }: { params: Para
       <section className="section grid grid-2" style={{ alignItems: "start" }}>
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <h3>Is its confidence honest?</h3>
+            <h3>Calibration</h3>
             <span className="mono small muted">ECE {num(card.expected_calibration_error, 3)}</span>
           </div>
-          <p className="small muted">
-            Said “30% likely” a hundred times, about thirty should come true. Bars show how often claims at each level did; the dashed
-            line is perfect honesty. Over {claimsCalibrated} claims, several bins nearly empty, so read it roughly.
-          </p>
+          <p className="small muted">{claimsCalibrated} claims; sparse bins.</p>
           <Calibration bins={card.calibration_bins} claims={decision} />
           <p className="viz-hint" style={{ margin: "10px 0 0" }}>
-            Click a band to open it: each claim drops to the top if it came true, the bottom if not.
+            Click a band to see its claims.
           </p>
         </div>
         {heldout && (
           <div className="card">
             <h3>Held-out recovery</h3>
             <p className="small muted">
-              Hide a gene’s lab measurements and check whether it can still be reached from what remains. {heldout.recovered} of{" "}
-              {heldout.genes_tested} recovered. A rate over one or two genes is not evidence of much.
+              Lab measurements hidden: {heldout.recovered} of {heldout.genes_tested} genes still reached.
             </p>
             {tested.length > 0 && (
               <>
@@ -454,8 +446,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             )}
             {heldout.holdouts.length > tested.length && (
               <p className="small muted" style={{ marginTop: 12, marginBottom: 0 }}>
-                {heldout.holdouts.length - tested.length} other genes were not reportable even with their measurements, so there was
-                nothing to recover.
+                {heldout.holdouts.length - tested.length} other genes were below the threshold even with their measurements.
               </p>
             )}
           </div>
@@ -466,7 +457,6 @@ export default async function SlicePage({ params, searchParams }: { params: Para
       <section className="section">
         <div className="section-head">
           <h2>Audit trail</h2>
-          <p>The grader’s own notes, and what was checked to produce this page.</p>
         </div>
         <div className="grid grid-2" style={{ alignItems: "start" }}>
           <div style={{ display: "grid", gap: 10 }}>

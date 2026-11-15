@@ -35,7 +35,7 @@ export default function GenesPage() {
       <div className="eyebrow">Genes</div>
       <h1>Look up a gene.</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 36 }}>
-        Every gene the system weighed, planted as a trap, or found in an answer key, with what it said at each cutoff.
+        Every gene weighed, planted as a trap, or in an answer key.
       </p>
       <GeneSearch
         genes={geneIndex()}
