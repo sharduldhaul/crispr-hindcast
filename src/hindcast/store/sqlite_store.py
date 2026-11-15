@@ -52,6 +52,20 @@ PROV_COLUMNS = (
 NODE_COLUMNS = ("id", "type", "label", "attrs", *PROV_COLUMNS)
 EDGE_COLUMNS = ("id", "type", "src", "dst", "attrs", *PROV_COLUMNS)
 
+#: The text indexes over publication titles, and the shadow tables FTS5 keeps
+#: for `title_fts`. They exist only in a slice and are built during
+#: materialization from rows the slice already holds, so they can name no row
+#: the slice does not contain.
+TITLE_INDEX_TABLES = (
+    "title_fts",
+    "title_fts_data",
+    "title_fts_idx",
+    "title_fts_content",
+    "title_fts_docsize",
+    "title_fts_config",
+    "title_embedding",
+)
+
 #: Tables a slice connection may read. Anything else is denied by the authorizer.
 #: `json_each` and `json_tree` are SQLite's built-in table-valued functions, not
 #: stored tables. They hold no rows of their own, only the JSON handed to them
@@ -66,6 +80,7 @@ SLICE_READABLE = frozenset(
         "sqlite_sequence",
         "json_each",
         "json_tree",
+        *TITLE_INDEX_TABLES,
     }
 )
 
@@ -453,10 +468,19 @@ class Store(_Readable):
 
     # -- slicing ----------------------------------------------------------
 
-    def open_slice(self, cutoff: date | str, *, work_dir: Path | str | None = None) -> SliceStore:
+    def open_slice(
+        self,
+        cutoff: date | str,
+        *,
+        work_dir: Path | str | None = None,
+        title_embeddings: Path | str | None = None,
+    ) -> SliceStore:
         """Materialize and open the evidence visible strictly before `cutoff`.
 
         The returned object cannot reach this store. See the module docstring.
+        `title_embeddings` names the embedding cache built by
+        `hindcast.llm.retrieval`; the slice receives only the vectors of
+        publications it contains.
         """
         cutoff_iso = _iso(cutoff)
         assert cutoff_iso is not None
@@ -466,10 +490,14 @@ class Store(_Readable):
         if slice_path.exists():
             slice_path.unlink()
 
-        counts = self._materialize(slice_path, cutoff_iso)
+        counts = self._materialize(
+            slice_path, cutoff_iso, Path(title_embeddings) if title_embeddings else None
+        )
         return SliceStore(slice_path, cutoff_iso, counts)
 
-    def _materialize(self, slice_path: Path, cutoff_iso: str) -> SliceCounts:
+    def _materialize(
+        self, slice_path: Path, cutoff_iso: str, title_embeddings: Path | None = None
+    ) -> SliceCounts:
         """Copy pre-cutoff rows into a fresh database, then drop dangling edges.
 
         Done from a connection on the new file that attaches the full store, so
@@ -519,6 +547,8 @@ class Store(_Readable):
                     f"rows outside the slice"
                 )
 
+            _build_title_indexes(con, title_embeddings)
+
             n = int(con.execute("SELECT count(*) FROM node").fetchone()[0])
             e = int(con.execute("SELECT count(*) FROM edge").fetchone()[0])
             with con:
@@ -545,6 +575,38 @@ class Store(_Readable):
 
     def __exit__(self, *exc: object) -> None:
         self.close()
+
+
+def _build_title_indexes(con: sqlite3.Connection, title_embeddings: Path | None) -> None:
+    """Index the titles of the publications already copied into the slice.
+
+    Both indexes are filled by selecting from the slice's own `node` table, after
+    the cutoff has been applied to it. Neither is filled from the full store, so
+    a title or vector dated on or after the cutoff has no route in. The embedding
+    cache is joined on node ID and title, which drops a vector computed for a
+    title that has since changed.
+    """
+    with con:
+        con.execute("CREATE VIRTUAL TABLE title_fts USING fts5(node_id UNINDEXED, title)")
+        con.execute(
+            "INSERT INTO title_fts (node_id, title) "
+            "SELECT id, label FROM node WHERE type = 'Publication' ORDER BY id"
+        )
+        con.execute(
+            "CREATE TABLE title_embedding ("
+            "node_id TEXT PRIMARY KEY REFERENCES node(id), vector BLOB NOT NULL)"
+        )
+    if title_embeddings is None:
+        return
+    con.execute("ATTACH DATABASE ? AS embeddings", (str(title_embeddings),))
+    with con:
+        con.execute(
+            "INSERT INTO title_embedding (node_id, vector) "
+            "SELECT e.node_id, e.vector FROM embeddings.title_embedding e "
+            "JOIN node n ON n.id = e.node_id AND n.label = e.title "
+            "WHERE n.type = 'Publication' ORDER BY e.node_id"
+        )
+    con.execute("DETACH DATABASE embeddings")
 
 
 class SliceStore(_Readable):
@@ -575,6 +637,10 @@ class SliceStore(_Readable):
         """
         if action == SQLITE_READ:
             return SQLITE_OK if (arg1 or "") in SLICE_READABLE else SQLITE_DENY
+        if action == SQLITE_PRAGMA:
+            # FTS5 reads `data_version` to notice a changed index. It is the
+            # only pragma a slice read needs, and it writes nothing.
+            return SQLITE_OK if arg1 == "data_version" and arg2 is None else SQLITE_DENY
         if action in SLICE_ALLOWED_ACTIONS:
             return SQLITE_OK
         return SQLITE_DENY

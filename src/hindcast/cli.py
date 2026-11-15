@@ -4,6 +4,8 @@ hindcast build                  build the graph from the committed snapshot
 hindcast slice --cutoff DATE    run one evaluation slice
 hindcast run-all                run every slice and every ablation
 hindcast llm --cutoff DATE      run the language-model forecaster on one slice
+hindcast embed-titles           embed publication titles into the local cache
+hindcast retrieve               write the text retrieval record for every cutoff
 hindcast scorecard              render the scorecard table from results
 hindcast verify                 run the checks that must pass to ship
 """
@@ -19,9 +21,10 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from hindcast.llm import retrieval
 from hindcast.llm.client import DEFAULT_MODEL_ID, ModelTransportError, anthropic_transport
 from hindcast.llm.forecaster import RetrievalCondition, RunStatus
-from hindcast.llm.run import LLMSliceResult, run_llm_slice
+from hindcast.llm.run import LLMSliceResult, candidate_symbols, run_llm_slice
 from hindcast.pipeline import (
     ABLATIONS,
     DEFAULT_DB,
@@ -29,12 +32,14 @@ from hindcast.pipeline import (
     SNAPSHOT_DIR,
     build_graph,
     build_snapshot,
+    load_rulebook,
     load_snapshot,
     run_all_slices,
     run_heldout,
     run_slice,
 )
 from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
+from hindcast.store import Store
 
 app = typer.Typer(add_completion=False, help=__doc__)
 console = Console()
@@ -179,6 +184,52 @@ def llm(
         console.print(f"the model call failed and nothing was written: {exc}")
         raise typer.Exit(1) from None
     _print_llm_result(result)
+
+
+@app.command("embed-titles")
+def embed_titles(db: Path = typer.Option(DEFAULT_DB)) -> None:
+    """Embed every publication title into the local cache. Needs the `llm` extra.
+
+    The first run downloads the embedding model. Titles already in the cache
+    are skipped.
+    """
+    store = Store(db)
+    try:
+        report = retrieval.build_title_embeddings(store)
+    finally:
+        store.close()
+    console.print(
+        f"{report.titles_embedded} of {report.titles_total} titles embedded with "
+        f"{report.embedding_model} in {report.seconds} s; "
+        f"cache is {report.size_bytes / 1e6:.1f} MB"
+    )
+
+
+@app.command()
+def retrieve(db: Path = typer.Option(DEFAULT_DB)) -> None:
+    """Compute text retrieval for every cutoff and write the records. Needs the `llm` extra.
+
+    Run `hindcast embed-titles` first. The records in
+    eval/model_cache/retrieval/ are what a `text` run replays.
+    """
+    if not retrieval.EMBEDDINGS_DB.exists():
+        console.print("no embedding cache; run `hindcast embed-titles` first")
+        raise typer.Exit(1)
+    establishment = load_rulebook()
+    embed_query = retrieval.fastembed_embedder(query=True)
+    store = Store(db)
+    try:
+        for cutoff in ALL_SLICES:
+            with store.open_slice(cutoff, title_embeddings=retrieval.EMBEDDINGS_DB) as sl:
+                sl.assert_no_leak()
+                record = retrieval.retrieve(
+                    sl, candidate_symbols(establishment, cutoff), embed_query=embed_query
+                )
+            path = retrieval.write_record(record)
+            rows = sum(len(g.node_ids) for g in record.genes)
+            console.print(f"{cutoff}: {rows} rows for {len(record.genes)} genes -> {path.name}")
+    finally:
+        store.close()
 
 
 def _print_llm_result(result: LLMSliceResult) -> None:

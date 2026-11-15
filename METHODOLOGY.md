@@ -457,7 +457,45 @@ after it has answered.
 
 The retrieval condition sets what evidence the prompt carries. In `none` it
 carries no evidence, so the row measures what the model answers from its
-training alone.
+training alone. In `text` it carries publication titles retrieved from the
+slice, described next.
+
+### Text retrieval
+
+Code: `src/hindcast/llm/retrieval.py`. For each candidate gene, two rankers
+search the titles of the publications in the slice, and their results are fused.
+
+- **Lexical.** BM25 over an FTS5 index of titles. The query is the gene symbol,
+  so this ranker returns titles that name the gene.
+- **Dense.** Cosine similarity between a query sentence (`DENSE_QUERY`, which
+  names the gene and the phenotype) and a vector for each title. The search is
+  exact: the query is compared with every vector in the slice. At this size, a
+  few tens of thousands of titles per slice, exact search takes well under a
+  second per slice, so an approximate index would add a recall parameter and
+  save nothing.
+- **Fusion.** Reciprocal rank fusion: a title scores 1 / (`RRF_K` + rank) under
+  each ranker that returns it, and the scores are summed. Ties are broken by ID.
+
+Both indexes live inside the slice database. The title index is built during
+materialization from the publication rows the slice already holds. Vectors are
+computed once per title into a local cache, and the slice copies only the
+vectors of publications it contains. A post-cutoff title therefore has no index
+entry and no vector in the slice, and `tests/test_slice_leak.py` asserts both.
+
+The prompt lists each retrieved row as its node ID, publication date and title,
+under the gene it was retrieved for. Only titles are searched and shown: the
+repository commits no abstracts or article text.
+
+The ranked IDs for each cutoff are committed as a retrieval record in
+`eval/model_cache/retrieval/`. A run replays the record, reading each ID back
+through the slice connection, and stops with an error if the slice does not hold
+one. The embedding model is therefore needed to write a record and not to
+replay one. With no record the row is `not_run`; there is no fallback to the
+lexical ranker alone.
+
+The symbol-only lexical query does not match a title that uses an alias, and a
+symbol that is also a common word or abbreviation can match unrelated titles.
+The row measures retrieval as specified here, with those limits.
 
 ### What counts as an answer
 
@@ -490,6 +528,10 @@ records are, so an alias is graded as the gene it names.
 | `EFFORT` | `medium` | The provider's default for this model, set explicitly so a change of default cannot change a result. Sampling parameters are not accepted by this model and none are sent. |
 | `MAX_OUTPUT_TOKENS` | 16000 | Covers reasoning and a full answer over the candidate list. A response that reaches the limit is a failure. |
 | `MAX_TRANSPORT_RETRIES` | 2 | The SDK default, for connection errors and HTTP 408, 409, 429 and 5xx only. |
+| `EMBEDDING_MODEL` | `BAAI/bge-small-en-v1.5` | A small open model (MIT license, 384 dimensions) that runs locally on a CPU through fastembed, so computing retrieval sends no data to a third party and needs no key. |
+| `RRF_K` | 60 | The constant from the paper that introduced reciprocal rank fusion (Cormack, Clarke and Büttcher, SIGIR 2009). Not tuned here. |
+| `RANKER_DEPTH` | 50 | Rows each ranker contributes per gene before fusion. Ten times the rows kept, so a row needs a high rank under one ranker or a moderate rank under both. |
+| `ROWS_PER_GENE` | 5 | Fused rows per gene in the prompt. Keeps the evidence for all candidates in one request. |
 | `PRICES_USD_PER_MILLION_TOKENS` | 4 input, 20 output | List price for the pinned model. `cost_usd` is input and output tokens at these prices. |
 
 ### Replay

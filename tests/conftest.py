@@ -35,9 +35,11 @@ def _trajectories_to_tmp(tmp_path: Path, monkeypatch) -> None:
 def _model_outputs_to_tmp(tmp_path: Path, monkeypatch) -> None:
     """Keep test runs out of the committed model cache and result directories."""
     import hindcast.llm.client as client
+    import hindcast.llm.retrieval as retrieval
     import hindcast.llm.run as run
 
     monkeypatch.setattr(client, "CACHE_DIR", tmp_path / "model_cache")
+    monkeypatch.setattr(retrieval, "RETRIEVAL_DIR", tmp_path / "model_cache" / "retrieval")
     monkeypatch.setattr(run, "LLM_RESULTS_DIR", tmp_path / "results")
 
 

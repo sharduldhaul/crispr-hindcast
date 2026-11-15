@@ -34,3 +34,17 @@ hindcast llm --cutoff 2017-12-31 --retrieval none --live
 ```
 
 The key is read from the environment by the SDK and is never written here.
+
+## Retrieval records
+
+`retrieval/<cutoff>.json` holds, for the `text` condition, the publication IDs
+retrieved for each candidate gene and the parameters that produced them. A run
+reads each ID back through the slice, so a record can name only rows dated
+before its cutoff. To recompute the records, install the `llm` extra and run:
+
+```bash
+hindcast embed-titles   # once; downloads the embedding model on first use
+hindcast retrieve
+```
+
+[METHODOLOGY.md](../../METHODOLOGY.md#text-retrieval) describes the retrieval.

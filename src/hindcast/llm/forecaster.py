@@ -36,6 +36,7 @@ from hindcast.llm.client import (
     Transport,
     cost_usd,
 )
+from hindcast.llm.retrieval import EvidenceRow, evidence_rows, load_record
 from hindcast.models import CostClass
 from hindcast.store import SliceStore
 
@@ -44,6 +45,7 @@ class RetrievalCondition(StrEnum):
     """What evidence the model is given."""
 
     NONE = "none"
+    TEXT = "text"
 
 
 class RunStatus(StrEnum):
@@ -91,6 +93,17 @@ NO_EVIDENCE = (
     "No evidence rows are provided. Answer from what was known before the cutoff "
     "date, and leave cited_ids empty for every claim."
 )
+
+#: Heading of the evidence block for the `text` condition.
+TEXT_EVIDENCE_HEADER = (
+    "Each row is a publication dated before the cutoff, written as "
+    "[ID] publication date | title, under the candidate gene it was retrieved for. "
+    "Rows were retrieved by title search. A row being listed does not mean it "
+    "supports a claim. Cite a row by the ID in its brackets."
+)
+
+#: Written under a gene for which retrieval returned nothing.
+NO_ROWS = "(no rows)"
 
 #: The response schema sent to the API. It mirrors `ModelAnswer`; the range of
 #: `confidence` is checked on parsing because the schema cannot state it.
@@ -208,10 +221,29 @@ class LLMForecaster(Agent):
         self.trajectory.environment["model"] = model_id
         candidates = sorted(candidates)
 
+        evidence = NO_EVIDENCE
+        context_node_ids: list[str] = []
+        retrieval_missing = False
+        if condition is RetrievalCondition.TEXT:
+            with self.tool("replay_retrieval", cutoff=slice_store.cutoff) as call:
+                record = load_record(slice_store.cutoff, candidates)
+                if record is None:
+                    retrieval_missing = True
+                    call.result_summary = "no retrieval record: not run"
+                else:
+                    by_gene = evidence_rows(record, slice_store)
+                    evidence = _text_evidence(by_gene)
+                    context_node_ids = sorted({r.node_id for _, rows in by_gene for r in rows})
+                    call.records_out = len(context_node_ids)
+                    call.result_summary = (
+                        f"{len(context_node_ids)} publications for {len(by_gene)} genes, "
+                        f"read back through the slice"
+                    )
+
         prompt = TASK_PROMPT.format(
             cutoff=slice_store.cutoff,
             candidates="\n".join(candidates),
-            evidence=NO_EVIDENCE,
+            evidence=evidence,
         )
         request = ModelRequest(
             model_id=model_id,
@@ -226,6 +258,7 @@ class LLMForecaster(Agent):
             model_id=model_id,
             prompt_hash=hashlib.sha256(f"{SYSTEM_PROMPT}\n{prompt}".encode()).hexdigest(),
             candidate_symbols=candidates,
+            context_node_ids=context_node_ids,
         )
         inputs = {
             "cutoff": slice_store.cutoff,
@@ -234,6 +267,14 @@ class LLMForecaster(Agent):
             "candidates": len(candidates),
             "prompt_hash": run.prompt_hash,
         }
+
+        if retrieval_missing:
+            run.status_reason = (
+                "No retrieval record for this cutoff in eval/model_cache/retrieval/. "
+                "Run `hindcast embed-titles` and `hindcast retrieve` to write one."
+            )
+            self.finish(_summary(run), inputs=inputs)
+            return run
 
         response = self._call(request, run, cache, transport)
         if response is None:
@@ -319,6 +360,17 @@ class LLMForecaster(Agent):
                 f"{response.output_tokens} output tokens, stop_reason {response.stop_reason}"
             )
             return response
+
+
+def _text_evidence(by_gene: list[tuple[str, list[EvidenceRow]]]) -> str:
+    lines = [TEXT_EVIDENCE_HEADER]
+    for symbol, rows in by_gene:
+        lines.append("")
+        lines.append(symbol)
+        if not rows:
+            lines.append(NO_ROWS)
+        lines.extend(f"[{r.node_id}] {r.publication_date} | {r.title}" for r in rows)
+    return "\n".join(lines)
 
 
 def _summary(run: ModelRun) -> dict[str, Any]:
