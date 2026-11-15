@@ -12,7 +12,7 @@ the same name in `diagrams/`, which opens in
 
 ```bash
 npx -y @excalidraw/cli@0.3.0 render diagrams/<name>.excalidraw \
-  --out diagrams/<name>.png --theme dark --scale 2 --padding 24
+  --out diagrams/<name>.png --scale 2 --padding 28
 ```
 
 The results chart in the README is the one scene that is generated:

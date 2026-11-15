@@ -23,13 +23,14 @@ from render_scorecard import ROOT, load, load_llm
 
 OUT = ROOT / "diagrams" / "results.excalidraw"
 
-INK = "#1e1e1e"
-MUTED = "#868e96"
+BACKGROUND = "#0d1117"
+INK = "#e6edf3"
+MUTED = "#8b949e"
 # (stroke, fill), the colour code every diagram in diagrams/ shares.
-VIOLET = ("#6741d9", "#d0bfff")
-ORANGE = ("#e8590c", "#ffd8a8")
-GREEN = "#2f9e44"
-RED = "#e03131"
+VIOLET = ("#b8a1ff", "#3a2f66")
+ORANGE = ("#f0a35e", "#6b4420")
+GREEN = "#5fd3a2"
+RED = "#f2777f"
 
 #: One bar per forecaster: short label, colours and fill style. The three model
 #: bars share the model's orange and differ by fill, lightest for no evidence.
@@ -68,9 +69,9 @@ class Scene:
             "strokeColor": INK,
             "backgroundColor": "transparent",
             "fillStyle": "solid",
-            "strokeWidth": 2,
+            "strokeWidth": 1.5,
             "strokeStyle": "solid",
-            "roughness": 1,
+            "roughness": 0,
             "opacity": 100,
             "groupIds": [],
             "frameId": None,
@@ -110,7 +111,7 @@ class Scene:
             text=content,
             originalText=content,
             fontSize=size,
-            fontFamily=5,
+            fontFamily=6,
             textAlign=align,
             verticalAlign="top",
             containerId=None,
@@ -166,7 +167,7 @@ class Scene:
             "source": "https://github.com/sharduldhaul/crispr-hindcast",
             "elements": self.elements,
             "appState": {
-                "viewBackgroundColor": "#ffffff",
+                "viewBackgroundColor": BACKGROUND,
                 "exportBackground": True,
                 "gridSize": None,
             },
