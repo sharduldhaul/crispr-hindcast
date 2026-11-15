@@ -1,14 +1,14 @@
 {
   "agent": "baseline_flat_literature",
-  "duration_ms": 577.16,
+  "duration_ms": 626.826,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
-    "platform": "macOS-27.0-arm64-arm-64bit",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T07:49:12.646546+00:00",
+  "finished_at": "2026-11-15T05:13:41.945744+00:00",
   "inputs": {},
   "notes": [],
   "output_summary": {
@@ -27,11 +27,11 @@
     ]
   },
   "run_id": "2020-12-31_no-graph",
-  "started_at": "2026-09-18T07:49:12.069371+00:00",
+  "started_at": "2026-11-15T05:13:41.318903+00:00",
   "tool_calls": [
     {
       "args": {},
-      "duration_ms": 564.434,
+      "duration_ms": 613.324,
       "name": "count_publications_per_gene",
       "records_in": 0,
       "records_out": 62,
@@ -39,7 +39,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.171,
+      "duration_ms": 0.179,
       "name": "rank_by_count",
       "records_in": 0,
       "records_out": 62,

@@ -1,14 +1,14 @@
 {
   "agent": "axiom_extractor",
-  "duration_ms": 1804.503,
+  "duration_ms": 1818.636,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
-    "platform": "macOS-27.0-arm64-arm-64bit",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T07:45:42.557697+00:00",
+  "finished_at": "2026-11-15T05:09:59.082987+00:00",
   "inputs": {
     "cutoff": "2014-12-31",
     "measurements": 429
@@ -26,13 +26,13 @@
     "rejected": 0
   },
   "run_id": "2014-12-31_no-ontology-normalization",
-  "started_at": "2026-09-18T07:45:40.753186+00:00",
+  "started_at": "2026-11-15T05:09:57.264335+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2014-12-31"
       },
-      "duration_ms": 3.575,
+      "duration_ms": 3.629,
       "name": "load_measurements",
       "records_in": 0,
       "records_out": 429,
@@ -40,7 +40,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.27,
+      "duration_ms": 0.115,
       "name": "compute_replication_and_genetic_support",
       "records_in": 0,
       "records_out": 6,
@@ -48,7 +48,7 @@
     },
     {
       "args": {},
-      "duration_ms": 5.594,
+      "duration_ms": 5.645,
       "name": "weight_measurements",
       "records_in": 429,
       "records_out": 429,
@@ -56,7 +56,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.209,
+      "duration_ms": 0.16,
       "name": "extract_genetic_support_axioms",
       "records_in": 0,
       "records_out": 6,
@@ -64,7 +64,7 @@
     },
     {
       "args": {},
-      "duration_ms": 5.438,
+      "duration_ms": 5.365,
       "name": "extract_essentiality_axioms",
       "records_in": 0,
       "records_out": 58,
@@ -72,7 +72,7 @@
     },
     {
       "args": {},
-      "duration_ms": 4.149,
+      "duration_ms": 4.217,
       "name": "extract_functional_axioms",
       "records_in": 0,
       "records_out": 0,
@@ -80,7 +80,7 @@
     },
     {
       "args": {},
-      "duration_ms": 1779.997,
+      "duration_ms": 1794.273,
       "name": "extract_literature_axioms",
       "records_in": 0,
       "records_out": 58,
@@ -88,7 +88,7 @@
     },
     {
       "args": {},
-      "duration_ms": 1.248,
+      "duration_ms": 1.267,
       "name": "extract_composition_axioms",
       "records_in": 0,
       "records_out": 0,
@@ -96,7 +96,7 @@
     },
     {
       "args": {},
-      "duration_ms": 1.665,
+      "duration_ms": 1.647,
       "name": "extract_modality_axioms",
       "records_in": 0,
       "records_out": 68,
@@ -104,7 +104,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.021,
+      "duration_ms": 0.025,
       "name": "validate",
       "records_in": 190,
       "records_out": 190,

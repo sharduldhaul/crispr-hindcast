@@ -1,14 +1,14 @@
 {
   "agent": "grader",
-  "duration_ms": 0.233,
+  "duration_ms": 61.99,
   "environment": {
     "hindcast_version": "0.1.0",
     "model": "none: all decisions are stated rules, see agents/base.py",
-    "platform": "macOS-27.0-arm64-arm-64bit",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
     "python": "3.12.13",
     "seed": 20171231
   },
-  "finished_at": "2026-09-18T08:04:20.392666+00:00",
+  "finished_at": "2026-11-15T05:10:46.629932+00:00",
   "inputs": {
     "cutoff": "2017-12-31"
   },
@@ -94,10 +94,26 @@
         "FOXO3"
       ],
       "mean_reciprocal_rank": 0.5,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 44,
+        "upper": 1.0
+      },
       "n_ground_truth": 13,
       "n_ranked": 2,
       "precision_at_10": 0.1,
       "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 44,
+        "upper": 0.6
+      },
       "ranking": "confidence"
     },
     "ranking_by_cost_impact": {
@@ -109,10 +125,26 @@
         "FOXO3"
       ],
       "mean_reciprocal_rank": 0.5,
+      "mean_reciprocal_rank_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 44,
+        "upper": 1.0
+      },
       "n_ground_truth": 13,
       "n_ranked": 2,
       "precision_at_10": 0.1,
       "precision_at_5": 0.2,
+      "precision_at_5_interval": {
+        "level": 0.95,
+        "lower": 0.0,
+        "resamples": 2000,
+        "seed": 20171231,
+        "units": 44,
+        "upper": 0.6
+      },
       "ranking": "cost_impact"
     },
     "refusal_accuracy": 1.0,
@@ -278,13 +310,13 @@
     "traps_total": 15
   },
   "run_id": "2017-12-31_full-system",
-  "started_at": "2026-09-18T08:04:20.392419+00:00",
+  "started_at": "2026-11-15T05:10:46.567864+00:00",
   "tool_calls": [
     {
       "args": {
         "cutoff": "2017-12-31"
       },
-      "duration_ms": 0.023,
+      "duration_ms": 0.066,
       "name": "build_ground_truth",
       "records_in": 0,
       "records_out": 13,
@@ -292,7 +324,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.022,
+      "duration_ms": 60.636,
       "name": "score_rankings",
       "records_in": 0,
       "records_out": 2,
@@ -302,7 +334,7 @@
       "args": {
         "traps": 15
       },
-      "duration_ms": 0.064,
+      "duration_ms": 0.069,
       "name": "score_traps",
       "records_in": 0,
       "records_out": 15,
@@ -310,7 +342,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.01,
+      "duration_ms": 0.989,
       "name": "score_refusals",
       "records_in": 0,
       "records_out": 8,
@@ -318,7 +350,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.026,
+      "duration_ms": 0.032,
       "name": "score_calibration",
       "records_in": 0,
       "records_out": 5,
@@ -326,7 +358,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.008,
+      "duration_ms": 0.004,
       "name": "check_cost_lens",
       "records_in": 0,
       "records_out": 0,
@@ -334,7 +366,7 @@
     },
     {
       "args": {},
-      "duration_ms": 0.004,
+      "duration_ms": 0.001,
       "name": "check_provenance",
       "records_in": 0,
       "records_out": 0,

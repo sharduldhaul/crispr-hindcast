@@ -1,0 +1,56 @@
+{
+  "agent": "llm_forecaster",
+  "duration_ms": 11.672,
+  "environment": {
+    "hindcast_version": "0.1.0",
+    "model": "claude-opus-5-5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.12.13",
+    "seed": 20171231
+  },
+  "finished_at": "2026-11-15T05:13:55.128008+00:00",
+  "inputs": {
+    "candidates": 47,
+    "condition": "text",
+    "cutoff": "2014-12-31",
+    "model_id": "claude-opus-5-5",
+    "prompt_hash": "c1451f9a28523a073d2646ab6bf65647de886fd4af569fc75bae34bc1fcfcbd0"
+  },
+  "notes": [],
+  "output_summary": {
+    "calls_live": 0,
+    "calls_replayed": 0,
+    "claims": 0,
+    "cost_usd": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "refusals": 0,
+    "status": "not_run",
+    "status_reason": "The request is not in eval/model_cache/ and no live call was made. Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it.",
+    "tool_calls": 0
+  },
+  "run_id": "2014-12-31_llm-text",
+  "started_at": "2026-11-15T05:13:55.116319+00:00",
+  "tool_calls": [
+    {
+      "args": {
+        "cutoff": "2014-12-31"
+      },
+      "duration_ms": 9.15,
+      "name": "replay_retrieval",
+      "records_in": 0,
+      "records_out": 110,
+      "result_summary": "110 publications for 47 genes, read back through the slice"
+    },
+    {
+      "args": {
+        "cache_key": "e79affc86923468885a7e94e15e6d84c3076191583ac631372daab1f4188621f"
+      },
+      "duration_ms": 0.082,
+      "name": "model_call",
+      "records_in": 0,
+      "records_out": 0,
+      "result_summary": "not in cache, no live transport: not run"
+    }
+  ]
+}
