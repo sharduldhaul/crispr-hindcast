@@ -16,6 +16,8 @@ dependencies = [
 [project.optional-dependencies]
 # ruff is pinned exactly so a new release cannot change the lint result.
 dev = ["pytest>=8.3", "pytest-cov>=5.0", "ruff==0.17.3"]
+# Needed only for a live model call. Replaying committed responses needs none of it.
+llm = ["anthropic>=1,<2"]
 
 [project.scripts]
 hindcast = "hindcast.cli:app"

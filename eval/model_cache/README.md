@@ -1,28 +1,36 @@
 # Model cache
 
-The ablation row comparing the full system against a general model with no graph
-needs a language model. This repository contains no API keys and makes no
-network calls on the demo path, because hard rule 4 requires a clone to
-reproduce the exact scorecard offline.
+Every response the language-model forecaster (`hindcast.llm`) has received, one
+file per request. `hindcast run-all` and `hindcast llm` replay from here, so a
+clone reproduces the model rows offline with no API key.
 
-So that row is replayed from this directory rather than called live. A cache
-file is named `<model>_<cutoff>_<prompt-hash-prefix>.json` and holds:
+A file is named `<cache_key>.json`, where the key is the SHA-256 of the whole
+request: model ID, system prompt, messages, tools, output schema and parameters.
+A response can only replay for the exact request that produced it. Editing a
+prompt changes the key, and the old response is never found again.
 
 ```json
 {
-  "model": "the exact pinned model version used",
-  "cutoff": "2017-12-31",
-  "prompt_sha256": "the full hash of the prompt that was sent",
-  "ranking": [
-    {"gene": "SYMBOL", "confidence": 0.42, "statement": "one line from the model"}
-  ]
+  "cache_key": "the SHA-256 of the request below",
+  "request": {"model_id": "...", "system": "...", "messages": [], "...": "..."},
+  "response": {
+    "served_model_id": "the model the API reports having served",
+    "content": [{"type": "text", "text": "the answer, as received"}],
+    "stop_reason": "end_turn",
+    "input_tokens": 0,
+    "output_tokens": 0
+  }
 }
 ```
 
-The prompt is committed in `hindcast.agents.baseline.BASELINE_PROMPT` and the
-cache key is its SHA-256, so a cached response cannot silently correspond to a
-different prompt.
+Responses are stored as received. One that is refused, cut off or does not match
+the answer schema is kept and replays as a failure; it is never repaired.
 
-With no file here, the scorecard reports that row as not run. It does not
-estimate it. `scripts/populate_model_cache.py` populates the cache for anyone
-who has a key, and once committed the row replays offline like everything else.
+With no file for a request, the row is reported as not run. To populate the
+cache, install the `llm` extra, set `ANTHROPIC_API_KEY` and run:
+
+```bash
+hindcast llm --cutoff 2017-12-31 --retrieval none --live
+```
+
+The key is read from the environment by the SDK and is never written here.

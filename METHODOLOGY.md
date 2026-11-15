@@ -438,6 +438,68 @@ than the complex annotation. That is a judgement informed by knowing what was
 approved, it is not derived from the pre-T record, and a reader should weigh it
 as such.
 
+## Language-model track
+
+A language model is asked the same question as the rule-based system, on the
+same slices, and its answer is scored by the same grader. The code is
+`src/hindcast/llm/`. The rule-based system does not use it.
+
+### What the model is asked
+
+The prompt (`SYSTEM_PROMPT` and `TASK_PROMPT` in `llm/forecaster.py`) gives the
+cutoff date and the candidate genes: the scope genes in `scope.py`, minus those
+whose role the rule book dates before the cutoff. The rule-based forecaster is
+told the same set of already-established genes. For each candidate the model
+either claims it, with a confidence, the IDs of the evidence rows it relies on
+and a one-sentence rationale, or refuses it with a reason. The model never
+receives the rule book's establishing records or the traps; the traps are built
+after it has answered.
+
+The retrieval condition sets what evidence the prompt carries. In `none` it
+carries no evidence, so the row measures what the model answers from its
+training alone.
+
+### What counts as an answer
+
+The response must parse into the answer schema (`ModelAnswer`). A response that
+does not parse, is refused, is cut off at the output limit, has a confidence
+outside 0 to 1, or answers the same gene twice is recorded with the status
+`failed` and its reason. It is not repaired and not retried. A request with no
+committed response and no live call is `not_run`. Only `ran` rows have a
+scorecard.
+
+Gene names in the answer are resolved through the slice exactly as ingested
+records are, so an alias is graded as the gene it names.
+
+### Conventions that differ from the rule-based rows
+
+- **Refusals enter calibration at 0.** The model gives a reason for a refusal
+  and no number. The grader computes the calibration error over claims and
+  refusals together, so a model refusal is entered with confidence 0. A refused
+  gene that the field later established therefore counts against calibration in
+  the lowest bin.
+- **No cost lens.** The model is not asked for a therapeutic route. Every item
+  carries the same route and both rankings are identical, as for the flat
+  literature baseline.
+
+### Fixed parameters
+
+| Constant | Value | Reason |
+| --- | --- | --- |
+| `DEFAULT_MODEL_ID` | `claude-opus-5-5` | One pinned model for every committed row. The ID is part of the cache key and is written into each result, with the model ID the API reports having served. |
+| `EFFORT` | `medium` | The provider's default for this model, set explicitly so a change of default cannot change a result. Sampling parameters are not accepted by this model and none are sent. |
+| `MAX_OUTPUT_TOKENS` | 16000 | Covers reasoning and a full answer over the candidate list. A response that reaches the limit is a failure. |
+| `MAX_TRANSPORT_RETRIES` | 2 | The SDK default, for connection errors and HTTP 408, 409, 429 and 5xx only. |
+| `PRICES_USD_PER_MILLION_TOKENS` | 4 input, 20 output | List price for the pinned model. `cost_usd` is input and output tokens at these prices. |
+
+### Replay
+
+Every call goes through the cache in `eval/model_cache/`, keyed by the SHA-256
+of the whole request. [eval/model_cache/README.md](eval/model_cache/README.md)
+gives the format. Responses are not deterministic at the API, so the committed
+response is the result: a second live run could differ, and the cache is what
+makes the reported row reproducible.
+
 ## Disclosure: what changed after the answer key was visible
 
 The rule book was frozen and tagged `rulebook-frozen-v1` before the scored runs,

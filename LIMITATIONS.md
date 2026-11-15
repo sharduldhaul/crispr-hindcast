@@ -65,12 +65,13 @@ The slice is enforced at the data layer and the leak tests attempt each route,
 so no post-cutoff row reaches the reasoning through this repository. That is the
 part this project controls.
 
-It does not control what a model already knows. If a language model were placed
-in this pipeline, it would have read the 2018 HRI paper during training, and no
-data-layer enforcement can remove that. This particular system contains no
-language model, so the specific contamination channel is absent here, but the
-general point stands for anyone extending it: a temporal holdout controls the
-evidence and not the reader.
+It does not control what a model already knows. A language model has read the
+2018 HRI paper during training, and no data-layer enforcement can remove that.
+The rule-based system contains no language model, so this channel is absent from
+its rows. It is present in every row of the language-model track
+(`src/hindcast/llm/`), whose prompt asks the model to disregard what it recalls
+from after the cutoff and cannot verify that it did. A temporal holdout controls
+the evidence and not the reader.
 
 There is also a subtler channel that this project does control and that is worth
 naming because it is easy to miss. If gene nodes were created only for genes the

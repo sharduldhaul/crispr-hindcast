@@ -3,6 +3,7 @@
 hindcast build                  build the graph from the committed snapshot
 hindcast slice --cutoff DATE    run one evaluation slice
 hindcast run-all                run every slice and every ablation
+hindcast llm --cutoff DATE      run the language-model forecaster on one slice
 hindcast scorecard              render the scorecard table from results
 hindcast verify                 run the checks that must pass to ship
 """
@@ -10,6 +11,7 @@ hindcast verify                 run the checks that must pass to ship
 from __future__ import annotations
 
 import json
+import os
 from datetime import date
 from pathlib import Path
 
@@ -17,6 +19,9 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from hindcast.llm.client import DEFAULT_MODEL_ID, ModelTransportError, anthropic_transport
+from hindcast.llm.forecaster import RetrievalCondition, RunStatus
+from hindcast.llm.run import LLMSliceResult, run_llm_slice
 from hindcast.pipeline import (
     ABLATIONS,
     DEFAULT_DB,
@@ -29,7 +34,7 @@ from hindcast.pipeline import (
     run_heldout,
     run_slice,
 )
-from hindcast.scope import PRIMARY_SLICE
+from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
 
 app = typer.Typer(add_completion=False, help=__doc__)
 console = Console()
@@ -134,6 +139,74 @@ def run_all(db: Path = typer.Option(DEFAULT_DB)) -> None:
     results = run_all_slices(store_path=db)
     console.print(f"{len(results)} runs written to {RESULTS_DIR}")
     scorecard()
+    # Language-model rows are replayed from the cache, never called live here.
+    for cutoff in ALL_SLICES:
+        for condition in RetrievalCondition:
+            _print_llm_result(run_llm_slice(cutoff, condition, store_path=db))
+
+
+@app.command()
+def llm(
+    cutoff: str = typer.Option(PRIMARY_SLICE.isoformat(), help="Evaluation cutoff, YYYY-MM-DD."),
+    retrieval: RetrievalCondition = typer.Option(
+        RetrievalCondition.NONE, help="What evidence the model is given."
+    ),
+    model: str = typer.Option(DEFAULT_MODEL_ID, help="Full model ID, recorded in the result."),
+    live: bool = typer.Option(
+        False, help="Call the API for requests missing from eval/model_cache/."
+    ),
+    db: Path = typer.Option(DEFAULT_DB),
+) -> None:
+    """Run the language-model forecaster on one slice, replaying from the cache.
+
+    Without `--live`, or without ANTHROPIC_API_KEY, a request that is not in
+    the cache is reported as not run and the command still exits 0.
+    """
+    transport = None
+    if live and os.environ.get("ANTHROPIC_API_KEY"):
+        transport = anthropic_transport
+    elif live:
+        console.print("ANTHROPIC_API_KEY is not set, so no live call will be made")
+    try:
+        result = run_llm_slice(
+            date.fromisoformat(cutoff),
+            retrieval,
+            model_id=model,
+            store_path=db,
+            transport=transport,
+        )
+    except ModelTransportError as exc:
+        console.print(f"the model call failed and nothing was written: {exc}")
+        raise typer.Exit(1) from None
+    _print_llm_result(result)
+
+
+def _print_llm_result(result: LLMSliceResult) -> None:
+    run = result.run
+    console.print(
+        f"\n[bold]llm {result.cutoff}[/bold]  retrieval: {run.condition}  model: {run.model_id}"
+    )
+    if run.status is not RunStatus.RAN:
+        console.print(f"{str(run.status).replace('_', ' ')}: {run.status_reason}")
+        return
+    card = result.scorecard
+    assert card is not None
+    console.print(
+        f"{run.calls_replayed} call(s) replayed, {run.calls_live} live; "
+        f"{run.input_tokens} input tokens, {run.output_tokens} output tokens, "
+        f"${run.cost_usd:.4f}"
+    )
+    if card.ranking_by_confidence:
+        r = card.ranking_by_confidence
+        console.print(
+            f"P@5 {r.precision_at_5:.2f}  MRR {r.mean_reciprocal_rank:.3f}  hits {r.hits_at_10}"
+        )
+    console.print(
+        f"forecast {card.forecast_size} items, {card.refusal_count} refusals; "
+        f"traps {card.traps_passed}/{card.traps_total}; "
+        f"refusals correct {card.refusal_correct}/{card.refusal_total}; "
+        f"ECE {card.expected_calibration_error}"
+    )
 
 
 @app.command()

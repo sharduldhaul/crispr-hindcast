@@ -57,8 +57,9 @@ researchers actually published after the cutoff.
 It is a fair test because the hiding is enforced by the database and checked by
 tests, the answer key is the real published record rather than something the
 author wrote, and every rule and threshold was frozen in git before the first
-run. There is no AI language model inside. Every decision is a written rule you
-can read.
+run. The system itself contains no AI language model: every decision is a
+written rule you can read. A language model is evaluated separately, on the same
+cutoffs and by the same grader, as a comparison.
 
 The short version of the results: the system is cautious. It predicts two to six
 genes per cutoff, gets one right each time, avoids every trick question planted
@@ -272,8 +273,10 @@ reimplementation of their product and makes no claim about it.
 
 ## What the system does
 
-Six agents with narrow contracts, no language model anywhere, every judgement a
-stated rule in a documented module.
+Six agents with narrow contracts, no language model in any of them, every
+judgement a stated rule in a documented module. The language-model forecaster is
+a separate condition in `src/hindcast/llm/`, described in
+[METHODOLOGY.md](METHODOLOGY.md#language-model-track).
 
 1. **Curator** normalizes raw records to the schema, resolving symbols through
    HGNC and cell lines through Cellosaurus, and excluding anything it cannot

@@ -31,6 +31,16 @@ def _trajectories_to_tmp(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(base, "TRAJECTORY_DIR", tmp_path / "trajectories")
 
 
+@pytest.fixture(autouse=True)
+def _model_outputs_to_tmp(tmp_path: Path, monkeypatch) -> None:
+    """Keep test runs out of the committed model cache and result directories."""
+    import hindcast.llm.client as client
+    import hindcast.llm.run as run
+
+    monkeypatch.setattr(client, "CACHE_DIR", tmp_path / "model_cache")
+    monkeypatch.setattr(run, "LLM_RESULTS_DIR", tmp_path / "results")
+
+
 @pytest.fixture
 def toy_store(tmp_path: Path) -> Store:
     """A graph with one pre-2018 and one post-2018 measurement.
