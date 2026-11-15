@@ -68,7 +68,7 @@ export default function Home() {
       {!env.hasResults && (
         <div className="callout" style={{ marginBottom: 24 }}>
           <p>
-            No results found under <code>{env.repoRoot}/eval/results</code>. Open <Link href="/run">Run</Link> to build the graph and
+            No results found under <code>eval/results</code>. Open <Link href="/run">Reproduce</Link> to build the graph and
             produce them.
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function Home() {
               {year(PRIMARY_SLICE)} forecast
             </Link>
             <Link className="button ghost" href="/run">
-              Run it
+              Reproduce it
             </Link>
           </div>
         </section>

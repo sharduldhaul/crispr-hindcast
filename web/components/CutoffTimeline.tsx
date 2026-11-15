@@ -448,7 +448,7 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
           </span>
         ) : (
           <span className="viz-hint">
-            Drag the gold line, or use <kbd>←</kbd> <kbd>→</kbd>. <span style={{ color: "var(--accent)" }}>◆</span> marks a cutoff that
+            Drag the line, or use <kbd>←</kbd> <kbd>→</kbd>. <span style={{ color: "var(--accent)" }}>◆</span> marks a cutoff that
             was run.
           </span>
         )}

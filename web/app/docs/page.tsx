@@ -12,12 +12,11 @@ export default function DocsIndex() {
   const ingestion = loadIngestion();
   return (
     <div className="wrap page">
-      <div className="eyebrow">Docs</div>
-      <h1>The fine print, in full.</h1>
+      <h1>Docs</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 40 }}>
         Start with the limitations: what each number does and does not mean.
       </p>
-      <div className="grid grid-3">
+      <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))", gap: 12 }}>
         {DOCS.map((d, i) => (
           <Link key={d.slug} href={`/docs/${d.slug}`} className={`card rise rise-${Math.min(i + 1, 4)}`}>
             <h3>{d.title}</h3>

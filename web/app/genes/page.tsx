@@ -32,8 +32,7 @@ export default function GenesPage() {
 
   return (
     <div className="wrap page">
-      <div className="eyebrow">Genes</div>
-      <h1>Look up a gene.</h1>
+      <h1>Genes</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 36 }}>
         Every gene weighed, planted as a trap, or in an answer key.
       </p>

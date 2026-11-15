@@ -10,7 +10,7 @@ const LINKS = [
   { href: "/models", label: "Model" },
   { href: "/genes", label: "Genes" },
   { href: "/docs", label: "Docs" },
-  { href: "/run", label: "Run", className: "run-link" },
+  { href: "/run", label: "Reproduce", className: "run-link" },
 ];
 
 export function Nav() {
