@@ -13,7 +13,8 @@ from datetime import date
 import pytest
 
 from hindcast.llm import retrieval
-from hindcast.models import Node, NodeType, Provenance
+from hindcast.llm.tools import GraphTool, run_tool
+from hindcast.models import Edge, EdgeType, Node, NodeType, Provenance
 from hindcast.store import SliceLeakError, SliceStore, Store
 from tests.retrieval_fakes import (
     POST_TITLE,
@@ -200,3 +201,49 @@ def test_the_slice_allows_only_the_pragma_full_text_search_needs(toy_store: Stor
         ):
             with pytest.raises(sqlite3.DatabaseError):
                 sl.conn.execute(statement)
+
+
+@pytest.mark.parametrize("tool", list(GraphTool))
+def test_no_graph_tool_can_return_a_post_cutoff_row(toy_store: Store, tool: GraphTool):
+    """Every tool, asked about the hidden gene, with later rows of each kind in the store."""
+    add_post_cutoff_title(toy_store)
+    toy_store.conn.execute(
+        "UPDATE node SET attrs = json_set(attrs, '$.matched_genes', json_array('EIF2AK1')) "
+        "WHERE id = ?",
+        (POST_TITLE_ID,),
+    )
+    toy_store.conn.commit()
+    toy_store.add_edges(
+        [
+            Edge(
+                id="edge:late_partner",
+                type=EdgeType.ACTS_THROUGH,
+                src="gene:HGNC:3005",
+                dst="gene:HGNC:13221",
+                attrs={"src_symbol": "EIF2AK1", "dst_symbol": "BCL11A", "gene_group": "late"},
+                prov=Provenance(
+                    source_id="test:late_partner",
+                    license="MIT License",
+                    time_scope="DATED",
+                    publication_date=date(2018, 6, 1),
+                ),
+            )
+        ]
+    )
+    arguments = {} if tool is GraphTool.GENES_BY_PUBLICATION_COUNT else {"gene_symbol": "EIF2AK1"}
+
+    # Against the full store the tool does find the later rows, so the
+    # assertions below test the slice and not an empty fixture.
+    in_full_store = run_tool(toy_store, ["EIF2AK1"], tool, arguments)  # type: ignore[arg-type]
+    late = (POST_TITLE_ID, "meas:post", '"late"', POST_TITLE)
+    counted = '"publications_naming_gene": 1' in in_full_store.content
+    assert counted or any(marker in in_full_store.content for marker in late)
+
+    with toy_store.open_slice(CUTOFF) as slice_store:
+        result = run_tool(slice_store, ["EIF2AK1"], tool, arguments)
+        for node_id in result.node_ids:
+            assert slice_store.node(node_id) is not None
+    for marker in late:
+        assert marker not in result.content
+    assert '"publications_naming_gene": 1' not in result.content
+    assert "gene:HGNC:13221" not in result.node_ids

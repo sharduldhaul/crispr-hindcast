@@ -458,7 +458,8 @@ after it has answered.
 The retrieval condition sets what evidence the prompt carries. In `none` it
 carries no evidence, so the row measures what the model answers from its
 training alone. In `text` it carries publication titles retrieved from the
-slice, described next.
+slice. In `graph` it carries no rows and the model is given tools that query
+the slice. Both are described next.
 
 ### Text retrieval
 
@@ -497,6 +498,42 @@ The symbol-only lexical query does not match a title that uses an alias, and a
 symbol that is also a common word or abbreviation can match unrelated titles.
 The row measures retrieval as specified here, with those limits.
 
+### Graph tools
+
+In the `graph` condition the model queries the slice itself, through five tools
+defined in `llm/tools.py`:
+
+| Tool | Returns |
+| --- | --- |
+| `gene_evidence_summary` | Counts for one gene: publications naming it, measurements by assay, complex partners. |
+| `gene_measurements` | Measurements for one gene, most recent first: ID, date, assay, data source, phenotype, value. |
+| `gene_publications` | Publications naming one gene, most recent first: ID, date, title. |
+| `complex_partners` | Genes joined to one gene by an `ACTS_THROUGH` edge, with the complex they share. |
+| `genes_by_publication_count` | The candidate genes ranked by the number of publications naming them. |
+
+A tool takes a gene symbol or nothing. None takes a date, a path or a query, so
+no argument can ask for a later row, and each runs on the slice connection,
+which holds no row dated on or after the cutoff. Every result names its rows by
+node ID, and the union of the IDs a run was shown is recorded as its context.
+A result holds at most `ROWS_PER_TOOL_RESULT` rows and states the total.
+
+The run is a loop. Each model turn is one request through the replay cache, and
+each tool call in the response is answered from the slice and sent back. A tool
+result is a deterministic function of the slice, so replaying the first
+committed response rebuilds the second request exactly, and the loop replays
+offline. If any turn is missing from the cache the whole row is `not_run`.
+
+The model may make `TOOL_CALL_BUDGET` calls. A call past the budget is not run:
+the model is told the budget is spent and must answer. A call that names an
+unknown gene or tool is returned to the model as an error and counts against
+the budget. A model that is still calling tools after `MAX_MODEL_TURNS` turns
+is recorded as `failed`. Every call is written to the result and the trajectory
+with its arguments, its outcome and the IDs it returned.
+
+The model chooses whether to call a tool. The API rejects a forced tool choice
+for the pinned model, so a run in which the model calls no tool is possible and
+is reported with zero calls.
+
 ### What counts as an answer
 
 The response must parse into the answer schema (`ModelAnswer`). A response that
@@ -532,6 +569,9 @@ records are, so an alias is graded as the gene it names.
 | `RRF_K` | 60 | The constant from the paper that introduced reciprocal rank fusion (Cormack, Clarke and Büttcher, SIGIR 2009). Not tuned here. |
 | `RANKER_DEPTH` | 50 | Rows each ranker contributes per gene before fusion. Ten times the rows kept, so a row needs a high rank under one ranker or a moderate rank under both. |
 | `ROWS_PER_GENE` | 5 | Fused rows per gene in the prompt. Keeps the evidence for all candidates in one request. |
+| `TOOL_CALL_BUDGET` | 40 | Tool calls per run. About one per candidate gene at the 2017 cutoff (41 candidates), so the model can look at every gene once or at fewer genes in depth, and the cost of a run is bounded. Set before any live run. |
+| `ROWS_PER_TOOL_RESULT` | 20 | Rows per tool result. Bounds the size of each request; the total is always stated. |
+| `MAX_MODEL_TURNS` | 42 | `TOOL_CALL_BUDGET` + 2: every turn before the budget is spent uses at least one call, one further turn is told the budget is spent, and one must answer. |
 | `PRICES_USD_PER_MILLION_TOKENS` | 4 input, 20 output | List price for the pinned model. `cost_usd` is input and output tokens at these prices. |
 
 ### Replay

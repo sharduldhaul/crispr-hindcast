@@ -13,6 +13,12 @@ with one of three statuses.
 *   `not_run`: the request is not in the replay cache and no live transport
     was given. Nothing is estimated in its place.
 
+In the `graph` condition the model is given tools and the run is a loop: each
+model turn is one request through the replay cache, and each tool call it
+makes is answered from the slice. A tool result is a deterministic function of
+the slice, so replaying the first response rebuilds the second request exactly,
+and the whole loop replays offline.
+
 What the model receives is the task, the cutoff date, the candidate symbols
 and, depending on the condition, evidence read through the slice connection.
 It must never receive the rule book, the answer key or the traps, and nothing
@@ -37,6 +43,7 @@ from hindcast.llm.client import (
     cost_usd,
 )
 from hindcast.llm.retrieval import EvidenceRow, evidence_rows, load_record
+from hindcast.llm.tools import TOOL_CALL_BUDGET, TOOL_DEFINITIONS, ToolResult, run_tool
 from hindcast.models import CostClass
 from hindcast.store import SliceStore
 
@@ -46,6 +53,13 @@ class RetrievalCondition(StrEnum):
 
     NONE = "none"
     TEXT = "text"
+    GRAPH = "graph"
+
+
+class ToolOutcome(StrEnum):
+    RETURNED = "returned"
+    ERROR = "error"
+    OVER_BUDGET = "over_budget"
 
 
 class RunStatus(StrEnum):
@@ -101,6 +115,24 @@ TEXT_EVIDENCE_HEADER = (
     "Rows were retrieved by title search. A row being listed does not mean it "
     "supports a claim. Cite a row by the ID in its brackets."
 )
+
+#: Evidence block for the `graph` condition. Formatted with the call budget.
+GRAPH_EVIDENCE = (
+    "No evidence rows are provided up front. Use the tools to query a graph that "
+    "holds only records dated before the cutoff. You may make at most {budget} tool "
+    "calls in total, so spend them on the genes where a closer look could change "
+    "your answer. Every tool result names its rows by ID. Cite only IDs that a "
+    "tool returned to you. When you have finished, reply with the answer and "
+    "nothing else."
+)
+
+#: Returned in place of a tool result once the budget is spent.
+BUDGET_SPENT = "The tool-call budget is spent. This call was not run. Give your answer now."
+
+#: Model turns allowed in the `graph` condition. Every turn before the budget
+#: is spent uses at least one call, one more turn is told the budget is spent,
+#: and one more must answer.
+MAX_MODEL_TURNS = TOOL_CALL_BUDGET + 2
 
 #: Written under a gene for which retrieval returned nothing.
 NO_ROWS = "(no rows)"
@@ -179,6 +211,18 @@ class DuplicateAnswerError(ValueError):
     """Two answers name the same gene once aliases are resolved."""
 
 
+class GraphToolCall(BaseModel):
+    """One tool call the model made, with the IDs the result named."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    turn: int
+    tool: str
+    arguments: dict[str, Any]
+    outcome: ToolOutcome
+    node_ids: list[str]
+
+
 class ModelRun(BaseModel):
     """What one forecaster run did. Self-describing, whatever its status."""
 
@@ -198,6 +242,8 @@ class ModelRun(BaseModel):
     cost_usd: float = 0.0
     candidate_symbols: list[str]
     context_node_ids: list[str] = Field(default_factory=list)
+    tool_call_budget: int = 0
+    tool_calls: list[GraphToolCall] = Field(default_factory=list)
     answer: ModelAnswer | None = None
     forecast: Forecast | None = None
 
@@ -243,14 +289,14 @@ class LLMForecaster(Agent):
         prompt = TASK_PROMPT.format(
             cutoff=slice_store.cutoff,
             candidates="\n".join(candidates),
-            evidence=evidence,
+            evidence=(
+                GRAPH_EVIDENCE.format(budget=TOOL_CALL_BUDGET)
+                if condition is RetrievalCondition.GRAPH
+                else evidence
+            ),
         )
-        request = ModelRequest(
-            model_id=model_id,
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": prompt}],
-            output_schema=ANSWER_JSON_SCHEMA,
-        )
+        graph = condition is RetrievalCondition.GRAPH
+        messages: list[dict[str, Any]] = [{"role": "user", "content": prompt}]
         run = ModelRun(
             status=RunStatus.NOT_RUN,
             status_reason="",
@@ -259,6 +305,7 @@ class LLMForecaster(Agent):
             prompt_hash=hashlib.sha256(f"{SYSTEM_PROMPT}\n{prompt}".encode()).hexdigest(),
             candidate_symbols=candidates,
             context_node_ids=context_node_ids,
+            tool_call_budget=TOOL_CALL_BUDGET if graph else 0,
         )
         inputs = {
             "cutoff": slice_store.cutoff,
@@ -276,21 +323,49 @@ class LLMForecaster(Agent):
             self.finish(_summary(run), inputs=inputs)
             return run
 
-        response = self._call(request, run, cache, transport)
-        if response is None:
-            run.status_reason = (
-                "The request is not in eval/model_cache/ and no live call was made. "
-                "Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it."
+        response: ModelResponse | None = None
+        for turn in range(1, (MAX_MODEL_TURNS if graph else 1) + 1):
+            request = ModelRequest(
+                model_id=model_id,
+                system=SYSTEM_PROMPT,
+                messages=messages,
+                tools=TOOL_DEFINITIONS if graph else [],
+                output_schema=ANSWER_JSON_SCHEMA,
             )
-            self.finish(_summary(run), inputs=inputs)
-            return run
+            response = self._call(request, run, cache, transport)
+            if response is None:
+                run.status_reason = (
+                    "The request is not in eval/model_cache/ and no live call was made. "
+                    "Run `hindcast llm --live` with ANTHROPIC_API_KEY set to populate it."
+                )
+                # A loop that stopped part-way did not run: what it gathered
+                # is not reported as the context of an answer that never came.
+                run.context_node_ids = []
+                run.tool_calls = []
+                self.finish(_summary(run), inputs=inputs)
+                return run
+            if not graph or response.stop_reason != "tool_use":
+                break
+            results = self._run_tools(response, turn, run, slice_store, candidates)
+            # The assistant content goes back exactly as received.
+            messages = [
+                *messages,
+                {"role": "assistant", "content": response.content},
+                {"role": "user", "content": results},
+            ]
+        assert response is not None
+        run.context_node_ids = sorted(
+            set(run.context_node_ids) | {i for c in run.tool_calls for i in c.node_ids}
+        )
 
         run.served_model_id = response.served_model_id
         run.cost_usd = cost_usd(model_id, run.input_tokens, run.output_tokens)
 
         with self.tool("parse_answer") as call:
             failure = ""
-            if response.stop_reason != "end_turn":
+            if response.stop_reason == "tool_use":
+                failure = f"the model did not answer within {MAX_MODEL_TURNS} model turns"
+            elif response.stop_reason != "end_turn":
                 failure = f"the response stopped with stop_reason {response.stop_reason!r}"
             else:
                 try:
@@ -328,6 +403,50 @@ class LLMForecaster(Agent):
 
         self.finish(_summary(run), inputs=inputs)
         return run
+
+    def _run_tools(
+        self,
+        response: ModelResponse,
+        turn: int,
+        run: ModelRun,
+        slice_store: SliceStore,
+        candidates: list[str],
+    ) -> list[dict[str, Any]]:
+        """Answer every tool call in one response from the slice, within the budget."""
+        results: list[dict[str, Any]] = []
+        for block in response.content:
+            if block.get("type") != "tool_use":
+                continue
+            name = str(block.get("name", ""))
+            arguments = block.get("input")
+            with self.tool(f"graph_tool:{name}", arguments=arguments) as call:
+                used = sum(c.outcome is not ToolOutcome.OVER_BUDGET for c in run.tool_calls)
+                if used >= TOOL_CALL_BUDGET:
+                    result = ToolResult(is_error=True, content=BUDGET_SPENT)
+                    outcome = ToolOutcome.OVER_BUDGET
+                else:
+                    result = run_tool(slice_store, candidates, name, arguments)
+                    outcome = ToolOutcome.ERROR if result.is_error else ToolOutcome.RETURNED
+                run.tool_calls.append(
+                    GraphToolCall(
+                        turn=turn,
+                        tool=name,
+                        arguments=arguments if isinstance(arguments, dict) else {},
+                        outcome=outcome,
+                        node_ids=result.node_ids,
+                    )
+                )
+                call.records_out = len(result.node_ids)
+                call.result_summary = f"{outcome}; IDs returned: {', '.join(result.node_ids)}"
+            tool_result: dict[str, Any] = {
+                "type": "tool_result",
+                "tool_use_id": block.get("id"),
+                "content": result.content,
+            }
+            if result.is_error:
+                tool_result["is_error"] = True
+            results.append(tool_result)
+        return results
 
     def _call(
         self,
@@ -382,6 +501,7 @@ def _summary(run: ModelRun) -> dict[str, Any]:
         "input_tokens": run.input_tokens,
         "output_tokens": run.output_tokens,
         "cost_usd": run.cost_usd,
+        "tool_calls": len(run.tool_calls),
         "claims": len(run.answer.claims) if run.answer else 0,
         "refusals": len(run.answer.refusals) if run.answer else 0,
     }
