@@ -21,7 +21,7 @@ a gene's evidence becomes a prediction or a refusal.
 
 ## Table of Contents
 
-* [Description](#Description)
+* [Description](#description)
 * [Launch the app](#launch-the-app)
 * [Scorecard](#scorecard)
   * [Ingestion](#ingestion)
@@ -31,7 +31,7 @@ a gene's evidence becomes a prediction or a refusal.
   * [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
   * [Cost lens, full system](#cost-lens-full-system)
   * [Held-out recovery](#held-out-recovery)
-* [Using temporal holdout as an alternative for contamination control](#using-temporal-holdout-as-an-alternative-for-contamination-control)
+* [Temporal holdout as a complementary contamination control](#temporal-holdout-as-a-complementary-contamination-control)
 * [What the system does](#what-the-system-does)
 * [The cost lens](#the-cost-lens)
 * [Results](#results)
@@ -222,41 +222,52 @@ Exclusions by reason:
 
 <!-- SCORECARD:END -->
 
-## Using temporal holdout as an alternative for contamination control
+## Temporal holdout as a complementary contamination control
 
-This project exists because of a problem stated publicly by 
-[CortexBiolabs](https://cortexbiolabs.com) in their July 2026 case study
-"Designing molecules that have never been made". Their evaluation used name
-anonymization as the contamination control and an answer key they wrote
-themselves. 
+The idea for this project came from
+[Cortex Bio](https://cortexbiolabs.com) and their July 2026 case study,
+[Designing molecules that have never been made](https://cortexbiolabs.com/post/designing-molecules-that-have-never-been-made).
+The post says its source "is a published 2024 paper that a frontier model has
+very likely seen in training", and describes two controls:
 
-When going with name anonymization, it hides the label and leaves the fingerprint. A model that has
-read the literature does not need to be told a gene is called BCL11A: the
-combination of a zinc finger, an erythroid enhancer at +58 kilobases, and an
-association with fetal hemoglobin identifies it uniquely, and every one of those
-facts has to stay in the problem for the problem to be answerable. Anonymization
-also cannot be verified. There is no test you can write that proves a
-description no longer identifies its subject.
+- They ran the task twice, "once with the real names, and once with every
+  compound, warhead, and ligand replaced by an anonymous token", and compared
+  the scores.
+- They "froze a rule book of the governing trends, checked against the table,
+  before any model ran".
 
-A temporal holdout is a different kind of control, and its two advantages are
-worth stating separately. It is verifiable: the claim "no evidence dated on or
-after T reached the reasoning" is a property of a data layer, and this
-repository enforces it by materializing a separate database holding only pre-T
-rows and serving it over a connection that cannot attach anything else.
-`tests/test_slice_leak.py` attempts the leak by every route and asserts each one
-fails. And the answer key is not self-authored: what the field published after T
-is a fact about the world, recorded in `eval/rulebook/` by a stated rule, frozen
-and git-tagged before the first evaluation run.
+This project follows that design. Its answer key is a rule book frozen before
+the first evaluation run, as in the second control, and it adds a temporal
+holdout as a third control aimed at the same problem from the data side. The
+controls are complementary: a temporal holdout constrains which evidence can
+reach the reasoning, and token replacement constrains what the model can
+recognize in that evidence. Neither replaces the other.
 
-A temporal holdout does not solve contamination (refer LIMITATIONS.md). 
-It controls the evidence, not the reader. A language model placed in
-this pipeline would already have read the 2018 result, and no data-layer
-enforcement can remove that. What the holdout buys is that the control is
-checkable and the key is independent, which is more than anonymization can
-offer.
+What a temporal holdout verifies:
 
-This is an independent benchmark for a problem CortexBiolabs named. It is not a
-reimplementation of their product and makes no claim about it.
+- **No evidence dated on or after the cutoff T reached the reasoning.** This is
+  a property of the data layer. The repository materializes a separate database
+  holding only pre-T rows and serves it over a connection that cannot attach
+  anything else. `tests/test_slice_leak.py` attempts the leak by every route and
+  asserts each one fails.
+- **The answer key was fixed before any result existed.** What the field
+  published after T is recorded in `eval/rulebook/` by a stated rule, frozen at
+  the tag
+  [`rulebook-frozen-v1`](https://github.com/sharduldhaul/crispr-hindcast/tree/rulebook-frozen-v1),
+  which predates the first commit with evaluation results.
+
+What it does not verify:
+
+- **What the reader already knows.** The holdout controls the evidence, not the
+  reader. A language model placed in this pipeline may have read the 2018 result
+  in training, and no data-layer enforcement can remove that.
+  [LIMITATIONS.md](LIMITATIONS.md) covers this.
+- **That a description no longer identifies its subject.** That is the question
+  token replacement addresses, and this project does not test it.
+
+This is an independent project that builds on a problem Cortex Bio named and
+on the controls they described. It is not a reimplementation of their product
+and makes no claim about it.
 
 ## What the system does
 
