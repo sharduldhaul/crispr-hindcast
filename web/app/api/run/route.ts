@@ -65,9 +65,13 @@ export function GET() {
 export async function POST(request: Request) {
   if (HOSTED) return notFound();
   // The server binds to localhost, but a page on another origin could still
-  // post to it from the reader's browser. Refuse anything cross-origin.
+  // post to it from the reader's browser. Refuse anything cross-origin. Behind
+  // a forwarding proxy such as Codespaces the page's host arrives in
+  // X-Forwarded-Host, a header a cross-origin page cannot set without a
+  // preflight this route never answers.
   const origin = request.headers.get("origin");
-  if (origin && new URL(origin).host !== request.headers.get("host")) {
+  const hosts = [request.headers.get("host"), request.headers.get("x-forwarded-host")];
+  if (origin && !hosts.includes(new URL(origin).host)) {
     return Response.json({ error: "cross-origin request refused" }, { status: 403 });
   }
 

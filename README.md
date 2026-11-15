@@ -1,6 +1,7 @@
 # CRISPR HINDCAST
 
 [![CI](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sharduldhaul/crispr-hindcast/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sharduldhaul/crispr-hindcast)
 
 
 Given only the evidence available on date T,
@@ -23,9 +24,12 @@ a gene's evidence becomes a prediction or a refusal.
 
 * [Description](#description)
 * [Launch the app](#launch-the-app)
+  * [In a browser, with GitHub Codespaces](#in-a-browser-with-github-codespaces)
+  * [Command line only](#command-line-only)
 * [Scorecard](#scorecard)
   * [Ingestion](#ingestion)
   * [Scorecard, full system](#scorecard-full-system)
+  * [Rule-based system and language model](#rule-based-system-and-language-model)
   * [Ablations, primary slice](#ablations-primary-slice)
   * [Traps, primary slice, named individually](#traps-primary-slice-named-individually)
   * [Reliability, primary slice, full system](#reliability-primary-slice-full-system)
@@ -92,13 +96,15 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:3000**. (If port is not 3000, check for other ports availability) What you can do there:
+Open **http://127.0.0.1:4100**. What you can do there:
 
 - **Overview**: With a timeline you can drag to see which discoveries each cutoff hides.
 - **Results**: each cutoff's forecast, ranked by confidence or by how affordable
   the resulting treatment would be, plus every refusal with its reason, the
   trick questions, and a calibration chart.
 - **Ablations**: switch parts of the system off and see what each one is worth.
+- **Model**: the language-model rows beside the rule-based system, and each
+  claim with the IDs it cited.
 - **Genes**: look up any gene to see what the system said about it at each
   cutoff, and when the field actually found it.
 - **Run the pipeline**: rebuild the graph, re-run any cutoff or all of them, run
@@ -110,6 +116,22 @@ Steps 1 and 2 can also be done from the Run page once the app is up. For a
 faster, production build of the app, use `npm run build && npm run start`
 instead of `npm run dev`. The app serves on port 4100 by default; to use another
 port, run `npx next dev --port <port>`.
+
+### In a browser, with GitHub Codespaces
+
+The badge at the top of this page opens the repository in a codespace. It
+installs the pipeline, builds the graph, builds the app and opens it on port
+4100, with nothing to do by hand. `hindcast verify` runs the test suite there.
+
+A live model run needs your own key. Add `ANTHROPIC_API_KEY` as a
+[Codespaces secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
+for this repository, then in the codespace's terminal:
+
+```bash
+.venv/bin/hindcast llm --cutoff 2017-12-31 --retrieval graph --live
+```
+
+Without the key every result still replays from the committed files.
 
 ### Command line only
 
