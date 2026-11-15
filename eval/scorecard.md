@@ -26,6 +26,41 @@ Exclusions by reason:
 | 2017-12-31 | 13 | 2 | 42 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.500 [0.000, 1.000] | 7/7 | 8/8 | 8/8 (1.00) | 0.199 | 0 |
 | 2020-12-31 | 3 | 6 | 28 | 0.20 [0.00, 0.60] | 0.20 | 0.10 | 0.333 [0.000, 1.000] | 7/7 | 2/2 | 2/2 (1.00) | 0.066 | 0 |
 
+### Rule-based system and language model
+
+| Slice | System | P@5 [95% interval] | MRR [95% interval] | Traps passed | Refusal acc | ECE | Grounded-claim rate [95% interval] | Fabricated IDs | Recalled claims |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2014-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 22/22 | 16/16 (1.00) | 0.302 | n/a | n/a | n/a |
+| 2014-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.071 [0.042, 0.111] | 8/22 | 0/16 (0.00) | 0.325 | n/a | n/a | n/a |
+| 2014-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2014-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2014-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.500 [0.000, 1.000] | 15/15 | 8/8 (1.00) | 0.199 | n/a | n/a | n/a |
+| 2017-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.062 [0.036, 0.100] | 8/15 | 0/8 (0.00) | 0.225 | n/a | n/a | n/a |
+| 2017-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2017-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | rule-based system | 0.20 [0.00, 0.60] | 0.333 [0.000, 1.000] | 9/9 | 2/2 (1.00) | 0.066 | n/a | n/a | n/a |
+| 2020-12-31 | flat literature baseline | 0.00 [0.00, 0.00] | 0.034 [0.000, 0.045] | 7/9 | 0/2 (0.00) | 0.079 | n/a | n/a | n/a |
+| 2020-12-31 | model alone | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | model with text retrieval | not run | not run | not run | not run | not run | not run | not run | not run |
+| 2020-12-31 | model with graph tools | not run | not run | not run | not run | not run | not run | not run | not run |
+
+Model: `claude-opus-5-5`.
+Not run: 9 of 9 model rows have no response in `eval/model_cache/`. They are reported as not run, never estimated.
+
+| Column | Definition |
+| --- | --- |
+| P@5 | Precision at 5: genes later established among the 5 highest-confidence claims, over 5. |
+| MRR | Reciprocal rank of the first established gene in the ranking. |
+| Traps passed | Traps answered correctly, over all traps for the slice. |
+| Refusal acc | Genes refused, over the genes the slice holds too little evidence to answer. |
+| ECE | Expected calibration error over five confidence bins. |
+| Grounded-claim rate | Claims citing at least one row the model was given that names the claimed gene, over all claims. A lower bar than the faithfulness metrics of RAG evaluation: it does not test that the row supports the claim. |
+| Fabricated IDs | Cited IDs that no store holds. |
+| Recalled claims | Claims for a gene established on or after the cutoff that are not grounded, over all claims for such genes. |
+| n/a | The rule-based rows cite no IDs, so the column does not apply. |
+
 ### Ablations, primary slice
 
 | Ablation | Forecast | Refusals | P@5 conf | P@10 conf | MRR | Judgement traps | ECE |
