@@ -1,6 +1,9 @@
 // Shapes of the JSON files the Python pipeline writes to eval/results and
 // eval/rulebook. Only the fields the interface reads are typed.
 
+/** What the full system said about one gene at one cutoff, judged against the answer key. */
+export type VerdictKind = "hit" | "forecast" | "missed" | "refused" | "known" | "none";
+
 export interface ForecastItem {
   claim_id: string;
   gene_symbol: string;
@@ -144,6 +147,8 @@ export interface Ingestion {
   exclusions_by_source: Record<string, number>;
   nodes_by_type: Record<string, number>;
   edges_by_type: Record<string, number>;
+  available_by_source: Record<string, number>;
+  nodes_by_source: Record<string, number>;
 }
 
 export interface PubRecord {
@@ -180,7 +185,7 @@ export interface Policy {
     weights: Record<string, number>;
     price_anchors: Record<
       string,
-      { brand: string; list_price_usd: number; modality: string; note: string; target: string }
+      { brand: string; list_price_usd: number; modality: string; note: string; target: string; source: string }
     >;
   };
 }

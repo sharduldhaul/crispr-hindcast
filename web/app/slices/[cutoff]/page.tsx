@@ -2,29 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Calibration, Meter } from "@/components/Charts";
+import { Meter } from "@/components/Charts";
 import { RefusalTable } from "@/components/RefusalTable";
-import {
-  ABLATION_PLAIN,
-  MODALITY,
-  TRAP_KIND,
-  int,
-  modalityLabel,
-  num,
-  recordLink,
-  trapLabel,
-  year,
-} from "@/lib/format";
-import {
-  ABLATIONS,
-  PRIMARY_SLICE,
-  SLICES,
-  isAblation,
-  isSlice,
-  loadHeldout,
-  loadPolicy,
-  loadSlice,
-} from "@/lib/repo";
+import { Calibration } from "@/components/viz/Calibration";
+import { CountUp } from "@/components/viz/CountUp";
+import { DecisionSwarm } from "@/components/viz/DecisionSwarm";
+import { HeldoutDumbbell } from "@/components/viz/HeldoutDumbbell";
+import { RankSlope } from "@/components/viz/RankSlope";
+import { ABLATION_PLAIN, MODALITY, TRAP_KIND, VERDICT, int, longDate, modalityLabel, num, recordLink, year } from "@/lib/format";
+import { PRIMARY_SLICE, SLICES, isAblation, isSlice, loadHeldout, loadPolicy, loadSlice } from "@/lib/repo";
+import type { VerdictKind } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -58,41 +45,34 @@ export default async function SlicePage({ params, searchParams }: { params: Para
 
   const header = (
     <>
-      <div className="eyebrow">Results · evidence frozen at {cutoff}</div>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 24, flexWrap: "wrap", alignItems: "end" }}>
+      <div className="eyebrow">Evidence frozen at {longDate(cutoff)}</div>
+      <div className="page-head">
         <h1>
           Cutoff <span style={{ color: "var(--accent)" }}>{year(cutoff)}</span>
         </h1>
-        <div style={{ display: "grid", gap: 10, justifyItems: "start" }}>
-          <nav className="segmented" aria-label="Cutoff">
-            {SLICES.map((s) => (
-              <Link key={s} href={href(s, ablation, rank)} aria-current={s === cutoff ? "true" : undefined}>
-                {year(s)}
-                {s === PRIMARY_SLICE ? " ★" : ""}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        <nav className="segmented lg" aria-label="Cutoff">
+          {SLICES.map((s) => (
+            <Link
+              key={s}
+              href={href(s, ablation, rank)}
+              aria-current={s === cutoff ? "true" : undefined}
+              title={s === PRIMARY_SLICE ? "The primary slice" : undefined}
+            >
+              {year(s)}
+            </Link>
+          ))}
+        </nav>
       </div>
-      <div style={{ marginTop: 22, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <span className="small muted" style={{ marginRight: 4 }}>
-          Variant:
-        </span>
-        {ABLATIONS.map((a) => (
-          <Link
-            key={a}
-            href={href(cutoff, a, rank)}
-            className={`tag ${a === ablation ? "bad" : "plain"}`}
-            style={{ textDecoration: "none" }}
-            aria-current={a === ablation ? "true" : undefined}
-          >
-            {a}
+      {ablation !== "full system" && (
+        <div className="callout future" style={{ marginTop: 24, display: "flex", gap: 16, justifyContent: "space-between", flexWrap: "wrap" }}>
+          <span>
+            <b>Ablation: {ablation}.</b> {ABLATION_PLAIN[ablation]}
+          </span>
+          <Link className="go" href={href(cutoff, "full system", rank)}>
+            Back to the full system
           </Link>
-        ))}
-      </div>
-      <p className="lede" style={{ marginTop: 16, fontSize: "1.02rem" }}>
-        {ABLATION_PLAIN[ablation]}
-      </p>
+        </div>
+      )}
     </>
   );
 
@@ -110,62 +90,109 @@ export default async function SlicePage({ params, searchParams }: { params: Para
   }
 
   const card = result.scorecard;
-  const truth = new Set(card.ground_truth_symbols);
   const ranking = rank === "cost" ? card.ranking_by_cost_impact : card.ranking_by_confidence;
+  const truth = new Set(card.ground_truth_symbols);
   const items = [...result.forecast.items].sort((a, b) =>
     rank === "cost" ? a.rank_by_cost_impact - b.rank_by_cost_impact : a.rank_by_confidence - b.rank_by_confidence,
   );
+  const hits = items.filter((i) => truth.has(i.gene_symbol)).length;
   const refusalBySymbol = new Map(result.forecast.refusals.map((r) => [r.gene_symbol, r]));
   const forecastBySymbol = new Map(result.forecast.items.map((i) => [i.gene_symbol, i]));
+
+  const decision = [
+    ...result.forecast.items.map((i) => ({
+      symbol: i.gene_symbol,
+      confidence: i.confidence,
+      evidence: i.evidence_count,
+      kind: (truth.has(i.gene_symbol) ? "hit" : "forecast") as VerdictKind,
+    })),
+    ...result.forecast.refusals.map((r) => ({
+      symbol: r.gene_symbol,
+      confidence: r.confidence,
+      evidence: r.evidence_count,
+      kind: (truth.has(r.gene_symbol) ? "missed" : "refused") as VerdictKind,
+    })),
+  ];
+  const showSlope = card.cost_lens_reordered > 0 && items.length >= 2 && items.length <= 15;
+  const closest = result.forecast.refusals
+    .filter((r) => truth.has(r.gene_symbol))
+    .sort((a, b) => b.confidence - a.confidence)
+    .filter((r, i, all) => r.confidence === all[0].confidence);
+
+  const trapKinds = Object.entries(TRAP_KIND)
+    .map(([kind, meta]) => ({ kind, meta, traps: card.traps.filter((t) => t.kind === kind) }))
+    .filter((g) => g.traps.length > 0);
+  const tested = heldout?.holdouts.filter((h) => h.reportable_with) ?? [];
+  const claimsCalibrated = card.calibration_bins.reduce((n, b) => n + b.n, 0);
 
   return (
     <div className="wrap page">
       {header}
 
       {/* ---------- headline ---------- */}
-      <section className="grid" style={{ marginTop: 40, gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 230px), 1fr))" }}>
-        <div className="stat rise rise-1">
-          <div className="value">{card.forecast_size}</div>
-          <div className="label">genes predicted to matter for fetal hemoglobin</div>
-        </div>
-        <div className="stat future rise rise-2">
-          <div className="value">{card.ground_truth_symbols.length}</div>
-          <div className="label">genes the field actually established after {year(cutoff)}</div>
-        </div>
-        <div className="stat accent rise rise-3">
+      <section className="stats" style={{ marginTop: 48 }}>
+        <div className="stat accent rise rise-1">
           <div className="value">
-            {ranking?.hits_at_10.length ?? 0}
+            <CountUp value={card.forecast_size} />
+          </div>
+          <div className="label">genes named as the next discoveries</div>
+        </div>
+        <div className="stat ok rise rise-2">
+          <div className="value">
+            <CountUp value={hits} />
             <small>of {card.forecast_size}</small>
           </div>
-          <div className="label">predictions that came true (precision@5 {num(ranking?.precision_at_5)})</div>
+          <div className="label">
+            came true <span className="muted mono small">· P@5 {num(ranking?.precision_at_5)} · MRR {num(ranking?.mean_reciprocal_rank)}</span>
+          </div>
+        </div>
+        <div className="stat future rise rise-3">
+          <div className="value">
+            <CountUp value={card.ground_truth_symbols.length} />
+          </div>
+          <div className="label">found by the field after {year(cutoff)}</div>
         </div>
         <div className="stat rise rise-4">
           <div className="value">
-            {card.refusal_count}
+            <CountUp value={card.traps_passed} />
+            <small>/{card.traps_total}</small>
           </div>
-          <div className="label">genes where it declined to make a claim</div>
+          <div className="label">trick questions avoided</div>
         </div>
-        <div className="stat rise rise-2">
-          <div className="value">
-            {card.judgement_traps_passed}
-            <small>/{card.judgement_traps_total}</small>
-          </div>
-          <div className="label">judgement traps avoided (decoy genes)</div>
+      </section>
+
+      {/* ---------- answer key ---------- */}
+      <section className="section">
+        <div className="section-head">
+          <h2>The envelope, opened</h2>
+          <p>Every gene the field established after {longDate(cutoff)}, and what the system said about it beforehand.</p>
         </div>
-        <div className="stat rise rise-3">
-          <div className="value">
-            {card.contamination_traps_passed}
-            <small>/{card.contamination_traps_total}</small>
-          </div>
-          <div className="label">contamination checks passed (no future leaked in)</div>
+        <div className="chips unseal">
+          {card.ground_truth_symbols.map((s, i) => {
+            const f = forecastBySymbol.get(s);
+            const r = refusalBySymbol.get(s);
+            const kind = f ? "v-hit" : r ? "v-missed" : "v-none";
+            return (
+              <Link key={s} href={`/genes/${s}`} className={`chip ${kind}`} style={{ animationDelay: `${120 + i * 45}ms` }}>
+                <span className={`dot${f ? "" : " ring"}`} />
+                <b>{s}</b>
+                <span className="note">{f ? `#${f.rank_by_confidence}` : r ? r.confidence.toFixed(2) : "not weighed"}</span>
+              </Link>
+            );
+          })}
         </div>
-        <div className="stat rise rise-4">
-          <div className="value">{num(card.expected_calibration_error, 3)}</div>
-          <div className="label">calibration error (0 means its confidence is perfectly honest)</div>
-        </div>
-        <div className="stat rise rise-5">
-          <div className="value">{card.fabricated_numbers}</div>
-          <div className="label">numbers that could not be traced to a source record</div>
+        <div className="legend">
+          <span className="v-hit">
+            <span className="dot" /> Predicted, with its rank
+          </span>
+          <span className="v-missed">
+            <span className="dot ring" /> Refused, with its confidence
+          </span>
+          {card.ground_truth_symbols.some((s) => !forecastBySymbol.has(s) && !refusalBySymbol.has(s)) && (
+            <span className="v-none">
+              <span className="dot ring" /> Never weighed: no pre-cutoff evidence at all
+            </span>
+          )}
         </div>
       </section>
 
@@ -182,12 +209,30 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             </Link>
           </nav>
         </div>
-        <p className="muted small" style={{ maxWidth: "75ch" }}>
+        <p className="muted small" style={{ maxWidth: "72ch", marginTop: -8 }}>
           {rank === "cost"
-            ? "Re-ranked by confidence times the cost weight of the likely treatment route, so a cheap pill outranks a multi-million-dollar cell therapy at similar confidence."
+            ? "Confidence times the cost weight of the likely treatment route, so a cheap pill outranks a multi-million-dollar cell therapy at similar confidence."
             : "Ranked by how strongly the pre-cutoff evidence supports each claim."}{" "}
-          A red edge marks a prediction the field later confirmed.
+          {card.cost_lens_reordered === 0
+            ? "At this cutoff the two rankings are identical."
+            : `The cost weighting moves ${card.cost_lens_reordered} of ${card.forecast_size}.`}
         </p>
+        {showSlope && (
+          <div className="card" style={{ marginBottom: 28, padding: "18px 22px" }}>
+            <RankSlope
+              items={result.forecast.items.map((i) => ({
+                symbol: i.gene_symbol,
+                confidence: i.confidence,
+                impact: i.cost_impact,
+                weight: i.cost_weight,
+                route: modalityLabel(i.implied_modality),
+                rankConf: i.rank_by_confidence,
+                rankCost: i.rank_by_cost_impact,
+                hit: truth.has(i.gene_symbol),
+              }))}
+            />
+          </div>
+        )}
         {items.length === 0 ? (
           <div className="callout neutral">
             <p>Nothing cleared the bar for a claim at this cutoff.</p>
@@ -197,45 +242,35 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             {items.map((item) => {
               const hit = truth.has(item.gene_symbol);
               const r = rank === "cost" ? item.rank_by_cost_impact : item.rank_by_confidence;
+              const shift = item.rank_by_confidence - item.rank_by_cost_impact;
               return (
-                <li key={item.claim_id} className={`forecast-item${hit ? " hit" : ""}`}>
-                  <div className="rank">{String(r).padStart(2, "0")}</div>
+                <li key={item.claim_id} className={`fc ${hit ? "v-hit" : "v-forecast"}`}>
+                  <div className="rank">
+                    {String(r).padStart(2, "0")}
+                    {rank === "cost" && shift !== 0 && (
+                      <span className={`shift ${shift > 0 ? "up" : "down"}`} title={`rank ${item.rank_by_confidence} by confidence`}>
+                        {shift > 0 ? "↑" : "↓"}
+                        {Math.abs(shift)} from {item.rank_by_confidence}
+                      </span>
+                    )}
+                  </div>
                   <div>
-                    <h3>
+                    <div className="fc-title">
                       <Link href={`/genes/${item.gene_symbol}`}>{item.gene_symbol}</Link>
-                      {hit ? <span className="tag bad">came true</span> : <span className="tag plain">not confirmed</span>}
-                      <span className="tag future" title={MODALITY[item.implied_modality]?.plain}>
-                        {modalityLabel(item.implied_modality)}
-                      </span>
-                    </h3>
-                    <p style={{ margin: "6px 0 10px", color: "var(--ink-2)" }}>{item.statement}</p>
-                    <div style={{ display: "flex", gap: 10, alignItems: "center", maxWidth: 420 }}>
-                      <Meter value={item.confidence} threshold={threshold} />
-                      <span className="mono small">{item.confidence.toFixed(3)}</span>
+                      {hit ? <span className="tag ok">came true</span> : <span className="tag plain">not confirmed</span>}
                     </div>
-                    <div className="facts">
-                      <span>
-                        evidence <b>{item.evidence_count}</b>
-                      </span>
-                      <span>
-                        cost weight <b>×{item.cost_weight}</b>
-                      </span>
-                      <span>
-                        affordable impact <b>{num(item.cost_impact, 3)}</b>
-                      </span>
-                      <span>
-                        rank by confidence <b>{item.rank_by_confidence}</b> · by cost <b>{item.rank_by_cost_impact}</b>
-                      </span>
-                    </div>
-                    <details style={{ marginTop: 14 }}>
-                      <summary className="small">Why this route, and the {item.supporting_record_ids.length} supporting records</summary>
+                    <p className="fc-claim">{item.statement}</p>
+                    <details className="disclose">
+                      <summary>Why this route, and the {item.supporting_record_ids.length} supporting records</summary>
                       <div className="body">
-                        <p>{item.modality_rationale}</p>
+                        <p className="small" style={{ color: "var(--ink-2)" }}>
+                          {item.modality_rationale}
+                        </p>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                           {item.supporting_record_ids.map((id) => {
                             const link = recordLink(id);
                             return link ? (
-                              <a key={id} href={link} target="_blank" rel="noreferrer" className="tag plain" style={{ textDecoration: "none" }}>
+                              <a key={id} href={link} target="_blank" rel="noreferrer" className="tag plain">
                                 {id} ↗
                               </a>
                             ) : (
@@ -248,59 +283,85 @@ export default async function SlicePage({ params, searchParams }: { params: Para
                       </div>
                     </details>
                   </div>
+                  <div className="fc-side">
+                    <div className="meter-row">
+                      <Meter value={item.confidence} threshold={threshold} />
+                      <span className="mono small">{item.confidence.toFixed(3)}</span>
+                    </div>
+                    <span title={MODALITY[item.implied_modality]?.plain}>
+                      Route <b>{modalityLabel(item.implied_modality)}</b>
+                      {rank === "cost" && (
+                        <>
+                          {" "}
+                          · ×{item.cost_weight} = <b>{num(item.cost_impact, 2)}</b>
+                        </>
+                      )}
+                    </span>
+                    <span>
+                      <b>{item.evidence_count}</b> pieces of evidence
+                    </span>
+                  </div>
                 </li>
               );
             })}
           </ol>
         )}
         {result.forecast.already_established.length > 0 && (
-          <p className="small muted" style={{ marginTop: 16 }}>
-            Left out because the field had already established them before the cutoff (
-            {result.forecast.already_established.length}):{" "}
-            {result.forecast.already_established.map((s, i) => (
-              <span key={s}>
-                {i > 0 && ", "}
-                <Link href={`/genes/${s}`} className="mono">
-                  {s}
-                </Link>
-              </span>
-            ))}
-            .
+          <p className="small muted" style={{ marginTop: 18 }}>
+            Not forecast because the field had already established them: {result.forecast.already_established.join(", ")}.
           </p>
         )}
       </section>
 
-      {/* ---------- answer key ---------- */}
+      {/* ---------- decision line ---------- */}
       <section className="section">
         <div className="section-head">
-          <h2>The answer key</h2>
-          <p>Every gene the field established after {cutoff}, and what the system said about it beforehand.</p>
+          <h2>Where the line fell</h2>
+          <p>Every gene the system weighed, by confidence. The threshold was frozen in git before the first run and never moved.</p>
         </div>
-        <div className="grid grid-4" style={{ gap: 10 }}>
-          {card.ground_truth_symbols.map((s) => {
-            const f = forecastBySymbol.get(s);
-            const r = refusalBySymbol.get(s);
-            return (
-              <Link
-                key={s}
-                href={`/genes/${s}`}
-                className="card"
-                style={{ padding: "12px 14px", borderLeft: `3px solid ${f ? "var(--accent)" : "var(--future)"}` }}
-              >
-                <div className="mono" style={{ fontWeight: 600 }}>
-                  {s}
-                </div>
-                <div className="small muted">
-                  {f
-                    ? `predicted, rank ${f.rank_by_confidence}`
-                    : r
-                      ? `refused at ${r.confidence.toFixed(2)}`
-                      : "never came up"}
-                </div>
-              </Link>
-            );
-          })}
+        <DecisionSwarm points={decision} threshold={threshold} />
+        <div className="legend">
+          {(
+            [
+              ["hit", "came true"],
+              ["forecast", "predicted, not confirmed"],
+              ["missed", "refused, found later"],
+              ["refused", "refused"],
+            ] as const
+          )
+            .filter(([k]) => decision.some((p) => p.kind === k))
+            .map(([k, label]) => (
+              <span key={k} className={`v-${k}`} title={VERDICT[k].plain}>
+                <span className={`dot${k === "refused" ? " ring" : ""}`} /> {label}
+              </span>
+            ))}
         </div>
+        {closest.length > 0 && (
+          <p className="small" style={{ marginTop: 16, maxWidth: "72ch" }}>
+            Closest miss{closest.length > 1 ? "es" : ""}: <b className="mono">{closest.map((r) => r.gene_symbol).join(" and ")}</b> at{" "}
+            {closest[0].confidence.toFixed(3)},{" "}
+            {threshold - closest[0].confidence > 0
+              ? `${(threshold - closest[0].confidence).toFixed(3)} under the line`
+              : "on the line"}
+            . The field found {closest.length > 1 ? "both" : "it"} anyway.
+          </p>
+        )}
+        {result.forecast.refusals.length > 0 && (
+          <details className="panel" style={{ marginTop: 20 }}>
+            <summary>All {result.forecast.refusals.length} refusals</summary>
+            <div className="body">
+              <RefusalTable
+                threshold={threshold}
+                rows={result.forecast.refusals.map((r) => ({
+                  gene_symbol: r.gene_symbol,
+                  confidence: r.confidence,
+                  evidence_count: r.evidence_count,
+                  foundLater: truth.has(r.gene_symbol),
+                }))}
+              />
+            </div>
+          </details>
+        )}
       </section>
 
       {/* ---------- traps ---------- */}
@@ -309,144 +370,103 @@ export default async function SlicePage({ params, searchParams }: { params: Para
           <h2>Trick questions</h2>
           <p>Planted before grading, drawn from the data itself. The system never knows which genes are traps.</p>
         </div>
-        <div className="grid grid-3" style={{ marginBottom: 20 }}>
-          {Object.entries(TRAP_KIND).map(([kind, t]) => (
-            <div key={kind} className="card">
-              <div className="eyebrow">{t.family === "judgement" ? "judgement trap" : "contamination check"}</div>
-              <h3>{t.label}</h3>
-              <p className="small muted">{t.plain}</p>
-            </div>
-          ))}
-        </div>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Gene</th>
-                <th>Kind</th>
-                <th>Right answer</th>
-                <th>System said</th>
-                <th>Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              {card.traps.map((t) => (
-                <tr key={t.trap_id}>
-                  <td>
-                    <Link className="gene" href={`/genes/${t.gene_symbol}`}>
-                      {t.gene_symbol}
+        <div className="grid grid-3">
+          {trapKinds.map(({ kind, meta, traps }) => {
+            const passed = traps.filter((t) => t.passed).length;
+            return (
+              <div key={kind} className="card">
+                <div className="small muted" style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                  <span>{meta.family === "judgement" ? "Judgement trap" : "Contamination check"}</span>
+                  <span className="mono" style={{ color: passed === traps.length ? "var(--ok)" : "var(--accent)" }}>
+                    {passed}/{traps.length} passed
+                  </span>
+                </div>
+                <h3 style={{ marginTop: 6 }}>{meta.label}</h3>
+                <p className="small muted">{meta.plain}</p>
+                <div className="chips" style={{ gap: 6 }}>
+                  {traps.map((t) => (
+                    <Link
+                      key={t.trap_id}
+                      href={`/genes/${t.gene_symbol}`}
+                      className={`chip ${!t.passed ? "v-forecast" : t.vacuous ? "v-warn" : "v-hit"}`}
+                      title={`${t.detail}${t.vacuous ? ". Vacuous: passed only because the forecast was empty." : ""}`}
+                    >
+                      <span aria-hidden>{t.passed ? "✓" : "✕"}</span>
+                      <b>{t.gene_symbol}</b>
                     </Link>
-                  </td>
-                  <td className="small">{trapLabel(t.kind)}</td>
-                  <td className="small">{t.correct_answer}</td>
-                  <td className="small">{t.system_answer}</td>
-                  <td>
-                    {t.passed ? <span className="tag ok">passed</span> : <span className="tag bad">failed</span>}
-                    {t.vacuous && <span className="tag warn" style={{ marginLeft: 6 }}>vacuous</span>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* ---------- refusals ---------- */}
-      <section className="section">
-        <div className="section-head">
-          <h2>Refusals</h2>
-          <p>
-            “The evidence before the cutoff does not support a claim here.” Highlighted rows were refused and then found by the field anyway: a
-            correct refusal and a missed forecast at once.
+      {/* ---------- calibration and held-out ---------- */}
+      <section className="section grid grid-2" style={{ alignItems: "start" }}>
+        <div className="card">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
+            <h3>Is its confidence honest?</h3>
+            <span className="mono small muted">ECE {num(card.expected_calibration_error, 3)}</span>
+          </div>
+          <p className="small muted">
+            Said “30% likely” a hundred times, about thirty should come true. Bars show how often claims at each level did; the dashed
+            line is perfect honesty. Over {claimsCalibrated} claims, several bins nearly empty, so read it roughly.
+          </p>
+          <Calibration bins={card.calibration_bins} claims={decision} />
+          <p className="viz-hint" style={{ margin: "10px 0 0" }}>
+            Click a band to open it: each claim drops to the top if it came true, the bottom if not.
           </p>
         </div>
-        <RefusalTable
-          threshold={threshold}
-          rows={result.forecast.refusals.map((r) => ({
-            gene_symbol: r.gene_symbol,
-            confidence: r.confidence,
-            evidence_count: r.evidence_count,
-            reason: r.reason,
-            foundLater: truth.has(r.gene_symbol),
-          }))}
-        />
+        {heldout && (
+          <div className="card">
+            <h3>Held-out recovery</h3>
+            <p className="small muted">
+              Hide a gene’s lab measurements and check whether it can still be reached from what remains. {heldout.recovered} of{" "}
+              {heldout.genes_tested} recovered. A rate over one or two genes is not evidence of much.
+            </p>
+            {tested.length > 0 && (
+              <>
+                <HeldoutDumbbell
+                  threshold={threshold}
+                  rows={tested.map((h) => ({
+                    symbol: h.gene_symbol,
+                    hidden: h.measurements_hidden,
+                    with: h.confidence_with_measurements,
+                    without: h.confidence_without_measurements,
+                    recovered: h.recovered,
+                  }))}
+                />
+                <div className="legend">
+                  <span>
+                    <span className="dot ring" style={{ ["--v" as string]: "var(--ink)" }} /> with its measurements
+                  </span>
+                  <span className="v-hit">
+                    <span className="dot" /> without them, still reachable
+                  </span>
+                  {tested.some((h) => !h.recovered) && (
+                    <span style={{ ["--v" as string]: "var(--bad)" }}>
+                      <span className="dot" /> without them, lost
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
+            {heldout.holdouts.length > tested.length && (
+              <p className="small muted" style={{ marginTop: 12, marginBottom: 0 }}>
+                {heldout.holdouts.length - tested.length} other genes were not reportable even with their measurements, so there was
+                nothing to recover.
+              </p>
+            )}
+          </div>
+        )}
       </section>
 
-      {/* ---------- calibration ---------- */}
+      {/* ---------- audit ---------- */}
       <section className="section">
         <div className="section-head">
-          <h2>Is its confidence honest?</h2>
-          <span className="num">ECE {num(card.expected_calibration_error, 3)}</span>
-        </div>
-        <div className="grid grid-2" style={{ alignItems: "center" }}>
-          <Calibration bins={card.calibration_bins} />
-          <div>
-            <p>
-              If a forecaster says “30% likely” a hundred times, about thirty of those should come true. Bars show how often claims at each
-              confidence level actually came true; the dashed line is perfect honesty.
-            </p>
-            <p className="muted small">
-              Measured over {card.calibration_bins.reduce((n, b) => n + b.n, 0)} claims in five bins, several nearly empty. Treat it as a rough
-              reading, not a precise one.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- held-out ---------- */}
-      {heldout && heldout.holdouts.length > 0 && (
-        <section className="section">
-          <div className="section-head">
-            <h2>Held-out recovery</h2>
-            <p>Hide a gene’s lab measurements and check whether it can still be reached from what remains.</p>
-          </div>
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Gene</th>
-                  <th className="num">Measurements hidden</th>
-                  <th className="num">Confidence with</th>
-                  <th className="num">Without</th>
-                  <th>Reportable</th>
-                  <th>Recovered</th>
-                </tr>
-              </thead>
-              <tbody>
-                {heldout.holdouts.map((h) => (
-                  <tr key={h.gene_symbol}>
-                    <td>
-                      <Link className="gene" href={`/genes/${h.gene_symbol}`}>
-                        {h.gene_symbol}
-                      </Link>
-                    </td>
-                    <td className="num">{int(h.measurements_hidden)}</td>
-                    <td className="num">{num(h.confidence_with_measurements, 3)}</td>
-                    <td className="num">{num(h.confidence_without_measurements, 3)}</td>
-                    <td className="small">{h.reportable_with ? "yes" : "no"}</td>
-                    <td>
-                      {h.reportable_with ? (
-                        h.recovered ? <span className="tag ok">recovered</span> : <span className="tag bad">lost</span>
-                      ) : (
-                        <span className="tag plain">not tested</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="small muted" style={{ marginTop: 12 }}>
-            {heldout.genes_tested} reportable gene{heldout.genes_tested === 1 ? "" : "s"} tested, {heldout.recovered} recovered. A rate over one
-            or two genes is not evidence of much; the README says so too.
-          </p>
-        </section>
-      )}
-
-      {/* ---------- notes ---------- */}
-      <section className="section">
-        <div className="section-head">
-          <h2>Grader’s notes and run facts</h2>
+          <h2>Audit trail</h2>
+          <p>The grader’s own notes, and what was checked to produce this page.</p>
         </div>
         <div className="grid grid-2" style={{ alignItems: "start" }}>
           <div style={{ display: "grid", gap: 10 }}>
@@ -455,9 +475,6 @@ export default async function SlicePage({ params, searchParams }: { params: Para
                 <p className="small">{n}</p>
               </div>
             ))}
-            <div className="callout neutral">
-              <p className="small">{result.forecast.ranking_note}</p>
-            </div>
           </div>
           <div className="table-wrap">
             <table>
@@ -465,13 +482,10 @@ export default async function SlicePage({ params, searchParams }: { params: Para
                 <tr><td>Rules extracted from evidence</td><td className="num">{int(result.axiom_count)}</td></tr>
                 <tr><td>Candidate claims weighed</td><td className="num">{int(result.claim_count)}</td></tr>
                 <tr><td>Belief updates, each audited</td><td className="num">{int(result.revision_count)}</td></tr>
-                <tr><td>Graph nodes visible before cutoff</td><td className="num">{int(Number(result.slice_manifest.nodes))}</td></tr>
-                <tr><td>Graph edges visible before cutoff</td><td className="num">{int(Number(result.slice_manifest.edges))}</td></tr>
-                <tr><td>Record IDs checked for provenance</td><td className="num">{int(result.provenance_report.checked_record_ids)}</td></tr>
-                <tr><td>Untraceable</td><td className="num">{result.provenance_report.untraceable}</td></tr>
-                <tr><td>Cost lens reordered</td><td className="num">{card.cost_lens_reordered}</td></tr>
-                <tr><td>Top route, by confidence</td><td className="num">{modalityLabel(card.cost_lens_top_route_by_confidence)}</td></tr>
-                <tr><td>Top route, by affordable impact</td><td className="num">{modalityLabel(card.cost_lens_top_route_by_cost_impact)}</td></tr>
+                <tr><td>Graph nodes and edges visible</td><td className="num">{int(Number(result.slice_manifest.nodes))} · {int(Number(result.slice_manifest.edges))}</td></tr>
+                <tr><td>Record IDs traced to a source</td><td className="num">{int(result.provenance_report.checked_record_ids)}</td></tr>
+                <tr><td>Untraceable records</td><td className="num">{result.provenance_report.untraceable}</td></tr>
+                <tr><td>Numbers with no source row</td><td className="num">{card.fabricated_numbers}</td></tr>
               </tbody>
             </table>
           </div>

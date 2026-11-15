@@ -37,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body>
+        <div className="ambient" aria-hidden />
         <header className="masthead">
           <div className="wrap">
             <Link href="/" className="wordmark" aria-label="crispr-hindcast home">
@@ -49,10 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <footer className="footer">
           <div className="wrap">
-            <span>
-              No language model anywhere. Every judgement is a stated rule, every number traces to a
-              source row.
-            </span>
+            <span>No language model anywhere. Every judgement is a stated rule, every number traces to a source row.</span>
             <span>Code MIT · each dataset keeps its own license</span>
           </div>
         </footer>

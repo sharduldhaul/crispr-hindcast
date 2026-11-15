@@ -3,12 +3,14 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 
+import { verdictOf } from "./format";
 import type {
   Establishment,
   HeldoutReport,
   Ingestion,
   Policy,
   SliceResult,
+  VerdictKind,
 } from "./types";
 
 // The web app lives in web/ inside the repository and reads the pipeline's
@@ -192,6 +194,8 @@ export interface GeneIndexEntry {
   groundTruthAt: string[];
   trapped: boolean;
   established: string | null;
+  /** The full system's verdict at each cutoff, in SLICES order. */
+  verdicts: VerdictKind[];
 }
 
 export function geneIndex(): GeneIndexEntry[] {
@@ -206,19 +210,35 @@ export function geneIndex(): GeneIndexEntry[] {
         groundTruthAt: [],
         trapped: false,
         established: rulebook[symbol]?.establishing_record?.date?.slice(0, 10) ?? null,
+        verdicts: SLICES.map(() => "none" as VerdictKind),
       };
       entries.set(symbol, e);
     }
     return e;
   };
   for (const symbol of Object.keys(rulebook)) get(symbol);
-  for (const cutoff of SLICES) {
-    const result = loadSlice(cutoff);
-    if (!result) continue;
+  const results = SLICES.map((cutoff) => loadSlice(cutoff));
+  results.forEach((result, i) => {
+    if (!result) return;
+    const cutoff = SLICES[i];
     for (const item of result.forecast.items) get(item.gene_symbol).forecastAt.push(cutoff);
     for (const r of result.forecast.refusals) get(r.gene_symbol);
     for (const s of result.scorecard.ground_truth_symbols) get(s).groundTruthAt.push(cutoff);
     for (const t of result.scorecard.traps) get(t.gene_symbol).trapped = true;
+  });
+  // Verdicts once every gene has an entry, so a gene seen only at a later
+  // cutoff still gets "known" or "none" at the earlier ones.
+  for (const e of entries.values()) {
+    e.verdicts = results.map((result) =>
+      result
+        ? verdictOf({
+            forecast: result.forecast.items.some((i) => i.gene_symbol === e.symbol),
+            refused: result.forecast.refusals.some((r) => r.gene_symbol === e.symbol),
+            known: result.forecast.already_established.includes(e.symbol),
+            inTruth: result.scorecard.ground_truth_symbols.includes(e.symbol),
+          })
+        : "none",
+    );
   }
   return [...entries.values()].sort((a, b) => a.symbol.localeCompare(b.symbol));
 }

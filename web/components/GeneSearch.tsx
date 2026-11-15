@@ -3,13 +3,31 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { VERDICT } from "@/lib/format";
 import type { GeneIndexEntry } from "@/lib/repo";
+
+import { EvidenceScatter, type ScatterPoint } from "./viz/EvidenceScatter";
 
 type Filter = "all" | "forecast" | "truth" | "trap";
 
-export function GeneSearch({ genes }: { genes: GeneIndexEntry[] }) {
+const RING = new Set(["missed", "refused", "none"]);
+
+export function GeneSearch({
+  genes,
+  slices,
+  primary,
+  scatter,
+  threshold,
+}: {
+  genes: GeneIndexEntry[];
+  slices: readonly string[];
+  primary: string;
+  scatter: Record<string, ScatterPoint[]>;
+  threshold: number;
+}) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [cutoff, setCutoff] = useState(primary);
 
   const shown = useMemo(() => {
     const q = query.trim().toUpperCase();
@@ -22,19 +40,25 @@ export function GeneSearch({ genes }: { genes: GeneIndexEntry[] }) {
     });
   }, [genes, query, filter]);
 
+  // The filter row scopes the chart too: anything it hides, the chart dims.
+  const highlight = useMemo(
+    () => (query.trim() || filter !== "all" ? new Set(shown.map((g) => g.symbol)) : null),
+    [shown, query, filter],
+  );
+
   const filters: [Filter, string][] = [
     ["all", "All"],
-    ["forecast", "Ever predicted"],
+    ["forecast", "Predicted"],
     ["truth", "In an answer key"],
-    ["trap", "Used as a trap"],
+    ["trap", "Traps"],
   ];
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: 22 }}>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: 28 }}>
         <input
           type="search"
-          placeholder="Search a gene symbol, e.g. BCL11A"
+          placeholder="Search a symbol, e.g. BCL11A"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Search genes"
@@ -47,32 +71,81 @@ export function GeneSearch({ genes }: { genes: GeneIndexEntry[] }) {
             </button>
           ))}
         </div>
-        <span className="small muted">{shown.length} genes</span>
+        <span className="small muted" style={{ marginLeft: "auto" }} aria-live="polite">
+          {shown.length} genes
+        </span>
       </div>
-      <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 190px), 1fr))", gap: 10 }}>
-        {shown.map((g) => (
-          <Link
-            key={g.symbol}
-            href={`/genes/${g.symbol}`}
-            className="card"
-            style={{
-              padding: "12px 14px",
-              borderLeft: `3px solid ${g.forecastAt.length ? "var(--accent)" : g.groundTruthAt.length ? "var(--future)" : "var(--rule)"}`,
-            }}
-          >
-            <div className="mono" style={{ fontWeight: 600 }}>
-              {g.symbol}
-            </div>
-            <div className="small muted" style={{ lineHeight: 1.4, marginTop: 2 }}>
-              {g.established ? `established ${g.established.slice(0, 4)}` : "not established"}
-            </div>
-            <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginTop: 8 }}>
-              {g.forecastAt.length > 0 && <span className="tag bad">predicted</span>}
-              {g.groundTruthAt.length > 0 && <span className="tag future">answer key</span>}
-              {g.trapped && <span className="tag warn">trap</span>}
-            </div>
-          </Link>
-        ))}
+
+      <section style={{ marginBottom: 44 }}>
+        <div className="viz-head">
+          <div>
+            <h2 style={{ fontSize: "1.45rem" }}>Evidence is not confidence</h2>
+            <p className="small muted" style={{ margin: "6px 0 0", maxWidth: "62ch" }}>
+              Every gene the system weighed at one cutoff. Correlated records count with diminishing returns, so a gene hundreds of
+              records deep can still sit under the line.
+            </p>
+          </div>
+          <div className="segmented" role="group" aria-label="Cutoff for the chart">
+            {slices.map((s) => (
+              <button key={s} type="button" aria-pressed={cutoff === s} onClick={() => setCutoff(s)}>
+                {s.slice(0, 4)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <EvidenceScatter byCutoff={scatter} cutoff={cutoff} threshold={threshold} highlight={highlight} />
+        <div className="legend">
+          {(["hit", "forecast", "missed", "refused"] as const).map((k) => (
+            <span key={k} className={`v-${k}`}>
+              <span className={`dot${k === "refused" ? " ring" : ""}`} /> {VERDICT[k].plain.toLowerCase()}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Gene</th>
+              <th>Established</th>
+              {slices.map((s) => (
+                <th key={s}>Cutoff {s.slice(0, 4)}</th>
+              ))}
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((g) => (
+              <tr key={g.symbol} className="row-link">
+                <td>
+                  <Link className="gene" href={`/genes/${g.symbol}`}>
+                    {g.symbol}
+                  </Link>
+                </td>
+                <td className="mono small" style={{ color: g.established ? "var(--future)" : "var(--muted)" }}>
+                  {g.established ? g.established.slice(0, 4) : "—"}
+                </td>
+                {g.verdicts.map((v, i) => (
+                  <td key={slices[i]}>
+                    <span className={`vstrip v-${v}`} title={VERDICT[v].plain}>
+                      {v !== "none" && <span className={`dot${RING.has(v) ? " ring" : ""}`} />}
+                      {VERDICT[v].label}
+                    </span>
+                  </td>
+                ))}
+                <td style={{ textAlign: "right" }}>{g.trapped && <span className="tag trap">trap</span>}</td>
+              </tr>
+            ))}
+            {shown.length === 0 && (
+              <tr>
+                <td colSpan={slices.length + 3} className="muted small">
+                  No gene matches. The system would refuse to guess, and so will this page.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
