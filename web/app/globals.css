@@ -1,27 +1,35 @@
-/* crispr-hindcast: a sealed experiment, read at night.
-   A warm black page, cream ink for long reading, and a light hint of gold
-   for the frozen lines the system respects: the cutoff and the threshold.
+/* crispr-hindcast: a dashboard of tiles on charcoal.
+   Neutral dark surfaces, bone ink, and two filled tiles (slate blue, bone)
+   for the figures a page leads with. The cutoff and the threshold, the frozen
+   lines the system respects, are drawn in the bone accent.
 
-   Data colours were validated as a set on the chart surface (#14120e), all
-   pairs, with the dataviz palette validator: claim gold, came-true green and
-   sealed blue clear CVD ΔE 8.6 and normal-vision ΔE 19.1. Every text token
-   clears WCAG AA on the page and on cards. */
+   Data colours were validated as a set with the dataviz palette validator,
+   all pairs: claim gold, came-true green and sealed blue clear CVD dE 8.6 and
+   normal-vision dE 19.1. Every text token clears WCAG AA on the page and on
+   tiles; the lowest data colour on a tile is sealed blue at 5.2:1. Charts are
+   never placed on a filled tile, where the data colours were not checked. */
 
 :root {
   /* surfaces */
-  --paper: #0c0b09;
-  --paper-2: #14120e;
-  --paper-3: #1f1c16;
+  --paper: #111113;
+  --paper-2: #1b1b1f;
+  --paper-3: #26262b;
   /* ink */
-  --ink: #efe8d8;
-  --ink-2: #c8bea8;
-  --muted: #9a907c;
-  --rule: #2a261e;
-  --grid: #221f19;
-  --axis: #3a3428;
-  /* chrome: the gold hint */
-  --accent: #d9bd84;
-  --accent-soft: rgba(217, 189, 132, 0.12);
+  --ink: #ecebe4;
+  --ink-2: #c5c4bc;
+  --muted: #96958d;
+  --rule: #2c2c32;
+  --grid: #232328;
+  --axis: #3c3c44;
+  /* chrome: bone */
+  --accent: #d9d6c7;
+  --accent-soft: rgba(217, 214, 199, 0.12);
+  /* filled tiles */
+  --tile-blue: #4f6299;
+  --tile-blue-ink: #f4f3ee;
+  --tile-bone: #d6d3c5;
+  --tile-bone-ink: #17171a;
+  --tile-bone-ink-2: #4a4942;
   /* data */
   --claim: #c28623;
   --claim-soft: rgba(194, 134, 35, 0.16);
@@ -36,12 +44,12 @@
   --warn: #e0a050;
   --warn-soft: rgba(224, 160, 80, 0.14);
   /* atmosphere */
-  --glow-past: rgba(217, 189, 132, 0.09);
-  --glow-future: rgba(59, 147, 213, 0.08);
+  --glow-past: rgba(132, 112, 150, 0.34);
+  --glow-future: rgba(222, 158, 96, 0.3);
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 40px -20px rgba(0, 0, 0, 0.9);
-  --radius: 6px;
+  --radius: 4px;
   --gutter: clamp(16px, 4vw, 40px);
-  --max: 1120px;
+  --max: 1180px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   color-scheme: dark;
 }
@@ -68,28 +76,19 @@ body {
   overflow-x: hidden;
 }
 
-/* Paper grain. Fixed so it does not scroll with the content. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.35  0 0 0 0 0.3  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-/* Ambient light: the known past glows red on the left, the sealed future
-   blue on the right, the same split the timeline draws. */
+/* Ambient light behind the masthead: dusk plum on the left, amber at the top
+   right, falling to the page colour. */
 .ambient {
   position: absolute;
   inset: 0 0 auto 0;
-  height: 760px;
+  height: 620px;
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(48% 70% at 8% 0%, var(--glow-past), transparent 70%),
-    radial-gradient(42% 60% at 96% 6%, var(--glow-future), transparent 70%);
+    radial-gradient(60% 90% at 0% 0%, var(--glow-past), transparent 72%),
+    radial-gradient(55% 80% at 100% 0%, var(--glow-future), transparent 70%);
+  -webkit-mask-image: linear-gradient(#000 30%, transparent);
+  mask-image: linear-gradient(#000 30%, transparent);
   animation: breathe 14s ease-in-out infinite alternate;
 }
 
@@ -129,19 +128,23 @@ a:hover {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 500;
   line-height: 1.12;
   letter-spacing: -0.01em;
   margin: 0;
-  font-variation-settings: "SOFT" 50, "WONK" 0;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.3rem, 5.4vw, 4.2rem);
-  font-weight: 400;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 4.4vw, 3.3rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--accent);
 }
 
 h2 {
@@ -192,27 +195,28 @@ code,
 }
 
 .wordmark {
-  font-family: var(--font-display), serif;
-  font-size: 1.25rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   text-decoration: none;
   display: inline-flex;
-  align-items: baseline;
-  letter-spacing: -0.01em;
+  align-items: center;
   white-space: nowrap;
 }
 
 .wordmark em {
-  font-style: italic;
-  color: var(--accent);
+  font-style: normal;
+  color: var(--muted);
 }
 
 .wordmark .bar {
   display: inline-block;
-  width: 2px;
-  height: 0.95em;
-  background: var(--accent);
-  margin: 0 6px;
-  transform: translateY(2px);
+  width: 1px;
+  height: 1em;
+  background: var(--axis);
+  margin: 0 9px;
 }
 
 .nav {
@@ -229,7 +233,7 @@ code,
   font-size: 0.86rem;
   text-decoration: none;
   padding: 6px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   color: var(--ink-2);
   white-space: nowrap;
   transition: background 160ms ease, color 160ms ease;
@@ -260,7 +264,6 @@ code,
     gap: 0;
     padding-top: 10px;
   }
-  .wordmark { font-size: 1.15rem; }
   .nav {
     margin: 4px calc(var(--gutter) * -1) 0;
     padding: 0 var(--gutter) 8px;
@@ -315,7 +318,7 @@ code,
 }
 
 .section {
-  margin-top: 88px;
+  margin-top: 56px;
 }
 
 .section-head {
@@ -433,46 +436,158 @@ a.card:hover .go::after {
   gap: 7px;
 }
 
-/* ---------- stats ---------- */
+/* ---------- tiles ---------- */
 
-.stats {
+/* Twelve columns on a desktop, six on a tablet, one on a phone. A tile names
+   its span with --span. */
+.bento {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.stat {
-  border-top: 1px solid var(--ink);
-  padding-top: 14px;
+.tile {
+  grid-column: span var(--span, 4);
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  color: var(--ink);
 }
 
-/* Hero figures stay in the UI sans with proportional digits: easier to read
-   at size than the display serif, and they count up when they come into view. */
-.stat .value {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: clamp(2.2rem, 4.4vw, 3.1rem);
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: -0.03em;
+.tile.tall { grid-row: span 2; }
+.tile.hero { padding: clamp(22px, 3vw, 36px); justify-content: space-between; gap: 28px; }
+.tile .foot { margin-top: auto; }
+
+/* Filled tiles re-point the ink tokens, so everything inside stays readable. */
+.tile.blue {
+  --ink: var(--tile-blue-ink);
+  --ink-2: var(--tile-blue-ink);
+  --muted: var(--tile-blue-ink);
+  --accent: var(--tile-blue-ink);
+  --rule: color-mix(in srgb, var(--tile-blue-ink) 30%, transparent);
+  background: var(--tile-blue);
+  border-color: var(--tile-blue);
 }
 
-.stat .value small {
-  font-size: 0.42em;
+.tile.bone {
+  --ink: var(--tile-bone-ink);
+  --ink-2: var(--tile-bone-ink-2);
+  --muted: var(--tile-bone-ink-2);
+  --accent: var(--tile-bone-ink);
+  --rule: color-mix(in srgb, var(--tile-bone-ink) 25%, transparent);
+  background: var(--tile-bone);
+  border-color: var(--tile-bone);
+}
+
+a.tile {
+  text-decoration: none;
+  transition: border-color 200ms ease, transform 220ms var(--ease);
+}
+
+a.tile:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 50%, transparent);
+  transform: translateY(-2px);
+}
+
+.tile-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--muted);
-  margin-left: 4px;
-  letter-spacing: 0;
-}
-
-.stat .label {
-  font-size: 0.86rem;
-  color: var(--ink-2);
-  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 28px;
+  margin: 0;
+  font-weight: 400;
   line-height: 1.4;
 }
 
-.stat.accent { border-top-color: var(--accent); }
-.stat.future { border-top-color: var(--future); }
-.stat.ok { border-top-color: var(--ok); }
+/* The corner arrow of a tile that opens something. */
+.arrow {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+a.arrow:hover,
+a.tile:hover .arrow {
+  background: var(--ink);
+  color: var(--paper-2);
+}
+
+.tile.blue a.arrow:hover, a.tile.blue:hover .arrow { color: var(--tile-blue); }
+.tile.bone a.arrow:hover, a.tile.bone:hover .arrow { color: var(--tile-bone); }
+
+/* Tile figures stay in the UI sans with proportional digits, and count up
+   when they come into view. */
+.kpi {
+  font-size: clamp(2.6rem, 5vw, 3.9rem);
+  line-height: 0.95;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kpi small {
+  font-size: 0.4em;
+  color: var(--muted);
+  margin-left: 6px;
+  letter-spacing: 0;
+}
+
+.tile .sub {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.tile ul.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.tile ul.plain li { padding-top: 12px; border-top: 1px solid var(--rule); }
+.tile ul.plain li:first-child { padding-top: 0; border-top: 0; }
+.tile ul.plain span { color: var(--muted); }
+
+@media (max-width: 960px) {
+  .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .tile { grid-column: span 6; }
+  .tile.half { grid-column: span 3; }
+  .tile.tall { grid-row: auto; }
+}
+
+@media (max-width: 600px) {
+  .bento { grid-template-columns: minmax(0, 1fr); }
+  .tile, .tile.half { grid-column: auto; }
+}
 
 /* ---------- tags ---------- */
 
@@ -726,7 +841,7 @@ tr.highlight:hover td {
 }
 
 .fc .rank {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   font-size: 2.2rem;
   line-height: 1;
   color: var(--muted);
@@ -1159,12 +1274,21 @@ select {
   overflow-x: auto;
   overflow-y: hidden;
   border: 1px solid var(--rule);
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--paper-2);
   box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .viz-frame > .viz { min-width: var(--min-w, 0); }
+
+/* Inside a tile the tile is the frame. */
+.tile .viz-frame {
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.tile figure { margin: 0; }
 
 .viz-head {
   display: flex;
@@ -1182,9 +1306,9 @@ select {
   min-width: 150px;
   max-width: 300px;
   padding: 10px 13px 11px;
-  background: rgba(22, 20, 15, 0.94);
+  background: color-mix(in srgb, var(--paper-2) 94%, transparent);
   border: 1px solid var(--axis);
-  border-radius: 8px;
+  border-radius: var(--radius);
   box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -1402,9 +1526,9 @@ tr.row-link td:first-child a::after {
 }
 
 .terminal {
-  background: #12110e;
-  color: #e8dfcd;
-  border-radius: 8px;
+  background: var(--paper-2);
+  color: var(--ink);
+  border-radius: var(--radius);
   font-family: var(--font-mono), monospace;
   font-size: 0.8rem;
   line-height: 1.6;
@@ -1414,7 +1538,7 @@ tr.row-link td:first-child a::after {
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  border: 1px solid #2b2720;
+  border: 1px solid var(--rule);
   margin: 0;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), var(--shadow);
 }
@@ -1430,7 +1554,7 @@ tr.row-link td:first-child a::after {
 }
 
 .terminal .prompt { color: var(--accent); }
-.terminal .dim { color: #8d8472; }
+.terminal .dim { color: var(--muted); }
 
 .pulse {
   display: inline-block;

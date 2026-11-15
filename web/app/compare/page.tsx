@@ -41,8 +41,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Sear
       <div className="eyebrow">Ablations</div>
       <h1>Switch a part off. Watch what breaks.</h1>
       <p className="lede" style={{ marginTop: 18 }}>
-        Each row removes one component and re-runs the whole test. If a score drops, that part was doing real work. If nothing changes,
-        it earned nothing here, and that is reported too.
+        Each row removes one component and re-runs the whole test.
       </p>
       <AblationView byCutoff={byCutoff} slices={SLICES} initial={cutoff} primary={PRIMARY_SLICE} />
     </div>

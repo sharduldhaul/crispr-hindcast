@@ -157,9 +157,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
       <div className="eyebrow">Language model</div>
       <h1>The same question, put to a language model</h1>
       <p className="lede" style={{ marginTop: 18 }}>
-        A model trained after the cutoff may already know the answer. Three conditions separate what it was given from what it
-        brought with it: no evidence, retrieved paper titles, and tools over the sealed graph. Each answer is scored by the grader
-        that scores the rule-based system.
+        Three conditions: no evidence, retrieved paper titles, and tools over the sealed graph. One grader scores all of them.
       </p>
 
       <nav className="segmented lg" aria-label="Cutoff" style={{ marginTop: 24 }}>

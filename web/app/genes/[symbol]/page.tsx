@@ -103,7 +103,6 @@ export default async function GenePage({ params }: { params: Params }) {
       <section className="section" style={{ marginTop: 52 }}>
         <div className="section-head">
           <h2>What the system said</h2>
-          <p>Full system, at each cutoff, using only evidence dated before it.</p>
         </div>
         <GeneHistory
           threshold={threshold}
@@ -139,7 +138,7 @@ export default async function GenePage({ params }: { params: Params }) {
               return (
                 <div key={v.cutoff} className={`card v-${kind}`} style={{ borderTop: "2px solid var(--v)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
-                    <Link href={`/slices/${v.cutoff}`} style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", textDecoration: "none" }}>
+                    <Link href={`/slices/${v.cutoff}`} style={{ fontSize: "1.8rem", fontWeight: 300, textDecoration: "none" }}>
                       {year(v.cutoff)}
                     </Link>
                     {kind !== "none" && <span className="tag v">{VERDICT[kind].label}</span>}
@@ -212,7 +211,6 @@ export default async function GenePage({ params }: { params: Params }) {
         <section className="section">
           <div className="section-head">
             <h2>When the field found it</h2>
-            <p>From the frozen rule book: the first publication whose title asserts a role over fetal hemoglobin.</p>
           </div>
           {established ? (
             <div className="callout future">

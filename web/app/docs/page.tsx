@@ -15,7 +15,7 @@ export default function DocsIndex() {
       <div className="eyebrow">Docs</div>
       <h1>The fine print, in full.</h1>
       <p className="lede" style={{ marginTop: 18, marginBottom: 40 }}>
-        The repository documents every decision. Start with the limitations: they say what each number does and does not mean.
+        Start with the limitations: what each number does and does not mean.
       </p>
       <div className="grid grid-3">
         {DOCS.map((d, i) => (
@@ -35,14 +35,13 @@ export default function DocsIndex() {
           <div className="section-head">
             <h2>Where every record went</h2>
             <p>
-              {int(ingestion.records_available)} public records considered. {int(ingestion.excluded)} were excluded, each with a recorded
-              reason, and {ingestion.spurious} were invented. Hover a source to trace it.
+              {int(ingestion.records_available)} public records · {int(ingestion.excluded)} excluded with a reason · {ingestion.spurious}{" "}
+              invented
             </p>
           </div>
           <EvidenceSankey ingestion={ingestion} />
           <p className="small muted" style={{ marginTop: 14 }}>
-            Counts are records, not graph nodes: one record can create more than one node. Licenses and attributions for each source are
-            in <Link href="/docs/data-sources">Data sources</Link>.
+            Counts are records, not graph nodes. Licenses: <Link href="/docs/data-sources">Data sources</Link>.
           </p>
         </section>
       )}

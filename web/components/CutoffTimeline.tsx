@@ -453,10 +453,6 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
           </span>
         )}
       </div>
-      <figcaption className="small muted" style={{ marginTop: 14, maxWidth: "80ch" }}>
-        Each gene sits at the date a publication first established its role in fetal hemoglobin. Filled genes were visible to the
-        system; hollow blue ones in the hatched zone were sealed away. Gold dots are the core genes of the field.
-      </figcaption>
     </figure>
   );
 }
