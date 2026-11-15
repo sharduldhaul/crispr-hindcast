@@ -9,7 +9,6 @@ that only knows what the forecaster knows cannot set a trap.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -17,15 +16,15 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast import provenance
-from hindcast.provenance import ProvenanceReport
 from hindcast.agents.adversary import Adversary, TrapSet
 from hindcast.agents.axioms import AxiomExtractor, AxiomSet
-from hindcast.agents.baseline import CachedModelBaseline, FlatLiteratureBaseline
+from hindcast.agents.baseline import FlatLiteratureBaseline
 from hindcast.agents.belief_reviser import BeliefMap, BeliefReviser
 from hindcast.agents.curator import Curator, IngestionReport
 from hindcast.agents.forecast import Forecast, Forecaster
 from hindcast.agents.grader import Grader, Scorecard
 from hindcast.agents.method_signature import MethodSignature, UniformSignature
+from hindcast.provenance import ProvenanceReport
 from hindcast.scope import ALL_SLICES
 from hindcast.store import Store
 
@@ -293,9 +292,11 @@ def build_snapshot(
             for key, spec in SOURCES.items()
         },
         notes=[
-            "Identifiers, structured metadata and numeric measurements only. No "
-            "abstracts and no full text: per-article licenses vary and many do not "
-            "permit redistribution.",
+            (
+                "Identifiers, structured metadata and numeric measurements only. No "
+                "abstracts and no full text: per-article licenses vary and many do not "
+                "permit redistribution."
+            ),
             *[f"Excluded source: {k}. {v}" for k, v in EXCLUDED_SOURCES.items()],
         ],
     )

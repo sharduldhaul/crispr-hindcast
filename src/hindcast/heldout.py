@@ -24,7 +24,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
-from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -32,7 +31,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from hindcast.agents.axioms import AxiomExtractor
 from hindcast.agents.base import Agent
 from hindcast.agents.belief_reviser import (
-    REFUSAL_CONFIDENCE_THRESHOLD,
     BeliefReviser,
 )
 from hindcast.models import NodeType

@@ -14,7 +14,6 @@ Every metric here is computed from committed data. Nothing is estimated.
 
 from __future__ import annotations
 
-import math
 from datetime import date
 from typing import Any
 

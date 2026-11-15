@@ -12,7 +12,7 @@ from datetime import date
 
 import pytest
 
-from hindcast.models import Edge, EdgeType, Node, NodeType, Provenance
+from hindcast.models import Node, NodeType, Provenance
 from hindcast.store import SliceStore, Store
 
 CUTOFF = date(2018, 1, 1)
@@ -43,8 +43,10 @@ def test_slice_is_read_only(toy_store: Store):
     """A slice cannot be written to, so it cannot be used to smuggle rows in."""
     with toy_store.open_slice(CUTOFF) as sl:
         for statement in (
-            "INSERT INTO node (id,type,label,attrs,source_id,license,time_scope,effective_date) "
-            "VALUES ('x','Gene','X','{}','s','MIT','DATED','2019-01-01')",
+            (
+                "INSERT INTO node (id,type,label,attrs,source_id,license,time_scope,effective_date) "
+                "VALUES ('x','Gene','X','{}','s','MIT','DATED','2019-01-01')"
+            ),
             "DELETE FROM node",
             "UPDATE node SET label = 'tampered'",
             "DROP TABLE node",

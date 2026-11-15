@@ -36,14 +36,12 @@ Each trap family corresponds to a way a system of this kind actually fails.
 
 from __future__ import annotations
 
-from collections import defaultdict
 from datetime import date
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast.agents.base import Agent
-from hindcast.models import NodeType
 from hindcast.scope import INFORMAL_NAMES
 from hindcast.store import SliceStore, Store
 

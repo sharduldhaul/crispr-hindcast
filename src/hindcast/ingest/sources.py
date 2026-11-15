@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
-from hindcast.ingest.dates import DateIndex
+from hindcast.ingest.dates import DateIndex, ResolvedDate
 from hindcast.ingest.licenses import license_of
 from hindcast.ingest.ontology import OntologyIndex
 from hindcast.models import (
@@ -620,7 +620,15 @@ def ingest_orcs(
 
         pert = _orcs_perturbation(rec)
 
-        def prov(source_id: str, payload: object) -> Provenance:
+        # Defaults bind this iteration's values, so the closure cannot read a
+        # later screen's if it ever outlives the loop body.
+        def prov(
+            source_id: str,
+            payload: object,
+            sid: str = sid,
+            pmid: str | None = pmid,
+            resolved: ResolvedDate = resolved,
+        ) -> Provenance:
             return Provenance(
                 source_id=source_id,
                 accession=f"BIOGRID-ORCS-SCREEN:{sid}",
@@ -917,11 +925,6 @@ def ingest_gwas(raw_dir: Path, ontology: OntologyIndex, dates: DateIndex) -> Ing
     path = raw_dir / "gwas" / "associations.json"
     if not path.exists():
         return res
-
-    studies_path = raw_dir / "gwas" / "studies.json"
-    studies = {}
-    if studies_path.exists():
-        studies = {s["accessionId"]: s for s in json.loads(studies_path.read_text())}
 
     for i, assoc in enumerate(json.loads(path.read_text())):
         res.avail("gwas_catalog.associations")

@@ -31,7 +31,7 @@ def _parse(raw: object) -> date | None:
     if not raw:
         return None
     text = str(raw).strip()
-    for length, fmt in ((10, "%Y-%m-%d"),):
+    for length, _fmt in ((10, "%Y-%m-%d"),):
         if len(text) >= length:
             try:
                 return date.fromisoformat(text[:10])

@@ -29,7 +29,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 from hindcast.agents.base import Agent
 from hindcast.agents.forecast import Forecast, ForecastItem

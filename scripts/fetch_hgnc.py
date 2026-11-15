@@ -13,7 +13,7 @@ from __future__ import annotations
 import csv
 import io
 
-from _fetchlib import RAW, UA, client
+from _fetchlib import RAW, client
 
 URL = "https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt"
 KEEP = (

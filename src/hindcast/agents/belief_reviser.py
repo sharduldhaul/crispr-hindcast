@@ -20,7 +20,6 @@ from __future__ import annotations
 import math
 from collections import defaultdict
 from datetime import date
-from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -461,11 +460,13 @@ class BeliefReviser(Agent):
                                 -1,
                                 weight,
                                 rid,
-                                f"fitness hit {k} of {len(hits)}: loss of this gene "
-                                f"reduces cell fitness in "
-                                f"{fraction:.0%} of screens that tested it, which "
-                                f"counts against it as a therapeutic target; the "
-                                f"screens are correlated so their total is capped",
+                                (
+                                    f"fitness hit {k} of {len(hits)}: loss of this gene "
+                                    f"reduces cell fitness in "
+                                    f"{fraction:.0%} of screens that tested it, which "
+                                    f"counts against it as a therapeutic target; the "
+                                    f"screens are correlated so their total is capped"
+                                ),
                                 "measurement",
                             )
                         )
@@ -550,10 +551,12 @@ class BeliefReviser(Agent):
                             1,
                             transferred,
                             rid,
-                            f"acts through {partner}, a subunit of the same curated "
-                            f"protein complex with established HbF evidence; the "
-                            f"partner's strongest record transfers at "
-                            f"{COMPOSITION_DISCOUNT:g}",
+                            (
+                                f"acts through {partner}, a subunit of the same curated "
+                                f"protein complex with established HbF evidence; the "
+                                f"partner's strongest record transfers at "
+                                f"{COMPOSITION_DISCOUNT:g}"
+                            ),
                             "composition",
                         )
                     )

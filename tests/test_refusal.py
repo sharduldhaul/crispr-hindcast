@@ -16,16 +16,16 @@ from hindcast.agents.belief_reviser import (
 
 
 def make_claim(**kw) -> Claim:
-    base = dict(
-        id="claim:test",
-        gene_id="gene:HGNC:1",
-        gene_symbol="TESTGENE",
-        phenotype_id="pheno:hbf_protein",
-        direction="increases",
-        statement="test",
-        confidence=PRIOR_CONFIDENCE,
-        log_odds=PRIOR_LOG_ODDS,
-    )
+    base = {
+        "id": "claim:test",
+        "gene_id": "gene:HGNC:1",
+        "gene_symbol": "TESTGENE",
+        "phenotype_id": "pheno:hbf_protein",
+        "direction": "increases",
+        "statement": "test",
+        "confidence": PRIOR_CONFIDENCE,
+        "log_odds": PRIOR_LOG_ODDS,
+    }
     base.update(kw)
     return Claim(**base)
 

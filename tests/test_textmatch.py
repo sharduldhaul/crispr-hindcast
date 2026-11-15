@@ -41,12 +41,18 @@ def test_full_text_noise_is_rejected() -> None:
     evidence put EIF2AK1's publication support at 30 when it is 2.
     """
     noise = [
-        "Isolation and characterization of a Bacillus amyloliquefaciens strain "
-        "with zearalenone removal ability",
-        "Invited review: Recommendations for reporting intervention studies on "
-        "reproductive performance in dairy cattle",
-        "The 30-amino-acid deletion in the Nsp2 of highly pathogenic porcine "
-        "reproductive and respiratory syndrome virus",
+        (
+            "Isolation and characterization of a Bacillus amyloliquefaciens strain "
+            "with zearalenone removal ability"
+        ),
+        (
+            "Invited review: Recommendations for reporting intervention studies on "
+            "reproductive performance in dairy cattle"
+        ),
+        (
+            "The 30-amino-acid deletion in the Nsp2 of highly pathogenic porcine "
+            "reproductive and respiratory syndrome virus"
+        ),
         "Homozygous hemoglobin C disease; report of a case.",
     ]
     for title in noise:

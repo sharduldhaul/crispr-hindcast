@@ -17,16 +17,14 @@ number that has no source.
 from __future__ import annotations
 
 from collections import defaultdict
-from datetime import date
-from typing import Any, Iterable
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from hindcast.agents.base import Agent
 from hindcast.agents.method_signature import MethodSignature, Weighting
 from hindcast.cost import ModalityCall, infer_modality
-from hindcast.models import CostClass, EdgeType, NodeType
-from hindcast.scope import PHENOTYPE_FAMILIES
+from hindcast.models import EdgeType, NodeType
 from hindcast.store import SliceStore
 
 #: Genome-wide significance. The conventional threshold, stated not derived.
@@ -106,9 +104,7 @@ class Axiom(BaseModel):
         if phenotype_id and self.phenotype_id and phenotype_id != self.phenotype_id:
             return False
         allowed = self.scope_conditions.get("system_classes")
-        if allowed and system_class and system_class not in allowed:
-            return False
-        return True
+        return not (allowed and system_class and system_class not in allowed)
 
 
 def validate_axiom(axiom: Axiom) -> None:

@@ -39,16 +39,16 @@ from hindcast.agents.belief_reviser import (  # noqa: E402
     PRIOR_CONFIDENCE,
     REFUSAL_CONFIDENCE_THRESHOLD,
 )
-from hindcast.ingest.sources import COMPLEX_GROUP_SUFFIX  # noqa: E402
-from hindcast.textmatch import MIN_ALIAS_LENGTH, SHORT_ALIASES  # noqa: E402
 from hindcast.agents.method_signature import coefficient_manifest  # noqa: E402
 from hindcast.cost import COST_WEIGHTS, PRICE_ANCHORS  # noqa: E402
+from hindcast.ingest.sources import COMPLEX_GROUP_SUFFIX  # noqa: E402
 from hindcast.scope import (  # noqa: E402
     ALL_SCOPE_GENES,
     ALL_SLICES,
     INFORMAL_NAMES,
     PHENOTYPE_FAMILIES,
 )
+from hindcast.textmatch import MIN_ALIAS_LENGTH, SHORT_ALIASES  # noqa: E402
 
 RULEBOOK = ROOT / "eval" / "rulebook"
 TAG = "rulebook-frozen-v1"

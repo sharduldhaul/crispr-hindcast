@@ -27,8 +27,8 @@ UA = "crispr-hindcast/0.1 (research benchmark; contact via repository)"
 
 
 def strip_tags(page: str) -> str:
-    page = re.sub(r"<script.*?</script>", " ", page, flags=re.S | re.I)
-    page = re.sub(r"<style.*?</style>", " ", page, flags=re.S | re.I)
+    page = re.sub(r"<script.*?</script>", " ", page, flags=re.DOTALL | re.IGNORECASE)
+    page = re.sub(r"<style.*?</style>", " ", page, flags=re.DOTALL | re.IGNORECASE)
     page = re.sub(r"<[^>]+>", " ", page)
     return re.sub(r"\s+", " ", html.unescape(page)).strip()
 

@@ -24,7 +24,7 @@ from pathlib import Path
 from _fetchlib import client, post_json, write
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from hindcast.scope import ALL_SCOPE_GENES  # noqa: E402
+from hindcast.scope import ALL_SCOPE_GENES
 
 API = "https://api.platform.opentargets.org/api/v4/graphql"
 

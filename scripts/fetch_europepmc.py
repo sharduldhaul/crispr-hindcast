@@ -39,7 +39,7 @@ from pathlib import Path
 from _fetchlib import RAW, client, get_json, write
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES  # noqa: E402
+from hindcast.scope import ALL_SCOPE_GENES, INFORMAL_NAMES
 
 SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 

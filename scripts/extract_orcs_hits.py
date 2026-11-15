@@ -38,11 +38,14 @@ def main() -> None:
         # The server does not honour range requests, so a partial transfer has
         # to be retried from the start. The gzip check below is what proves the
         # download completed.
-        with client(timeout=1800.0) as c, archive.open("wb") as fh:
-            with c.stream("GET", URL) as r:
-                r.raise_for_status()
-                for chunk in r.iter_bytes(1 << 20):
-                    fh.write(chunk)
+        with (
+            client(timeout=1800.0) as c,
+            archive.open("wb") as fh,
+            c.stream("GET", URL) as r,
+        ):
+            r.raise_for_status()
+            for chunk in r.iter_bytes(1 << 20):
+                fh.write(chunk)
     out = RAW / "orcs_screens"
     out.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive, "r:gz") as tf:

@@ -1,8 +1,8 @@
 from hindcast.store.sqlite_store import (
+    ReadOnlyViolation,
     SliceLeakError,
     SliceStore,
     Store,
-    ReadOnlyViolation,
 )
 
-__all__ = ["Store", "SliceStore", "SliceLeakError", "ReadOnlyViolation"]
+__all__ = ["ReadOnlyViolation", "SliceLeakError", "SliceStore", "Store"]

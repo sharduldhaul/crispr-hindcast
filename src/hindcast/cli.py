@@ -29,7 +29,7 @@ from hindcast.pipeline import (
     run_heldout,
     run_slice,
 )
-from hindcast.scope import ALL_SLICES, PRIMARY_SLICE
+from hindcast.scope import PRIMARY_SLICE
 
 app = typer.Typer(add_completion=False, help=__doc__)
 console = Console()

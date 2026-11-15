@@ -22,9 +22,10 @@ import gzip
 import hashlib
 import io
 import json
+from collections.abc import Iterable, Iterator
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable, Iterator
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -159,8 +160,7 @@ def write_jsonl_gz(path: Path, rows: Iterable[BaseModel]) -> int:
     if violations:
         raise RedistributionViolation(
             "snapshot build refused, "
-            + f"{len(violations)} violation(s):\n  "
-            + "\n  ".join(violations[:20])
+            f"{len(violations)} violation(s):\n  " + "\n  ".join(violations[:20])
         )
     return n
 

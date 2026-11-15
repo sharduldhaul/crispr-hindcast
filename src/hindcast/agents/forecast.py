@@ -13,8 +13,6 @@ system was handed, and this benchmark is about what comes next.
 
 from __future__ import annotations
 
-from typing import Any
-
 from pydantic import BaseModel, ConfigDict, Field
 
 from hindcast.agents.base import Agent
