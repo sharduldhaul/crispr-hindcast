@@ -55,6 +55,14 @@ function modelCells(row: LlmResult): string[] {
   ];
 }
 
+/** Calls past the budget are refused and recorded, so they are counted apart. */
+function toolBudget(row: LlmResult): string {
+  const refused = row.run.tool_calls.filter((c) => c.outcome === "over_budget").length;
+  const used = row.run.tool_calls.length - refused;
+  const tail = refused ? `, and ${refused} more refused over budget` : "";
+  return `${used} of ${row.run.tool_call_budget} tool calls used${tail}.`;
+}
+
 function Claims({ row }: { row: LlmResult }) {
   const { scorecard, grounding, memorization } = row;
   if (!scorecard || !grounding || !memorization || !row.run.forecast) {
@@ -254,9 +262,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
               {LLM_CONDITION[condition].plain}
               {row.run.status === "ran" &&
                 ` ${row.run.input_tokens.toLocaleString("en-US")} input and ${row.run.output_tokens.toLocaleString("en-US")} output tokens, $${row.run.cost_usd.toFixed(2)}.`}
-              {row.run.status === "ran" &&
-                condition === "graph" &&
-                ` ${row.run.tool_calls.length} of ${row.run.tool_call_budget} tool calls used.`}
+              {row.run.status === "ran" && condition === "graph" && ` ${toolBudget(row)}`}
             </p>
           </div>
           <Claims row={row} />

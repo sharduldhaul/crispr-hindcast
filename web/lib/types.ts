@@ -155,7 +155,7 @@ export interface LlmResult {
     output_tokens: number;
     cost_usd: number;
     tool_call_budget: number;
-    tool_calls: { tool: string }[];
+    tool_calls: { tool: string; outcome: "returned" | "error" | "over_budget" }[];
     forecast: { items: ForecastItem[]; refusals: Refusal[] } | null;
   };
   /** Present exactly when `run.status` is "ran", as are `grounding` and `memorization`. */
