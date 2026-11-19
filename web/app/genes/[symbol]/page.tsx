@@ -4,8 +4,17 @@ import { notFound } from "next/navigation";
 
 import { Meter } from "@/components/Charts";
 import { GeneHistory, type HistoryPub } from "@/components/viz/GeneHistory";
-import { MODALITY, TRAP_KIND, VERDICT, longDate, modalityLabel, num, year } from "@/lib/format";
-import { type GeneSliceView, geneAcrossSlices, geneIndex, loadPolicy, loadRulebook } from "@/lib/repo";
+import { LLM_CONDITION, MODALITY, TRAP_KIND, VERDICT, longDate, modalityLabel, num, year } from "@/lib/format";
+import {
+  type GeneSliceView,
+  LLM_CONDITIONS,
+  SLICES,
+  geneAcrossSlices,
+  geneIndex,
+  loadLlm,
+  loadPolicy,
+  loadRulebook,
+} from "@/lib/repo";
 import type { PubRecord, VerdictKind } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -54,6 +63,26 @@ function PubLine({ rec, bare = false }: { rec: PubRecord; bare?: boolean }) {
   );
 }
 
+type ModelClaim = "grounded" | "recalled" | "not grounded" | "not named" | "not run";
+
+/** What each model condition said about one gene at one cutoff, in the Model page's terms. */
+function modelClaim(cutoff: string, condition: (typeof LLM_CONDITIONS)[number], symbol: string): ModelClaim {
+  const row = loadLlm(cutoff, condition);
+  if (!row?.grounding || !row.memorization) return "not run";
+  const claim = row.grounding.claims.find((c) => c.gene_symbol === symbol);
+  if (!claim) return "not named";
+  if (claim.grounded) return "grounded";
+  return row.memorization.recalled_claims.includes(symbol) ? "recalled" : "not grounded";
+}
+
+const CLAIM_TAG: Record<ModelClaim, string> = {
+  grounded: "tag ok",
+  recalled: "tag future",
+  "not grounded": "tag plain",
+  "not named": "",
+  "not run": "",
+};
+
 export default async function GenePage({ params }: { params: Params }) {
   const { symbol: raw } = await params;
   const symbol = decodeURIComponent(raw).toUpperCase();
@@ -64,6 +93,11 @@ export default async function GenePage({ params }: { params: Params }) {
   const threshold = loadPolicy()?.refusal.confidence_threshold ?? 0.25;
   const established = rulebook?.establishing_record ?? null;
   const kinds = views.map(kindOf);
+  const modelRows = SLICES.map((cutoff) => ({
+    cutoff,
+    claims: LLM_CONDITIONS.map((condition) => ({ condition, claim: modelClaim(cutoff, condition, symbol) })),
+  }));
+  const modelNamed = modelRows.some((r) => r.claims.some((c) => c.claim !== "not named" && c.claim !== "not run"));
   const uniform = kinds.every((k) => k === kinds[0]) && (kinds[0] === "known" || kinds[0] === "none");
   const holdoutNotes = views.filter((v) => v.holdout).map((v) => `${year(v.cutoff)}: ${v.holdout!.note}`);
   const why = (rec: PubRecord) => rec.reason ?? (rec.rejected_because ? `Not counted: ${rec.rejected_because}` : null);
@@ -102,7 +136,7 @@ export default async function GenePage({ params }: { params: Params }) {
       {/* ---------- across slices ---------- */}
       <section className="section" style={{ marginTop: 52 }}>
         <div className="section-head">
-          <h2>What the system said</h2>
+          <h2>What the rule-based system said</h2>
         </div>
         <GeneHistory
           threshold={threshold}
@@ -203,6 +237,46 @@ export default async function GenePage({ params }: { params: Params }) {
               );
             })}
           </div>
+        )}
+      </section>
+
+      {/* ---------- language model ---------- */}
+      <section className="section">
+        <div className="section-head">
+          <h2>What the language model said</h2>
+          <p>
+            <Link href="/models">Grounded</Link> claims cite a given row that names the gene; recalled ones came true and cite none.
+          </p>
+        </div>
+        {modelNamed ? (
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Language model claims">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cutoff</th>
+                  {LLM_CONDITIONS.map((condition) => (
+                    <th key={condition}>{LLM_CONDITION[condition].label}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {modelRows.map(({ cutoff, claims }) => (
+                  <tr key={cutoff}>
+                    <td>
+                      <Link href={`/models?cutoff=${cutoff}`}>{year(cutoff)}</Link>
+                    </td>
+                    {claims.map(({ condition, claim }) => (
+                      <td key={condition}>
+                        {CLAIM_TAG[claim] ? <span className={CLAIM_TAG[claim]}>{claim}</span> : <span className="muted small">{claim}</span>}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="muted">Not named by the language model in any condition at any cutoff.</p>
         )}
       </section>
 
