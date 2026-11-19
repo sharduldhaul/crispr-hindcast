@@ -1486,15 +1486,6 @@ select {
   shape-rendering: crispEdges;
 }
 
-.viz-hint kbd {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.72rem;
-  padding: 1px 5px;
-  border: 1px solid var(--axis);
-  border-radius: var(--radius);
-  color: var(--ink-2);
-}
-
 /* ---------- timeline ---------- */
 
 .tl-bar {
@@ -1522,6 +1513,18 @@ select {
 }
 
 /* Touch screens get a native slider; a mouse drags the chart itself. */
+.tl-chev {
+  transition: transform 160ms ease;
+}
+
+.tl-handle:is(:hover, :focus-visible) .tl-chev {
+  transform: translateX(var(--nudge));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-chev { transition: none; }
+}
+
 .tl-range {
   width: 100%;
   margin: 14px 0 0;
