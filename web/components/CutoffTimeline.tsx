@@ -43,6 +43,8 @@ const AXIS_GAP = 30;
 const M = { top: 36, right: 24, bottom: 34, left: 64 };
 // A drag that lands this close to a cutoff that was run snaps onto it.
 const SNAP = 0.4;
+// Half the width of the flag that carries the cutoff's date.
+const FLAG = 48;
 
 // A cutoff is the end of its day: a gene established that day is visible.
 const at = (date: string) => fractionalYear(date) + 0.001;
@@ -117,7 +119,16 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
     veilGrad.append("stop").attr("offset", 0).style("stop-color", C.sealed).attr("stop-opacity", 0.12);
     veilGrad.append("stop").attr("offset", 0.18).style("stop-color", C.sealed).attr("stop-opacity", 0.04);
     veilGrad.append("stop").attr("offset", 1).style("stop-color", C.sealed).attr("stop-opacity", 0.01);
-    const glow = defs.append("filter").attr("id", "tl-glow").attr("x", "-200%").attr("width", "500%");
+    // A vertical line has a zero-width bounding box, and a filter region sized
+    // from it is empty, which hides the line; size the region in pixels.
+    const glow = defs
+      .append("filter")
+      .attr("id", "tl-glow")
+      .attr("filterUnits", "userSpaceOnUse")
+      .attr("x", -12)
+      .attr("y", 0)
+      .attr("width", 24)
+      .attr("height", H);
     glow.append("feGaussianBlur").attr("stdDeviation", 3.5).attr("result", "blur");
     const merge = glow.append("feMerge");
     merge.append("feMergeNode").attr("in", "blur");
@@ -330,8 +341,22 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
       .style("stroke", C.gold)
       .attr("stroke-width", 2)
       .attr("filter", "url(#tl-glow)");
-    handle.append("rect").attr("class", "tl-flag").attr("x", -36).attr("width", 72).attr("height", 21).attr("rx", 10.5).style("fill", C.gold);
-    handle
+    const pill = handle.append("g").attr("class", "tl-pill");
+    pill.append("rect").attr("class", "tl-flag").attr("x", -FLAG).attr("width", 2 * FLAG).attr("height", 21).attr("rx", 10.5).style("fill", C.gold);
+    // Chevrons on the flag say "drag sideways" without a line of instructions.
+    for (const side of [-1, 1]) {
+      pill
+        .append("path")
+        .attr("class", "tl-chev")
+        .attr("d", `M ${side * (FLAG - 12)} 6.5 L ${side * (FLAG - 8)} 10.5 L ${side * (FLAG - 12)} 14.5`)
+        .style("--nudge", `${side * 2}px`)
+        .style("stroke", C.page)
+        .attr("stroke-width", 1.6)
+        .attr("stroke-linecap", "round")
+        .attr("stroke-linejoin", "round")
+        .attr("fill", "none");
+    }
+    pill
       .append("text")
       .attr("y", 14.5)
       .attr("text-anchor", "middle")
@@ -369,6 +394,9 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
     const duration = dragging.current ? 0 : ms(DUR.update);
     svg.select(".tl-veil").interrupt().transition().duration(duration).ease(EASE).attr("transform", `translate(${cx},0)`);
     svg.select(".tl-handle").interrupt().transition().duration(duration).ease(EASE).attr("transform", `translate(${cx},0)`);
+    // Near either end of the axis the flag slides inward, so it is never cut off.
+    const inward = Math.max(0, FLAG + 2 - cx) + Math.min(0, layout.W - FLAG - 2 - cx);
+    svg.select(".tl-pill").attr("transform", `translate(${inward},0)`);
     // A run's cutoff is the last day of its year, so it is named by that year;
     // anywhere else the flag names the month.
     const yearEnd = cutoff - Math.floor(cutoff) > 0.99;
@@ -437,7 +465,7 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
             <b>{sealed}</b> <span>sealed, the answer key</span>
           </span>
         </div>
-        {activeRun ? (
+        {activeRun && (
           <span className="small">
             <span className="muted">
               Run at this cutoff: {activeRun.predicted} predicted, {activeRun.hits} came true.{" "}
@@ -445,11 +473,6 @@ export function CutoffTimeline({ genes, runs, initialCutoff }: Props) {
             <Link className="go" href={`/slices/${activeRun.cutoff}`}>
               See the forecast
             </Link>
-          </span>
-        ) : (
-          <span className="viz-hint">
-            Drag the line, or use <kbd>←</kbd> <kbd>→</kbd>. <span style={{ color: "var(--accent)" }}>◆</span> marks a cutoff that
-            was run.
           </span>
         )}
       </div>
