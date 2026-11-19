@@ -4,6 +4,9 @@ import * as d3 from "d3";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { rate } from "@/lib/format";
+import type { Rate } from "@/lib/types";
+
 import { C, DUR, EASE, EASE_IN_OUT, halo, ms, styleAxis, useChart } from "./core";
 import { Tooltip } from "./Tooltip";
 
@@ -13,6 +16,8 @@ export interface AblationRow {
   ablation: string;
   plain: string;
   values: Record<MetricKey, number | null> | null;
+  /** The counts behind the traps share, so the table can give its denominator. */
+  judgementTraps: Rate | null;
 }
 
 interface Metric {
@@ -150,7 +155,7 @@ export function AblationView({
                           const b = base?.values?.[m.key] ?? null;
                           return (
                             <td key={m.key} className="num">
-                              {v === null ? "n/a" : m.fmt(v)}
+                              {v === null ? "n/a" : m.key === "traps" && row.judgementTraps ? rate(row.judgementTraps, "n/a") : m.fmt(v)}
                               {row.ablation !== "full system" && v !== null && b !== null && (
                                 <span className={`delta ${tone(m, v, b)}`}>{signed(m, v - b)}</span>
                               )}

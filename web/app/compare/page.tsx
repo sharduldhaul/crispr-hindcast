@@ -32,6 +32,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Sear
               ece: card.expected_calibration_error,
             }
           : null,
+        judgementTraps: card ? { numerator: card.judgement_traps_passed, denominator: card.judgement_traps_total } : null,
       };
     });
   }
