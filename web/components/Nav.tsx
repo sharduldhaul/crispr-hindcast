@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "/", label: "Overview" },
-  { href: "/slices/2017-12-31", label: "Results", match: "/slices" },
+  { href: "/slices/2017-12-31", label: "Rule-based", match: "/slices" },
   { href: "/compare", label: "Ablations" },
-  { href: "/models", label: "Model" },
+  { href: "/models", label: "Language model" },
   { href: "/genes", label: "Genes" },
   { href: "/docs", label: "Docs" },
   { href: "/run", label: "Reproduce", className: "run-link" },
