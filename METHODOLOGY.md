@@ -722,6 +722,19 @@ What it does not verify:
 - **That a description no longer identifies its subject.** That is the question
   token replacement addresses, and this project does not test it.
 
+Two 2026 preprints take other routes to the same problems:
+
+- [Liu et al.](https://arxiv.org/abs/2605.08838) find that many RAG benchmark
+  questions "can already be answered from an LLM's parametric memory", and
+  regenerate them with novel entities that keep each question's reasoning.
+  This project keeps the real entities and cutoffs earlier than the model's
+  training data, and measures recall per claim instead of designing it out.
+- [Jeong (OpenBioRQ)](https://arxiv.org/abs/2606.21959) reports that agents'
+  citations almost always resolve (over 99%) yet roughly 15.9% "link to the
+  wrong paper". The grounding check here has the same blind spot: it tests
+  that a cited row was given and names the gene, not that it supports the
+  claim.
+
 This is an independent project that builds on a problem Cortex Bio named and
 on the controls they described. It is not a reimplementation of their product
 and makes no claim about it.
