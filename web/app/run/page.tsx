@@ -32,6 +32,8 @@ cd crispr-hindcast
 uv venv --python 3.12 .venv && uv pip install -e ".[dev]"
 .venv/bin/hindcast build
 .venv/bin/hindcast run-all
+git diff --stat -- eval/results   # empty: every result reproduced byte for byte
+.venv/bin/python -m pytest -q     # the leak, refusal and determinism checks
 cd web && npm install && npm run dev`}
         </pre>
       </div>
