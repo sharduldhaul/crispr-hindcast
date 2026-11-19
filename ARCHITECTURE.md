@@ -4,11 +4,16 @@ Three diagrams, from the whole pipeline down to one score. Each section
 explains the idea in ML terms, because the biology is the domain and not the
 method.
 
-The diagrams share one colour code: blue is evidence, violet is the rule-based
-system, orange is the language model, green is grading, red is a guard or a
-refusal, and yellow is the cost lens. Each source is the `.excalidraw` scene of
-the same name in `diagrams/`, which opens in
-[Excalidraw](https://excalidraw.com) and is rendered with:
+The system diagram and the README's results chart are drawn on ivory:
+champagne is evidence, leather is what no forecaster sees, rose gold is the
+rule-based system, taupe is the language model, and mauve is grading and the
+cutoff. Text is leather, or ivory on leather, so every label clears 4.5:1. The
+evaluation-design and scoring diagrams below keep the earlier dark code: blue
+is evidence, violet the rule-based system, green grading, red a guard or a
+refusal, and yellow the cost lens.
+
+Each source is the `.excalidraw` scene of the same name in `diagrams/`, which
+opens in [Excalidraw](https://excalidraw.com) and is rendered with:
 
 ```bash
 npx -y @excalidraw/cli@0.3.0 render diagrams/<name>.excalidraw \

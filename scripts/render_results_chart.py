@@ -23,22 +23,22 @@ from render_scorecard import ROOT, load, load_llm
 
 OUT = ROOT / "diagrams" / "results.excalidraw"
 
-BACKGROUND = "#0d1117"
-INK = "#e6edf3"
-MUTED = "#8b949e"
-# (stroke, fill), the colour code every diagram in diagrams/ shares.
-VIOLET = ("#b8a1ff", "#3a2f66")
-ORANGE = ("#f0a35e", "#6b4420")
-GREEN = "#5fd3a2"
-RED = "#f2777f"
+# The palette every diagram in diagrams/ shares (ARCHITECTURE.md). Text is
+# always Leather, which clears 6:1 on Ivory; colour marks only the forecaster.
+BACKGROUND = "#efede9"  # Ivory
+INK = "#5d5351"  # Leather
+RULE = "#9e9190"  # Taupe, for gridlines
+# (stroke, fill)
+ROSE_GOLD = ("#a6737b", "#d4a9a7")
+TAUPE = ("#5d5351", "#9e9190")
 
 #: One bar per forecaster: short label, colours and fill style. The three model
-#: bars share the model's orange and differ by fill, lightest for no evidence.
+#: bars share the model's taupe and differ by fill, lightest for no evidence.
 BARS = (
-    ("rule-based", "rule-based\nsystem", VIOLET, "solid"),
-    ("none", "model\nalone", ORANGE, "hachure"),
-    ("text", "model +\ntext", ORANGE, "cross-hatch"),
-    ("graph", "model +\ngraph tools", ORANGE, "solid"),
+    ("rule-based", "rule-based\nsystem", ROSE_GOLD, "solid"),
+    ("none", "model\nalone", TAUPE, "hachure"),
+    ("text", "model +\ntext", TAUPE, "cross-hatch"),
+    ("graph", "model +\ngraph tools", TAUPE, "solid"),
 )
 
 PANEL_WIDTH = 310
@@ -204,13 +204,12 @@ def draw(rows: dict[str, dict[str, dict]]) -> Scene:
         width,
         "Bar: share of the 5 highest-confidence claims. Whisker: 95% interval.",
         14,
-        MUTED,
     )
     for tick in (0.0, 0.5, 1.0):
-        scene.text(0, height_of(tick) - 10, LEFT - 12, f"{tick:.1f}", 14, MUTED, "right")
+        scene.text(0, height_of(tick) - 10, LEFT - 12, f"{tick:.1f}", 14, INK, "right")
         scene.line(
             [(LEFT - 6, height_of(tick)), (width, height_of(tick))],
-            MUTED,
+            RULE,
             1,
             dashed=tick > 0,
         )
@@ -233,33 +232,28 @@ def draw(rows: dict[str, dict[str, dict]]) -> Scene:
                 scene.line([(mid, low), (mid, high)], INK, 2)
                 scene.line([(mid - 8, high), (mid + 8, high)], INK, 2)
                 scene.line([(mid - 8, low), (mid + 8, low)], INK, 2)
-            scene.text(x - 8, height_of(0) + 8, BAR_WIDTH + 16, f"{value:.2f}", 18, colors[0])
-            scene.text(x - 10, height_of(0) + 34, BAR_WIDTH + 20, label, 13, MUTED)
+            scene.text(x - 8, height_of(0) + 8, BAR_WIDTH + 16, f"{value:.2f}", 18)
+            scene.text(x - 10, height_of(0) + 34, BAR_WIDTH + 20, label, 13)
 
         note = height_of(0) + 84
         recalled = by_bar["none"]["memorization"]["recalled_rate"]
         grounded = by_bar["graph"]["grounding"]["grounded_claim_rate"]
-        scene.line([(left + 14, note + 3), (left + 26, note + 15)], RED, 3)
-        scene.line([(left + 26, note + 3), (left + 14, note + 15)], RED, 3)
         scene.text(
-            left + 36,
+            left + 14,
             note,
-            PANEL_WIDTH - 36,
+            PANEL_WIDTH - 14,
             f"model alone: {recalled['numerator']} of {recalled['denominator']} claims recalled",
             14,
-            RED,
+            INK,
             "left",
         )
-        scene.line(
-            [(left + 12, note + 34), (left + 18, note + 40), (left + 29, note + 27)], GREEN, 3
-        )
         scene.text(
-            left + 36,
+            left + 14,
             note + 24,
-            PANEL_WIDTH - 36,
+            PANEL_WIDTH - 14,
             f"graph tools: {grounded['numerator']} of {grounded['denominator']} claims grounded",
             14,
-            GREEN,
+            INK,
             "left",
         )
     return scene
