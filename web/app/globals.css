@@ -1252,6 +1252,20 @@ select {
   margin: 32px 0 10px;
 }
 
+/* An anchor lands with the heading clear of the sticky masthead. */
+.prose :is(h2, h3, h4)[id] {
+  scroll-margin-top: 80px;
+}
+
+/* The diagrams are drawn on ivory; on the dark page they sit as framed figures. */
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0 28px;
+  border-radius: var(--radius);
+}
+
 .prose p,
 .prose li {
   color: var(--ink-2);

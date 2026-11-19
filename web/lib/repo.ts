@@ -122,6 +122,15 @@ export const DOCS = [
   { slug: "scorecard", file: "eval/scorecard.md", title: "Scorecard", blurb: "The headline, then every metric, ablation and trap." },
 ] as const;
 
+const DIAGRAMS_DIR = path.join(REPO_ROOT, "diagrams");
+
+/** A rendered diagram from diagrams/, by file name. Only a plain `name.png` resolves. */
+export function loadDiagram(file: string): Buffer | null {
+  if (!/^[a-z_]+\.png$/.test(file)) return null;
+  const full = path.join(DIAGRAMS_DIR, file);
+  return fs.existsSync(full) ? fs.readFileSync(full) : null;
+}
+
 export function loadDoc(slug: string): { title: string; body: string } | null {
   const doc = DOCS.find((d) => d.slug === slug);
   if (!doc) return null;

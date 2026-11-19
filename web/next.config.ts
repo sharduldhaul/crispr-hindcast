@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   // traced files, so the trace starts at the repository root and names them.
   outputFileTracingRoot: path.join(__dirname, ".."),
   outputFileTracingIncludes: {
-    "/**": ["../eval/results/**/*.json", "../eval/rulebook/*.json", "../eval/scorecard.md", "../*.md"],
+    "/**": ["../eval/results/**/*.json", "../eval/rulebook/*.json", "../eval/scorecard.md", "../*.md", "../diagrams/*.png"],
   },
 };
 
