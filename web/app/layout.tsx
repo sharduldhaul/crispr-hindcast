@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Link from "next/link";
 
+import { Backdrop } from "@/components/Backdrop";
+import { Hints } from "@/components/Hints";
 import { Nav } from "@/components/Nav";
 
 import "./globals.css";
@@ -26,10 +28,14 @@ export const metadata: Metadata = {
     "Freeze the evidence at a date. Forecast what the field finds next. Grade against what it actually found.",
 };
 
+// Matches --paper, the ground of the backdrop, so a phone's browser bar joins the page.
+export const viewport: Viewport = { themeColor: "#141110", colorScheme: "dark" };
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${body.variable} ${mono.variable}`}>
       <body>
+        <Backdrop />
         <header className="masthead">
           <div className="wrap">
             <Link href="/" className="wordmark" aria-label="crispr-hindcast home">
@@ -48,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </span>
           </div>
         </footer>
+        <Hints />
       </body>
     </html>
   );
