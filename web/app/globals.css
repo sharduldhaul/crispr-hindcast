@@ -1,16 +1,21 @@
 /* crispr-hindcast: a dashboard of tiles on warm near-black.
-   One dusk gradient, copper at the top of the viewport fading into the page,
-   sits behind everything. Surfaces and ink are tinted to it, and two filled
-   tiles (copper, bone) carry the figures a page leads with. The cutoff and the threshold, the frozen
-   lines the system respects, are drawn in the bone accent. Chrome is
-   square and takes its only hue from the gradient, so any other colour on a
-   page means data.
+   The backdrop is frosted glass with four slow shapes behind it (components/
+   Backdrop.tsx draws it in WebGL from the dusk tokens). The shapes wander at
+   random, so the gradient never repeats; the glass caps their brightness so
+   --muted clears WCAG AA wherever they drift.
+
+   Surfaces and ink are tinted to the dusk, and two filled tiles (copper,
+   bone) carry the figures a page leads with. Chrome is square and takes its
+   only hue from the backdrop, so any other colour on a page means data.
 
    Data colours were validated as a set with the dataviz palette validator,
-   all pairs: claim gold, came-true green and sealed blue clear CVD dE 8.6 and
-   normal-vision dE 19.1. Every text token clears WCAG AA on the page and on
-   tiles; the lowest data colour on a tile is sealed blue at 5.2:1. Charts are
-   never placed on a filled tile, where the data colours were not checked. */
+   all pairs: claim gold, came-true green and sealed violet clear CVD dE 8.6 and
+   normal-vision dE 19.1. Trap magenta shares tables with sealed violet, so it
+   was validated with them: normal-vision dE 16.6, CVD dE 7.0, legal because a
+   trap tag always carries its word. Every text token clears WCAG AA on tiles
+   and on the backdrop; the lowest data colour on a tile is trap magenta at
+   5.1:1. Charts are never placed on a filled tile, where the data colours
+   were not checked. */
 
 :root {
   /* surfaces */
@@ -20,14 +25,17 @@
   /* ink */
   --ink: #efe9e3;
   --ink-2: #cfc6be;
-  --muted: #a0958d;
-  --rule: #342c29;
+  --muted: #ada29a;
+  /* Hairlines are translucent ink, so one token reads on the lit sky, the
+     page and every surface. */
+  --rule: rgba(239, 233, 227, 0.13);
+  --rule-strong: rgba(239, 233, 227, 0.45);
   --grid: #272120;
   --axis: #473d39;
   /* chrome: bone */
   --accent: #dcd3c6;
   --accent-soft: rgba(220, 211, 198, 0.12);
-  /* the dusk gradient behind the page */
+  /* the dusk behind the backdrop's glass */
   --dusk-top: #6f5248;
   --dusk-mid: #382a27;
   /* filled tiles */
@@ -39,16 +47,20 @@
   /* data */
   --claim: #c28623;
   --claim-soft: rgba(194, 134, 35, 0.16);
-  --future: #3b93d5;
-  --future-soft: rgba(59, 147, 213, 0.14);
+  --future: #8d8ad2;
+  --future-soft: rgba(141, 138, 210, 0.14);
   --ok: #03af73;
   --ok-soft: rgba(3, 175, 115, 0.14);
   --bad: #e0604f;
   --bad-soft: rgba(224, 96, 79, 0.14);
-  --trap: #a993e0;
-  --trap-soft: rgba(169, 147, 224, 0.14);
+  --trap: #df58ac;
+  --trap-soft: rgba(223, 88, 172, 0.14);
   --warn: #e0a050;
   --warn-soft: rgba(224, 160, 80, 0.14);
+  /* Every surface catches the light on its top edge; the large ones also
+     lift off the backdrop. */
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --lift: var(--edge), 0 16px 32px -24px rgba(0, 0, 0, 0.85);
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 40px -20px rgba(0, 0, 0, 0.9);
   --radius: 4px;
   --gutter: clamp(16px, 4vw, 40px);
@@ -65,16 +77,37 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--axis) transparent;
 }
 
-/* Fixed to the viewport, so the copper stays at the top while content scrolls. */
+/* ---------- backdrop ---------- */
+
+/* What shows before the canvas paints, and where WebGL is unavailable. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, var(--dusk-top) 0%, var(--dusk-mid) 40%, var(--paper) 82%);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, var(--dusk-mid) 0%, var(--paper) 72%);
   pointer-events: none;
+}
+
+/* Fixed, so the glass stays put while the page scrolls over it. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+
+.backdrop[data-ready] {
+  opacity: 1;
 }
 
 body {
@@ -284,7 +317,7 @@ code,
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--ink-2);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -349,9 +382,10 @@ code,
 }
 
 .card {
-  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  background: var(--paper-2);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
+  box-shadow: var(--lift);
   padding: 24px;
   position: relative;
 }
@@ -364,8 +398,8 @@ a.card {
 
 a.card:hover {
   color: inherit;
-  border-color: color-mix(in srgb, var(--ink) 45%, transparent);
-  box-shadow: var(--shadow);
+  border-color: var(--rule-strong);
+  box-shadow: var(--edge), var(--shadow);
   transform: translateY(-2px);
 }
 
@@ -449,6 +483,7 @@ a.card:hover .go::after {
   background: var(--paper-2);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
+  box-shadow: var(--lift);
   padding: 20px;
   position: relative;
   display: flex;
@@ -470,7 +505,7 @@ a.card:hover .go::after {
   --accent: var(--tile-copper-ink);
   --rule: color-mix(in srgb, var(--tile-copper-ink) 30%, transparent);
   background: var(--tile-copper);
-  border-color: var(--tile-copper);
+  border-color: color-mix(in srgb, var(--tile-copper-ink) 14%, var(--tile-copper));
 }
 
 .tile.bone {
@@ -485,12 +520,13 @@ a.card:hover .go::after {
 
 a.tile {
   text-decoration: none;
-  transition: border-color 200ms ease, transform 220ms var(--ease);
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms var(--ease);
 }
 
 a.tile:hover {
   color: var(--ink);
-  border-color: color-mix(in srgb, var(--ink) 50%, transparent);
+  border-color: var(--rule-strong);
+  box-shadow: var(--edge), var(--shadow);
   transform: translateY(-2px);
 }
 
@@ -660,9 +696,11 @@ a.tag:hover { border-color: currentColor; }
 
 .table-wrap {
   overflow-x: auto;
+  scrollbar-width: thin;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
-  background: var(--paper);
+  background: var(--paper-2);
+  box-shadow: var(--lift);
 }
 
 table {
@@ -686,7 +724,7 @@ th {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-  background: var(--paper-2);
+  background: color-mix(in srgb, var(--paper-3) 55%, var(--paper-2));
   white-space: nowrap;
 }
 
@@ -699,7 +737,7 @@ tbody tr {
 }
 
 tbody tr:hover td {
-  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
 }
 
 td.num,
@@ -707,6 +745,10 @@ th.num {
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-family: var(--font-mono), monospace;
+}
+
+/* Only the figures are larger; a numeric column's header matches the others. */
+td.num {
   font-size: 0.84rem;
 }
 
@@ -736,6 +778,7 @@ tr.highlight:hover td {
   border-radius: var(--radius);
   background: var(--paper-2);
   border: 1px solid var(--rule);
+  box-shadow: var(--edge);
   flex-wrap: wrap;
 }
 
@@ -964,7 +1007,8 @@ tr.highlight:hover td {
 details.panel {
   border: 1px solid var(--rule);
   border-radius: var(--radius);
-  background: var(--paper);
+  background: var(--paper-2);
+  box-shadow: var(--lift);
 }
 
 summary {
@@ -1017,8 +1061,9 @@ select {
 }
 
 input[type="search"]:focus,
+input[type="text"]:focus,
 select:focus {
-  border-color: var(--ink);
+  border-color: var(--accent);
   outline: none;
 }
 
@@ -1072,7 +1117,7 @@ select {
 }
 
 .button.ghost:hover:not(:disabled) {
-  border-color: var(--ink);
+  border-color: var(--rule-strong);
   background: var(--paper-2);
   color: var(--ink);
 }
@@ -1166,10 +1211,12 @@ select {
   .viz-tip {
     animation: none;
   }
-  .viz-tip {
+  .viz-tip,
+  body {
     transition: none;
   }
   a.card,
+  a.tile,
   .chip,
   .button {
     transition: none;
@@ -1222,7 +1269,7 @@ select {
   overflow-wrap: anywhere;
   background: var(--paper-2);
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: var(--radius);
 }
 
 .prose pre code {
@@ -1263,7 +1310,7 @@ select {
 .viz svg:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
 /* A chart that needs more width than a phone has scrolls inside its frame. */
@@ -1271,10 +1318,11 @@ select {
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
+  scrollbar-width: thin;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   background: var(--paper-2);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  box-shadow: var(--lift);
 }
 
 .viz-frame > .viz { min-width: var(--min-w, 0); }
@@ -1304,10 +1352,10 @@ select {
   min-width: 150px;
   max-width: 300px;
   padding: 10px 13px 11px;
-  background: color-mix(in srgb, var(--paper-2) 94%, transparent);
+  background: color-mix(in srgb, var(--paper-3) 94%, transparent);
   border: 1px solid var(--axis);
   border-radius: var(--radius);
-  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.9);
+  box-shadow: var(--edge), 0 12px 32px -12px rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: left 90ms linear, top 90ms linear;
@@ -1317,6 +1365,27 @@ select {
 @keyframes tip-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* A hint (components/Hints.tsx) is the same tooltip, placed against the
+   viewport. Anything that carries one says so with the cursor; a term in a
+   header or in running text also gets a dotted rule. */
+.viz-tip.hint {
+  position: fixed;
+  min-width: 0;
+  max-width: min(300px, calc(100vw - 16px));
+  transition: none;
+}
+
+:where([title], [data-tip]):not(a, button) {
+  cursor: help;
+}
+
+:where(th, h3, span:not([class]))[title],
+:where(th, h3, span:not([class]))[data-tip] {
+  text-decoration: underline dotted var(--axis);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 .viz-tip-value {
@@ -1402,7 +1471,7 @@ select {
   font-size: 0.72rem;
   padding: 1px 5px;
   border: 1px solid var(--axis);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--ink-2);
 }
 
@@ -1492,6 +1561,7 @@ tr.row-link td:first-child a::after {
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   background: var(--paper-2);
+  box-shadow: var(--lift);
   font-size: 0.86rem;
 }
 
@@ -1538,7 +1608,8 @@ tr.row-link td:first-child a::after {
   word-break: break-word;
   border: 1px solid var(--rule);
   margin: 0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), var(--shadow);
+  scrollbar-width: thin;
+  box-shadow: var(--lift);
 }
 
 .terminal-bar {
