@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { CutoffTimeline } from "@/components/CutoffTimeline";
 import { type OutcomeItem, OutcomeDots } from "@/components/viz/OutcomeDots";
-import { LLM_CONDITION, year } from "@/lib/format";
+import { year } from "@/lib/format";
 import { LLM_CONDITIONS, PRIMARY_SLICE, SLICES, environmentStatus, loadLlm, loadSlice, timelineGenes } from "@/lib/repo";
 import type { Rate } from "@/lib/types";
 
@@ -27,7 +27,6 @@ export default function Home() {
         predicted: card.forecast_size,
         hits: truth.filter((t) => t.kind === "hit").length,
         truth,
-        contamination: { numerator: card.contamination_traps_passed, denominator: card.contamination_traps_total },
       },
     };
   });
@@ -39,19 +38,18 @@ export default function Home() {
       const row = loadLlm(cutoff, condition);
       return row?.scorecard && row.grounding && row.memorization ? [{ ...row, scorecard: row.scorecard, grounding: row.grounding, memorization: row.memorization }] : [];
     });
-    const sum = (pick: (r: (typeof rows)[number]) => Rate): Rate => ({
+    // The total, and each cutoff's share of it, so the figure can be found on /models.
+    const sum = (pick: (r: (typeof rows)[number]) => Rate): Rate & { parts: string } => ({
       numerator: rows.reduce((n, r) => n + pick(r).numerator, 0),
       denominator: rows.reduce((n, r) => n + pick(r).denominator, 0),
+      // Non-breaking spaces keep "6 + 4 + 1" on one line.
+      parts: rows.map((r) => pick(r).numerator).join("\u00a0+\u00a0"),
     });
     return {
       condition,
       ran: rows.length,
       grounded: sum((r) => r.grounding.grounded_claim_rate),
       recalled: sum((r) => r.memorization.recalled_rate),
-      contamination: sum((r) => ({
-        numerator: r.scorecard.contamination_traps_passed,
-        denominator: r.scorecard.contamination_traps_total,
-      })),
       fabricated: rows.reduce((n, r) => n + r.grounding.fabricated_ids.length, 0),
     };
   });
@@ -61,10 +59,6 @@ export default function Home() {
   const modelRuns = models.reduce((n, m) => n + m.ran, 0);
 
   const ran = runs.flatMap((r) => (r.result ? [r.result] : []));
-  const ruleContamination: Rate = {
-    numerator: ran.reduce((n, r) => n + r.contamination.numerator, 0),
-    denominator: ran.reduce((n, r) => n + r.contamination.denominator, 0),
-  };
 
   return (
     <div className="wrap page">
@@ -118,7 +112,9 @@ export default function Home() {
               {alone.recalled.numerator}
               <small>/ {alone.recalled.denominator}</small>
             </div>
-            <p className="sub">correct claims citing nothing it was given</p>
+            <p className="sub">
+              correct claims citing no given row, over {alone.ran} cutoffs ({alone.recalled.parts})
+            </p>
           </Link>
         )}
         {graph && graph.ran > 0 && (
@@ -134,7 +130,8 @@ export default function Home() {
               <small>/ {graph.grounded.denominator}</small>
             </div>
             <p className="sub">
-              claims citing a row it was given · {fabricated} fabricated IDs in {modelRuns} runs
+              claims citing a given row, over {graph.ran} cutoffs ({graph.grounded.parts}) · {fabricated} fabricated IDs across all{" "}
+              {modelRuns} model runs
             </p>
           </Link>
         )}
@@ -178,45 +175,17 @@ export default function Home() {
           />
         </section>
 
-        {/* ---------- traps ---------- */}
-        <section className="tile" style={{ "--span": 7 } as React.CSSProperties}>
-          <h2 className="tile-label">
-            Contamination traps passed
-            <Link className="arrow" href={`/slices/${PRIMARY_SLICE}#traps`} aria-label="Traps at the primary cutoff">
-              ↗
-            </Link>
-          </h2>
-          <ul className="meters">
-            {[
-              { label: "Rule-based system", traps: ruleContamination },
-              ...models.filter((m) => m.ran > 0).map((m) => ({ label: LLM_CONDITION[m.condition].label, traps: m.contamination })),
-            ].map(({ label, traps }) => (
-              <li key={label}>
-                <span>{label}</span>
-                <span className="num">
-                  {traps.numerator} of {traps.denominator}
-                </span>
-                <meter min={0} max={traps.denominator} value={traps.numerator} aria-label={`${label}: ${traps.numerator} of ${traps.denominator}`} />
-              </li>
-            ))}
-          </ul>
-          <p className="sub foot">
-            Genes established after the cutoff with almost no earlier evidence, over {ran.length} cutoffs. Naming one points to recall.
-            The rule-based system rejects them by construction.
-          </p>
-        </section>
-
         {/* ---------- limits ---------- */}
-        <section className="tile" style={{ "--span": 5 } as React.CSSProperties}>
+        <section className="tile" style={{ "--span": 12 } as React.CSSProperties}>
           <h2 className="tile-label">
             Limits
             <Link className="arrow" href="/docs/limitations" aria-label="Full limitations">
               ↗
             </Link>
           </h2>
-          <ul className="plain">
+          <ul className="plain pairs">
             <li>
-              One correct gene per cutoff. <span>Two to six named each time.</span>
+              Rule-based system: one correct gene per cutoff. <span>Two to six named each time.</span>
             </li>
             <li>
               EIF2AK1 and ZNF410 were missed. <span>Almost no open evidence before 2018.</span>
