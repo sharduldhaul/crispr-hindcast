@@ -28,7 +28,7 @@ interface Metric {
 const METRICS: Metric[] = [
   { key: "p5", label: "P@5", hint: "higher is better", title: "Correct in the top five, ranked by confidence", fmt: (v) => v.toFixed(2), better: 1 },
   { key: "mrr", label: "MRR", hint: "higher is better", title: "Mean reciprocal rank: 1.0 means the top pick was right", fmt: (v) => v.toFixed(3), better: 1 },
-  { key: "traps", label: "Decoys avoided", hint: "higher is better", title: "Share of judgement traps passed", fmt: (v) => `${Math.round(v * 100)}%`, better: 1 },
+  { key: "traps", label: "Judgement traps passed", hint: "higher is better", title: "Share of judgement traps passed", fmt: (v) => `${Math.round(v * 100)}%`, better: 1 },
   { key: "ece", label: "ECE", hint: "lower is better", title: "Expected calibration error", fmt: (v) => v.toFixed(3), better: -1 },
   { key: "forecast", label: "Forecast", hint: "bigger is not better", title: "Genes put forward", fmt: (v) => String(v), better: 0 },
 ];

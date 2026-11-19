@@ -40,7 +40,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Sear
     <div className="wrap page">
       <h1>Ablations</h1>
       <p className="lede" style={{ marginTop: 18 }}>
-        Each row removes one component and re-runs the whole test.
+        Each row removes one component of the rule-based system and re-runs the whole test.
       </p>
       <AblationView byCutoff={byCutoff} slices={SLICES} initial={cutoff} primary={PRIMARY_SLICE} />
     </div>

@@ -31,6 +31,15 @@ function href(cutoff: string, ablation: string, rank: string) {
   return `/slices/${cutoff}${s ? `?${s}` : ""}`;
 }
 
+/**
+ * P@5 with its count, and MRR as the rank it stands for, so "1 / 2 came true"
+ * beside "0.20" reads as two denominators rather than a contradiction.
+ */
+function precisionLine(precisionAt5: number, meanReciprocalRank: number): string {
+  const first = meanReciprocalRank > 0 ? `first hit at rank ${Math.round(1 / meanReciprocalRank)}` : "no hit in the ranking";
+  return `P@5 ${num(precisionAt5)} (${Math.round(precisionAt5 * 5)} of 5) · ${first}`;
+}
+
 export default async function SlicePage({ params, searchParams }: { params: Params; searchParams: Search }) {
   const { cutoff } = await params;
   const sp = await searchParams;
@@ -45,7 +54,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
 
   const header = (
     <>
-      <div className="eyebrow">Evidence frozen at {longDate(cutoff)}</div>
+      <div className="eyebrow">Rule-based system · evidence frozen at {longDate(cutoff)}</div>
       <div className="page-head">
         <h1>
           Cutoff <span style={{ color: "var(--accent)" }}>{year(cutoff)}</span>
@@ -144,7 +153,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             <small>/ {card.forecast_size}</small>
           </div>
           <p className="sub mono">
-            P@5 {num(ranking?.precision_at_5)} · MRR {num(ranking?.mean_reciprocal_rank)}
+            {ranking ? precisionLine(ranking.precision_at_5, ranking.mean_reciprocal_rank) : "no ranking"}
           </p>
         </div>
         <div className="tile half rise rise-3" style={{ "--span": 3 } as React.CSSProperties}>
@@ -155,7 +164,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
         </div>
         <a href="#traps" className="tile bone half rise rise-4" style={{ "--span": 3 } as React.CSSProperties}>
           <div className="tile-label">
-            Traps avoided
+            Traps passed
             <span className="arrow" aria-hidden>
               ↓
             </span>
@@ -371,7 +380,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
             return (
               <div key={kind} className="card">
                 <div className="small muted" style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                  <span>{meta.family === "judgement" ? "Judgement trap" : "Contamination check"}</span>
+                  <span>{meta.family === "judgement" ? "Judgement trap" : "Contamination trap"}</span>
                   <span className="mono" style={{ color: passed === traps.length ? "var(--ok)" : "var(--accent)" }}>
                     {passed}/{traps.length} passed
                   </span>
