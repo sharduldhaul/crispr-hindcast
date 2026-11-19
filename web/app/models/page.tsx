@@ -15,16 +15,23 @@ const RULE_BASED = [
   { ablation: "no graph", label: "Flat literature baseline" },
 ] as const;
 
+// The grounding columns lead: they are what this page exists to show.
 const COLUMNS = [
+  { head: "Grounded claims", plain: "Claims citing at least one row the model was given that names the claimed gene, over all claims. It does not test that the row supports the claim. The cell's hint gives the 95% bootstrap interval." },
+  { head: "Recalled claims", plain: "Claims for a gene established on or after the cutoff that are not grounded, over all claims for such genes." },
+  { head: "Fabricated IDs", plain: "Cited IDs that no row has." },
   { head: "P@5 [95%]", plain: "Precision at 5: genes later established among the 5 highest-confidence claims, over 5. With its bootstrap interval over genes." },
   { head: "MRR [95%]", plain: "Reciprocal rank of the first established gene in the ranking. With its bootstrap interval over genes." },
   { head: "Traps passed", plain: "Traps answered correctly, over all traps for the slice." },
   { head: "Refusal acc", plain: "Genes refused, over the genes the slice holds too little evidence to answer." },
   { head: "ECE", plain: "Expected calibration error over five confidence bins." },
-  { head: "Grounded claims [95%]", plain: "Claims citing at least one row the model was given that names the claimed gene, over all claims. It does not test that the row supports the claim." },
-  { head: "Fabricated IDs", plain: "Cited IDs that no row has." },
-  { head: "Recalled claims", plain: "Claims for a gene established on or after the cutoff that are not grounded, over all claims for such genes." },
 ];
+
+/** One scorecard cell; `hint` is its tooltip. */
+interface Cell {
+  text: string;
+  hint?: string;
+}
 
 function scoreCells(card: Scorecard): string[] {
   const ranking = card.ranking_by_confidence;
@@ -38,20 +45,22 @@ function scoreCells(card: Scorecard): string[] {
   ];
 }
 
-function modelCells(row: LlmResult): string[] {
+function modelCells(row: LlmResult): Cell[] {
   const { scorecard, grounding, memorization } = row;
   if (!scorecard || !grounding || !memorization) {
-    return COLUMNS.map(() => row.run.status.replace("_", " "));
+    return COLUMNS.map(() => ({ text: row.run.status.replace("_", " ") }));
   }
-  const grounded = rate(grounding.grounded_claim_rate, "no claims");
   const interval = grounding.grounded_claim_rate_interval;
   return [
-    ...scoreCells(scorecard),
-    grounding.grounded_claim_rate.denominator
-      ? `${grounded} [${interval.lower.toFixed(2)}, ${interval.upper.toFixed(2)}]`
-      : grounded,
-    String(grounding.fabricated_ids.length),
-    `${memorization.recalled_rate.numerator} of ${memorization.recalled_rate.denominator}`,
+    {
+      text: rate(grounding.grounded_claim_rate, "no claims"),
+      hint: grounding.grounded_claim_rate.denominator
+        ? `95% interval [${interval.lower.toFixed(2)}, ${interval.upper.toFixed(2)}]`
+        : undefined,
+    },
+    { text: `${memorization.recalled_rate.numerator} of ${memorization.recalled_rate.denominator}` },
+    { text: String(grounding.fabricated_ids.length) },
+    ...scoreCells(scorecard).map((text) => ({ text })),
   ];
 }
 
@@ -79,14 +88,14 @@ function Claims({ row }: { row: LlmResult }) {
     return <p className="muted small">No claims. {row.run.forecast.refusals.length} genes refused.</p>;
   }
   return (
-    <div className="table-wrap">
+    <div className="table-wrap" tabIndex={0} role="region" aria-label={`Claims, ${LLM_CONDITION[row.run.condition].label}`}>
       <table>
         <thead>
           <tr>
             <th>Gene</th>
             <th className="num">Confidence</th>
             <th>Outcome</th>
-            <th>Evidence</th>
+            <th>Grounding</th>
             <th>Citations</th>
             <th>Rationale</th>
           </tr>
@@ -123,7 +132,9 @@ function Claims({ row }: { row: LlmResult }) {
                         const status = CITATION_STATUS[c.status];
                         const bad = c.status === "fabricated" || c.status === "post_cutoff";
                         const title = `${status.plain} ${c.names_gene ? "Names this gene." : "Does not name this gene."}`;
-                        const text = `${c.cited_id} · ${status.label}`;
+                        // A given row grounds the claim only if it names the gene, so the chip says which.
+                        const scope = c.status === "in_context" ? (c.names_gene ? " · names gene" : " · other gene") : "";
+                        const text = `${c.cited_id} · ${status.label}${scope}`;
                         const link = c.status === "fabricated" ? null : recordLink(c.cited_id);
                         return link ? (
                           <a key={c.cited_id} href={link} target="_blank" rel="noreferrer" title={title} className={`tag ${bad ? "bad" : "plain"}`}>
@@ -192,7 +203,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
             {notRun > 0 && `${notRun} of ${models.length} model rows have no committed response and are reported as not run.`}
           </p>
         </div>
-        <div className="table-wrap">
+        <div className="table-wrap" tabIndex={0} role="region" aria-label={`Scorecard, ${year(cutoff)} cutoff`}>
           <table>
             <thead>
               <tr>
@@ -208,14 +219,14 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
               {RULE_BASED.map(({ ablation, label }) => {
                 const card = loadSlice(cutoff, ablation)?.scorecard;
                 if (!card) return null;
-                // The rule-based rows cite no IDs, so the last three columns do not apply.
-                const cells = [...scoreCells(card), "n/a", "n/a", "n/a"];
+                // The rule-based rows cite no IDs, so the grounding columns do not apply.
+                const cells: Cell[] = [{ text: "n/a" }, { text: "n/a" }, { text: "n/a" }, ...scoreCells(card).map((text) => ({ text }))];
                 return (
                   <tr key={ablation}>
                     <td className="nowrap">{label}</td>
                     {cells.map((cell, i) => (
-                      <td key={COLUMNS[i].head} className="num">
-                        {cell}
+                      <td key={COLUMNS[i].head} className="num" title={cell.hint}>
+                        {cell.text}
                       </td>
                     ))}
                   </tr>
@@ -225,8 +236,8 @@ export default async function ModelsPage({ searchParams }: { searchParams: Searc
                 <tr key={condition}>
                   <td className="nowrap" title={LLM_CONDITION[condition].plain}>{LLM_CONDITION[condition].label}</td>
                   {modelCells(row).map((cell, i) => (
-                    <td key={COLUMNS[i].head} className="num">
-                      {cell}
+                    <td key={COLUMNS[i].head} className="num" title={cell.hint}>
+                      {cell.text}
                     </td>
                   ))}
                 </tr>

@@ -64,8 +64,15 @@ export const ABLATION_PLAIN: Record<string, string> = {
 
 export const LLM_CONDITION: Record<string, { label: string; plain: string }> = {
   none: { label: "Model alone", plain: "Given the question and the candidate genes, and no evidence." },
-  text: { label: "Model with text retrieval", plain: "Given the five best-matching pre-cutoff paper titles for each gene." },
-  graph: { label: "Model with graph tools", plain: "Can query the pre-cutoff graph through a fixed set of read-only tools." },
+  text: {
+    label: "Model with text retrieval",
+    plain: "Given the top five pre-cutoff paper titles for each gene: BM25 and bge-small-en-v1.5, fused by reciprocal rank.",
+  },
+  graph: {
+    label: "Model with graph tools",
+    plain:
+      "Queries the pre-cutoff graph through five read-only tools: evidence summary, measurements, publications, complex partners and publication counts.",
+  },
 };
 
 export const CITATION_STATUS: Record<string, { label: string; plain: string }> = {

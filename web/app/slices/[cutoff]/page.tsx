@@ -466,7 +466,7 @@ export default async function SlicePage({ params, searchParams }: { params: Para
               </div>
             ))}
           </div>
-          <div className="table-wrap">
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Audit trail">
             <table>
               <tbody>
                 <tr><td>Rules extracted from evidence</td><td className="num">{int(result.axiom_count)}</td></tr>

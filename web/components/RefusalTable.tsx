@@ -38,7 +38,7 @@ export function RefusalTable({ rows, threshold }: { rows: Row[]; threshold: numb
           </button>
         </div>
       </div>
-      <div className="table-wrap">
+      <div className="table-wrap" tabIndex={0} role="region" aria-label="Refusals">
         <table>
           <thead>
             <tr>
