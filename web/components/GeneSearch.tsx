@@ -103,7 +103,7 @@ export function GeneSearch({
         </div>
       </section>
 
-      <div className="table-wrap">
+      <div className="table-wrap" tabIndex={0} role="region" aria-label="Genes">
         <table>
           <thead>
             <tr>

@@ -114,7 +114,7 @@ export function AblationView({
       </section>
 
       <section style={{ marginTop: 36 }}>
-        <div className="table-wrap">
+        <div className="table-wrap" tabIndex={0} role="region" aria-label="Ablations">
           <table>
             <thead>
               <tr>
