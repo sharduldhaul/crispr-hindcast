@@ -7,6 +7,11 @@ A benchmark that tests whether a system can forecast scientific discoveries
 from past evidence alone, built so that a correct answer cannot come from
 leaked data or a tuned answer key.
 
+Read every result at
+[crispr-hindcast.vercel.app](https://crispr-hindcast.vercel.app), with nothing
+to install. That copy is read-only; to re-run the pipeline,
+[launch the app](#launch-the-app) locally or in Codespaces.
+
 ## The problem
 
 When an AI system "predicts" a scientific result, it may only be repeating it.
