@@ -1285,6 +1285,9 @@ select {
   font-size: 0.85rem;
 }
 
+/* Bare URLs and code have no spaces to wrap at, so they break anywhere rather
+   than push a phone-width page sideways. */
+.prose a,
 .prose code {
   overflow-wrap: anywhere;
   background: var(--paper-2);

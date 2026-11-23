@@ -203,7 +203,29 @@ const TOP = 54;
 const BOTTOM = 34;
 // An opened column takes this share of the plot; the rest share what is left.
 const OPEN_SHARE = 0.46;
-const SHORT: Record<MetricKey, string> = { p5: "P@5", mrr: "MRR", traps: "Decoys", ece: "ECE", forecast: "Genes" };
+const SHORT: Record<MetricKey, string> = { p5: "P@5", mrr: "MRR", traps: "Traps", ece: "ECE", forecast: "Genes" };
+// A header starts 14px into its column and keeps this much clear before the
+// next column's separator.
+const HEAD_PAD = 22;
+// Tick labels are 11px monospace, about this wide per character, and keep
+// this gap between neighbours.
+const TICK_CHAR = 6.6;
+const TICK_GAP = 12;
+// A value label that would sit on its own link line rises this far above the
+// row instead.
+const LIFT = 14;
+
+/** The densest ticks, up to `wanted`, whose labels do not touch. */
+function fittingTicks(x: d3.ScaleLinear<number, number>, fmt: (v: number) => string, wanted: number): number[] {
+  for (let n = wanted; n >= 1; n--) {
+    const ticks = x.ticks(n);
+    const clear = ticks.every(
+      (v, k) => k === 0 || x(v) - x(ticks[k - 1]) >= ((fmt(v).length + fmt(ticks[k - 1]).length) * TICK_CHAR) / 2 + TICK_GAP,
+    );
+    if (clear) return ticks;
+  }
+  return x.domain();
+}
 
 interface Dot {
   id: string;
@@ -351,13 +373,19 @@ function AblationDots({ rows, domains }: { rows: AblationRow[]; domains: Record<
       .attr("aria-label", (m) => `${m.label}: ${m.title}. ${open === m.key ? "Press Enter to close." : "Press Enter to open."}`)
       .select(".hit")
       .attr("width", (_, i) => widths[i]);
-    head.select(".name").text((m, i) => (widths[i] < 120 ? SHORT[m.key] : m.label));
     head.select(".glyph").text((m) => (open === m.key ? "⊖" : "⊕"));
-    head
-      .select(".hint")
-      .text((m) => m.hint)
-      .transition(t)
-      .attr("opacity", (_, i) => (widths[i] < 120 ? 0 : 1));
+    head.select(".hint").text((m) => m.hint);
+    // Names and hints are measured, not guessed from the column width, so a
+    // long name never runs into the next column's header.
+    const fits = (el: SVGTextElement | null, i: number) => el !== null && el.getComputedTextLength() <= widths[i] - HEAD_PAD;
+    head.each(function (m, i) {
+      const g = d3.select(this);
+      g.select(".name").text(m.label);
+      if (!fits(g.select<SVGTextElement>(".title").node(), i)) g.select(".name").text(SHORT[m.key]);
+      g.select(".hint")
+        .transition(t)
+        .attr("opacity", fits(g.select<SVGTextElement>(".hint").node(), i) ? 1 : 0);
+    });
     if (entering) head.attr("transform", (_, i) => `translate(${x0s[i] + 14},0)`);
     head.transition(t).attr("transform", (_, i) => `translate(${x0s[i] + 14},0)`);
     svg
@@ -367,10 +395,11 @@ function AblationDots({ rows, domains }: { rows: AblationRow[]; domains: Record<
       .attr("x2", (m) => x0s[METRICS.indexOf(m)]);
     svg.selectAll<SVGGElement, Metric>(".col-axis").each(function (m, i) {
       const g = d3.select(this);
+      const fmt = (v: number) => (m.key === "traps" ? `${Math.round(v * 100)}%` : d3.format("~g")(v));
       const axis = d3
         .axisBottom(xs[i])
-        .ticks(i === oi ? 6 : widths[i] < 100 ? 2 : 3)
-        .tickFormat((v) => (m.key === "traps" ? `${Math.round(+v * 100)}%` : d3.format("~g")(+v)))
+        .tickValues(fittingTicks(xs[i], fmt, i === oi ? 6 : 3))
+        .tickFormat((v) => fmt(+v))
         .tickSizeOuter(0);
       (entering ? g : g.transition(t)).call(axis as never);
       styleAxis(g);
@@ -459,7 +488,9 @@ function AblationDots({ rows, domains }: { rows: AblationRow[]; domains: Record<
       .attr("transform", (d) => `translate(${xs[d.col](d.value)},${cy(d)})`);
 
     // The opened column prints every value beside its dot, on the side away
-    // from the full system's line, unless that runs out of the column.
+    // from the full system's line, unless that runs out of the column. A
+    // label pushed back onto the side of its link line would sit on the line,
+    // so it rises above the row and reads along it.
     const opened = oi < 0 ? [] : dots.filter((d) => d.col === oi);
     const labelLeft = (d: Dot) => {
       const [r0, r1] = xs[d.col].range();
@@ -467,6 +498,8 @@ function AblationDots({ rows, domains }: { rows: AblationRow[]; domains: Record<
       const left = d.base !== null && d.value < d.base - EPS;
       return left ? px - 100 > r0 : px + 100 > r1;
     };
+    const lifted = (d: Dot) => d.tone !== "same" && d.base !== null && labelLeft(d) === d.value > d.base;
+    const labelX = (d: Dot) => xs[d.col](d.value) + (lifted(d) ? (labelLeft(d) ? 4 : -4) : labelLeft(d) ? -11 : 11);
     svg
       .select(".values")
       .selectAll<SVGTextElement, Dot>("text")
@@ -491,8 +524,8 @@ function AblationDots({ rows, domains }: { rows: AblationRow[]; domains: Record<
         d.ablation === "full system" || d.base === null || d.tone === "same" ? d.metric.fmt(d.value) : `${d.metric.fmt(d.value)}  ${signed(d.metric, d.value - d.base)}`,
       )
       .transition(t)
-      .attr("x", (d) => xs[d.col](d.value) + (labelLeft(d) ? -11 : 11))
-      .attr("y", cy)
+      .attr("x", labelX)
+      .attr("y", (d) => cy(d) - (lifted(d) ? LIFT : 0))
       .attr("opacity", 1);
 
     dot
